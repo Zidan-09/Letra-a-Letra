@@ -5,7 +5,7 @@ export const gameController = {
         try {
 
         } catch (err) {
-
+            console.error(err);
         }
     }
 }
