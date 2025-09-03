@@ -1,0 +1,35 @@
+{
+  "name": "word-search-battle",
+  "version": "0.0.1",
+  "description": "a battleship game with the concept of word search",
+  "main": "server.ts",
+  "scripts": {
+    "dev": "ts-node src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zidan-09/word-search-battle.git"
+  },
+  "keywords": [
+    "word",
+    "word-search",
+    "battle",
+    "pvp",
+    "game",
+    "battle-game",
+    "pvp-game",
+    "word-search-game"
+  ],
+  "author": "Zidan-09",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zidan-09/word-search-battle/issues"
+  },
+  "homepage": "https://github.com/Zidan-09/word-search-battle#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3"
+  }
+}
