@@ -1,5 +1,5 @@
 import express, { Application, json } from "express";
-import gameRouter from "./routes/gameRoutes";
+import gameRouter from "./routes/gameplayRoutes";
 
 const app: Application = express();
 
