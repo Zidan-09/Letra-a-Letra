@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room</title>
-    <script src="http://192.168.0.5:3333/socket.io/socket.io.js"></script>
-    <script type="module">
-        import { reconnectPlayers } from "../scripts/script.js";
-        reconnectPlayers();
-    </script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script type="module" src="../scripts/script.js"></script>
     <link rel="stylesheet" href="../styles/room/styles.css">
 </head>
 <body>
@@ -16,5 +13,9 @@
         <h2>Players in Room:</h2>
         <div id="players"></div>
     </div>
+    <script type="module">
+        import { reconnectPlayers } from "../scripts/script.js";
+        reconnectPlayers();
+    </script>
 </body>
 </html>
