@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Room</title>
+    <script type="module">
+        import { reconnectPlayers } from "../scripts/script.js";
+        reconnectPlayers();
+    </script>
+    <link rel="stylesheet" href="../styles/room/styles.css">
 </head>
 <body>
-    <h1>Room</h1>
-    <h2>Players:</h2>
-    <div id="playersList"></div>
+    <div class="panel">
+        <h2>Players in Room:</h2>
+        <div id="players"></div>
+    </div>
 </body>
 </html>

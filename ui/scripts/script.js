@@ -10,6 +10,8 @@ export function createRoom() {
            return alert("Nickname inválido")
         }
 
+        localStorage.setItem("nickname", nickname);
+
         const socket = io(`http://${serverIp}:3333`);
 
         socket.on("connect", () => {
@@ -30,13 +32,6 @@ export function createRoom() {
                     alert(localStorage.getItem("room_id"));
                 }
             })
-        })
-        console.log(localStorage.getItem("room_id"));
-
-        socket.on("player_joinned", (room) => {
-            console.log(room);
-            localStorage.setItem("players", JSON.stringify(room.players));
-            renderPlayers();
         })
     })
 }
@@ -68,6 +63,10 @@ export function getRoomID() {
     buttom.addEventListener("click", () => {
         const room_id = document.getElementById("room_id").value;
 
+        if (!room_id || room_id == "") {
+            return alert("Id de sala inválido")
+        }
+
         fetch(`http://${serverIp}:3333/room/joinRoom`, {
             method: "POST",
             headers: {
@@ -81,13 +80,16 @@ export function getRoomID() {
         }).then(response => response.json()).then(data => {
             if (data.message == 'room_joined') {
                 window.location.href = "room.html";
+            } else {
+                alert("Error")
             }
         })
     })
 }
 
 export function renderPlayers() {
-    const playersListDiv = document.getElementById("playersList");
+    const playersListDiv = document.getElementById("players");
+
     if (!playersListDiv) return;
 
     const storagePlayers = JSON.parse(localStorage.getItem("players") || "[]");
@@ -101,13 +103,34 @@ export function renderPlayers() {
     });
 }
 
-createRoom();
-joinRoom();
-getRoomID();
-renderPlayers();
+export function reconnectPlayers() {
+    const room_id = localStorage.getItem("room_id");
+    const nickname = localStorage.getItem("nickname");
+
+    if (!room_id || !nickname) return;
+
+    const socket = io(`http://${serverIp}:3333`);
+
+    socket.on("connect", () => {
+        socket.emit("reconnect_player", { room_id: room_id, nickname: nickname});
+
+        renderPlayers();
+    })
+
+    socket.on("player_joinned", (room) => {
+        console.log(room);
+        localStorage.setItem("players", JSON.stringify(room.players));
+        renderPlayers();
+    })
+}
 
 window.addEventListener("storage", (event) => {
     if (event.key === "players") {
         renderPlayers();
     }
 })
+
+createRoom();
+joinRoom();
+getRoomID();
+renderPlayers();
