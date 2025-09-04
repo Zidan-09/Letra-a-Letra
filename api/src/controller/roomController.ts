@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
-import { CreateRoom, JoinRoom } from "../utils/requests/roomRequests";
+import { CreateRoom, GetRoom, JoinRoom } from "../utils/requests/roomRequests";
 import { PlayerServices } from "../services/playerServices";
 import { roomService } from "../services/roomServices";
 import { RoomResponses } from "../utils/responses/roomResponses";
@@ -49,8 +49,19 @@ export const RoomController = {
         }
     },
 
-    getRoom(req: Request, res: Response) {
+    getRoom(req: Request<GetRoom>, res: Response) {
+        try {
+            const { room_id } = req.params;
 
+            const room = roomService.getRoom(room_id);
+
+            if (!room) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomFinded, room);
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
+        }
     },
 
     leaveRoom(req: Request, res: Response) {
