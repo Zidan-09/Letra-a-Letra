@@ -4,6 +4,7 @@ import { CreateRoom, JoinRoom } from "../utils/requests/roomRequests";
 import { PlayerServices } from "../services/playerServices";
 import { roomService } from "../services/roomServices";
 import { RoomResponses } from "../utils/responses/roomResponses";
+import { ServerResponses } from "../utils/responses/serverResponses";
 
 export const RoomController = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response) {
@@ -34,7 +35,13 @@ export const RoomController = {
             const player = PlayerServices.createPlayer(data.socket_id, data.nickname);
 
             if (player) {
-                roomService.joinRoom(data.room_id, player);
+                const result = roomService.joinRoom(data.room_id, player);
+
+                if (result !== ServerResponses.NotFound) {
+                    return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinned, result);
+                }
+
+                return HandleResponse.serverResponse(res, 404, false, result);
             }
         } catch (err) {
             console.error(err);
