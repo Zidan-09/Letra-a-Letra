@@ -1,3 +1,5 @@
+const serverIp = "192.168.0.5"
+
 export function createRoom() {
     const buttom = document.getElementById("createRoom");
 
@@ -8,10 +10,10 @@ export function createRoom() {
            return alert("Nickname inválido")
         }
 
-        const socket = io("http://localhost:3333");
+        const socket = io(`http://${serverIp}:3333`);
 
         socket.on("connect", () => {
-            fetch("http://localhost:3333/room/createRoom", {
+            fetch(`http://${serverIp}:3333/room/createRoom`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -49,7 +51,7 @@ export function joinRoom() {
            return alert("Nickname inválido")
         }
 
-        const socket = io("http://localhost:3333");
+        const socket = io(`http://${serverIp}:3333`);
 
         socket.on("connect", () => {
             localStorage.setItem("socket_id", socket.id);
@@ -66,7 +68,7 @@ export function getRoomID() {
     buttom.addEventListener("click", () => {
         const room_id = document.getElementById("room_id").value;
 
-        fetch("http://localhost:3333/room/joinRoom", {
+        fetch(`http://${serverIp}:3333/room/joinRoom`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
