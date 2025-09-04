@@ -1,30 +1,19 @@
 import { Request, Response } from "express";
-import { CreatePlayer } from "../requests/playerRequests";
-import { HandleResponse } from "../utils/server_utils/handleResponse";
 import { PlayerServices } from "../services/playerServices";
-import { PlayerResponses } from "../utils/responses/playerResponses";
+import { HandleResponse } from "../utils/server_utils/handleResponse";
 
 export const PlayerController = {
-
-    async createPlayer(req: Request<{}, {}, CreatePlayer>, res: Response) {
+    getPlayer(req: Request<string>, res: Response) {
         try {
-            const { nickname }: CreatePlayer = req.body;
+            const id = req.params;
 
-            const player = PlayerServices.createPlayer(nickname);
+            const player = PlayerServices.getPlayer(id);
 
-            if (player != undefined) {
-                return HandleResponse.serverResponse(res, 201, true, PlayerResponses.PlayerCreated, player);
-            }
-            
-            return HandleResponse.serverResponse(res, 400, false, PlayerResponses.PlayerCreationFailed);
+            return HandleResponse.serverResponse(res, 200, true, "player_founded", player);
 
         } catch (err) {
             console.error(err);
             HandleResponse.errorResponse(res, err);
         }
-    },
-
-    async getPlayer(req: Request, res: Response) {
-        
-    }
+    } 
 }
