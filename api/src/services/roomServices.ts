@@ -40,7 +40,21 @@ class RoomServices {
         return room;
     }
 
-    getRoom(id: string): Game | undefined {
+    reconnectRoom(id: string, nickname: string, new_id: string) {
+        const room = this.rooms.get(id);
+
+        if (!room) return ServerResponses.NotFound;
+
+        const desconnectedPlayer = room.players.find(p => p.nickname === nickname);
+
+        if (desconnectedPlayer) {
+            desconnectedPlayer.id = new_id;
+
+            return ServerResponses.Reconnected;
+        }
+    }
+
+    private getRoom(id: string): Game | undefined {
         return this.rooms.get(id);
     }
 }
