@@ -1,10 +1,10 @@
 import { Board } from "../entities/board";
 import { Game } from "../entities/game";
 import { Player } from "../entities/player";
-import { v4 as uuidv4} from 'uuid';
 import { ServerResponses } from "../utils/responses/serverResponses";
 import { getSocketInstance } from "../socket";
 import { RoomResponses } from "../utils/responses/roomResponses";
+import { nanoid } from "nanoid";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -13,7 +13,7 @@ class RoomServices {
         const board: Board = new Board()
 
         const room: Game = {
-            room_id: uuidv4(),
+            room_id: nanoid(6),
             players: [player],
             turn: 0,
             board: board
