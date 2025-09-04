@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/join/styles.css">
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <title>Join Room</title>
     <script type="module" src="../scripts/script.js"></script>
 </head>
@@ -14,5 +15,9 @@
         <input type="button" name="sendRoomId" id="sendRoomId" value="Join">
         <div id="debug"></div>
     </div>
+    <script type="module">
+        import { reconnectPlayers } from "../scripts/script.js";
+        reconnectPlayers();
+    </script>
 </body>
 </html>
