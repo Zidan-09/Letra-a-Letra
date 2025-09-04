@@ -12,7 +12,7 @@ export const initSocket = (server: any) => {
     io.on("connection", (socket) => {
         console.log(`Connected socket: ${socket.id}`);
 
-        socket.on("recconect_player", ({room_id, nickname}) => {
+        socket.on("reconnect_player", ({room_id, nickname}) => {
             const result = roomService.reconnectRoom(room_id, nickname, socket.id);
 
             if (result !== ServerResponses.NotFound) {
