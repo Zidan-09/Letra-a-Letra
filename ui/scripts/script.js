@@ -3,6 +3,8 @@ const serverIp = "192.168.0.5"
 export function createRoom() {
     const buttom = document.getElementById("createRoom");
 
+    if (!buttom) return;
+
     buttom.addEventListener("click", () => {
         const nickname = document.getElementById("nickname").value;
         
@@ -39,6 +41,8 @@ export function createRoom() {
 export function joinRoom() {
     const buttom = document.getElementById("joinRoom");
 
+    if (!buttom) return;
+
     buttom.addEventListener("click", () => {
         const nickname = document.getElementById("nickname").value;
         
@@ -59,6 +63,7 @@ export function joinRoom() {
 
 export function getRoomID() {
     const buttom = document.getElementById("sendRoomId");
+    if (!buttom) return;
 
     buttom.addEventListener("click", () => {
         const room_id = document.getElementById("room_id").value;
@@ -78,10 +83,16 @@ export function getRoomID() {
                 room_id: room_id
             })
         }).then(response => response.json()).then(data => {
-            if (data.message == 'room_joined') {
+            if (data.message == 'room_joinned') {
                 window.location.href = "room.html";
             } else {
-                alert("Error")
+                console.log(data);
+
+                const debug = document.getElementById("debug");
+
+                const p = document.createElement("p");
+                p.textContent = data.message
+                debug.appendChild(p);
             }
         })
     })
