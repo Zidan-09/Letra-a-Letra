@@ -4,6 +4,7 @@ import { Player } from "../entities/player";
 import { v4 as uuidv4} from 'uuid';
 import { ServerResponses } from "../utils/responses/serverResponses";
 import { getSocketInstance } from "../socket";
+import { RoomResponses } from "../utils/responses/roomResponses";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -28,14 +29,15 @@ class RoomServices {
 
         if (!room) return ServerResponses.NotFound;
 
+        if (room.players.length >= 2) return RoomResponses.FullRoom;
+        
         room.players.push(player);
 
         const io = getSocketInstance();
-        const existingPlayer = room.players.find(p => p.id !== player.id);
 
-        if (existingPlayer) {
-            io.to(existingPlayer.id).emit("player_joinned", room);
-        }
+        room.players.forEach(p => {
+            io.to(p.id).emit("player_joinned", room);
+        })
 
         return room;
     }
