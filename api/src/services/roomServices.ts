@@ -54,7 +54,7 @@ class RoomServices {
         }
     }
 
-    private getRoom(id: string): Game | undefined {
+    getRoom(id: string): Game | undefined {
         return this.rooms.get(id);
     }
 }

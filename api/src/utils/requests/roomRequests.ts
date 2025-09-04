@@ -9,4 +9,8 @@ interface JoinRoom {
     room_id: string;
 }
 
-export { CreateRoom, JoinRoom }
+interface GetRoom {
+    room_id: string
+}
+
+export { CreateRoom, JoinRoom, GetRoom }
