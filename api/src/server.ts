@@ -1,7 +1,8 @@
 import { createServer } from "http";
 import app from "./app";
+require('dotenv').config();
 
-const PORT = "3333";
+const PORT = process.env.PORT || 3333;
 
 const httpServer = createServer(app);
 

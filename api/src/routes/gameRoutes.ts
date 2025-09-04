@@ -3,6 +3,6 @@ import { gameController } from "../controller/gameController";
 
 const gameRouter: Router = Router();
 
-gameRouter.post("/", gameController.revealCard);
+gameRouter.post("/revealLetter", gameController.revealLetter);
 
 export default gameRouter;

@@ -1,7 +1,5 @@
-import { GameReq } from "../requests/gameRequests";
-
 export const GameService = {
-    revealLetter(GameReq: GameReq) {
+    revealLetter(GameReq: any) {
         
     }
 }
