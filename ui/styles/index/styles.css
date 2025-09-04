@@ -2,10 +2,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 100vh;
     background-image: url(https://wallpapercave.com/wp/QV9xjnE.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0px
 }
 
 .panel {
@@ -21,10 +23,20 @@ body {
     box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
 }
 
+.panel .title {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .panel h2 {
     color: white;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 60px;
+    margin: 0;
 }
 
 .panel #nickname {
@@ -51,6 +63,10 @@ body {
     color: white;
 }
 
+.panel #nickname:hover {
+    transform: scale(1.05);
+}
+
 .panel .buttoms {
     display: flex;
     flex-direction: row;
@@ -72,4 +88,5 @@ body {
 .panel .buttoms input:hover {
     transform: scale(1.05);
     cursor: pointer;
+    background-color: #0f598a;
 }
