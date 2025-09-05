@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room</title>
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <script type="module" src="../scripts/script.js"></script>
-    <link rel="stylesheet" href="../styles/room/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script type="module" src="../scripts/script.js"></script>
+  <link rel="stylesheet" href="../styles/room/styles.css">
+  <style>
+    #game { display: none; margin-top: 20px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 40px);
+      grid-template-rows: repeat(10, 40px);
+      gap: 2px;
+    }
+    .grid button {
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="panel">
-        <h2>Players in Room:</h2>
-        <div id="players"></div>
-    </div>
-    <script type="module">
-        import { reconnectPlayers } from "../scripts/script.js";
-        reconnectPlayers();
-    </script>
+  <div class="panel">
+    <h2>Players in Room:</h2>
+    <div id="players"></div>
+    <input type="button" value="Start Game" id="startGame" disabled>
+  </div>
+
+  <div id="game">
+    <h2>Jogo</h2>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script type="module" src="../scripts/roomScript.js"></script>
 </body>
 </html>

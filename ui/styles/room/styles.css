@@ -1,48 +1,101 @@
+/* 🎨 Variáveis globais */
+:root {
+    --color-bg: #0f1d8a;
+    --color-bg-hover: #0f598a;
+    --color-text: #ffffff;
+    --color-border: #ffffff;
+    --shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    --radius: 12px;
+    --font-title: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    --font-body: Arial, sans-serif;
+}
+
+/* 🌌 Fundo */
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url(https://wallpapercave.com/wp/QV9xjnE.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    margin: 0px
+    margin: 0;
+
+    background: url("https://wallpapercave.com/wp/QV9xjnE.jpg") center/cover no-repeat;
+    font-family: var(--font-body);
 }
 
+/* 🪟 Painel */
 .panel {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+
     width: 30rem;
     height: 30rem;
-    border-radius: 12px;
-    background-color: transparent;
+    border-radius: var(--radius);
+
+    background-color: rgba(15, 29, 138, 0.3); /* cor + transparência */
     backdrop-filter: blur(10px);
-    box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow);
+    padding: 1rem;
 }
 
+/* 📌 Título */
 .panel h2 {
-    color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 60px;
+    color: var(--color-text);
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
 }
 
-.panel .players {
+/* 👥 Lista de players */
+#players {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    width: 25rem;
-    height: 10rem;
-    border-radius: 12px;
-    border: 2px solid white;
-    box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-    background-color: #0f1d8a;
+
+    width: 100%;
+    max-height: 10rem;
+    overflow-y: auto;
+
+    border-radius: var(--radius);
+    border: 2px solid var(--color-border);
+    box-shadow: var(--shadow);
+    background-color: var(--color-bg);
+
+    padding: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-p {
-    color: white;
-    font-size: 30px;
+#players p {
+    color: var(--color-text);
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+}
+
+/* 🎮 Botão */
+.panel input[type="button"] {
+    width: 8rem;
+    height: 3rem;
+    border-radius: 16px;
+
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: 2px solid var(--color-border);
+
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.panel input[type="button"]:hover:not(:disabled) {
+    transform: scale(1.05);
+    background-color: var(--color-bg-hover);
+    box-shadow: var(--shadow);
+}
+
+.panel input[type="button"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
