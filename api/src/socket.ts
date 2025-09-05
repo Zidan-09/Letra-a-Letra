@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { roomService } from "./services/roomServices";
+import { RoomService } from "./services/roomServices";
 import { ServerResponses } from "./utils/responses/serverResponses";
 
 let io: Server;
@@ -13,7 +13,7 @@ export const initSocket = (server: any) => {
         console.log(`Connected socket: ${socket.id}`);
 
         socket.on("reconnect_player", ({room_id, nickname}) => {
-            const result = roomService.reconnectRoom(room_id, nickname, socket.id);
+            const result = RoomService.reconnectRoom(room_id, nickname, socket.id);
 
             if (result !== ServerResponses.NotFound) {
                 console.log(`Reconnected socket: ${socket.id}`);

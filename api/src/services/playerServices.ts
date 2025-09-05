@@ -5,6 +5,7 @@ export const PlayerServices = {
         const player: Player = {
             id: idSocket,
             nickname: nickname,
+            turn: undefined,
             score: 0
         }
 

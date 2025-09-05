@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
 import { CreateRoom, GetRoom, JoinRoom } from "../utils/requests/roomRequests";
 import { PlayerServices } from "../services/playerServices";
-import { roomService } from "../services/roomServices";
+import { RoomService } from "../services/roomServices";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
 
@@ -14,7 +14,7 @@ export const RoomController = {
             const player = PlayerServices.createPlayer(data.socket_id, data.nickname);
 
             if (player) {
-                const room = roomService.createRoom(player);
+                const room = RoomService.createRoom(player);
                 if (room) {
                     return HandleResponse.serverResponse(res, 201, true, RoomResponses.RoomCreated, room)
                 }
@@ -35,7 +35,7 @@ export const RoomController = {
             const player = PlayerServices.createPlayer(data.socket_id, data.nickname);
 
             if (player) {
-                const result = roomService.joinRoom(data.room_id, player);
+                const result = RoomService.joinRoom(data.room_id, player);
 
                 if (result !== ServerResponses.NotFound) {
                     return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinned, result);
@@ -53,7 +53,7 @@ export const RoomController = {
         try {
             const { room_id } = req.params;
 
-            const room = roomService.getRoom(room_id);
+            const room = RoomService.getRoom(room_id);
 
             if (!room) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
