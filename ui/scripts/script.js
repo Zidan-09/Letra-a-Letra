@@ -1,5 +1,5 @@
 const serverIp = "100.80.198.53";
-let socket; // socket global para usar em todas as funções
+export let socket; // socket global para usar em todas as funções
 
 /** Renderiza a lista de players */
 export function renderPlayers(playersList) {
