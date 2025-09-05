@@ -1,4 +1,4 @@
-const serverIp = "192.168.0.5";
+const serverIp = "100.80.198.53";
 let socket; // socket global para usar em todas as funções
 
 /** Renderiza a lista de players */
