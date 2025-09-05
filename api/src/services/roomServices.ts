@@ -13,13 +13,7 @@ class RoomServices {
     createRoom(player: Player) {
         const board: Board = new Board()
 
-        const room: Game = {
-            room_id: nanoid(6),
-            status: GameStatus.GameStarting,
-            players: [player],
-            turn: 0,
-            board: board
-        };
+        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player], board);
 
         this.rooms.set(room.room_id, room)
 
@@ -63,4 +57,4 @@ class RoomServices {
     }
 }
 
-export const roomService = new RoomServices();
+export const RoomService = new RoomServices();
