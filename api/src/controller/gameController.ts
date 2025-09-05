@@ -37,7 +37,7 @@ export const gameController = {
                 HandleResponse.serverResponse(res, 400, false, result)
             );
 
-            SendSocket.letterRevealed(data.room_id, result);
+            SendSocket.letterRevealed(data.room_id, data.x, data.y, result);
 
             return HandleResponse.serverResponse(res, 200, true, GameResponses.Revealed);
 

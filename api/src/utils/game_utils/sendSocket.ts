@@ -18,14 +18,14 @@ export const SendSocket = {
         );
     },
 
-    letterRevealed(room_id: string, letter: string) {
+    letterRevealed(room_id: string, x:number, y: number, letter: string) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
         if (!room) return;
 
         room.players.forEach(p => 
-            io.to(p.id).emit("letter_revealed", letter)
+            io.to(p.id).emit("letter_revealed", {x: x, y:y, letter: letter})
         );
     },
 
