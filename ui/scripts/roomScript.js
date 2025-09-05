@@ -28,12 +28,8 @@ startBtn.addEventListener("click", () => {
   if (!room_id) return alert("DEBUG: Não tem id guardado");
 
   fetch(`http://${serverIp}:3333/game/startGame/${room_id}`).then(res => res.json()).then(data => {
-    alert(data.status);
+    console.log(data);
   })
-
-  panelDiv.style.display = "none";
-  gameDiv.style.display = "block";
-  createGrid();
 });
 
 // Criar grade 10x10
@@ -62,7 +58,12 @@ function createGrid() {
   }
 }
 
-// Receber atualização de célula do servidor
+socket.on("game_started", () => {
+    panelDiv.style.display = "none";
+    gameDiv.style.display = "block";
+    createGrid();
+})
+
 socket.on("letter_revealed", ({ x, y, letter }) => {
   const btn = document.querySelector(`button[data-x="${x}"][data-y="${y}"]`);
   if (btn) {
