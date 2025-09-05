@@ -5,6 +5,7 @@ import { ServerResponses } from "../utils/responses/serverResponses";
 import { getSocketInstance } from "../socket";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { nanoid } from "nanoid";
+import { GameStatus } from "../utils/game_utils/gameStatus";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -14,6 +15,7 @@ class RoomServices {
 
         const room: Game = {
             room_id: nanoid(6),
+            status: GameStatus.GameStarting,
             players: [player],
             turn: 0,
             board: board
