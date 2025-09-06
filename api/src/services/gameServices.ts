@@ -1,3 +1,4 @@
+import { Board } from "../entities/board";
 import { GameStatus } from "../utils/game_utils/gameStatus";
 import { RevealLetter } from "../utils/requests/gameRequests";
 import { GameResponses } from "../utils/responses/gameResponses";
@@ -7,38 +8,55 @@ import { RoomService } from "./roomServices";
 export const GameService = {
     startGame(room_id: string) {
         const game = RoomService.getRoom(room_id);
+        const players = game?.getPlayers();
 
-        if (!game) return ServerResponses.NotFound;
+        if (!game || !players) return ServerResponses.NotFound;
 
-        if (game.players.length < 2) return GameResponses.NotEnoughPlayers;
+        if (players.length < 2) return GameResponses.NotEnoughPlayers;
+
+        const board: Board = new Board();
+        game.startGame(board);
         
         const first_player = Math.floor(Math.random() * 2);
 
-        game.players[first_player]!.turn = 0;
-        game.players[1 - first_player]!.turn = 1;
+        players[first_player]!.turn = 0;
+        players[1 - first_player]!.turn = 1;
 
-        game.status = GameStatus.GameRunning;
+        game.setStatus(GameStatus.GameRunning);
 
         return GameResponses.GameStarted;
     },
 
-    revealLetter(data: RevealLetter): ServerResponses.NotFound | GameResponses.GameError | string {
+    revealLetter(data: RevealLetter) {
         const { room_id, player_id, x, y} = data;
 
         const game = RoomService.getRoom(room_id);
+        const players = game?.getPlayers();
+        const board = game?.getBoard();
 
-        if (!game) return ServerResponses.NotFound;
-        if (game.status !== GameStatus.GameRunning) return GameResponses.GameError;
+        if (!game || !players) return ServerResponses.NotFound;
+        if (game.getStatus() !== GameStatus.GameRunning) return GameResponses.GameError;
 
-        const player_turn = game.players.find(p =>
+        const player_turn = players.find(p =>
             p.id === player_id
         );
 
-        if (!player_turn || game.turn % 2 !== player_turn.turn) return GameResponses.GameError;
+        if (!player_turn || game.getTurn() % 2 !== player_turn.turn || !board) return GameResponses.GameError;
 
-        const letter = game.board.revealLetter(x, y);
-        game.turn++;
+        const result = board.revealLetter(x, y);
 
-        return letter ? letter : GameResponses.GameError
+        if (result === GameResponses.AlmostRevealed) return result;
+        game.icrementTurn();
+
+        if (typeof result === "string") return result;
+
+        player_turn.score++;
+
+        return {
+            letter: result.letter,
+            completedWord: result.completedWord,
+            player_id: player_id,
+            player_score: player_turn.score
+        }
     }
 }

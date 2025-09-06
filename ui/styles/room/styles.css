@@ -144,3 +144,21 @@ body {
     background-color: #0f1d8a;
     transform: scale(1.05);
 }
+
+.grid button:disabled.blue {
+    background-color: gray;
+    border: 2px solid blue;
+    border-radius: 5px;
+}
+
+.grid button:disabled.orange {
+    background-color: gray;
+    border: 2px solid orange;
+    border-radius: 5px;
+}
+
+.grid button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+  transition: background-color 0.3s;
+}

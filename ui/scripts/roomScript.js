@@ -58,16 +58,30 @@ function createGrid() {
   }
 }
 
-socket.on("game_started", () => {
+socket.on("game_started", (start_player, words) => {
+    // TODO: NA API o socket "game_started" deve enviar o id do jogador que vai iniciar a partida junto com o array de palavras
+    window.startingPlayerId = start_player;
     panelDiv.style.display = "none";
     gameDiv.style.display = "block";
     createGrid();
 })
 
-socket.on("letter_revealed", ({ x, y, letter }) => {
+socket.on("letter_revealed", ({ x, y, data, player_id }) => {  // Socket deve enviar o player_id separado e sempre
   const btn = document.querySelector(`button[data-x="${x}"][data-y="${y}"]`);
   if (btn) {
-    btn.textContent = letter;
-    btn.disabled = true; // opcional
+
+    if (typeof data == "string") {
+      btn.textContent = data;
+    } else {
+      btn.textContent = data.letter;
+    }
+
+    btn.disabled = true
+    
+    if (player_id == window.startingPlayerId) {
+      btn.classList.add("blue")
+    } else {
+      btn.classList.add("orange")
+    }
   }
 });
