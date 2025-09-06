@@ -3,5 +3,6 @@ export enum RoomResponses {
     RoomCreateonFailed = "room_criateon_failed",
     RoomJoinned = "room_joinned",
     RoomFinded = "room_finded",
-    FullRoom = "full_room"
+    FullRoom = "full_room",
+    LeftRoom = "left_room"
 }
