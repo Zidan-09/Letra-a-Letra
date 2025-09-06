@@ -7,22 +7,19 @@ id.textContent = room_id;
 
 const startBtn = document.getElementById("startGame");
 const panelDiv = document.querySelector(".panel");
+const allDiv = document.getElementById("all");
 const gameDiv = document.getElementById("game");
 const gridDiv = document.getElementById("grid");
 
-// Reconectar players na sala
 reconnectPlayers();
 
-// Atualizar lista de players
 socket.on("player_joinned", (room) => {
   localStorage.setItem("players", JSON.stringify(room.players));
   renderPlayers(room.players);
 
-  // Habilita Start se tiver pelo menos 2 players
   startBtn.disabled = room.players.length < 2;
 });
 
-// Iniciar jogo
 startBtn.addEventListener("click", () => {
 
   if (!room_id) return alert("DEBUG: Não tem id guardado");
@@ -32,7 +29,6 @@ startBtn.addEventListener("click", () => {
   })
 });
 
-// Criar grade 10x10
 function createGrid() {
   gridDiv.innerHTML = "";
   for (let x = 0; x < 10; x++) {
@@ -59,10 +55,9 @@ function createGrid() {
 }
 
 socket.on("game_started", ({first, words}) => {
-    // TODO: NA API o socket "game_started" deve enviar o id do jogador que vai iniciar a partida junto com o array de palavras
-    window.startingPlayerId = first;
+    localStorage.setItem("first", first);
     localStorage.setItem("words", words);
-
+    allDiv.style.display = "flex"
     panelDiv.style.display = "none";
     gameDiv.style.display = "block";
     createGrid();
@@ -81,7 +76,8 @@ socket.on("letter_revealed", ({ x, y, data, player_id }) => {  // Socket deve en
 
     btn.disabled = true
     
-    if (player_id == window.startingPlayerId) {
+    const first = localStorage.getItem("first");
+    if (player_id == first) {
       btn.classList.add("blue")
     } else {
       btn.classList.add("orange")

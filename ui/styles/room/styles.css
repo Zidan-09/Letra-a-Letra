@@ -100,6 +100,11 @@ body {
     cursor: not-allowed;
 }
 
+.all {
+    display: none;
+    flex-direction: row;
+}
+
 #game {
     display: flex;
     justify-content: center;
@@ -129,8 +134,8 @@ body {
     justify-content: flex-start;
     align-items: center;
 
-    width: 100%;
-    max-height: 10rem;
+    width: 20rem;
+    height: 30rem;
     overflow-y: auto;
 
     border-radius: var(--radius);
@@ -139,7 +144,16 @@ body {
     background-color: var(--color-bg);
 
     padding: 0.5rem;
-    margin-bottom: 1rem;
+    margin-right: 5rem;
+    margin-top: 1rem;
+    margin-left: 5rem;
+}
+
+.words p {
+    color: var(--color-text);
+    font-size: 40px;
+    margin: 0.3rem 0;
+    text-transform: uppercase;
 }
 
 .grid {
@@ -164,17 +178,20 @@ body {
     transform: scale(1.05);
 }
 
-.grid button:disabled.blue {
+.grid button.blue:disabled {
     background-color: gray;
-    border: 2px solid blue;
+    border: px solid blue;
     border-radius: 5px;
 }
 
-.grid button:disabled.orange {
+.grid button.orange:disabled {
     background-color: gray;
-    border: 2px solid orange;
+    border: 3px solid orange;
     border-radius: 5px;
 }
+
+.grid button.blue:disabled:not(.orange) { border-color: blue; }
+.grid button.orange:disabled:not(.blue) { border-color: orange; }
 
 .grid button:disabled {
   cursor: not-allowed;
