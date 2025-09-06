@@ -9,8 +9,13 @@ interface JoinRoom {
     room_id: string;
 }
 
+interface LeaveRoom {
+    room_id: string;
+    player_id: string;
+}
+
 interface GetRoom {
     room_id: string
 }
 
-export { CreateRoom, JoinRoom, GetRoom }
+export { CreateRoom, JoinRoom, LeaveRoom, GetRoom }

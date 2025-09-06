@@ -52,6 +52,19 @@ class RoomServices {
         }
     }
 
+    leaveRoom(id: string, player_id: string): ServerResponses.NotFound | RoomResponses.LeftRoom {
+        const room = this.rooms.get(id);
+        const player = room!.players.find(p =>
+            p.id === player_id
+        )
+        if (!room || !player) return ServerResponses.NotFound;
+
+        const index = room.players.indexOf(player);
+        room.players.splice(index, 1);
+
+        return RoomResponses.LeftRoom;
+    }
+
     getRoom(id: string): Game | undefined {
         return this.rooms.get(id);
     }
