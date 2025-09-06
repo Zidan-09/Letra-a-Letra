@@ -32,6 +32,14 @@ export const SendSocket = {
         players.forEach(p => 
             io.to(p.id).emit("letter_revealed", {x: x, y:y, data: data, player_id: player_id})
         );
+        
+        const winner = room.gameOver();
+
+        if (winner) {
+            players.forEach(p =>
+                io.to(p.id).emit("game_over", {winner: winner})
+            )
+        }
     },
 
     message() {
