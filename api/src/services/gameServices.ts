@@ -27,7 +27,7 @@ export const GameService = {
         return GameResponses.GameStarted;
     },
 
-    revealLetter(data: RevealLetter): ServerResponses.NotFound | GameResponses.GameError | string {
+    revealLetter(data: RevealLetter) {
         const { room_id, player_id, x, y} = data;
 
         const game = RoomService.getRoom(room_id);
@@ -43,9 +43,20 @@ export const GameService = {
 
         if (!player_turn || game.getTurn() % 2 !== player_turn.turn || !board) return GameResponses.GameError;
 
-        const letter = board.revealLetter(x, y);
+        const result = board.revealLetter(x, y);
+
+        if (result === GameResponses.AlmostRevealed) return result;
         game.icrementTurn();
 
-        return letter ? letter : GameResponses.GameError
+        if (typeof result === "string") return result;
+
+        player_turn.score++;
+
+        return {
+            letter: result.letter,
+            completedWord: result.completedWord,
+            player_id: player_id,
+            player_score: player_turn.score
+        }
     }
 }

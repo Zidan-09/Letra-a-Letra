@@ -5,6 +5,7 @@ export class Board {
     private words: string[];
     private grid: string[][];
     private revealed: boolean[][];
+    private wordPositions: { [word: string]: [number, number][] } = {};
 
     constructor() {
         this.words = this.selectTheme();
@@ -48,12 +49,25 @@ export class Board {
     }
 
     public revealLetter(row: number, column: number) {
-        if (this.revealed[row]![column] === false) {
-            this.revealed[row]![column] = true;
-            return this.grid[row]![column];
-        } else {
-            return GameResponses.AlmostRevealed
+        if (this.revealed[row]![column]) return GameResponses.AlmostRevealed;
+
+        this.revealed[row]![column] = true;
+        const letter = this.grid[row]![column]!;
+
+        for (const [word, position] of Object.entries(this.wordPositions)) {
+            if (position.some(([r, c]) => r === row && c === column)) {
+                const completed = position.every(([r, c]) => this.revealed[r]![c]);
+
+                if (completed) {
+                    return {
+                        letter: letter,
+                        completedWord: word
+                    }
+                }
+            }
         }
+
+        return letter;
     }
 
     private initRevealed(): boolean[][] {
@@ -122,11 +136,16 @@ export class Board {
     }
 
     private placeWord(word: string, row: number, column: number, dx: number, dy: number, grid: string[][]) {
+        const positions: [number, number][] = [];
+
         for (let i = 0; i < word.length; i++) {
             const x = row + dx * i;
             const y = column + dy * i;
             grid[x]![y] = word[i]!;
+            positions.push([x, y]);
         }
+
+        this.wordPositions[word] = positions;
     }
 
     public debug() {
