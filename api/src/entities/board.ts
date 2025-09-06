@@ -148,11 +148,7 @@ export class Board {
         this.wordPositions[word] = positions;
     }
 
-    public debug() {
-        return {
-          grid: this.grid,
-          words: this.words,
-          bools: this.revealed
-        };
+    public getWords() {
+        return this.words;
     }
 }
