@@ -49,4 +49,17 @@ export class Game {
     public getBoard() {
         return this.board;
     }
+
+    public gameOver() {
+        if (this.turn === 100) {
+            this.status = GameStatus.GameOver;
+
+            const player_1 = this.players[0];
+
+            if (player_1!.score > this.players[1]!.score) return player_1!;
+            return this.players[1]!;
+        }
+
+        return false;
+    }
 }
