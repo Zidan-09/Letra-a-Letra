@@ -1,4 +1,3 @@
-import { Board } from "../entities/board";
 import { Game } from "../entities/game";
 import { Player } from "../entities/player";
 import { ServerResponses } from "../utils/responses/serverResponses";
@@ -10,40 +9,38 @@ import { GameStatus } from "../utils/game_utils/gameStatus";
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
-    createRoom(player: Player) {
-        const board: Board = new Board()
+    public createRoom(player: Player) {
+        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player]);
 
-        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player], board);
-
-        this.rooms.set(room.room_id, room)
+        this.rooms.set(room.getRoomId(), room)
 
         return room;
     };
 
-    joinRoom(id: string, player: Player) {
+    public joinRoom(id: string, player: Player) {
         const room = this.rooms.get(id);
+        const players = room?.getPlayers();
+        if (!room || !players) return ServerResponses.NotFound;
 
-        if (!room) return ServerResponses.NotFound;
-
-        if (room.players.length >= 2) return RoomResponses.FullRoom;
+        if (players.length >= 2) return RoomResponses.FullRoom;
         
-        room.players.push(player);
+        players.push(player);
 
         const io = getSocketInstance();
 
-        room.players.forEach(p => {
+        players.forEach(p => {
             io.to(p.id).emit("player_joinned", room);
         })
 
         return room;
     }
 
-    reconnectRoom(id: string, nickname: string, new_id: string) {
+    public reconnectRoom(id: string, nickname: string, new_id: string) {
         const room = this.rooms.get(id);
 
         if (!room) return ServerResponses.NotFound;
 
-        const desconnectedPlayer = room.players.find(p => p.nickname === nickname);
+        const desconnectedPlayer = room.getPlayers().find(p => p.nickname === nickname);
 
         if (desconnectedPlayer) {
             desconnectedPlayer.id = new_id;
@@ -52,21 +49,30 @@ class RoomServices {
         }
     }
 
-    leaveRoom(id: string, player_id: string): ServerResponses.NotFound | RoomResponses.LeftRoom {
-        const room = this.rooms.get(id);
-        const player = room!.players.find(p =>
+    public leaveRoom(room_id: string, player_id: string): ServerResponses.NotFound | RoomResponses.LeftRoom {
+        const room = this.rooms.get(room_id);
+        const players = room!.getPlayers();
+        const player = players.find(p =>
             p.id === player_id
         )
         if (!room || !player) return ServerResponses.NotFound;
 
-        const index = room.players.indexOf(player);
-        room.players.splice(index, 1);
+        const index = players.indexOf(player);
+        players.splice(index, 1);
+
+        if (players.length === 0) {
+            this.closeRoom(room_id);
+        }
 
         return RoomResponses.LeftRoom;
     }
 
-    getRoom(id: string): Game | undefined {
+    public getRoom(id: string): Game | undefined {
         return this.rooms.get(id);
+    }
+
+    protected closeRoom(room_id: string) {
+        return this.rooms.delete(room_id);
     }
 }
 
