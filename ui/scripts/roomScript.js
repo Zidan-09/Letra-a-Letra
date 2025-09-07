@@ -97,3 +97,27 @@ function renderWords(wordList) {
         wordsList.appendChild(p);
     });
 }
+
+export function leaveRoom() {
+  const buttom = document.getElementById("leaveRoom");
+  if (!buttom) return;
+
+  buttom.addEventListener("click", () => {
+    fetch(`http://${serverIp}:3333/room/leaveRoom`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        room_id: room_id,
+        player_id: socket.id
+      })
+    }).then(
+      res => res.json()
+    ).then(data => {
+      if (data.status) {
+        window.location.href = "index.html"
+      } else {
+        alert(data.message)
+      }
+    })
+  })
+}

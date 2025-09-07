@@ -100,6 +100,10 @@ body {
     cursor: not-allowed;
 }
 
+.panel #leaveRoom {
+    cursor: pointer;
+}
+
 .all {
     display: none;
     flex-direction: row;
