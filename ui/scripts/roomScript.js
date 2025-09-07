@@ -20,6 +20,13 @@ socket.on("player_joinned", (room) => {
   startBtn.disabled = room.players.length < 2;
 });
 
+socket.on("player_left", (room) => {
+  localStorage.setItem("players", JSON.stringify(room.players));
+  renderPlayers(room.players);
+
+  startBtn.disabled = room.players.length < 2;
+});
+
 startBtn.addEventListener("click", () => {
 
   if (!room_id) return alert("DEBUG: Não tem id guardado");
@@ -74,14 +81,16 @@ socket.on("letter_revealed", ({ x, y, data, player_id }) => {  // Socket deve en
       btn.textContent = data.letter;
     }
 
-    btn.disabled = true
     
+    btn.classList.remove("blue", "orange");
     const first = localStorage.getItem("first");
-    if (player_id == first) {
-      btn.classList.add("blue")
+    if (player_id === first) {
+      btn.classList.add("blue");
     } else {
-      btn.classList.add("orange")
+      btn.classList.add("orange");
     }
+
+    btn.disabled = true
   }
 });
 
@@ -113,7 +122,8 @@ export function leaveRoom() {
     }).then(
       res => res.json()
     ).then(data => {
-      if (data.status) {
+      console.log(data);
+      if (data.success) {
         window.location.href = "index.html"
       } else {
         alert(data.message)
@@ -121,3 +131,5 @@ export function leaveRoom() {
     })
   })
 }
+
+leaveRoom();

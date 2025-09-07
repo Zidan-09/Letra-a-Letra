@@ -184,18 +184,15 @@ body {
 
 .grid button.blue:disabled {
     background-color: gray;
-    border: px solid blue;
+    border: 3px solid blue !important;
     border-radius: 5px;
 }
 
 .grid button.orange:disabled {
     background-color: gray;
-    border: 3px solid orange;
+    border: 3px solid orange !important;
     border-radius: 5px;
 }
-
-.grid button.blue:disabled:not(.orange) { border-color: blue; }
-.grid button.orange:disabled:not(.blue) { border-color: orange; }
 
 .grid button:disabled {
   cursor: not-allowed;
