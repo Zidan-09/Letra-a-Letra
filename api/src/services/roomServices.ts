@@ -67,6 +67,12 @@ class RoomServices {
             this.closeRoom(room_id);
         }
 
+        const io = getSocketInstance();
+
+        players.forEach(p => {
+            io.to(p.id).emit("player_left", room);
+        })
+
         return RoomResponses.LeftRoom;
     }
 
