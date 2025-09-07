@@ -19,8 +19,9 @@ class RoomServices {
 
     public joinRoom(id: string, player: Player) {
         const room = this.rooms.get(id);
+        if (!room) return ServerResponses.NotFound;
         const players = room?.getPlayers();
-        if (!room || !players) return ServerResponses.NotFound;
+        if (!players) return ServerResponses.NotFound;
 
         if (players.length >= 2) return RoomResponses.FullRoom;
         
@@ -51,11 +52,13 @@ class RoomServices {
 
     public leaveRoom(room_id: string, player_id: string): ServerResponses.NotFound | RoomResponses.LeftRoom {
         const room = this.rooms.get(room_id);
+        if (!room) return ServerResponses.NotFound;
         const players = room!.getPlayers();
+        if (!players) return ServerResponses.NotFound;
         const player = players.find(p =>
             p.id === player_id
         )
-        if (!room || !player) return ServerResponses.NotFound;
+        if (!player) return ServerResponses.NotFound;
 
         const index = players.indexOf(player);
         players.splice(index, 1);
