@@ -8,9 +8,10 @@ import { RoomService } from "./roomServices";
 export const GameService = {
     startGame(room_id: string) {
         const game = RoomService.getRoom(room_id);
+        if (!game) return ServerResponses.NotFound;
         const players = game?.getPlayers();
+        if (!players) return ServerResponses.NotFound;
 
-        if (!game || !players) return ServerResponses.NotFound;
 
         if (players.length < 2) return GameResponses.NotEnoughPlayers;
 
@@ -31,10 +32,11 @@ export const GameService = {
         const { room_id, player_id, x, y} = data;
 
         const game = RoomService.getRoom(room_id);
+        if (!game) return ServerResponses.NotFound;
         const players = game?.getPlayers();
+        if (!players) return ServerResponses.NotFound;
         const board = game?.getBoard();
 
-        if (!game || !players) return ServerResponses.NotFound;
         if (game.getStatus() !== GameStatus.GameRunning) return GameResponses.GameError;
 
         const player_turn = players.find(p =>
