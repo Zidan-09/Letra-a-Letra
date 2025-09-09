@@ -3,4 +3,5 @@ export interface Player {
     nickname: string;
     turn: number | undefined;
     score: number;
+    passed: number;
 }

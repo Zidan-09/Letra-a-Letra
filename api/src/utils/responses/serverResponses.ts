@@ -1,7 +1,8 @@
 enum ServerResponses {
     ServerError = 'server_error',
     NotFound = 'not_found',
-    Reconnected = 'reconnected'
+    Reconnected = 'reconnected',
+    Ended = "ended"
 }
 
 export { ServerResponses }

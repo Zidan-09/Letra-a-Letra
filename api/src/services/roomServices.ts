@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import { GameStatus } from "../utils/game_utils/gameStatus";
 import { createLog } from "../utils/server_utils/logs";
 import { LogEnum } from "../utils/server_utils/logEnum";
+import { SendSocket } from "../utils/game_utils/sendSocket";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -90,6 +91,20 @@ class RoomServices {
 
     protected closeRoom(room_id: string) {
         return this.rooms.delete(room_id);
+    }
+
+    public afkPlayer(room_id: string, player_id: string) {
+        const room = this.rooms.get(room_id);
+        if (!room) return ServerResponses.NotFound;
+        const players = room.getPlayers();
+
+        const player = players.find(p => p.id === player_id);
+        if (!player) return ServerResponses.NotFound;
+
+        players.slice(players.indexOf(player), 1);
+
+        SendSocket.gameOver(room_id);
+        return ServerResponses.Ended;
     }
 }
 

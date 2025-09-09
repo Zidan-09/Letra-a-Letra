@@ -35,9 +35,9 @@ export const GameService = {
 
         const game = RoomService.getRoom(room_id);
         if (!game) return ServerResponses.NotFound;
-        const players = game?.getPlayers();
+        const players = game.getPlayers();
         if (!players) return ServerResponses.NotFound;
-        const board = game?.getBoard();
+        const board = game.getBoard();
 
         if (game.getStatus() !== GameStatus.GameRunning) return GameResponses.GameError;
 
@@ -54,6 +54,7 @@ export const GameService = {
             return result
         };
         game.icrementTurn();
+        player_turn.passed = 0;
 
         if (typeof result === "string") {
             createLog(room_id, `${player_turn.nickname} ${LogEnum.PlayerReveal} ${x} ${y} => ${result} score: ${player_turn.score}`);
@@ -70,5 +71,26 @@ export const GameService = {
             player_id: player_id,
             player_score: player_turn.score
         }
+    },
+
+    passTurn(room_id: string, player_id: string) {
+        const game = RoomService.getRoom(room_id);
+        if (!game) return ServerResponses.NotFound;
+        const players = game.getPlayers();
+        if (!players) return GameResponses.GameError;
+
+        const player = players.find(p =>
+            p.id === player_id
+        )
+        if (!player) return GameResponses.GameError;
+
+        player.passed++;
+
+        if (player.passed >= 3) {
+            const result = RoomService.afkPlayer(room_id, player_id);
+            return result;
+        }
+
+        return GameResponses.Continue;
     }
 }

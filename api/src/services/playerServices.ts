@@ -6,7 +6,8 @@ export const PlayerServices = {
             id: idSocket,
             nickname: nickname,
             turn: undefined,
-            score: 0
+            score: 0,
+            passed: 0
         }
 
         return player;
@@ -14,5 +15,5 @@ export const PlayerServices = {
 
     getPlayer(id: string) {
         
-    }
+    },
 }

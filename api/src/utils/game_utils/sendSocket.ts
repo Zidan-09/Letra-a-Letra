@@ -25,14 +25,25 @@ export const SendSocket = {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
+        if (!room) return;
         const players = room?.getPlayers();
+        if (!players) return;
 
-        if (!room || !players) return;
 
         players.forEach(p => 
             io.to(p.id).emit("letter_revealed", {x: x, y:y, data: data, player_id: player_id})
         );
         
+        this.gameOver(room_id);
+    },
+
+    gameOver(room_id: string) {
+        const io = getSocketInstance();
+
+        const room = RoomService.getRoom(room_id);
+        if (!room) return;
+        const players = room.getPlayers();
+        if (!players) return;
         const winner = room.gameOver();
 
         if (winner) {

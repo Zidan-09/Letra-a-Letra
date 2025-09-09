@@ -9,4 +9,9 @@ interface RevealLetter {
     y: number;
 }
 
-export { StartGame, RevealLetter }
+interface PassTurn {
+    room_id: string;
+    player_id: string;
+}
+
+export { StartGame, RevealLetter, PassTurn }
