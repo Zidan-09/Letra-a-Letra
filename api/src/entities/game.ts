@@ -55,9 +55,19 @@ export class Game {
             this.status = GameStatus.GameOver;
 
             const player_1 = this.players[0];
+            const player_2 = this.players[1];
+            if (!player_1 || !player_2) return false;
 
-            if (player_1!.score > this.players[1]!.score) return player_1!;
-            return this.players[1]!;
+            if (player_1.score > player_2.score) return player_1;
+            return player_2;
+            
+        } else if (this.players.length < 2) {
+            this.status = GameStatus.GameOver;
+
+            const player = this.players[0];
+            if (!player) return false;
+
+            return player;
         }
 
         return false;

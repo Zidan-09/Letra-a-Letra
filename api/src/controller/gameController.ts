@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { HandleResponse } from '../utils/server_utils/handleResponse';
 import { GameService } from '../services/gameServices';
-import { RevealLetter, StartGame } from '../utils/requests/gameRequests';
+import { PassTurn, RevealLetter, StartGame } from '../utils/requests/gameRequests';
 import { GameResponses } from '../utils/responses/gameResponses';
 import { ServerResponses } from '../utils/responses/serverResponses';
 import { SendSocket } from '../utils/game_utils/sendSocket';
@@ -44,6 +44,16 @@ export const gameController = {
         } catch (err) {
             console.error(err);
             return HandleResponse.errorResponse(res, err)
+        }
+    },
+
+    passTurn(req: Request<{}, {}, PassTurn>, res: Response) {
+        try {
+            const { room_id, player_id} = req.body;
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
         }
     }
 }
