@@ -3,6 +3,8 @@ import { GameStatus } from "../utils/game_utils/gameStatus";
 import { RevealLetter } from "../utils/requests/gameRequests";
 import { GameResponses } from "../utils/responses/gameResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
+import { LogEnum } from "../utils/server_utils/logEnum";
+import { createLog } from "../utils/server_utils/logs";
 import { RoomService } from "./roomServices";
 
 export const GameService = {
@@ -11,7 +13,6 @@ export const GameService = {
         if (!game) return ServerResponses.NotFound;
         const players = game?.getPlayers();
         if (!players) return ServerResponses.NotFound;
-
 
         if (players.length < 2) return GameResponses.NotEnoughPlayers;
 
@@ -24,6 +25,7 @@ export const GameService = {
         players[1 - first_player]!.turn = 1;
 
         game.setStatus(GameStatus.GameRunning);
+        createLog(room_id, LogEnum.GameStarted);
 
         return GameResponses.GameStarted;
     },
@@ -47,12 +49,20 @@ export const GameService = {
 
         const result = board.revealLetter(x, y);
 
-        if (result === GameResponses.AlmostRevealed) return result;
+        if (result === GameResponses.AlmostRevealed) {
+            createLog(room_id, `${player_turn.nickname} ${LogEnum.PlayerReveal} ${x} ${y} => ${result} score: ${player_turn.score}`);
+            return result
+        };
         game.icrementTurn();
 
-        if (typeof result === "string") return result;
+        if (typeof result === "string") {
+            createLog(room_id, `${player_turn.nickname} ${LogEnum.PlayerReveal} ${x} ${y} => ${result} score: ${player_turn.score}`);
+            return result;
+        };
 
         player_turn.score++;
+
+        createLog(room_id, `${player_turn.nickname} ${LogEnum.PlayerReveal} ${x} ${y} => ${result.letter} score: ${player_turn.score}`);
 
         return {
             letter: result.letter,
