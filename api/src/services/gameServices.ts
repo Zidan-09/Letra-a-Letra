@@ -87,7 +87,10 @@ export const GameService = {
         player.passed++;
 
         if (player.passed >= 3) {
-            RoomService.afkPlayer(room_id, player_id);
+            const result = RoomService.afkPlayer(room_id, player_id);
+            return result;
         }
+
+        return GameResponses.Continue;
     }
 }

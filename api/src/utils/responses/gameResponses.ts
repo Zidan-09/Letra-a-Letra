@@ -4,6 +4,7 @@ enum GameResponses {
     GameError = "game_error",
     NotEnoughPlayers = "not_enough_players",
     GameStarted = "game_started",
+    Continue = "continue"
 }
 
 export { GameResponses }

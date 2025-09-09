@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, text } from 'express';
 import { HandleResponse } from '../utils/server_utils/handleResponse';
 import { GameService } from '../services/gameServices';
 import { PassTurn, RevealLetter, StartGame } from '../utils/requests/gameRequests';
@@ -50,6 +50,13 @@ export const gameController = {
     passTurn(req: Request<{}, {}, PassTurn>, res: Response) {
         try {
             const { room_id, player_id} = req.body;
+
+            const result = GameService.passTurn(room_id, player_id);
+
+            if (result === ServerResponses.NotFound) return HandleResponse.serverResponse(res, 404, false, result);
+            if (result === GameResponses.GameError) return HandleResponse.serverResponse(res, 400, false, result);
+
+            HandleResponse.serverResponse(res, 200, true, result);
 
         } catch (err) {
             console.error(err);

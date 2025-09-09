@@ -104,6 +104,7 @@ class RoomServices {
         players.slice(players.indexOf(player), 1);
 
         SendSocket.gameOver(room_id);
+        return ServerResponses.Ended;
     }
 }
 
