@@ -5,20 +5,24 @@ import { getSocketInstance } from "../socket";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { nanoid } from "nanoid";
 import { GameStatus } from "../utils/game_utils/gameStatus";
+import { createLog } from "../utils/server_utils/logs";
+import { LogEnum } from "../utils/server_utils/logEnum";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
     public createRoom(player: Player) {
         const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player]);
+        createLog(room.getRoomId(), LogEnum.RoomCreated);
+        createLog(room.getRoomId(), `${player.nickname} ${LogEnum.PlayerJoinned}`);
 
-        this.rooms.set(room.getRoomId(), room)
+        this.rooms.set(room.getRoomId(), room);
 
         return room;
     };
 
-    public joinRoom(id: string, player: Player) {
-        const room = this.rooms.get(id);
+    public joinRoom(room_id: string, player: Player) {
+        const room = this.rooms.get(room_id);
         if (!room) return ServerResponses.NotFound;
         const players = room?.getPlayers();
         if (!players) return ServerResponses.NotFound;
@@ -26,6 +30,7 @@ class RoomServices {
         if (players.length >= 2) return RoomResponses.FullRoom;
         
         players.push(player);
+        createLog(room.getRoomId(), `${player.nickname} ${LogEnum.PlayerJoinned}`);
 
         const io = getSocketInstance();
 
@@ -36,8 +41,8 @@ class RoomServices {
         return room;
     }
 
-    public reconnectRoom(id: string, nickname: string, new_id: string) {
-        const room = this.rooms.get(id);
+    public reconnectRoom(room_id: string, nickname: string, new_id: string) {
+        const room = this.rooms.get(room_id);
 
         if (!room) return ServerResponses.NotFound;
 
@@ -45,6 +50,7 @@ class RoomServices {
 
         if (desconnectedPlayer) {
             desconnectedPlayer.id = new_id;
+            createLog(room_id, `${nickname} ${LogEnum.PlayerReconnected}`);
 
             return ServerResponses.Reconnected;
         }
@@ -62,9 +68,11 @@ class RoomServices {
 
         const index = players.indexOf(player);
         players.splice(index, 1);
+        createLog(room.getRoomId(), `${player.nickname} ${LogEnum.PlayerLeft}`);
 
         if (players.length === 0) {
             this.closeRoom(room_id);
+            createLog(room_id, LogEnum.RoomClosed);
         }
 
         const io = getSocketInstance();
