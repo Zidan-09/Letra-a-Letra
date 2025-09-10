@@ -37,6 +37,8 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/nanoid": "^2.1.0",
-    "@types/socket.io": "^3.0.1"
+    "@types/socket.io": "^3.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
   }
 }

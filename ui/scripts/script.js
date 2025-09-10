@@ -1,4 +1,4 @@
-export const serverIp = "100.80.198.53";
+export const serverIp = "localhost";
 export let socket; // socket global para usar em todas as funções
 
 /** Renderiza a lista de players */
