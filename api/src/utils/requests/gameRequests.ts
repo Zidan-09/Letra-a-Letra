@@ -1,12 +1,7 @@
+import { MovementsEnum } from "../board_utils/movementsEnum";
+
 interface StartGame {
     room_id: string;
-}
-
-interface RevealLetter {
-    room_id: string;
-    player_id: string;
-    x: number;
-    y: number;
 }
 
 interface PassTurn {
@@ -14,4 +9,12 @@ interface PassTurn {
     player_id: string;
 }
 
-export { StartGame, RevealLetter, PassTurn }
+interface Movement {
+    room_id: string;
+    player_id: string;
+    movement: MovementsEnum;
+    x: number;
+    y: number;
+}
+
+export { StartGame, PassTurn, Movement }

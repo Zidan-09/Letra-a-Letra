@@ -1,40 +1,48 @@
 import { RoomService } from "../../services/roomServices";
 import { getSocketInstance } from "../../socket";
-import { GameStarted } from "../emits/gameEmits";
+import { GameStarted, MoveEmit } from "../emits/gameEmits";
+import { MovementsEnum } from "../board_utils/movementsEnum";
+import { GameResponses } from "../responses/gameResponses";
+import { ServerResponses } from "../responses/serverResponses";
 
 export const SendSocket = {
     gameStarted(room_id: string) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
-        const players = room?.getPlayers();
+        if (!room || !room.players || !room.board || !room.board.words) return;
 
-        if (!room || !players) return;
+        const players = room.players;
 
         const data: GameStarted = {
             first: players.find(p => p.turn === 0)!,
-            words: room.getBoard()?.getWords()!
+            words: room.board.words
         }
 
         players.forEach(p => 
-            io.to(p.id).emit("game_started", data)
+            io.to(p.player_id).emit("game_started", data)
         );
     },
 
-    letterRevealed(room_id: string, x:number, y: number, data: string | {letter: string, completedWord: string, player_score: number}, player_id: string) {
+    movementOne(room_id: string, player_id: string, movement: MovementsEnum, data: GameResponses | ServerResponses | MoveEmit) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
         if (!room) return;
-        const players = room?.getPlayers();
-        if (!players) return;
 
+        io.to(player_id).emit("movement", movement, player_id, data)
+    },
 
-        players.forEach(p => 
-            io.to(p.id).emit("letter_revealed", {x: x, y:y, data: data, player_id: player_id})
-        );
-        
-        this.gameOver(room_id);
+    movementAll(room_id: string, player_id: string, movement: MovementsEnum, data: GameResponses | ServerResponses | MoveEmit) {
+        const io = getSocketInstance();
+
+        const room = RoomService.getRoom(room_id);
+        if (!room || !room.players) return;
+        const players = room.players;
+
+        players.forEach(p =>
+            io.to(p.player_id).emit("movement", movement, player_id, data)
+        )
     },
 
     gameOver(room_id: string) {
@@ -42,13 +50,13 @@ export const SendSocket = {
 
         const room = RoomService.getRoom(room_id);
         if (!room) return;
-        const players = room.getPlayers();
+        const players = room.players;
         if (!players) return;
         const winner = room.gameOver();
 
         if (winner) {
             players.forEach(p =>
-                io.to(p.id).emit("game_over", {winner: winner})
+                io.to(p.player_id).emit("game_over", {winner: winner})
             )
         }
     },

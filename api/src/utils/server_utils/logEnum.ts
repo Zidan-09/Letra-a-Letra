@@ -4,7 +4,17 @@ export enum LogEnum {
     PlayerJoinned = "joinned the game",
     PlayerReconnected = "reconnected the game",
     PlayerLeft = "left the game",
-    PlayerReveal = "reveal in",
     GameStarted = "game started",
     GameOver = "game over",
+    Error = "error",
+    InvalidMovement = "tried an invalid moviment",
+
+    Freeze = "freeze",
+    Unfreeze = "unfreeze",
+    Trapped = "trapped",
+    Detect = "detect traps",
+    Blocked = "blocked cell",
+    Unblocked = "unblocked cell",
+    ClickOn = "clicked on cell",
+    Spied = "spied cell"
 }
