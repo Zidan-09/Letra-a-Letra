@@ -1,6 +1,9 @@
 interface CreateRoom {
     socket_id: string;
     nickname: string;
+    theme: string;
+    turn_time: string;
+    privateRoom: boolean;
 }
 
 interface JoinRoom {
@@ -14,8 +17,4 @@ interface LeaveRoom {
     player_id: string;
 }
 
-interface GetRoom {
-    room_id: string
-}
-
-export { CreateRoom, JoinRoom, LeaveRoom, GetRoom }
+export { CreateRoom, JoinRoom, LeaveRoom }

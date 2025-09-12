@@ -3,73 +3,43 @@ import { Board } from "./board";
 import { Player } from "./player";
 
 export class Game {
-    private room_id: string;
-    private status: GameStatus;
-    private players: Player[];
-    private turn: number;
-    private board: Board | null;
+    room_id: string;
+    status: GameStatus;
+    players: Player[];
+    turn: number;
+    board: Board | null;
+    privateRoom: boolean;
 
-    constructor(room_id: string, status: GameStatus, players: Player[]) {
+    constructor(room_id: string, status: GameStatus, players: Player[], privateRoom: boolean) {
         this.room_id = room_id;
         this.status = status;
         this.players = players;
         this.turn = 0;
         this.board = null;
+        this.privateRoom = privateRoom;
     }
 
-    public startGame(board: Board) {
-        this.board = board;
+    public startGame() {
+        this.board = new Board();
         this.turn = 0;
-    }
-
-    public getRoomId() {
-        return this.room_id;
-    }
-
-    public getPlayers() {
-        return this.players;
+        this.status = GameStatus.GameRunning;
     }
 
     public setStatus(status: GameStatus) {
         this.status = status;
     }
 
-    public getStatus() {
-        return this.status;
-    }
-
-    public getTurn() {
-        return this.turn;
-    }
-
     public icrementTurn() {
         this.turn++;
     }
 
-    public getBoard() {
-        return this.board;
-    }
+    gameOver(): Player | null {
+       const [p1, p2] = this.players;
 
-    public gameOver() {
-        if (this.turn === 100) {
-            this.status = GameStatus.GameOver;
+       if (this.turn < 100 && p1 && p2) return null;
 
-            const player_1 = this.players[0];
-            const player_2 = this.players[1];
-            if (!player_1 || !player_2) return false;
+       if (!p1 || !p2) return (p1 || p2) ?? null;
 
-            if (player_1.score > player_2.score) return player_1;
-            return player_2;
-            
-        } else if (this.players.length < 2) {
-            this.status = GameStatus.GameOver;
-
-            const player = this.players[0];
-            if (!player) return false;
-
-            return player;
-        }
-
-        return false;
+       return p1.score > p2.score ? p1 : p2;
     }
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar em Sala - Letra a Letra</title>
+  <link rel="stylesheet" href="../styles/join_styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Entrar em Sala</h1>
+
+    <button id="custom-code-btn">Inserir código personalizado</button>
+
+    <!-- Popup para código personalizado -->
+    <div id="custom-code-popup" class="popup">
+      <div class="popup-content">
+        <span id="close-popup">&times;</span>
+        <input type="text" id="custom-room-id" placeholder="Digite o código da sala">
+      </div>
+    </div>
+
+    <!-- Painel de salas públicas -->
+    <div class="rooms-panel" id="rooms-panel">
+      <!-- Lista de salas será preenchida pelo JS -->
+    </div>
+
+    <div class="buttons">
+      <button id="back-btn">Voltar</button>
+      <button id="join-btn">Entrar</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
+  <script src="../scripts/join_scripts.js"></script>
+</body>
+</html>

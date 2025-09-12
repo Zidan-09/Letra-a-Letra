@@ -12,12 +12,12 @@ import { SendSocket } from "../utils/game_utils/sendSocket";
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
-    public createRoom(player: Player) {
-        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player]);
-        createLog(room.getRoomId(), LogEnum.RoomCreated);
-        createLog(room.getRoomId(), `${player.nickname} ${LogEnum.PlayerJoinned}`);
+    public createRoom(player: Player, privateRoom: boolean) {
+        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player], privateRoom);
+        createLog(room.room_id, LogEnum.RoomCreated);
+        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinned}`);
 
-        this.rooms.set(room.getRoomId(), room);
+        this.rooms.set(room.room_id, room);
 
         return room;
     };
@@ -25,18 +25,18 @@ class RoomServices {
     public joinRoom(room_id: string, player: Player) {
         const room = this.rooms.get(room_id);
         if (!room) return ServerResponses.NotFound;
-        const players = room?.getPlayers();
+        const players = room.players;
         if (!players) return ServerResponses.NotFound;
 
         if (players.length >= 2) return RoomResponses.FullRoom;
         
         players.push(player);
-        createLog(room.getRoomId(), `${player.nickname} ${LogEnum.PlayerJoinned}`);
+        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinned}`);
 
         const io = getSocketInstance();
 
         players.forEach(p => {
-            io.to(p.id).emit("player_joinned", room);
+            io.to(p.player_id).emit("player_joinned", room);
         })
 
         return room;
@@ -47,10 +47,10 @@ class RoomServices {
 
         if (!room) return ServerResponses.NotFound;
 
-        const desconnectedPlayer = room.getPlayers().find(p => p.nickname === nickname);
+        const desconnectedPlayer = room.players.find(p => p.nickname === nickname);
 
         if (desconnectedPlayer) {
-            desconnectedPlayer.id = new_id;
+            desconnectedPlayer.player_id = new_id;
             createLog(room_id, `${nickname} ${LogEnum.PlayerReconnected}`);
 
             return ServerResponses.Reconnected;
@@ -60,16 +60,16 @@ class RoomServices {
     public leaveRoom(room_id: string, player_id: string): ServerResponses.NotFound | RoomResponses.LeftRoom {
         const room = this.rooms.get(room_id);
         if (!room) return ServerResponses.NotFound;
-        const players = room!.getPlayers();
+        const players = room!.players;
         if (!players) return ServerResponses.NotFound;
         const player = players.find(p =>
-            p.id === player_id
+            p.player_id === player_id
         )
         if (!player) return ServerResponses.NotFound;
 
         const index = players.indexOf(player);
         players.splice(index, 1);
-        createLog(room.getRoomId(), `${player.nickname} ${LogEnum.PlayerLeft}`);
+        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);
 
         if (players.length === 0) {
             this.closeRoom(room_id);
@@ -79,7 +79,7 @@ class RoomServices {
         const io = getSocketInstance();
 
         players.forEach(p => {
-            io.to(p.id).emit("player_left", room);
+            io.to(p.player_id).emit("player_left", room);
         })
 
         return RoomResponses.LeftRoom;
@@ -89,6 +89,18 @@ class RoomServices {
         return this.rooms.get(id);
     }
 
+    public getPublicRooms() {
+        const publicRooms: Game[] = [];
+
+        this.rooms.forEach(room => {
+            if (!room.privateRoom) {
+                publicRooms.push(room);
+            }
+        })
+
+        return publicRooms;
+    }
+
     protected closeRoom(room_id: string) {
         return this.rooms.delete(room_id);
     }
@@ -96,9 +108,9 @@ class RoomServices {
     public afkPlayer(room_id: string, player_id: string) {
         const room = this.rooms.get(room_id);
         if (!room) return ServerResponses.NotFound;
-        const players = room.getPlayers();
+        const players = room.players;
 
-        const player = players.find(p => p.id === player_id);
+        const player = players.find(p => p.player_id === player_id);
         if (!player) return ServerResponses.NotFound;
 
         players.slice(players.indexOf(player), 1);
