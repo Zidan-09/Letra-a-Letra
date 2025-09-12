@@ -1,19 +1,13 @@
 import { Player } from "../entities/player";
 
 export const PlayerServices = {
-    createPlayer(idSocket: string, nickname: string): Player | undefined {
-        const player: Player = {
-            id: idSocket,
-            nickname: nickname,
-            turn: undefined,
-            score: 0,
-            passed: 0
-        }
+    createPlayer(socket_id: string, nickname: string): Player | undefined {
+        const player: Player = new Player(socket_id, nickname)
 
         return player;
     },
 
-    getPlayer(id: string) {
-        
+    getPlayer(player_id: string) {
+        return new Player(player_id, "Bananilson")
     },
 }

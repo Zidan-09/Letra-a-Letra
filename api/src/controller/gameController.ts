@@ -1,10 +1,11 @@
 import { Request, Response, text } from 'express';
 import { HandleResponse } from '../utils/server_utils/handleResponse';
 import { GameService } from '../services/gameServices';
-import { PassTurn, RevealLetter, StartGame } from '../utils/requests/gameRequests';
+import { Movement, PassTurn, StartGame } from '../utils/requests/gameRequests';
 import { GameResponses } from '../utils/responses/gameResponses';
 import { ServerResponses } from '../utils/responses/serverResponses';
 import { SendSocket } from '../utils/game_utils/sendSocket';
+import { HandleSocket } from '../utils/server_utils/handleSocket';
 
 export const gameController = {
     startGame(req: Request<StartGame>, res: Response) {
@@ -27,19 +28,19 @@ export const gameController = {
         }
     },
 
-    revealLetter(req: Request<{}, {}, RevealLetter>, res: Response) {
+    moveGame(req: Request<{}, {}, Movement>, res: Response) {
         try {
-            const data = req.body;
+            const { room_id, player_id, movement, x, y } = req.body;
 
-            const result = GameService.revealLetter(data);
+            const result = GameService.moveGame(room_id, player_id, movement, x, y);
 
-            if (result === (GameResponses.GameError || ServerResponses.NotFound)) return (
+            if (typeof result === "string") return (
                 HandleResponse.serverResponse(res, 400, false, result)
             );
 
-            SendSocket.letterRevealed(data.room_id, data.x, data.y, result, data.player_id);
+            HandleSocket(room_id, player_id, movement, result)
 
-            return HandleResponse.serverResponse(res, 200, true, GameResponses.Revealed);
+            return HandleResponse.serverResponse(res, 200, true, result.status);
 
         } catch (err) {
             console.error(err);
