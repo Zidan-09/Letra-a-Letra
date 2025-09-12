@@ -8,40 +8,36 @@
 </head>
 <body>
   <div class="container">
+
     <h1 class="title">Letra a Letra</h1>
 
-    <!-- Informações da sala -->
-    <div class="room-info">
-      <p><strong>Nickname:</strong> <span id="nickname-display"></span></p>
-      <p><strong>Room ID:</strong> <span id="room-display"></span></p>
-      <p><strong>Turno:</strong> <span id="turn-display">0</span></p>
+    <!-- Etapa 1: Espera -->
+    <div id="waiting-stage">
+      <p>Painel da sala: <strong id="room-id-waiting"></strong></p>
+      <div id="players-panel-waiting">
+        <h3>Jogadores na sala:</h3>
+        <ul id="players-list-waiting"></ul>
+      </div>
+      <div class="buttons">
+        <button id="back-btn-waiting">Voltar</button>
+        <button id="start-btn" disabled>Play</button>
+      </div>
     </div>
 
-    <!-- Tabuleiro -->
-    <div class="board" id="board">
-      <!-- Células geradas pelo JS -->
+    <!-- Etapa 2: Partida -->
+    <div id="game-stage" style="display:none;">
+      <div class="room-info">
+        <p><strong>Nickname:</strong> <span id="nickname-display"></span></p>
+        <p><strong>Room ID:</strong> <span id="room-display"></span></p>
+        <p><strong>Turno:</strong> <span id="turn-display">0</span></p>
+      </div>
+      <div class="board" id="board"></div>
+      <div class="players-panel" id="players-panel"></div>
+      <div class="logs-panel" id="logs-panel"></div>
     </div>
 
-    <!-- Lista de jogadores -->
-    <div class="players-panel" id="players-panel">
-      <h3>Jogadores</h3>
-      <ul id="players-list"></ul>
-    </div>
-
-    <!-- Logs -->
-    <div class="logs-panel" id="logs-panel">
-      <h3>Logs</h3>
-      <ul id="logs-list"></ul>
-    </div>
-
-    <!-- Botões de teste -->
-    <div class="buttons">
-      <button id="pass-turn-btn">Passar Turno</button>
-      <button id="end-game-btn">Finalizar Jogo</button>
-    </div>
   </div>
 
-  <!-- Socket.io -->
   <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
   <script src="../scripts/game_scripts.js"></script>
 </body>
