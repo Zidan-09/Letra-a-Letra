@@ -12,8 +12,8 @@ app.use(express.json());
 
 const VERSION: string = process.env.VERSION || "v1"
 
-app.use(`${VERSION}/room`, roomRouter);
-app.use(`${VERSION}/game`, gameRouter);
-app.use(`${VERSION}/player`, playerRouter);
+app.use(`/room`, roomRouter);
+app.use(`/game`, gameRouter);
+app.use(`/player`, playerRouter);
 
 export default app;

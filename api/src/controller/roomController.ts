@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
-import { CreateRoom, GetRoom, JoinRoom, LeaveRoom } from "../utils/requests/roomRequests";
+import { CreateRoom, JoinRoom, LeaveRoom } from "../utils/requests/roomRequests";
 import { PlayerServices } from "../services/playerServices";
 import { RoomService } from "../services/roomServices";
 import { RoomResponses } from "../utils/responses/roomResponses";
@@ -53,7 +53,7 @@ export const RoomController = {
         try {
            const rooms = RoomService.getPublicRooms();
 
-           HandleResponse.serverResponse(res, 200, true, RoomResponses.PublicRooms, rooms);
+           return HandleResponse.serverResponse(res, 200, true, RoomResponses.PublicRooms, rooms);
            
         } catch (err) {
             console.error(err);
