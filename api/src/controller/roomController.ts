@@ -9,12 +9,12 @@ import { ServerResponses } from "../utils/responses/serverResponses";
 export const RoomController = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response) {
         try {
-            const data: CreateRoom = req.body;
+            const { socket_id, nickname, privateRoom }: CreateRoom = req.body;
 
-            const player = PlayerServices.createPlayer(data.socket_id, data.nickname);
+            const player = PlayerServices.createPlayer(socket_id, nickname);
 
             if (player) {
-                const room = RoomService.createRoom(player);
+                const room = RoomService.createRoom(player, privateRoom);
                 if (room) {
                     return HandleResponse.serverResponse(res, 201, true, RoomResponses.RoomCreated, room)
                 }
@@ -49,15 +49,12 @@ export const RoomController = {
         }
     },
 
-    getRoom(req: Request<GetRoom>, res: Response) {
+    getRooms(req: Request, res: Response) {
         try {
-            const { room_id } = req.params;
+           const rooms = RoomService.getPublicRooms();
 
-            const room = RoomService.getRoom(room_id);
-
-            if (!room) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
-
-            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomFinded, room);
+           HandleResponse.serverResponse(res, 200, true, RoomResponses.PublicRooms, rooms);
+           
         } catch (err) {
             console.error(err);
             HandleResponse.errorResponse(res, err);

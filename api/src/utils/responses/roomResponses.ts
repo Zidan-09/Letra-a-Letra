@@ -4,5 +4,6 @@ export enum RoomResponses {
     RoomJoinned = "room_joinned",
     RoomFinded = "room_finded",
     FullRoom = "full_room",
-    LeftRoom = "left_room"
+    LeftRoom = "left_room",
+    PublicRooms = "public_rooms",
 }
