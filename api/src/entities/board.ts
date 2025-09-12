@@ -2,6 +2,7 @@ import { selectTheme } from "../utils/board_utils/selectTheme";
 import { placeWord } from "../utils/board_utils/placeWord";
 import { canPlaceWord } from "../utils/board_utils/canPlaceWord";
 import { Cell } from "./cell";
+import { Themes } from "../utils/board_utils/themesEnum";
 
 export class Board {
     range: number = 9;
@@ -9,8 +10,8 @@ export class Board {
     grid: Cell[][];
     wordPositions: { [word: string]: [number, number][] } = {};
 
-    constructor() {
-        this.words = selectTheme();
+    constructor(theme: Themes) {
+        this.words = selectTheme(theme);
         this.grid = this.createBoard(this.words);
     }
 

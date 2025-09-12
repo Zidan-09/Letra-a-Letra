@@ -1,8 +1,6 @@
 interface CreateRoom {
     socket_id: string;
     nickname: string;
-    theme: string;
-    turn_time: string;
     privateRoom: boolean;
 }
 

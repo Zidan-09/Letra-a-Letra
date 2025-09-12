@@ -1,3 +1,4 @@
+import { Themes } from "../utils/board_utils/themesEnum";
 import { GameStatus } from "../utils/game_utils/gameStatus";
 import { Board } from "./board";
 import { Player } from "./player";
@@ -19,8 +20,8 @@ export class Game {
         this.privateRoom = privateRoom;
     }
 
-    public startGame() {
-        this.board = new Board();
+    public startGame(theme: Themes) {
+        this.board = new Board(theme);
         this.turn = 0;
         this.status = GameStatus.GameRunning;
     }
