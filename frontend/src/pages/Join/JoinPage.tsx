@@ -1,4 +1,3 @@
-// src/pages/JoinPage.tsx
 import { useState } from 'react';
 import { socket } from '../../services/socket';
 import type { Page } from '../../App';

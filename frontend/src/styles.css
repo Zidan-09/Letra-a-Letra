@@ -162,7 +162,7 @@ body {
     cursor: pointer;
 }
 
-/* 🎨 Variáveis globais */
+
 :root {
     --color-bg: #0f1d8a;
     --color-bg-hover: #0f598a;
@@ -174,7 +174,7 @@ body {
     --font-body: Arial, sans-serif;
 }
 
-/* 🌌 Fundo */
+
 body {
     display: flex;
     justify-content: center;
@@ -186,7 +186,7 @@ body {
     font-family: var(--font-body);
 }
 
-/* 🪟 Painel */
+
 .panel {
     display: flex;
     flex-direction: column;
@@ -203,7 +203,7 @@ body {
     padding: 1rem;
 }
 
-/* 📌 Título */
+
 .panel h2 {
     color: var(--color-text);
     font-family: var(--font-title);
@@ -211,7 +211,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* 👥 Lista de players */
+
 #players {
     display: flex;
     flex-direction: column;
@@ -237,7 +237,6 @@ body {
     margin: 0.3rem 0;
 }
 
-/* 🎮 Botão */
 .panel input[type="button"] {
     width: 8rem;
     height: 3rem;

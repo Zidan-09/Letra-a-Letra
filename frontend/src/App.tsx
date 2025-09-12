@@ -1,10 +1,8 @@
-// src/App.tsx
 import { useState } from 'react';
 import HomePage from './pages/Home/HomePage';
 import JoinPage from './pages/Join/JoinPage';
 import RoomPage from './pages/Room/RoomPage';
 
-// Define os tipos para facilitar a vida com TypeScript
 export type Page = 'home' | 'join' | 'room';
 
 function App() {
@@ -12,7 +10,6 @@ function App() {
   const [nickname, setNickname] = useState<string>('');
   const [roomId, setRoomId] = useState<string>('');
 
-  // Função para navegar entre as "páginas"
   const navigate = (targetPage: Page, data: { roomId?: string } = {}) => {
     if (data.roomId) {
       setRoomId(data.roomId);

@@ -1,4 +1,3 @@
-// src/pages/RoomPage.tsx
 import { useState, useEffect } from 'react';
 import { socket } from '../../services/socket';
 import type { Page } from '../../App';
@@ -25,16 +24,11 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
   const [players, setPlayers] = useState<Player[]>([]);
   const [gameStarted, setGameStarted] = useState(false);
   const [words, setWords] = useState<string[]>([]);
-  const [grid, setGrid] = useState<GridCell[][]>([]); // Estado para o grid
+  const [grid, setGrid] = useState<GridCell[][]>([]);
   const [firstPlayer, setFirstPlayer] = useState<string | null>(null);
 
-  // useEffect para configurar os listeners do socket
   useEffect(() => {
-    // Se não tivermos um ID de sala, não faz sentido estar aqui
-    // Isso pode acontecer se o usuário atualizar a página
-    // Uma lógica de reconexão seria necessária aqui, usando localStorage
     if (!roomId) {
-        // Tenta reconectar (lógica simplificada)
         const savedRoomId = localStorage.getItem("room_id");
         if(savedRoomId) {
             socket.connect();
@@ -45,7 +39,6 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
         }
     }
 
-    // --- LISTENERS DO SOCKET ---
     const onPlayerJoined = (room: { players: Player[] }) => {
       setPlayers(room.players);
     };
@@ -56,7 +49,7 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
         setFirstPlayer(first);
         setWords(wordList);
         setGameStarted(true);
-        // Inicializa o grid vazio aqui
+
         const newGrid = Array(10).fill(null).map(() => Array(10).fill({
             letter: '',
             revealed: false,
@@ -66,7 +59,7 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
     };
     const onLetterRevealed = ({ x, y, data, player_id }: { x: number, y: number, data: string | { letter: string }, player_id: string }) => {
         setGrid(prevGrid => {
-            const newGrid = prevGrid.map(row => [...row]); // Cópia profunda
+            const newGrid = prevGrid.map(row => [...row]);
             const letter = typeof data === 'string' ? data : data.letter;
             newGrid[x][y] = { letter, revealed: true, owner: player_id };
             return newGrid;
@@ -78,14 +71,13 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
     socket.on("game_started", onGameStarted);
     socket.on("letter_revealed", onLetterRevealed);
     
-    // Função de limpeza: Roda quando o componente é "desmontado"
     return () => {
       socket.off("player_joinned", onPlayerJoined);
       socket.off("player_left", onPlayerLeft);
       socket.off("game_started", onGameStarted);
       socket.off("letter_revealed", onLetterRevealed);
     };
-  }, [roomId, nickname, navigate]); // Dependências do useEffect
+  }, [roomId, nickname, navigate]);
 
   const handleStartGame = () => {
     fetch(`http://localhost:3333/game/startGame/${roomId}`);
@@ -137,7 +129,6 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
     );
   }
 
-  // Renderiza o jogo
   return (
     <div className="all" style={{ display: 'flex' }}>
         <div className="words">
@@ -165,10 +156,9 @@ function RoomPage({ roomId, nickname, navigate }: RoomPageProps) {
                 )}
             </div>
         </div>
-        <div className="chat" id="chat">
-            {/* O chat pode ser um componente futuro! */}
+        {/* <div className="chat" id="chat"> */}
         </div>
-    </div>
+    // </div>
   );
 }
 
