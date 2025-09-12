@@ -8,13 +8,15 @@ export class Game {
     players: Player[];
     turn: number;
     board: Board | null;
+    privateRoom: boolean;
 
-    constructor(room_id: string, status: GameStatus, players: Player[]) {
+    constructor(room_id: string, status: GameStatus, players: Player[], privateRoom: boolean) {
         this.room_id = room_id;
         this.status = status;
         this.players = players;
         this.turn = 0;
         this.board = null;
+        this.privateRoom = privateRoom;
     }
 
     public startGame() {

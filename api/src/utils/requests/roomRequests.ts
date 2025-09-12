@@ -1,6 +1,7 @@
 interface CreateRoom {
     socket_id: string;
     nickname: string;
+    privateRoom: boolean;
 }
 
 interface JoinRoom {

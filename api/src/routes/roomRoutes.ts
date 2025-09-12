@@ -5,7 +5,7 @@ const roomRouter: Router = Router();
 
 roomRouter.post("/createRoom", RoomController.createRoom);
 roomRouter.post("/joinRoom", RoomController.joinRoom);
-roomRouter.get("/getRoom/:room_id", RoomController.getRoom);
+roomRouter.get("/getRooms", RoomController.getRooms);
 roomRouter.post("/leaveRoom", RoomController.leaveRoom);
 
 export default roomRouter;

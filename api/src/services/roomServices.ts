@@ -12,8 +12,8 @@ import { SendSocket } from "../utils/game_utils/sendSocket";
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
-    public createRoom(player: Player) {
-        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player]);
+    public createRoom(player: Player, privateRoom: boolean) {
+        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player], privateRoom);
         createLog(room.room_id, LogEnum.RoomCreated);
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinned}`);
 
@@ -87,6 +87,18 @@ class RoomServices {
 
     public getRoom(id: string): Game | undefined {
         return this.rooms.get(id);
+    }
+
+    public getPublicRooms() {
+        const publicRooms: Game[] = [];
+
+        this.rooms.forEach(room => {
+            if (!room.privateRoom) {
+                publicRooms.push(room);
+            }
+        })
+
+        return publicRooms;
     }
 
     protected closeRoom(room_id: string) {
