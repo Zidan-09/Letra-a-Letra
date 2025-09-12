@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Sala - Letra a Letra</title>
+  <link rel="stylesheet" href="../styles/create_styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Criar Sala</h1>
+
+    <div class="form">
+      <label for="theme">Tema:</label>
+      <select id="theme">
+        <option value="aleatorio" selected>Aleatório</option>
+        <option value="Tech">Tech</option>
+        <option value="Natureza">Natureza</option>
+        <option value="Esportes">Esportes</option>
+      </select>
+
+      <label for="turn_time">Tempo máximo do turno (segundos):</label>
+      <input type="number" id="turn_time" min="5" max="30" value="15">
+
+      <label for="private_room">Sala privada:</label>
+      <input type="checkbox" id="private_room">
+
+      <div class="buttons">
+        <button id="back-btn">Voltar</button>
+        <button id="create-btn">Criar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
+  <script src="../scripts/create_scripts.js"></script>
+</body>
+</html>
