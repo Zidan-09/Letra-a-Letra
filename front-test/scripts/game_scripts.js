@@ -52,12 +52,12 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.dataset.y = y;
         cell.textContent = "";
         cell.addEventListener("click", async () => {
-          await fetch("http://localhost:3333/game/revealLetter", {
+          await fetch("http://localhost:3333/game/moveGame", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               room_id,
-              player_id: nickname, // substituir pelo player_id real
+              player_id: socket.id,
               movement: "REVEAL",
               x,
               y
@@ -82,8 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const body = {
           socket_id: socket.id,
           nickname,
-          theme: localStorage.getItem("theme"),
-          turn_time: parseInt(localStorage.getItem("turn_time")),
           privateRoom: localStorage.getItem("privateRoom") === "true"
         };
 
@@ -94,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const data = await res.json();
-        room_id = data.room_id || room_id;
+        room_id = data.data.room_id;
         localStorage.setItem("room_id", room_id);
         roomDisplay.textContent = room_id;
         addLog("Sala criada com sucesso!");
@@ -112,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const data = await res.json();
+        console.log(data)
         addLog("Entrou na sala com sucesso!");
       }
     } catch (err) {
@@ -150,15 +149,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Movimento recebido
-  socket.on("movement", (data) => {
-    const { x, y, status, letter, completedWord } = data;
+  socket.on("movement", (res) => {
+    console.log("recebi:", res)
+    const { movement, player_id, data } = res;
+    console.log(data)
 
-    if (status === "revealed") {
-      const cell = board.querySelector(`.cell[data-x='${x}'][data-y='${y}']`);
-      if (cell) cell.textContent = letter;
+    if (data.status === "REVEAL") {
+      const cell = board.querySelector(`.cell[data-x='${data.cell.x}'][data-y='${data.cell.y}']`);
+      if (cell) cell.textContent = data.letter;
 
       addLog(`Letra revelada em (${x},${y}): ${letter}`);
-      if (completedWord) addLog(`Palavra completada: ${completedWord}`);
+      if (data.completedWord) addLog(`Palavra completada: ${data.completedWord}`);
     }
   });
 
@@ -169,7 +170,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   playBtn.addEventListener("click", async () => {
     try {
-      await fetch(`http://localhost:3333/game/startGame/${room_id}`, { method: "GET" });
+      await fetch(`http://localhost:3333/game/startGame`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          room_id,
+          theme: localStorage.getItem("theme")
+        })
+      }).then(res => res.json()).then(data => {
+        console.log(data)
+      });
       addLog("Solicitado início da partida...");
       playBtn.disabled = true;
     } catch (err) {
