@@ -48,12 +48,14 @@ export const Movements = {
         if (result) return {
             status: GameResponses.Revealed,
             letter: cell.letter,
+            cell: cell.position,
             completedWord: result.completedWord
         }
 
         return {
             status: GameResponses.Revealed,
-            letter: cell.letter
+            letter: cell.letter,
+            cell: cell.position,
         };
     },
 
@@ -159,7 +161,8 @@ export const Movements = {
         return {
             status: GameResponses.Spied,
             for: player_id,
-            letter: cell.letter
+            letter: cell.letter,
+            cell: cell.position
         }
     }
 }
