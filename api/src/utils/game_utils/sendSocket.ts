@@ -30,7 +30,7 @@ export const SendSocket = {
         const room = RoomService.getRoom(room_id);
         if (!room) return;
 
-        io.to(player_id).emit("movement", movement, player_id, data)
+        io.to(player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
     },
 
     movementAll(room_id: string, player_id: string, movement: MovementsEnum, data: GameResponses | ServerResponses | MoveEmit) {
@@ -41,7 +41,7 @@ export const SendSocket = {
         const players = room.players;
 
         players.forEach(p =>
-            io.to(p.player_id).emit("movement", movement, player_id, data)
+            io.to(p.player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
         )
     },
 
