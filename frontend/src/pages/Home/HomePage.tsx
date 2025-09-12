@@ -1,4 +1,3 @@
-// src/pages/HomePage.tsx
 import { useState } from 'react';
 import { socket } from '../../services/socket';
 import type { Page } from '../../App';
@@ -15,7 +14,6 @@ function HomePage({ setNickname, navigate }: HomePageProps) {
     if (!currentNickname.trim()) return alert('Nickname inválido');
     setNickname(currentNickname);
 
-    // Conecta o socket e depois cria a sala  
     socket.connect();
     socket.once('connect', () => {
       fetch(`http://localhost:3333/room/createRoom`, {
@@ -27,10 +25,6 @@ function HomePage({ setNickname, navigate }: HomePageProps) {
       .then(data => {
         console.log(data)
         if (data.message === 'room_created' && data.data.room_id) {
-          // Navega para a RoomPage (o App.tsx vai receber e trocar o componente)
-          // Em vez de localStorage, o App.tsx vai passar o roomId para o componente RoomPage
-          // Nós faremos isso no próximo passo, por enquanto, vamos navegar.
-          console.log('vamos')
           navigate('room', {roomId: data.data.room_id});
         }
       });
@@ -41,7 +35,6 @@ function HomePage({ setNickname, navigate }: HomePageProps) {
     if (!currentNickname.trim()) return alert('Nickname inválido');
     setNickname(currentNickname);
 
-    // Conecta e navega para a página de Join
     socket.connect();
     socket.once('connect', () => {
       navigate('join');
