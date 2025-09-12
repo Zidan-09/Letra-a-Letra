@@ -1,5 +1,7 @@
-export function selectTheme(): string[] {
-    const Themes = {
+import { Themes } from "./themesEnum";
+
+export function selectTheme(theme: Themes): string[] {
+    const ThemesList = {
         tech_1: ["backend", "frontend", "database", "software", "hardware"],
         tech_2: ["python", "typescript", "flutter", "nodejs", "java"],
 
@@ -31,8 +33,19 @@ export function selectTheme(): string[] {
         space_2: ["plutao", "jupiter", "netuno", "mercurio", "lua"]
     };
 
+    if (theme !== Themes.RANDOM) {
+        const filtered = Object.entries(ThemesList)
+        .filter(([key]) => key.startsWith(theme))
+        .map(([, value]) => value); 
 
-    const themes = Object.values(Themes);
+        if (filtered.length > 0) {
+            const index = Math.floor(Math.random() * filtered.length);
+
+            if (filtered[index]) return filtered[index];
+        }
+    }
+
+    const themes = Object.values(ThemesList);
     const index = Math.floor(Math.random() * themes.length);
 
     if (themes[index]) return themes[index];

@@ -8,11 +8,11 @@ import { SendSocket } from '../utils/game_utils/sendSocket';
 import { HandleSocket } from '../utils/server_utils/handleSocket';
 
 export const gameController = {
-    startGame(req: Request<StartGame>, res: Response) {
+    startGame(req: Request<{}, {}, StartGame>, res: Response) {
         try {
-            const { room_id } = req.params;
+            const { room_id, theme } = req.body;
 
-            const result = GameService.startGame(room_id);
+            const result = GameService.startGame(room_id, theme);
 
             if (result === (GameResponses.NotEnoughPlayers || ServerResponses.NotFound)) return (
                 HandleResponse.serverResponse(res, 400, false, result)

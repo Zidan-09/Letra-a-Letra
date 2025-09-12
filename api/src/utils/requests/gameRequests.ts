@@ -1,7 +1,9 @@
 import { MovementsEnum } from "../board_utils/movementsEnum";
+import { Themes } from "../board_utils/themesEnum";
 
 interface StartGame {
     room_id: string;
+    theme: Themes;
 }
 
 interface PassTurn {

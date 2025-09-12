@@ -6,9 +6,10 @@ import { LogEnum } from "../utils/server_utils/logEnum";
 import { createLog } from "../utils/server_utils/logs";
 import { RoomService } from "./roomServices";
 import { Movements } from "../utils/board_utils/movements";
+import { Themes } from "../utils/board_utils/themesEnum";
 
 export const GameService = {
-    startGame(room_id: string) {
+    startGame(room_id: string, theme: Themes) {
         const game = RoomService.getRoom(room_id);
         if (!game) return ServerResponses.NotFound;
         const players = game.players;
@@ -16,7 +17,7 @@ export const GameService = {
 
         if (players.length < 2) return GameResponses.NotEnoughPlayers;
 
-        game.startGame();
+        game.startGame(theme);
         
         const first_player = Math.floor(Math.random() * 2);
 
