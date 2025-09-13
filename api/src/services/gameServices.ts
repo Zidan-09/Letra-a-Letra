@@ -67,9 +67,11 @@ export const GameService = {
         if (!player || game.turn % 2 !== player.turn || !board) return GameResponses.GameError;
         if (player.freeze && movement !== MovementsEnum.UNFREEZE) return GameResponses.PlayerFrozen;
 
+        game.icrementTurn();
+
         switch (movement) {
             case MovementsEnum.REVEAL:
-                return Movements.clickCell(board, x, y, player_id);
+                return Movements.clickCell(board, x, y, player, room_id);
             case MovementsEnum.BLOCK:
                 createLog(room_id, `${player.nickname} ${LogEnum.Blocked} => x: ${x} y: ${y}`)
                 return Movements.blockCell(board, x, y, player_id);
