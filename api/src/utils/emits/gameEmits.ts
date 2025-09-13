@@ -12,7 +12,7 @@ interface MoveEmit {
     cell?: { x: number, y: number };
     remaining?: number;
     letter?: string;
-    completedWord?: string;
+    completedWord?: { word: string, positions: [number, number][] };
     blocked_by?: string;
     trapped_by?: string;
     traps?: { x: number, y: number }[];

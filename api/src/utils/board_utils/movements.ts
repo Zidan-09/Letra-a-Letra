@@ -64,7 +64,7 @@ export const Movements = {
                 letter: cell.letter,
                 cell: cell.position,
                 power: cell.power,
-                completedWord: result.completedWord
+                completedWord: { word: result.completedWord, positions: result.positions }
             }
         }
 
