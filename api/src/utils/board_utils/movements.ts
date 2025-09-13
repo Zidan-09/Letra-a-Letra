@@ -57,13 +57,14 @@ export const Movements = {
         if (result) {
 
             createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} => x: ${x} y: ${y} - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
-
+            board.finded++;
+            
             return {
                 status: GameResponses.Revealed,
                 letter: cell.letter,
                 cell: cell.position,
                 power: cell.power,
-                completedWord: result.completedWord
+                completedWord: { word: result.completedWord, positions: result.positions }
             }
         }
 

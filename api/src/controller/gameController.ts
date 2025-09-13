@@ -14,7 +14,7 @@ export const gameController = {
 
             const result = GameService.startGame(room_id, theme);
 
-            if (result === (GameResponses.NotEnoughPlayers || ServerResponses.NotFound)) return (
+            if (result === GameResponses.NotEnoughPlayers || result === ServerResponses.NotFound) return (
                 HandleResponse.serverResponse(res, 400, false, result)
             );
             
@@ -38,7 +38,8 @@ export const gameController = {
                 HandleResponse.serverResponse(res, 400, false, result)
             );
 
-            HandleSocket(room_id, player_id, movement, result)
+            HandleSocket(room_id, player_id, movement, result);
+            SendSocket.gameOver(room_id);
 
             return HandleResponse.serverResponse(res, 200, true, result.status);
 

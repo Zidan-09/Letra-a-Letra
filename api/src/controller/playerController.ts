@@ -5,11 +5,12 @@ import { HandleResponse } from "../utils/server_utils/handleResponse";
 export const PlayerController = {
     getPlayer(req: Request<string>, res: Response) {
         try {
-            const id = req.params;
+            const player_id = req.params;
 
-            const player = PlayerServices.getPlayer(id);
+            const player = PlayerServices.getPlayer(player_id);
 
-            return HandleResponse.serverResponse(res, 200, true, "player_founded", player);
+            if (player) return HandleResponse.serverResponse(res, 200, true, "player_founded", player);
+            return HandleResponse.serverResponse(res, 404, false, "not_found");
 
         } catch (err) {
             console.error(err);

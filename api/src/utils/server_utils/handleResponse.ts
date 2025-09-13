@@ -2,7 +2,7 @@ import { Response } from "express";
 import { ServerResponses } from "../responses/serverResponses";
 
 export const HandleResponse = {
-    async serverResponse(res: Response, statusCode: number, success: boolean, message: string, data?: any) {
+    serverResponse(res: Response, statusCode: number, success: boolean, message: string, data?: any) {
         res.status(statusCode).json({
             success: success,
             message: message,
@@ -10,7 +10,7 @@ export const HandleResponse = {
         })
     },
 
-    async errorResponse(res: Response, err: any) {
+    errorResponse(res: Response, err: any) {
         res.status(500).json({
             success: false,
             message: ServerResponses.ServerError,

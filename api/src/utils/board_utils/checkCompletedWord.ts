@@ -7,7 +7,8 @@ export function checkWordCompletion(board: Board, row: number, column: number) {
 
             if (completed) {
                 return {
-                    completedWord: word
+                    completedWord: word,
+                    positions: positions
                 };
             }
         }
