@@ -1,3 +1,4 @@
+import { Themes } from "../utils/board_utils/themesEnum";
 import { GameStatus } from "../utils/game_utils/gameStatus";
 import { Board } from "./board";
 import { Player } from "./player";
@@ -19,8 +20,8 @@ export class Game {
         this.privateRoom = privateRoom;
     }
 
-    public startGame() {
-        this.board = new Board();
+    public startGame(theme: Themes) {
+        this.board = new Board(theme);
         this.turn = 0;
         this.status = GameStatus.GameRunning;
     }
@@ -29,16 +30,16 @@ export class Game {
         this.status = status;
     }
 
-    public icrementTurn() {
+    public incrementTurn() {
         this.turn++;
     }
 
-    gameOver(): Player | null {
+    gameOver(): Player | false {
        const [p1, p2] = this.players;
 
-       if (this.turn < 100 && p1 && p2) return null;
+       if (!this.board || (this.board.finded < this.board.words.length && p1 && p2)) return false;
 
-       if (!p1 || !p2) return (p1 || p2) ?? null;
+       if (!p1 || !p2) return (p1 || p2) ?? false;
 
        return p1.score > p2.score ? p1 : p2;
     }

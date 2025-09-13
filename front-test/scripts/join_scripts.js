@@ -27,7 +27,7 @@ function selectRoom(roomId, element) {
 
 async function fetchRooms() {
   try {
-    const res = await fetch("http://localhost:3333/v1/room/getRooms");
+    const res = await fetch("http://localhost:3333/room/getRooms");
     const json = await res.json();
     const rooms = json.data.filter(r => !r.privateRoom);
 
