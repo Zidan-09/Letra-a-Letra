@@ -67,7 +67,7 @@ export const GameService = {
         if (!player || game.turn % 2 !== player.turn || !board) return GameResponses.GameError;
         if (player.freeze && movement !== MovementsEnum.UNFREEZE) return GameResponses.PlayerFrozen;
 
-        game.icrementTurn();
+        game.incrementTurn();
 
         switch (movement) {
             case MovementsEnum.REVEAL:

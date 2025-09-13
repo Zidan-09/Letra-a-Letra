@@ -15,7 +15,7 @@ class RoomServices {
     public createRoom(player: Player, privateRoom: boolean) {
         const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player], privateRoom);
         createLog(room.room_id, LogEnum.RoomCreated);
-        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinned}`);
+        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
 
         this.rooms.set(room.room_id, room);
 
@@ -31,7 +31,7 @@ class RoomServices {
         if (players.length >= 2) return RoomResponses.FullRoom;
         
         players.push(player);
-        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinned}`);
+        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
 
         const io = getSocketInstance();
 
@@ -113,7 +113,7 @@ class RoomServices {
         const player = players.find(p => p.player_id === player_id);
         if (!player) return ServerResponses.NotFound;
 
-        players.slice(players.indexOf(player), 1);
+        players.splice(players.indexOf(player), 1);
 
         SendSocket.gameOver(room_id);
         return ServerResponses.Ended;

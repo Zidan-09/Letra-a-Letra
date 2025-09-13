@@ -1,7 +1,7 @@
 export enum LogEnum {
     RoomCreated = "room created",
     RoomClosed = "room closed",
-    PlayerJoinned = "joinned the game",
+    PlayerJoined = "joinned the game",
     PlayerReconnected = "reconnected the game",
     PlayerLeft = "left the game",
     GameStarted = "game started",

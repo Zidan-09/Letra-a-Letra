@@ -7,6 +7,7 @@ import { Themes } from "../utils/board_utils/themesEnum";
 export class Board {
     range: number = 9;
     words: string[];
+    finded: number = 0;
     grid: Cell[][];
     wordPositions: { [word: string]: [number, number][] } = {};
 
