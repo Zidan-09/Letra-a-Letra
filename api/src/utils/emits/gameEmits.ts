@@ -1,4 +1,5 @@
 import { Player } from "../../entities/player";
+import { MovementsEnum } from "../board_utils/movementsEnum";
 import { GameResponses } from "../responses/gameResponses";
 
 interface GameStarted {
@@ -17,6 +18,7 @@ interface MoveEmit {
     traps?: { x: number, y: number }[];
     player?: string;
     for?: string;
+    power?: { hasPowerup: boolean, powerup: MovementsEnum | null }
 }
 
 export { GameStarted, MoveEmit }
