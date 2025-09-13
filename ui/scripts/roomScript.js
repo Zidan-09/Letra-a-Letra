@@ -31,9 +31,7 @@ startBtn.addEventListener("click", () => {
 
   if (!room_id) return alert("DEBUG: Não tem id guardado");
 
-  fetch(`http://${serverIp}:3333/game/startGame/${room_id}`).then(res => res.json()).then(data => {
-    console.log(data);
-  })
+  fetch(`http://${serverIp}:3333/game/startGame/${room_id}`).then(res => res.json())
 });
 
 function createGrid() {
@@ -122,7 +120,6 @@ export function leaveRoom() {
     }).then(
       res => res.json()
     ).then(data => {
-      console.log(data);
       if (data.success) {
         window.location.href = "index.html"
       } else {

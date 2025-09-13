@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const roomDisplay = document.getElementById("room-display");
   const playersListWaiting = document.getElementById("players-list-waiting");
-  const logsList = document.getElementById("logs-list");
+  const logsList = document.getElementById("logs-panel");
 
   const playBtn = document.getElementById("start-btn"); // corrigido id
   const backBtn = document.getElementById("back-btn-waiting"); // corrigido id
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
               x,
               y
             })
-          }).then(res => res.json()).then(data => { console.log(data)}).catch(err => console.error(err));
+          }).catch(err => console.error(err));
         });
         board.appendChild(cell);
       }
@@ -110,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const data = await res.json();
-        console.log(data)
         addLog("Entrou na sala com sucesso!");
       }
     } catch (err) {
@@ -150,15 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Movimento recebido
   socket.on("movement", (res) => {
-    console.log("recebi:", res)
     const { movement, player_id, data } = res;
-    console.log(data)
 
-    if (data.status === "REVEAL") {
+    if (movement === "REVEAL") {
       const cell = board.querySelector(`.cell[data-x='${data.cell.x}'][data-y='${data.cell.y}']`);
       if (cell) cell.textContent = data.letter;
 
-      addLog(`Letra revelada em (${x},${y}): ${letter}`);
+      addLog(`Letra revelada em (${data.cell.x},${data.cell.y}): ${data.letter}`);
       if (data.completedWord) addLog(`Palavra completada: ${data.completedWord}`);
     }
   });
@@ -177,9 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
           room_id,
           theme: localStorage.getItem("theme")
         })
-      }).then(res => res.json()).then(data => {
-        console.log(data)
-      });
+      })
       addLog("Solicitado início da partida...");
       playBtn.disabled = true;
     } catch (err) {
