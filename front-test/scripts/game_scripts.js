@@ -156,9 +156,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cell) cell.textContent = data.letter;
 
       addLog(`Letra revelada em (${data.cell.x},${data.cell.y}): ${data.letter}`);
-      if (data.completedWord) addLog(`Palavra completada: ${data.completedWord}`);
+      if (data.completedWord) addLog(`Palavra completada: ${data.completedWord.word}`);
     }
   });
+
+  socket.on("game_over", (data) => {
+    const { winner } = data;
+    addLog(`Vencedor: ${winner.nickname}`)
+    
+    setTimeout(() => {
+      waitingStage.style.display = "flex";
+      gameStage.style.display = "none";
+    }, 2000)
+  })
 
   // BOTÕES
   backBtn.addEventListener("click", () => {
