@@ -142,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameStage.style.display = "flex";
 
     createBoard(10, 10);
+    localStorage.setItem("first", gameData.first.player_id);
 
     addLog(`Partida iniciada! Primeiro jogador: ${gameData.first.nickname}`);
     addLog(`Palavras a serem encontradas: ${gameData.words.join(", ")}`);
@@ -153,10 +154,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (movement === "REVEAL") {
       const cell = board.querySelector(`.cell[data-x='${data.cell.x}'][data-y='${data.cell.y}']`);
-      if (cell) cell.textContent = data.letter;
+      first = localStorage.getItem("first");
+
+      if (cell) {
+        cell.textContent = data.letter
+
+        if (first === player_id) {
+          cell.style.border = "2px solid blue"
+        } else {
+          cell.style.border = "2px solid orange"
+        }
+      };
 
       addLog(`Letra revelada em (${data.cell.x},${data.cell.y}): ${data.letter}`);
-      if (data.completedWord) addLog(`Palavra completada: ${data.completedWord.word}`);
+      if (data.completedWord) {
+        addLog(`Palavra completada: ${data.completedWord.word}`);
+
+        for (let [i, o] of data.completedWord.positions) {
+
+          const cell = board.querySelector(`.cell[data-x='${i}'][data-y='${o}']`);
+          if (!cell) continue;
+
+          if (first === player_id) {
+            cell.style.backgroundColor = "blue"
+          } else {
+            cell.style.backgroundColor = "orange"
+          }
+
+          cell.style.color = "white"
+        }
+      };
     }
   });
 
@@ -167,6 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       waitingStage.style.display = "flex";
       gameStage.style.display = "none";
+      playBtn.disabled = false;
     }, 2000)
   })
 
