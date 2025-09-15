@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const roomDisplay = document.getElementById("room-display");
   const playersListWaiting = document.getElementById("players-list-waiting");
   const logsList = document.getElementById("logs-panel");
+  const wordsList = document.getElementById("words-panel")
 
   const playBtn = document.getElementById("start-btn"); // corrigido id
   const backBtn = document.getElementById("back-btn-waiting"); // corrigido id
@@ -16,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nickname = localStorage.getItem("nickname");
   let room_id = localStorage.getItem("room_id");
   const actionType = localStorage.getItem("action_type"); // create ou join
-  let players = [];
+  let players = [nickname];
 
   // SETUP
   roomDisplay.textContent = room_id || "Desconhecida";
@@ -38,6 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement("li");
       li.textContent = `${p.nickname} - Pontos: ${p.score || 0}`;
       playersListWaiting.appendChild(li);
+    });
+  }
+
+  function wordsToFind() {
+    wordsList.innerHTML = "";
+    words.forEach(w => {
+      const li = document.createElement("li");
+      li.textContent = `${w}`;
+      wordsList.appendChild(li);
     });
   }
 
@@ -142,30 +152,129 @@ document.addEventListener("DOMContentLoaded", () => {
     gameStage.style.display = "flex";
 
     createBoard(10, 10);
+    localStorage.setItem("first", gameData.first.player_id);
+
+    wordsToFind();
 
     addLog(`Partida iniciada! Primeiro jogador: ${gameData.first.nickname}`);
     addLog(`Palavras a serem encontradas: ${gameData.words.join(", ")}`);
   });
 
-  // Movimento recebido
   socket.on("movement", (res) => {
     const { movement, player_id, data } = res;
+    const cell = board.querySelector(`.cell[data-x='${data.cell.x}'][data-y='${data.cell.y}']`);
 
-    if (movement === "REVEAL") {
-      const cell = board.querySelector(`.cell[data-x='${data.cell.x}'][data-y='${data.cell.y}']`);
-      if (cell) cell.textContent = data.letter;
+    if (movement === "REVEAL" && data.status === "revealed") {
+      first = localStorage.getItem("first");
+
+      if (cell) {
+        cell.textContent = data.letter
+
+        if (first === player_id) {
+          cell.style.border = "2px solid blue"
+        } else {
+          cell.style.border = "2px solid orange"
+        }
+      };
 
       addLog(`Letra revelada em (${data.cell.x},${data.cell.y}): ${data.letter}`);
-      if (data.completedWord) addLog(`Palavra completada: ${data.completedWord}`);
+
+      if (data.power.hasPowerup) {
+        addLog(`Poder: ${data.power.powerup}`);
+      }
+
+      if (data.completedWord) {
+        addLog(`Palavra completada: ${data.completedWord.word}`);
+
+        for (let [i, o] of data.completedWord.positions) {
+
+          const cell = board.querySelector(`.cell[data-x='${i}'][data-y='${o}']`);
+          if (!cell) continue;
+
+          if (first === player_id) {
+            cell.style.backgroundColor = "blue"
+          } else {
+            cell.style.backgroundColor = "orange"
+          }
+
+          cell.style.color = "white"
+        }
+      };
+    }
+
+    if (movement === "REVEAL" && data.status === "blocked") {
+      if (cell) {
+        cell.textContent = data.remaining;
+
+        if (socket.id === player_id) {
+          if (data.remaining === 2) {
+            cell.style.backgroundColor = "#3579ffff"
+          } else {
+            cell.style.backgroundColor = "#65a1fcff"
+          }
+
+        } else {
+          if (data.remaining === 2) {
+            cell.style.backgroundColor = "#ff9c3aff"
+          } else {
+            cell.style.backgroundColor = "#ffb871ff"
+          }
+        }
+      };
+    }
+
+    if (movement === "REVEAL" && data.status === "unblocked") {
+      if (cell) {
+        cell.style.backgroundColor = "#e0e0e0"
+      };
+    }
+
+    if (movement === "BLOCK") {
+      if (cell) {
+        cell.style.color = "white"
+        cell.textContent = "3"
+
+        if (data.blocked_by === player_id) {
+          cell.style.backgroundColor = "blue"
+        } else {
+          cell.style.backgroundColor = "orange"
+        }
+      };
     }
   });
 
+  socket.on("game_over", (data) => {
+    const { winner } = data;
+    addLog(`Vencedor: ${winner.nickname}`)
+    
+    setTimeout(() => {
+      waitingStage.style.display = "flex";
+      gameStage.style.display = "none";
+      playBtn.disabled = false;
+    }, 2000)
+  })
+
   // BOTÕES
-  backBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
+  backBtn.addEventListener("click", async () => {
+
+    try {
+      await fetch(`http://localhost:333/room/leaveRoom`, {
+        method: "POST",
+        headers: { },
+        body: JSON.stringify({
+          room_id: room_id,
+          player_id: socket.id
+        })
+      }).then(res => res.json()).then(data => { console.log(data) })
+      window.location.href = "index.html";
+    } catch (err) {
+      console.log(err)
+    }
   });
 
   playBtn.addEventListener("click", async () => {
+    addLog("Solicitado início da partida...");
+
     try {
       await fetch(`http://localhost:3333/game/startGame`, {
         method: "POST",
@@ -175,8 +284,8 @@ document.addEventListener("DOMContentLoaded", () => {
           theme: localStorage.getItem("theme")
         })
       })
-      addLog("Solicitado início da partida...");
       playBtn.disabled = true;
+
     } catch (err) {
       console.error(err);
       addLog("Erro ao iniciar a partida.");

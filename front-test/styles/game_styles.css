@@ -71,6 +71,7 @@ body {
   font-weight: bold;
   user-select: none;
   transition: background 0.2s;
+  text-transform: uppercase;
 }
 
 .cell:hover {
