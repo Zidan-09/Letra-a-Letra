@@ -33,14 +33,14 @@ def main():
         log_success("Backend rodando em http://localhost:3333")
 
         log_info("Aguardando o backend iniciar...")
-        time.sleep(5)
+        time.sleep(10)
 
         log_info("Iniciando o frontend...")
         frontend = subprocess.Popen(["npm.cmd", "run", "dev"], cwd="frontend")
         log_success("Frontend rodando em http://localhost:5173")
 
         log_info("Aguardando o frontend iniciar...")
-        time.sleep(5)
+        time.sleep(10)
 
         log_info("Abrindo navegador...")
         webbrowser.open("http://localhost:5173")

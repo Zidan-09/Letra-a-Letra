@@ -55,11 +55,9 @@ export const SendSocket = {
         const winner = room.gameOver();
 
         if (winner) {
-            setTimeout(() => {
-                players.forEach(p =>
-                    io.to(p.player_id).emit("game_over", {winner: winner})
-                )
-            }, 5000)
+            players.forEach(p =>
+                io.to(p.player_id).emit("game_over", {winner: winner})
+            )
         }
     },
 
