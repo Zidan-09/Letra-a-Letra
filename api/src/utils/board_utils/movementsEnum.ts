@@ -7,4 +7,7 @@ export enum MovementsEnum {
     FREEZE = "FREEZE",
     UNFREEZE = "UNFREEZE",
     SPY = "SPY",
+    BLIND = "BLIND",
+    LANTERN = "LANTERN",
+    IMMUNITY = "IMMUNITY"
 }

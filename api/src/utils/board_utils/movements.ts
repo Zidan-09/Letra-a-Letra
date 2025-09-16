@@ -5,6 +5,7 @@ import { GameResponses } from "../responses/gameResponses";
 import { LogEnum } from "../server_utils/logEnum";
 import { createLog } from "../server_utils/logs";
 import { checkWordCompletion } from "./checkCompletedWord";
+import { MovementsEnum } from "./movementsEnum";
 
 export const Movements = {
     clickCell(board: Board, x: number, y: number, player: Player, room_id: string): GameResponses | MoveEmit {
@@ -142,33 +143,65 @@ export const Movements = {
         }
     },
 
-    freeze(players: Player[], player_id: string): GameResponses | MoveEmit {
-        const player = players.find(p =>
-            p.player_id !== player_id
-        )
+    effectMove(players: Player[], player_id: string, effect: MovementsEnum): GameResponses | MoveEmit {
+        switch (effect) {
+            case MovementsEnum.FREEZE:
+                var player = players.find(p => p.player_id !== player_id);
+                if (!player) return GameResponses.GameError;
 
-        if (!player) return GameResponses.GameError;
+                player.applyEffect("freeze", 3);
 
-        player.freeze = true;
+                return {
+                    status: GameResponses.Freezed,
+                    player: player.player_id
+                }
 
-        return {
-            status: GameResponses.Freezed,
-            player: player.player_id
-        }
-    },
+            case MovementsEnum.UNFREEZE:
+                var player = players.find(p => p.player_id === player_id);
+                if (!player) return GameResponses.GameError;
+                
+                player.removeEffect("freeze");
 
-    unfreeze(players: Player[], player_id: string): GameResponses | MoveEmit {
-        const player = players.find(p =>
-            p.player_id === player_id
-        )
+                return {
+                    status: GameResponses.Unfreezed,
+                    player: player.player_id
+                }
 
-        if (!player) return GameResponses.GameError;
+            case MovementsEnum.BLIND:
+                var player = players.find(p => p.player_id !== player_id);
+                if (!player) return GameResponses.GameError;
 
-        player.freeze = false;
+                player.applyEffect("blind", 3);
 
-        return {
-            status: GameResponses.Unfreezed,
-            player: player.player_id
+                return {
+                    status: GameResponses.Blinded,
+                    player: player.player_id
+                }
+
+            case MovementsEnum.LANTERN:
+                var player = players.find(p => p.player_id === player_id);
+                if (!player) return GameResponses.GameError;
+
+                player.removeEffect("blind");
+
+                return {
+                    status: GameResponses.Lantern,
+                    player: player.player_id
+                }
+
+            case MovementsEnum.IMMUNITY:
+                var player = players.find(p => p.player_id === player_id);
+                if (!player) return GameResponses.GameError;
+
+                player.applyEffect("immunity", 5);
+
+                return {
+                    status: GameResponses.Immunity,
+                    player: player.player_id
+                }
+            default:
+                return GameResponses.GameError;
+
         }
     },
 
@@ -183,5 +216,5 @@ export const Movements = {
             letter: cell.letter,
             cell: cell.position
         }
-    }
+    },
 }

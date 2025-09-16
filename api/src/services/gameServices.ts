@@ -65,7 +65,7 @@ export const GameService = {
         );
 
         if (!player || game.turn % 2 !== player.turn || !board) return GameResponses.GameError;
-        if (player.freeze && movement !== MovementsEnum.UNFREEZE) return GameResponses.PlayerFrozen;
+        if (player.freeze.active && movement !== MovementsEnum.UNFREEZE) return GameResponses.PlayerFrozen;
 
         game.incrementTurn();
 
@@ -73,26 +73,35 @@ export const GameService = {
             case MovementsEnum.REVEAL:
                 return Movements.clickCell(board, x, y, player, room_id);
             case MovementsEnum.BLOCK:
-                createLog(room_id, `${player.nickname} ${LogEnum.Blocked} => x: ${x} y: ${y}`)
+                createLog(room_id, `${player.nickname} ${LogEnum.Blocked} => x: ${x} y: ${y}`);
                 return Movements.blockCell(board, x, y, player_id);
             case MovementsEnum.UNBLOCK:
-                createLog(room_id, `${player.nickname} ${LogEnum.Unblocked} => x: ${x} y: ${y}`)
+                createLog(room_id, `${player.nickname} ${LogEnum.Unblocked} => x: ${x} y: ${y}`);
                 return Movements.unblockCell(board, x, y, player_id);
             case MovementsEnum.TRAP:
-                createLog(room_id, `${player.nickname} ${LogEnum.Trapped} => x: ${x} y: ${y}`)
+                createLog(room_id, `${player.nickname} ${LogEnum.Trapped} => x: ${x} y: ${y}`);
                 return Movements.trapCell(board, x, y, player_id);
             case MovementsEnum.DETECTTRAPS:
-                createLog(room_id, `${player.nickname} ${LogEnum.Detect}`)
+                createLog(room_id, `${player.nickname} ${LogEnum.Detect}`);
                 return Movements.detectTraps(board, player_id);
             case MovementsEnum.FREEZE:
                 createLog(room_id, `${player.nickname} ${LogEnum.Freeze} => ${players.find(p => p.player_id !== player.player_id)?.nickname}`)
-                return Movements.freeze(players, player_id);
+                return Movements.effectMove(players, player_id, MovementsEnum.FREEZE);
             case MovementsEnum.UNFREEZE:
-                createLog(room_id, `${player.nickname} ${LogEnum.Unfreeze}`)
-                return Movements.unfreeze(players, player_id);
+                createLog(room_id, `${player.nickname} ${LogEnum.Unfreeze}`);
+                return Movements.effectMove(players, player_id, MovementsEnum.UNFREEZE);
             case MovementsEnum.SPY:
-                createLog(room_id, `${player.nickname} ${LogEnum.Spied} => x: ${x} y: ${y}`)
+                createLog(room_id, `${player.nickname} ${LogEnum.Spied} => x: ${x} y: ${y}`);
                 return Movements.spy(board, x, y, player_id);
+            case MovementsEnum.BLIND:
+                createLog(room_id, `${player.nickname} ${LogEnum.Blinded} => ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
+                return Movements.effectMove(players, player_id, MovementsEnum.BLIND);
+            case MovementsEnum.LANTERN:
+                createLog(room_id, `${player.nickname} ${LogEnum.Lantern}`);
+                return Movements.effectMove(players, player_id, MovementsEnum.LANTERN);
+            case MovementsEnum.IMMUNITY:
+                createLog(room_id, `${player.nickname} ${LogEnum.Imunity}`);
+                return Movements.effectMove(players, player_id, MovementsEnum.IMMUNITY);
             default:
                 createLog(room_id, `${player.nickname} ${LogEnum.InvalidMovement}`)
                 return GameResponses.InvalidMovement;
