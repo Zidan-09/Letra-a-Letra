@@ -4,7 +4,8 @@
   "description": "a battleship game with the concept of word search",
   "main": "server.ts",
   "scripts": {
-    "dev": "ts-node src/server.ts"
+    "dev": "ts-node src/server.ts",
+    "test": "ts-node src/tests/tests.ts"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,6 @@
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
+import { PowerRarity } from "../utils/cell_utils/powerRarity";
+import { commomPowers, epicPowers, legendaryPowers, rarePowers } from "../utils/cell_utils/powers";
 
 export class Cell {
     letter: string;
@@ -7,7 +9,7 @@ export class Cell {
     trapped: { status: boolean, trapped_by: string | null };
     clicks: number = 0;
     revealed: boolean = false;
-    power: { hasPowerup: boolean, powerup: MovementsEnum | null }
+    power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
 
     constructor(letter: string, x: number, y: number) {
         this.letter = letter;
@@ -27,16 +29,52 @@ export class Cell {
         this.clicks = 0;
     }
 
-    powerup(): { hasPowerup: boolean, powerup: MovementsEnum | null } {
+    powerup(): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
         const chance = 12;
         const powers = Object.values(MovementsEnum);
+        powers.shift();
 
         if (Math.random() < chance / 100) {
-            const index = Math.floor(Math.random() * powers.length);
-            return {
-                hasPowerup: true,
-                powerup: powers[index] as MovementsEnum
-            };
+            const roll = Math.random();
+
+            const rare = 0.30;
+            const epic = 0.10;
+            const legend = 0.05;
+
+            console.log(roll);
+
+            if (roll <= legend) {
+                var index = Math.floor(Math.random() * legendaryPowers.length);
+                return {
+                    hasPowerup: true,
+                    rarity: legendaryPowers[index]!.rarity,
+                    powerup: legendaryPowers[index]!.name as MovementsEnum
+                }
+
+            } else if (roll <= epic) {
+                var index = Math.floor(Math.random() * epicPowers.length);
+                return {
+                    hasPowerup: true,
+                    rarity: epicPowers[index]!.rarity,
+                    powerup: epicPowers[index]!.name as MovementsEnum
+                }
+
+            } else if (roll <= rare) {
+                var index = Math.floor(Math.random() * rarePowers.length);
+                return {
+                    hasPowerup: true,
+                    rarity: rarePowers[index]!.rarity,
+                    powerup: rarePowers[index]!.name as MovementsEnum
+                }
+
+            } else {
+                var index = Math.floor(Math.random() * commomPowers.length);
+                return {
+                    hasPowerup: true,
+                    rarity: commomPowers[index]!.rarity,
+                    powerup: commomPowers[index]!.name as MovementsEnum
+                }
+            }
         }
 
         return {
