@@ -15,7 +15,10 @@ enum GameResponses {
     Spied = "spied",
     Freezed = "freezed",
     Unfreezed = "unfreezed",
-    PlayerFrozen = "player_fronzen"
+    PlayerFrozen = "player_fronzen",
+    Blinded = "player_blind",
+    Lantern = "used_lantern",
+    Immunity = "player_imune"
 }
 
 export { GameResponses }

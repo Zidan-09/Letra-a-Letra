@@ -16,5 +16,8 @@ export enum LogEnum {
     Blocked = "blocked cell",
     Unblocked = "unblocked cell",
     ClickOn = "clicked on cell",
-    Spied = "spied cell"
+    Spied = "spied cell",
+    Blinded = "blinded",
+    Lantern = "used lantern",
+    Imunity = "become imune"
 }
