@@ -40,9 +40,9 @@ export const GameMiddleware = {
             const player = players.find(p =>
                 p.player_id === player_id
             );
-    
-            if (!player || game.turn % 2 !== player.turn || !board) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
-    
+
+            if (!player || game.turn % 2 !== player.turn || !board || !player.spectator) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
             const movements = Object.values(MovementsEnum);
     
             if (!movements.includes(movement)) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
