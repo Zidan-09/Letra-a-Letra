@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
-import { Movement, StartGame } from "../utils/requests/gameRequests";
+import { Movement, PassTurn, StartGame } from "../utils/requests/gameRequests";
 import { GameResponses } from "../utils/responses/gameResponses";
 import { RoomService } from "../services/roomServices";
 import { ServerResponses } from "../utils/responses/serverResponses";
@@ -12,10 +12,10 @@ export const GameMiddleware = {
         try {
             const { room_id, theme } = req.body;
 
-            if (!room_id || !theme) return GameResponses.GameError;
+            if (!room_id || !theme) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
             const game = RoomService.getRoom(room_id);
 
-            if (!game || game.status !== GameStatus.GameStarting) return GameResponses.GameError;
+            if (!game || game.status !== GameStatus.GameStarting) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             next();
 
@@ -32,7 +32,7 @@ export const GameMiddleware = {
             const game = RoomService.getRoom(room_id);
             if (!game) return HandleResponse.serverResponse(res, 400, false, ServerResponses.NotFound);
             const players = game.players;
-            if (!players) return HandleResponse.serverResponse(res, 400, false, ServerResponses.NotFound);
+            if (!players?.length) return HandleResponse.serverResponse(res, 400, false, ServerResponses.NotFound);
             const board = game.board;
     
             if (game.status !== GameStatus.GameRunning) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
@@ -54,4 +54,29 @@ export const GameMiddleware = {
             HandleResponse.errorResponse(res, err);
         }
     },
+
+    passTurn(req: Request<{}, {}, PassTurn>, res: Response, next: NextFunction) {
+        try {
+            const { room_id, player_id } = req.body;
+
+            if (!room_id || !player_id) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
+            const game = RoomService.getRoom(room_id);
+            if (!game) return HandleResponse.serverResponse(res, 400, false, ServerResponses.NotFound);
+            const players = game.players;
+            if (!players) return HandleResponse.serverResponse(res, 400, false, ServerResponses.NotFound);
+
+            const player = players.find(p => 
+                p.player_id === player_id
+            );
+
+            if (!player || game.turn % 2 !== player.turn) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
+            next();
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
+        }
+    }
 }

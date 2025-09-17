@@ -37,11 +37,7 @@ export const RoomController = {
             if (player) {
                 const result = RoomService.joinRoom(data.room_id, player);
 
-                if (result !== ServerResponses.NotFound) {
-                    return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinned, result);
-                }
-
-                return HandleResponse.serverResponse(res, 404, false, result);
+                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinned, result);
             }
         } catch (err) {
             console.error(err);

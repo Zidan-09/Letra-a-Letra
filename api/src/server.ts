@@ -1,9 +1,12 @@
 import { createServer } from "http";
 import app from "./app";
 import { initSocket } from "./socket";
-require('dotenv').config();
+import dotenv from "dotenv";
 
-const PORT = process.env.PORT || 3333;
+dotenv.config({ quiet: true });
+
+const PORT: number = parseInt(process.env.PORT || "3333");
+const VERSION = process.env.VERSION || "v1";
 
 function startServer() {
     const httpServer = createServer(app);
@@ -11,7 +14,7 @@ function startServer() {
     initSocket(httpServer);
 
     httpServer.listen(PORT, () => {
-        console.log(`Server Running on: http://localhost:${PORT}`)
+        console.log(`Server Running on: http://localhost:${PORT}/api/${VERSION}/`)
     })
 }
 
