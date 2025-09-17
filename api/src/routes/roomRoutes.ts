@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RoomController } from "../controller/roomController";
-import { RoomMiddleware } from "../middlewares/roomMiddleware";
+import { RoomMiddleware } from "../middleware/roomMiddleware";
 
 const roomRouter: Router = Router();
 

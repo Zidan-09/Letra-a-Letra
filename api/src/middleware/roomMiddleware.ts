@@ -10,7 +10,7 @@ export const RoomMiddleware = {
         try {
             const { socket_id, nickname, privateRoom } = req.body;
 
-            if (!socket_id || !nickname || !privateRoom) return (
+            if (!socket_id || !nickname || privateRoom === undefined) return (
                 HandleResponse.serverResponse(res, 400, false, RoomResponses.RoomCreateonFailed)
             );
 

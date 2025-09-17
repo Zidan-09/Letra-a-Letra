@@ -3,7 +3,9 @@ import cors from 'cors';
 import roomRouter from "./routes/roomRoutes";
 import gameRouter from "./routes/gameRoutes";
 import playerRouter from "./routes/playerRoutes";
-require('dotenv').config();
+import dotenv from "dotenv";
+
+dotenv.config({ quiet: true });
 
 const app: Application = express();
 
