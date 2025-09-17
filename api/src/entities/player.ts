@@ -8,6 +8,7 @@ type EffectKey = "freeze" | "blind" | "immunity"
 export class Player {
     player_id: string;
     nickname: string;
+    spectator: boolean = false;
     turn: 0 | 1;
     score: number = 0;
     passed: number = 0;
@@ -15,9 +16,10 @@ export class Player {
     blind: PlayerEffect = { active: false, remaining: null };
     immunity: PlayerEffect = { active: false, remaining: null };
 
-    constructor(player_id: string, nickname: string) {
+    constructor(player_id: string, nickname: string, spectator: boolean) {
         this.player_id = player_id;
         this.nickname = nickname;
+        this.spectator = spectator;
         this.turn = 0;
     }
 

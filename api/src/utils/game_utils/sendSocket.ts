@@ -37,8 +37,8 @@ export const SendSocket = {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
-        if (!room || !room.players) return;
-        const players = room.players;
+        if (!room || !room.players || !room.spectators) return;
+        const players = room.players.concat(room.spectators);
 
         players.forEach(p =>
             io.to(p.player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
