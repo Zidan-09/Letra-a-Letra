@@ -1,4 +1,4 @@
-body {
+/* body {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,7 +197,7 @@ body {
     height: 30rem;
     border-radius: var(--radius);
 
-    background-color: rgba(15, 29, 138, 0.3); /* cor + transparência */
+    background-color: rgba(15, 29, 138, 0.3);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow);
     padding: 1rem;
@@ -281,7 +281,7 @@ body {
     height: 30rem;
     border-radius: var(--radius);
 
-    background-color: rgba(15, 29, 138, 0.3); /* cor + transparência */
+    background-color: rgba(15, 29, 138, 0.3);
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow);
     padding: 1rem;
