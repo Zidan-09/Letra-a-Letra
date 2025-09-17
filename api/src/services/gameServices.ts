@@ -52,19 +52,14 @@ export const GameService = {
     },
 
     moveGame(room_id: string, player_id: string, movement: MovementsEnum, x: number, y: number) {
-        const game = RoomService.getRoom(room_id);
-        if (!game) return ServerResponses.NotFound;
+        const game = RoomService.getRoom(room_id)!;
         const players = game.players;
-        if (!players) return ServerResponses.NotFound;
-        const board = game.board;
-
-        if (game.status !== GameStatus.GameRunning) return GameResponses.GameError;
+        const board = game.board!;
 
         const player = players.find(p =>
             p.player_id === player_id
-        );
+        )!;
 
-        if (!player || game.turn % 2 !== player.turn || !board) return GameResponses.GameError;
         if (player.freeze.active && movement !== MovementsEnum.UNFREEZE) return GameResponses.PlayerFrozen;
 
         game.incrementTurn();

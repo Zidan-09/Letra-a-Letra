@@ -41,8 +41,6 @@ export class Cell {
             const epic = 0.10;
             const legend = 0.05;
 
-            console.log(roll);
-
             if (roll <= legend) {
                 var index = Math.floor(Math.random() * legendaryPowers.length);
                 return {
