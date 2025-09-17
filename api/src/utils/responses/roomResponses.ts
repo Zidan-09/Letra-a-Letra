@@ -6,4 +6,5 @@ export enum RoomResponses {
     FullRoom = "full_room",
     LeftRoom = "left_room",
     PublicRooms = "public_rooms",
+    DataError = "data_error"
 }

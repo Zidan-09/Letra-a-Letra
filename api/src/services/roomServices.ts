@@ -23,12 +23,8 @@ class RoomServices {
     };
 
     public joinRoom(room_id: string, player: Player) {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
+        const room = this.rooms.get(room_id)!;
         const players = room.players;
-        if (!players) return ServerResponses.NotFound;
-
-        if (players.length >= 2) return RoomResponses.FullRoom;
         
         players.push(player);
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
