@@ -8,25 +8,9 @@ console.warn("Letras:\n");
 
 grid.forEach(row => {
     row.forEach(cell => {
-        process.stdout.write(`${cell.letter}          `);
+        process.stdout.write(`${cell.letter}    `);
     })
     console.log("\n");
 })
 
-console.warn("Posições:\n");
-
-grid.forEach(row => {
-    row.forEach(cell => {
-        process.stdout.write(`${JSON.stringify(cell.position)} `);
-    })
-    console.log("\n");
-})
-
-console.warn("Poderes:\n");
-
-grid.forEach(row => {
-    row.forEach(cell => {
-        process.stdout.write(`${JSON.stringify(cell.power)} `);
-    })
-    console.log("\n");
-})
+console.log(game.words);
