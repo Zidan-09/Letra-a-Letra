@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+.container {
+  width: 100%;
+  height: 100vh;
+  background-image: url("../assets/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Lilita One', cursive;
+  box-sizing: border-box;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 3px solid white;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.logo {
+  max-width: 50vw;
+  max-height: 25vw;
+  display: block;
+  justify-self: center;
+}
+
+.label {
+  font-size: 2rem;
+  margin-bottom: 0;
+  color: white;
+  -webkit-text-stroke: 1.5px #464646;
+  margin-top: 0;
+}
+
+.inputWrapper {
+  margin-bottom: 1.5rem;
+}
+
+.input {
+  width: 100%;
+  max-width: 100%;
+  background-color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 2rem;
+  border: 2px solid #ccc;
+  outline: none;
+  font-size: 1rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.input:focus {
+  border: 3px solid rgba(0, 0, 0, 0.4);
+  opacity: 1;
+  color: black;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  flex: 1 1 45%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 2rem;
+  padding: 0 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.icon {
+  margin-right: 0.8rem;
+  font-size: 1.4rem;
+}
+
+.create {
+  background-color: rgb(240, 125, 34);
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 0 6px 0 rgb(148, 97, 57);
+}
+
+.create:hover {
+  border: 5px solid rgb(253, 114, 0);
+}
+
+.enter {
+  background-color: rgb(27, 157, 222);
+  border: 5px solid rgb(64, 176, 232);
+  box-shadow: 0 6px 0 rgb(57, 68, 148);
+}
+
+.enter:hover {
+  border: 5px solid rgb(22, 133, 186);
+}
+
+.help {
+  background-color: rgb(21, 248, 29);
+  border: 5px solid rgb(77, 255, 89);
+  width: 50%;
+  max-width: 400px;
+  margin: 1rem auto 0 auto;
+  box-shadow: 0 6px 0 rgb(46, 138, 52);
+}
+
+.help:hover {
+  border: 5px solid rgb(0, 230, 17);
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 1.5rem;
+  }
+  .logo {
+    max-width: 60%;
+  }
+  .buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .button {
+    width: 100%;
+    flex: none;
+  }
+  .help {
+    width: 100%;
+    max-width: none;
+  }
+}
