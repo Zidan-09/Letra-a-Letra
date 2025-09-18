@@ -7,6 +7,7 @@ export class Game {
     room_id: string;
     status: GameStatus;
     players: Player[];
+    spectators: Player[] = [];
     turn: number;
     board: Board | null;
     privateRoom: boolean;

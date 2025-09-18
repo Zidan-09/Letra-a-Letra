@@ -1,9 +1,16 @@
-import { Cell } from "../entities/cell";
+import { Board } from "../entities/board";
+import { Themes } from "../utils/board_utils/themesEnum";
 
-let cell: Cell = new Cell("S", 0, 0);
+const game = new Board(Themes.RANDOM);
+const grid = game.grid;
 
-while (!cell.power.hasPowerup) {
-    cell = new Cell("S", 0, 0);
-}
+console.warn("Letras:\n");
 
-console.log(cell);
+grid.forEach(row => {
+    row.forEach(cell => {
+        process.stdout.write(`${cell.letter}    `);
+    })
+    console.log("\n");
+})
+
+console.log(game.words);
