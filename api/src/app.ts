@@ -3,16 +3,14 @@ import cors from 'cors';
 import roomRouter from "./routes/roomRoutes";
 import gameRouter from "./routes/gameRoutes";
 import playerRouter from "./routes/playerRoutes";
-import dotenv from "dotenv";
-
-dotenv.config({ quiet: true });
+import serverConfig from "./config/serverConfig.json";
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
 
-const VERSION: string = process.env.VERSION || "v1"
+const VERSION: string = serverConfig.version || "v1";
 
 app.use(`/room`, roomRouter);
 app.use(`/game`, gameRouter);
