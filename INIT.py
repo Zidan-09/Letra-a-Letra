@@ -36,7 +36,7 @@ def main():
         time.sleep(10)
 
         log_info("Iniciando o frontend...")
-        frontend = subprocess.Popen(["npm.cmd", "run", "dev"], cwd="frontend")
+        frontend = subprocess.Popen(["npm.cmd", "run", "dev"], cwd="ui")
         log_success("Frontend rodando em http://localhost:5173")
 
         log_info("Aguardando o frontend iniciar...")
