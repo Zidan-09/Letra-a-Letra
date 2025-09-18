@@ -1,12 +1,10 @@
 import { createServer } from "http";
 import app from "./app";
 import { initSocket } from "./socket";
-import dotenv from "dotenv";
+import serverConfig from "./config/serverConfig.json";
 
-dotenv.config({ quiet: true });
-
-const PORT: number = parseInt(process.env.PORT || "3333");
-const VERSION = process.env.VERSION || "v1";
+const PORT: number = serverConfig.port || 3333;
+const VERSION = serverConfig.version || "v1";
 
 function startServer() {
     const httpServer = createServer(app);
@@ -14,7 +12,7 @@ function startServer() {
     initSocket(httpServer);
 
     httpServer.listen(PORT, () => {
-        console.log(`Server Running on: http://localhost:${PORT}/api/${VERSION}/`)
+        console.log(`Server Running on: http://localhost:${PORT}/api/${VERSION}/`);
     })
 }
 
