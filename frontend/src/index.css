@@ -1,355 +1,175 @@
-/*index*/
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+/* Estilo geral e variáveis */
+:root {
+    --primary-color: #4a90e2;
+    --primary-hover: #357ab8;
+    --background-color: #f4f4f9;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #ddd;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
 }
 
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Container Principal */
 .container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  text-align: center;
-  width: 320px;
+    background-color: var(--container-bg);
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .title {
-  margin-bottom: 1.5rem;
-  color: #333;
+    margin: 0;
+    font-size: 2.5rem;
 }
 
-.form input {
-  width: 100%;
-  padding: 0.6rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-button {
-  flex: 1;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 8px;
-  background: #4a90e2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button:hover {
-  background: #357ab8;
-}
-
-/*create*/
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  text-align: center;
-  width: 350px;
-}
-
-.title {
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
+/* Formulários e Entradas */
 .form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-input[type="number"], select {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.form label {
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: -0.5rem;
 }
 
-input[type="checkbox"] {
-  transform: scale(1.2);
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
+/* Botões */
 .buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 button {
-  flex: 1;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 8px;
-  background: #4a90e2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
+    flex-grow: 1;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--radius);
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 button:hover {
-  background: #357ab8;
-}
-
-/*join*/
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  text-align: center;
-  width: 400px;
-}
-
-.title {
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-.rooms-panel {
-  max-height: 200px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin: 1rem 0;
-  padding: 0.5rem;
-}
-
-.room-item {
-  padding: 0.5rem;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-}
-
-.room-item.selected {
-  background-color: #d0e4ff;
-}
-
-button {
-  padding: 0.6rem;
-  border: none;
-  border-radius: 8px;
-  background: #4a90e2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button:hover {
-  background: #357ab8;
-}
-
-.buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.popup {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-}
-
-.popup-content {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 10px;
-  position: relative;
-  width: 300px;
-}
-
-#close-popup {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/*game*/
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f9;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1rem;
-  min-height: 100vh;
-}
-
-.container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  width: 600px;
-  max-width: 95%;
-}
-
-.title {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-#waiting-stage, #game-stage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#players-panel-waiting {
-  margin-top: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.5rem;
-  width: 100%;
-}
-
-#players-list-waiting {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#players-list-waiting li {
-  padding: 0.2rem 0;
-}
-
-.board {
-  display: grid;
-  grid-gap: 5px;
-  margin: 1rem 0;
-  justify-content: center;
-}
-
-.cell {
-  width: 30px;
-  height: 30px;
-  background: #e0e0e0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 4px;
-  font-weight: bold;
-  user-select: none;
-  transition: background 0.2s;
-  text-transform: uppercase;
-}
-
-.cell:hover {
-  background: #d0d0d0;
-}
-
-.players-panel, .logs-panel {
-  margin-top: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 0.5rem;
-  width: 100%;
-  max-height: 150px;
-  overflow-y: auto;
-}
-
-.players-panel div, .logs-panel li {
-  padding: 0.2rem 0;
-}
-
-.buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-button {
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 8px;
-  background: #4a90e2;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button:hover:not(:disabled) {
-  background: #357ab8;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
 }
 
 button:disabled {
-  background: #aaa;
-  cursor: not-allowed;
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
 }
 
-.logs-panel ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* Painel de Salas (JoinPage) */
+.rooms-panel {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    text-align: left;
 }
 
-@media (max-width: 650px) {
-  .container {
-    width: 100%;
+.room-item {
     padding: 1rem;
-  }
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    transition: background-color 0.2s ease;
+}
 
-  .board {
-    grid-template-columns: repeat(10, 25px);
-    grid-gap: 4px;
-  }
+.room-item:last-child {
+    border-bottom: none;
+}
 
-  .cell {
-    width: 25px;
-    height: 25px;
-  }
+.room-item:hover {
+    background-color: #f0f8ff;
+}
+
+.room-item.selected {
+    background-color: #d1e7fd;
+    font-weight: bold;
+}
+
+/* Lobby de Espera (GamePage) */
+.players-panel-waiting {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+.players-panel-waiting ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Tabuleiro do Jogo (GamePage) */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: bold;
+}
+.board {
+    display: grid;
+    gap: 5px;
+    margin: 1rem 0;
+    justify-content: center;
+}
+.cell {
+    width: 35px;
+    height: 35px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-weight: bold;
+    user-select: none;
+    transition: background-color 0.2s;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.cell:hover {
+    background-color: #d0d0d0;
 }
