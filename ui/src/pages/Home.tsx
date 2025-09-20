@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/Home.module.css";
 import logo from "../assets/logo.png";
 import iconCreate from "../assets/icon-create.png";
@@ -7,6 +8,23 @@ import iconHelp from "../assets/icon-help.png";
 
 export default function Home() {
   const [nome, setNome] = useState("");
+  const navigate = useNavigate();
+
+  const handleCreateRoom = () => {
+    if (nome.trim()) {
+      navigate("/room");
+    }
+  };
+
+  const handleEnterRoom = () => {
+    if (nome.trim()) {
+      navigate("/room");
+    }
+  };
+
+  const handleHelp = () => {
+    alert("Instruções de como jogar serão exibidas aqui.");
+  };
 
   return (
     <div className={styles.container}>
@@ -25,17 +43,17 @@ export default function Home() {
         </div>
 
         <div className={styles.buttons}>
-          <button className={`${styles.button} ${styles.create}`}>
+          <button className={`${styles.button} ${styles.create}`} onClick={handleCreateRoom}>
             <img src={iconCreate} alt="Create" className={styles.icon} />
             Criar Sala
           </button>
-          <button className={`${styles.button} ${styles.enter}`}>
+          <button className={`${styles.button} ${styles.enter}`} onClick={handleEnterRoom}>
             <img src={iconEnter} alt="Enter" className={styles.icon} />
             Entrar na Sala
           </button>
         </div>
 
-        <button className={`${styles.button} ${styles.help}`}>
+        <button className={`${styles.button} ${styles.help}`} onClick={handleHelp}>
           <img src={iconHelp} alt="Help" className={styles.icon} />
           Como Jogar
         </button>
