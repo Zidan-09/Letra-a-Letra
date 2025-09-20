@@ -1,10 +1,10 @@
 import { createServer } from "http";
 import app from "./app";
 import { initSocket } from "./socket";
-import serverConfig from "./config/serverConfig.json";
+import config from "./config/server.json";
 
-const PORT: number = serverConfig.port || 3333;
-const VERSION = serverConfig.version || "v1";
+const PORT: number = config.port || 3333;
+const VERSION = config.version || "v1";
 
 function startServer() {
     const httpServer = createServer(app);

@@ -1,6 +1,6 @@
 {
     "config": {
-        "chancePerCell": 12,
+        "chancePerCell": 10,
         "percentages": {
             "common": 0.60,
             "rare": 0.25,
