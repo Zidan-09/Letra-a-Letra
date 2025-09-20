@@ -1,6 +1,6 @@
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { PowerRarity } from "../utils/cell_utils/powerRarity";
-import data from "../config/cellConfigs.json";
+import data from "../config/cell.json";
 
 export class Cell {
     letter: string;
