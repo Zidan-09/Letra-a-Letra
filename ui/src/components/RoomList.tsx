@@ -1,4 +1,6 @@
 import type { Game } from "../utils/room_utils";
+import RoomItem from "./RoomItem";
+import styles from "../styles/Room/RoomList.module.css"
 
 interface RoomListProps {
   rooms: Game[];
@@ -6,12 +8,14 @@ interface RoomListProps {
 
 export default function RoomList({ rooms }: RoomListProps) {
   return (
-    <div>
-      {rooms.map((room) => (
-        <div key={room.room_id}>
-          <h2>{room.players.map((p) => p.nickname).join(", ")}</h2>
-        </div>
-      ))}
+    <div className={styles.roomList}>
+      {rooms.length === 0 ? (
+        <div className={styles.emptyMessage}>Sem salas disponíveis</div>
+      ) : (
+        rooms.map((room, index) => (
+          <RoomItem key={index} room={room} color={index % 2 === 0 ? "blue" : "orange"} />
+        ))
+      )}
     </div>
   );
 }
