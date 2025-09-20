@@ -1,0 +1,24 @@
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.blue { background-color: #007bff; }
+.orange { background-color: #ff7f50; }
+
+.selected { outline: 3px solid yellow; }
+
+.players {
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.3rem;
+  color: white;
+  font-weight: bold;
+}
+
+.available { background-color: green; }
+.full { background-color: red; }
