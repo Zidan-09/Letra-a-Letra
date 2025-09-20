@@ -3,9 +3,10 @@ import { placeWord } from "../utils/board_utils/placeWord";
 import { canPlaceWord } from "../utils/board_utils/canPlaceWord";
 import { Cell } from "./cell";
 import { Themes } from "../utils/board_utils/themesEnum";
+import config from "../config/board.json";
 
 export class Board {
-    range: number = 9;
+    range: number = config.range;
     words: string[];
     finded: number = 0;
     grid: Cell[][];
