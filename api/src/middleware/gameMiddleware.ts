@@ -41,7 +41,7 @@ export const GameMiddleware = {
                 p.player_id === player_id
             );
 
-            if (!player || game.turn % 2 !== player.turn || !board || !player.spectator) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+            if (!player || game.turn % 2 !== player.turn || !board || player.spectator) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             const movements = Object.values(MovementsEnum);
     
