@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Home.module.css";
 import logo from "../assets/logo.png";
-import iconCreate from "../assets/icon-create.png";
-import iconEnter from "../assets/icon-enter.png";
-import iconHelp from "../assets/icon-help.png";
+import iconCreate from "../assets/buttons/icon-create.png";
+import iconEnter from "../assets/buttons/icon-enter.png";
+import iconHelp from "../assets/buttons/icon-help.png";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");

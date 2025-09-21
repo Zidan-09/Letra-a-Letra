@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import RoomList from "../components/RoomList";
 import type { Game } from "../utils/room_utils";
 import styles from "../styles/Room.module.css";
-import iconBack from "../assets/icon-back.png";
-import iconEnter from "../assets/icon-enter.png";
-import iconRefresh from "../assets/icon-refresh.png";
+import iconBack from "../assets/buttons/icon-back.png";
+import iconEnter from "../assets/buttons/icon-enter.png";
+import iconRefresh from "../assets/buttons/icon-refresh.png";
 
 export default function Room() {
   const [rooms, setRooms] = useState<Game[]>([]);
