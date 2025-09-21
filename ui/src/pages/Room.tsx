@@ -9,19 +9,31 @@ import iconRefresh from "../assets/icon-refresh.png";
 
 export default function Room() {
   const [rooms, setRooms] = useState<Game[]>([]);
+  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/");
+    return navigate("/");
   };
 
   const handleEnter = () => {
-    // Logic to enter a selected room
+    const nickname = localStorage.getItem("nickname");
+    const room_id = localStorage.getItem("room_id");
+
+    if (!nickname || !room_id) {
+      return navigate("/");
+    }
+
+    navigate("/game");
   };
 
   const handleInsertCode = () => {
     // Logic to insert a room code
   };
+
+  const handleSelectRoom = (room_id: string) => {
+    return setSelectedRoom(room_id);
+  }
 
 
   const handleRefresh = async () => {
@@ -50,7 +62,7 @@ export default function Room() {
           </button>
         </div>
 
-        <RoomList rooms={rooms} />
+        <RoomList rooms={rooms} onSelectRoom={handleSelectRoom} selectedRoom={selectedRoom} />
 
         <div className={styles.buttons}>
           <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
