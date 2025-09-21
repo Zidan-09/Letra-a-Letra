@@ -7,17 +7,19 @@ import iconEnter from "../assets/icon-enter.png";
 import iconHelp from "../assets/icon-help.png";
 
 export default function Home() {
-  const [nome, setNome] = useState("");
+  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
   const handleCreateRoom = () => {
-    if (nome.trim()) {
+    if (nickname.trim()) {
+      localStorage.setItem("nickname", nickname);
       navigate("/room");
     }
   };
-
+  
   const handleEnterRoom = () => {
-    if (nome.trim()) {
+    if (nickname.trim()) {
+      localStorage.setItem("nickname", nickname);
       navigate("/room");
     }
   };
@@ -36,8 +38,8 @@ export default function Home() {
           <input
             type="text"
             placeholder="Digite seu Nickname..."
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
             className={styles.input}
           />
         </div>

@@ -33,6 +33,7 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  margin-left: 2.6rem;
 }
 
 .title {
@@ -62,7 +63,7 @@
 
 .refresh:hover {
   border: 0.2rem solid rgb(0, 230, 17);
-  transform: translateY(-0.01rem);
+  transform: translateY(-0.001rem);
 }
 
 .iconRefresh {
@@ -88,13 +89,12 @@
   border: none;
   border-radius: 2rem;
   padding: 0 1rem;
-  font-size: 1.2rem;
+  font-size: 1.9rem;
   font-weight: bold;
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-  -webkit-text-stroke: 0.05rem rgb(93, 55, 77);
 }
 
 .button:hover {

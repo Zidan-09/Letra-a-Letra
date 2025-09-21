@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.dataset.y = y;
         cell.textContent = "";
         cell.addEventListener("click", async () => {
-          await fetch("http://localhost:3333/game/moveGame", {
+          await fetch("http://localhost:3333/api/v1/game/moveGame", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
           privateRoom: localStorage.getItem("privateRoom") === "true"
         };
 
-        const res = await fetch("http://localhost:3333/room/createRoom", {
+        const res = await fetch("http://localhost:3333/api/v1/room/createRoom", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
           room_id
         };
 
-        const res = await fetch("http://localhost:3333/room/joinRoom", {
+        const res = await fetch("http://localhost:3333/api/v1/room/joinRoom", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body)
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
   backBtn.addEventListener("click", async () => {
 
     try {
-      await fetch(`http://localhost:333/room/leaveRoom`, {
+      await fetch(`http://localhost:333/api/v1/room/leaveRoom`, {
         method: "POST",
         headers: { },
         body: JSON.stringify({
@@ -276,7 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addLog("Solicitado início da partida...");
 
     try {
-      await fetch(`http://localhost:3333/game/startGame`, {
+      await fetch(`http://localhost:3333/api/v1/game/startGame`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
