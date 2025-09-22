@@ -6,10 +6,12 @@ import styles from "../styles/Room.module.css";
 import iconBack from "../assets/buttons/icon-back.png";
 import iconEnter from "../assets/buttons/icon-enter.png";
 import iconRefresh from "../assets/buttons/icon-refresh.png";
+import RoomPopup from "../components/RoomPopup";
 
 export default function Room() {
   const [rooms, setRooms] = useState<Game[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [isPopupOpen, setPopupOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -28,13 +30,12 @@ export default function Room() {
   };
 
   const handleInsertCode = () => {
-    // Logic to insert a room code
+    setPopupOpen(true);
   };
 
   const handleSelectRoom = (room_id: string) => {
     return setSelectedRoom(room_id);
   }
-
 
   const handleRefresh = async () => {
     const response = await fetch("http://localhost:3333/api/v1/room/getRooms");
@@ -78,6 +79,7 @@ export default function Room() {
 
         <button className={`${styles.button} ${styles.code}`} onClick={handleInsertCode}>Inserir Código</button>
       </div>
+      <RoomPopup isOpen={isPopupOpen} onClose={() => {setPopupOpen(false)}}/>
     </div>
   );
 }

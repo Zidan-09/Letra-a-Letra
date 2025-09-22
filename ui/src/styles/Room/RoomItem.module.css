@@ -12,6 +12,7 @@
     font-family: 'Lilita One', cursive;
     gap: 5rem;
     -webkit-text-stroke: 1.5px black;
+    outline: none;
 }
 
 .nickname {
