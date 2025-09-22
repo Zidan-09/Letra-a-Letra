@@ -59,9 +59,10 @@
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0,0,0,0.2);
   transform: translateY(0.3rem);
+  outline: none;
 }
 
-.refresh:hover {
+.refresh:hover, .refresh:focus {
   border: 0.2rem solid rgb(0, 230, 17);
   transform: translateY(-0.001rem);
 }
@@ -95,9 +96,10 @@
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+  outline: none;
 }
 
-.button:hover {
+.button:hover, .button:focus {
   transform: translateY(-2px);
 }
 

@@ -13,7 +13,7 @@ export default function Home() {
   const handleCreateRoom = () => {
     if (nickname.trim()) {
       localStorage.setItem("nickname", nickname);
-      navigate("/room");
+      navigate("/create");
     }
   };
   
@@ -22,6 +22,10 @@ export default function Home() {
       localStorage.setItem("nickname", nickname);
       navigate("/room");
     }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") handleEnterRoom();
   };
 
   const handleHelp = () => {
@@ -41,6 +45,7 @@ export default function Home() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             className={styles.input}
+            onKeyDown={handleKeyDown}
           />
         </div>
 

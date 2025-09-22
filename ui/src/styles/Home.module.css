@@ -58,6 +58,7 @@
   font-size: 1rem;
   text-align: center;
   box-sizing: border-box;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
 }
 
 .input:focus {
@@ -90,9 +91,10 @@
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+  outline: none;
 }
 
-.button:hover {
+.button:hover, .button:focus {
   transform: translateY(-2px);
 }
 
