@@ -17,7 +17,6 @@ export default function Home() {
   const handleCreateRoom = async () => {
     if (nickname.trim()) {
       const result = await createPlayer();
-      console.log(result);
 
       if (
         result.player_id === socket.id
@@ -28,7 +27,6 @@ export default function Home() {
   const handleEnterRoom = async () => {
     if (nickname.trim()) {
       const result = await createPlayer();
-      console.log(result);
 
       if (
         result.player_id === socket.id
@@ -40,8 +38,8 @@ export default function Home() {
     alert("Instruções de como jogar serão exibidas aqui.");
   };
 
-  const createPlayer = async () => {
-    const result: Player = await fetch(`${Server}/player/createPlayer`, {
+  const createPlayer = async (): Promise<Player> => {
+    const result = await fetch(`${Server}/player/createPlayer`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -50,7 +48,7 @@ export default function Home() {
       })
     }).then(res => res.json()).then(data => data);
 
-    return result;
+    return result.data;
   }
 
   return (
