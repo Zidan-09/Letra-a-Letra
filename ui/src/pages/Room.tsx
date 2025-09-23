@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RoomList from "../components/RoomList";
 import type { Game } from "../utils/room_utils";
+import { Server } from "../utils/server_utils";
 import styles from "../styles/Room.module.css";
 import iconBack from "../assets/buttons/icon-back.png";
 import iconEnter from "../assets/buttons/icon-enter.png";
@@ -19,10 +20,9 @@ export default function Room() {
   };
 
   const handleEnter = () => {
-    const nickname = localStorage.getItem("nickname");
     const room_id = localStorage.getItem("room_id");
 
-    if (!nickname || !room_id) {
+    if (!room_id) {
       return navigate("/");
     }
 
@@ -38,14 +38,14 @@ export default function Room() {
   }
 
   const handleRefresh = async () => {
-    const response = await fetch("http://localhost:3333/api/v1/room/getRooms");
+    const response = await fetch(`${Server}/room/getRooms`);
     const data: Game[] = await response.json().then(data => data.data);
     setRooms(data);
   }
 
   useEffect(() => {
     async function fetchRooms() {
-      const response = await fetch("http://localhost:3333/api/v1/room/getRooms");
+      const response = await fetch(`${Server}/room/getRooms`);
       const data: Game[] = await response.json().then(data => data.data);
       setRooms(data);
     }

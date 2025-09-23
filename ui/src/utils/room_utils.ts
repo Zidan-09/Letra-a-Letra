@@ -1,10 +1,15 @@
 interface Game {
     room_id: string;
+    room_name: string;
+    allowedPowers: MovementsEnum[];
+    gameMode: GameModes;
     status: GameStatus;
     players: Player[];
     spectators: Player[];
+    created_by: string;
     turn: number;
     board: Board | null;
+    haveSpectators: boolean;
     privateRoom: boolean;
 }
 
@@ -42,6 +47,8 @@ interface Cell {
     revealed: boolean;
     power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
 }
+
+type GameModes = "NORMAL" | "CRAZY"
 
 type PowerRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
 
