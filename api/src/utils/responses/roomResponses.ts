@@ -5,6 +5,8 @@ export enum RoomResponses {
     RoomJoinedAsSpectator = "room_joined_as_spectator",
     RoomTurnedToPlayer = "room_turned_to_player",
     RoomTurnedToSpectator = "room_turned_to_spectator",
+    RoomSettingsChanged = "room_settings_changed",
+    SpectatorsOff = "spectators_off",
     PlayerReconnected = "player_reconnected",
     RoomFinded = "room_finded",
     FullRoom = "full_room",

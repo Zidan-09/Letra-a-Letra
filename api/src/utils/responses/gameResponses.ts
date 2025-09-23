@@ -6,6 +6,7 @@ enum GameResponses {
     GameStarted = "game_started",
     Continue = "continue",
     InvalidMovement = "invalid_movement",
+    InvalidTheme = "invalid_theme",
     AlmostBlocked = "almost_blocked",
     Blocked = "blocked",
     Unblocked = "unblocked",

@@ -1,23 +1,37 @@
+import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { Themes } from "../utils/board_utils/themesEnum";
+import { GameModes } from "../utils/game_utils/gameModes";
 import { GameStatus } from "../utils/game_utils/gameStatus";
+import { LogEnum } from "../utils/server_utils/logEnum";
+import { createLog } from "../utils/server_utils/logs";
 import { Board } from "./board";
 import { Player } from "./player";
 
 export class Game {
     room_id: string;
+    room_name: string;
+    allowedPowers: MovementsEnum[];
+    gameMode: GameModes;
     status: GameStatus;
     players: Player[];
     spectators: Player[] = [];
+    created_by: string;
     turn: number;
     board: Board | null;
+    haveSpectators: boolean;
     privateRoom: boolean;
 
-    constructor(room_id: string, status: GameStatus, players: Player[], privateRoom: boolean) {
+    constructor(room_id: string, room_name: string, allowedPowers: MovementsEnum[], gameMode: GameModes, status: GameStatus, player: Player, haveSpectators: boolean, privateRoom: boolean) {
         this.room_id = room_id;
+        this.room_name = room_name;
+        this.allowedPowers = allowedPowers;
+        this.gameMode = gameMode;
         this.status = status;
-        this.players = players;
+        this.players = [player];
+        this.created_by = player.nickname;
         this.turn = 0;
         this.board = null;
+        this.haveSpectators = haveSpectators;
         this.privateRoom = privateRoom;
     }
 
@@ -39,6 +53,9 @@ export class Game {
        const [p1, p2] = this.players;
 
        if (!this.board || (this.board.finded < this.board.words.length && p1 && p2)) return false;
+
+       this.status = GameStatus.GameOver;
+       createLog(this.room_id, `${LogEnum.GameOver}`);
 
        if (!p1 || !p2) return (p1 || p2) ?? false;
 

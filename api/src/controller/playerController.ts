@@ -1,16 +1,36 @@
 import { Request, Response } from "express";
-import { PlayerServices } from "../services/playerServices";
+import { PlayerService } from "../services/playerServices";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
+import { CreatePlayer, GetPlayer } from "../utils/requests/playerRequests";
+import { ServerResponses } from "../utils/responses/serverResponses";
+import { PlayerResponses } from "../utils/responses/playerResponses";
 
 export const PlayerController = {
-    getPlayer(req: Request<{}, {}, { room_id: string, player_id: string }>, res: Response) {
+    createPlayer(req: Request<{}, {}, CreatePlayer>, res: Response) {
+        const { player_id, nickname } = req.body;
+
         try {
-            const { room_id, player_id } = req.body;
+            const player = PlayerService.createPlayer(player_id, nickname, false);
 
-            const player = PlayerServices.getPlayer(room_id, player_id);
+            return HandleResponse.serverResponse(res, 200, true, PlayerResponses.PlayerCreated, player);
 
-            if (player) return HandleResponse.serverResponse(res, 200, true, "player_founded", player);
-            return HandleResponse.serverResponse(res, 404, false, "not_found");
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
+        }
+    },
+
+    getPlayer(req: Request<GetPlayer>, res: Response) {
+        const { player_id } = req.params;
+
+        try {
+            const player = PlayerService.getPlayer(player_id);
+
+            if (
+                player !== ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 200, true, PlayerResponses.PlayerFounded, player);
+            
+            return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
         } catch (err) {
             console.error(err);

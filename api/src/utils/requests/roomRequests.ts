@@ -1,14 +1,19 @@
+import { MovementsEnum } from "../board_utils/movementsEnum";
+import { GameModes } from "../game_utils/gameModes";
+
 interface CreateRoom {
-    socket_id: string;
-    nickname: string;
+    room_name: string;
+    allowedPowers: MovementsEnum[];
+    gameMode: GameModes;
+    spectators: boolean;
     privateRoom: boolean;
+    player_id: string;
 }
 
 interface JoinRoom {
-    socket_id: string;
-    nickname: string;
-    spectator: boolean;
     room_id: string;
+    spectator: boolean;
+    player_id: string;
 }
 
 interface LeaveRoom {
@@ -22,9 +27,14 @@ interface TurnSpectator {
 }
 
 interface TurnPlayer {
-    socket_id: string;
-    nickname: string;
     room_id: string;
+    player_id: string;
 }
 
-export { CreateRoom, JoinRoom, LeaveRoom, TurnSpectator, TurnPlayer }
+interface ChangeRoomSettigns {
+    room_id: string;
+    allowedPowers: MovementsEnum[];
+    gameMode: GameModes;
+}
+
+export { CreateRoom, JoinRoom, LeaveRoom, TurnSpectator, TurnPlayer, ChangeRoomSettigns }

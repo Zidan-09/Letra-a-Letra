@@ -8,7 +8,7 @@ import { checkWordCompletion } from "./checkCompletedWord";
 import { MovementsEnum } from "./movementsEnum";
 
 export const Movements = {
-    clickCell(board: Board, x: number, y: number, player: Player, room_id: string): GameResponses | MoveEmit {
+    clickCell(board: Board, x: number, y: number, player: Player, room_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
         if (cell.revealed) return GameResponses.AlmostRevealed;
@@ -79,7 +79,7 @@ export const Movements = {
         };
     },
 
-    blockCell(board: Board, x: number, y: number, player_id: string): GameResponses | MoveEmit {
+    blockCell(board: Board, x: number, y: number, player_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
         if (cell.revealed) return GameResponses.AlmostRevealed;
@@ -95,7 +95,7 @@ export const Movements = {
         }
     },
 
-    unblockCell(board: Board, x: number, y: number, player_id: string): GameResponses | MoveEmit {
+    unblockCell(board: Board, x: number, y: number, player_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
         if (cell.revealed) return GameResponses.AlmostRevealed;
@@ -143,7 +143,7 @@ export const Movements = {
         }
     },
 
-    effectMove(players: Player[], player_id: string, effect: MovementsEnum): GameResponses | MoveEmit {
+    effectMove(players: Player[], player_id: string, effect: MovementsEnum): MoveEmit | GameResponses {
         switch (effect) {
             case MovementsEnum.FREEZE:
                 var player = players.find(p => p.player_id !== player_id);
@@ -205,7 +205,7 @@ export const Movements = {
         }
     },
 
-    spy(board: Board, x: number, y: number, player_id: string): GameResponses | MoveEmit {
+    spy(board: Board, x: number, y: number, player_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
         if (cell.revealed) return GameResponses.AlmostRevealed;
