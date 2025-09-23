@@ -1,4 +1,4 @@
-import { Request, Response, text } from 'express';
+import { Request, Response } from 'express';
 import { HandleResponse } from '../utils/server_utils/handleResponse';
 import { GameService } from '../services/gameServices';
 import { Movement, PassTurn, StartGame } from '../utils/requests/gameRequests';
@@ -6,11 +6,14 @@ import { GameResponses } from '../utils/responses/gameResponses';
 import { ServerResponses } from '../utils/responses/serverResponses';
 import { SendSocket } from '../utils/game_utils/sendSocket';
 import { HandleSocket } from '../utils/server_utils/handleSocket';
+import { RoomParams } from '../utils/requests/roomRequests';
 
 export const gameController = {
-    startGame(req: Request<{}, {}, StartGame>, res: Response) {
+    startGame(req: Request<RoomParams, {}, StartGame>, res: Response) {
+        const { room_id } = req.params;
+        const { theme } = req.body;
+
         try {
-            const { room_id, theme } = req.body;
 
             const result = GameService.startGame(room_id, theme);
 
@@ -29,9 +32,11 @@ export const gameController = {
         }
     },
 
-    moveGame(req: Request<{}, {}, Movement>, res: Response) {
+    moveGame(req: Request<RoomParams, {}, Movement>, res: Response) {
+        const { room_id } = req.params;
+        const { player_id, movement, x, y } = req.body;
+
         try {
-            const { room_id, player_id, movement, x, y } = req.body;
 
             const result = GameService.moveGame(room_id, player_id, movement, x, y);
 
@@ -50,9 +55,11 @@ export const gameController = {
         }
     },
 
-    passTurn(req: Request<{}, {}, PassTurn>, res: Response) {
+    passTurn(req: Request<RoomParams, {}, PassTurn>, res: Response) {
+        const { room_id } = req.params;
+        const { player_id} = req.body;
+
         try {
-            const { room_id, player_id} = req.body;
 
             const result = GameService.passTurn(room_id, player_id);
 

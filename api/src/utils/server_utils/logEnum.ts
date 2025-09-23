@@ -1,26 +1,28 @@
-export enum LogEnum {
+enum LogEnum {
     RoomCreated = "room created",
     RoomClosed = "room closed",
-    PlayerJoined = "joinned the game",
+    PlayerJoined = "joined the game",
     PlayerJoinedAsSpectator = "joined as spectator",
-    PlayerReconnected = "reconnected the game",
+    PlayerReconnected = "reconnected to the game",
     PlayerTurnedToSpectator = "turned to spectator",
     SpectatorTurnedToPlayer = "turned to player",
     PlayerLeft = "left the game",
     GameStarted = "game started",
     GameOver = "game over",
     Error = "error",
-    InvalidMovement = "tried an invalid moviment",
+    InvalidMovement = "tried an invalid movement",
 
-    Freeze = "freeze",
-    Unfreeze = "unfreeze",
-    Trapped = "trapped",
-    Detect = "detect traps",
-    Blocked = "blocked cell",
-    Unblocked = "unblocked cell",
-    ClickOn = "clicked on cell",
-    Spied = "spied cell",
+    Freeze = "froze",
+    Unfreeze = "unfroze",
+    Trapped = "trapped cell at",
+    Detect = "detected traps",
+    Blocked = "blocked cell at",
+    Unblocked = "unblocked cell at",
+    ClickOn = "clicked on cell at",
+    Spied = "spied cell at",
     Blinded = "blinded",
     Lantern = "used lantern",
-    Imunity = "become imune"
+    Immunity = "became immune"
 }
+
+export { LogEnum }

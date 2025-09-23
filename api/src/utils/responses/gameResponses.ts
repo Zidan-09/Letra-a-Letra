@@ -14,12 +14,12 @@ enum GameResponses {
     AlmostTrapped = "almost_trapped",
     DetectedTraps = "detected_traps",
     Spied = "spied",
-    Freezed = "freezed",
-    Unfreezed = "unfreezed",
-    PlayerFrozen = "player_fronzen",
+    Frozen = "frozen",
+    Unfrozen = "unfrozen",
+    PlayerFrozen = "player_frozen",
     Blinded = "player_blind",
     Lantern = "used_lantern",
-    Immunity = "player_imune"
+    Immunity = "player_immune"
 }
 
 export { GameResponses }

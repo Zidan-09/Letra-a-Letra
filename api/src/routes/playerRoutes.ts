@@ -4,7 +4,7 @@ import { PlayerMiddleware } from "../middleware/playerMiddleware";
 
 const playerRouter: Router = Router();
 
-playerRouter.post("/createPlayer", PlayerMiddleware.createPlayer, PlayerController.createPlayer);
-playerRouter.get("/getPlayer/:player_id", PlayerMiddleware.getPlayer, PlayerController.getPlayer);
+playerRouter.post("/", PlayerMiddleware.createPlayer, PlayerController.createPlayer);
+playerRouter.get("/:player_id", PlayerMiddleware.getPlayer, PlayerController.getPlayer);
 
 export default playerRouter;
