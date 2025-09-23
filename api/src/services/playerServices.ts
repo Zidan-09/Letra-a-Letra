@@ -12,14 +12,24 @@ class PlayerServices {
         return player;
     };
 
-    getPlayer(player_id: string) {
+    getPlayer(player_id: string): Player | ServerResponses.NotFound {
         const player = this.players.get(player_id);
         if (!player) return ServerResponses.NotFound;
 
         return player;
     };
 
-    removePlayer(player_id: string) {
+    getAll(): Player[] {
+        let players: Player[] = [];
+
+        this.players.forEach(player => {
+            players.push(player);
+        })
+
+        return players;
+    }
+
+    removePlayer(player_id: string): boolean {
         const result = this.players.delete(player_id);
 
         return result;

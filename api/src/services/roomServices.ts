@@ -21,12 +21,22 @@ class RoomServices {
         spectators: boolean, 
         privateRoom: boolean, 
         player_id: string
-    ) {
+    ): Game | ServerResponses.NotFound {
         const player = PlayerService.getPlayer(player_id);
 
         if (player === ServerResponses.NotFound) return ServerResponses.NotFound;
 
-        const room: Game = new Game(nanoid(6), room_name, allowedPowers, gameMode, GameStatus.GameStarting, player, spectators, privateRoom);
+        const room: Game = new Game(
+            nanoid(6), 
+            room_name, 
+            allowedPowers, 
+            gameMode, 
+            GameStatus.GameStarting, 
+            player, 
+            spectators, 
+            privateRoom
+        );
+
         createLog(room.room_id, LogEnum.RoomCreated);
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
 
@@ -149,7 +159,7 @@ class RoomServices {
         return publicRooms;
     }
 
-    protected closeRoom(room_id: string) {
+    protected closeRoom(room_id: string): boolean {
         return this.rooms.delete(room_id);
     }
 
@@ -235,7 +245,11 @@ class RoomServices {
         return room;
     }
 
-    public changeRoomSettings(room_id: string, allowedPowers: MovementsEnum[], gameMode: GameModes): Game | ServerResponses.NotFound {
+    public changeRoomSettings(
+        room_id: string, 
+        allowedPowers: MovementsEnum[], 
+        gameMode: GameModes
+    ): Game | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
         
         if (
