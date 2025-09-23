@@ -9,6 +9,6 @@ roomRouter.post("/:room_id/players", RoomMiddleware.joinRoom, RoomController.joi
 roomRouter.patch("/:room_id/players/:player_id", RoomMiddleware.changeRole, RoomController.changeRole);
 roomRouter.get("/", RoomController.getRooms);
 roomRouter.delete("/:room_id/players/:player_id", RoomMiddleware.leftRoom, RoomController.leaveRoom);
-roomRouter.patch("/:room_id/config", RoomController.changeRoomSettings);
+roomRouter.patch("/:room_id/settings", RoomMiddleware.changeSettings, RoomController.changeSettings);
 
 export default roomRouter;
