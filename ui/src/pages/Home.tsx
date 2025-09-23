@@ -1,5 +1,8 @@
+import type { Player } from "../utils/room_utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSocket } from "../services/socketProvider";
+import { Server } from "../utils/server_utils";
 import styles from "../styles/Home.module.css";
 import logo from "../assets/logo.png";
 import iconCreate from "../assets/buttons/icon-create.png";
@@ -9,28 +12,46 @@ import iconHelp from "../assets/buttons/icon-help.png";
 export default function Home() {
   const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
+  const socket = useSocket();
 
-  const handleCreateRoom = () => {
+  const handleCreateRoom = async () => {
     if (nickname.trim()) {
-      localStorage.setItem("nickname", nickname);
-      navigate("/create");
+      const result = await createPlayer();
+      console.log(result);
+
+      if (
+        result.player_id === socket.id
+      ) navigate("/create");
     }
   };
   
-  const handleEnterRoom = () => {
+  const handleEnterRoom = async () => {
     if (nickname.trim()) {
-      localStorage.setItem("nickname", nickname);
-      navigate("/room");
-    }
-  };
+      const result = await createPlayer();
+      console.log(result);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleEnterRoom();
+      if (
+        result.player_id === socket.id
+      ) navigate("/room");
+    }
   };
 
   const handleHelp = () => {
     alert("Instruções de como jogar serão exibidas aqui.");
   };
+
+  const createPlayer = async () => {
+    const result: Player = await fetch(`${Server}/player/createPlayer`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        player_id: socket.id,
+        nickname: nickname
+      })
+    }).then(res => res.json()).then(data => data);
+
+    return result;
+  }
 
   return (
     <div className={styles.container}>
@@ -45,7 +66,6 @@ export default function Home() {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             className={styles.input}
-            onKeyDown={handleKeyDown}
           />
         </div>
 

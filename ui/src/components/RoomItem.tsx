@@ -21,7 +21,7 @@ export default function RoomItem({ room, color, onSelect, selected }: RoomItemPr
         <div className={`${styles.item} ${styles[color]} ${selected ? styles.selected : ""}`}
         onClick={handleSelectRoom}
         >
-            <p className={styles.nickname}>{room.players[0].nickname}</p>
+            <p className={styles.room_name}>{room.room_name}</p>
             <div className={`${styles.players} ${styles[`color_${playerInRoom}`]}`}>
                 <p>{room.players.length}/2</p>
             </div>
