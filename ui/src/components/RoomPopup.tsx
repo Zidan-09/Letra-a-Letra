@@ -25,7 +25,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
 
     const handleEnter = () => {
         if (room_id.trim()) {
-            navigate("/game")
+            navigate("/lobby")
             localStorage.setItem("room_id", room_id);
         }
     }
