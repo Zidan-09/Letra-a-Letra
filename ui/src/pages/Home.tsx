@@ -39,7 +39,7 @@ export default function Home() {
   };
 
   const createPlayer = async (): Promise<Player> => {
-    const result = await fetch(`${Server}/player/createPlayer`, {
+    const result = await fetch(`${Server}/player`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
