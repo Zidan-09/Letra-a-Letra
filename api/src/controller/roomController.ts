@@ -102,7 +102,7 @@ export const RoomController = {
         }
     },
 
-    changeRoomSettings(req: Request<RoomParams, {}, ChangeRoomSettigns>, res: Response) {
+    changeSettings(req: Request<RoomParams, {}, ChangeRoomSettigns>, res: Response) {
         const { room_id } = req.params;
         const { allowedPowers, gameMode } = req.body;
 
