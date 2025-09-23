@@ -25,7 +25,7 @@ def main():
         log_success("Dependências do backend instaladas!")
 
         log_info("Instalando dependências do frontend...")
-        subprocess.run(["npm.cmd", "install"], cwd="frontend", check=True)
+        subprocess.run(["npm.cmd", "install"], cwd="ui", check=True)
         log_success("Dependências do frontend instaladas!")
 
         log_info("Iniciando o backend...")
