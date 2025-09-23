@@ -105,7 +105,7 @@ export const GameService = {
                 );
                 
             case MovementsEnum.BLOCK:
-                createLog(room_id, `${player.nickname} ${LogEnum.Blocked} => x: ${x} y: ${y}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Blocked} (${x}, ${y})`);
 
                 return Movements.blockCell(
                     board, 
@@ -115,7 +115,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.UNBLOCK:
-                createLog(room_id, `${player.nickname} ${LogEnum.Unblocked} => x: ${x} y: ${y}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Unblocked} (${x}, ${y})`);
 
                 return Movements.unblockCell(
                     board, 
@@ -125,7 +125,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.TRAP:
-                createLog(room_id, `${player.nickname} ${LogEnum.Trapped} => x: ${x} y: ${y}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Trapped} (${x}, ${y})`);
 
                 return Movements.trapCell(
                     board, 
@@ -134,7 +134,7 @@ export const GameService = {
                     player_id
                 );
 
-            case MovementsEnum.DETECTTRAPS:
+            case MovementsEnum.DETECT_TRAPS:
                 createLog(room_id, `${player.nickname} ${LogEnum.Detect}`);
 
                 return Movements.detectTraps(
@@ -143,7 +143,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.FREEZE:
-                createLog(room_id, `${player.nickname} ${LogEnum.Freeze} => ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Freeze} ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
 
                 return Movements.effectMove(
                     players, 
@@ -152,7 +152,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.UNFREEZE:
-                createLog(room_id, `${player.nickname} ${LogEnum.Unfreeze}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Unfreeze} ${player.nickname}`);
 
                 return Movements.effectMove(
                     players, 
@@ -161,7 +161,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.SPY:
-                createLog(room_id, `${player.nickname} ${LogEnum.Spied} => x: ${x} y: ${y}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Spied} (${x}, ${y})`);
 
                 return Movements.spy(
                     board, 
@@ -171,7 +171,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.BLIND:
-                createLog(room_id, `${player.nickname} ${LogEnum.Blinded} => ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Blinded} ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
                 
                 return Movements.effectMove(
                     players, 
@@ -189,7 +189,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.IMMUNITY:
-                createLog(room_id, `${player.nickname} ${LogEnum.Imunity}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Immunity}`);
 
                 return Movements.effectMove(
                     players, 

@@ -3,7 +3,7 @@ export enum MovementsEnum {
     BLOCK = "BLOCK",
     UNBLOCK = "UNBLOCK",
     TRAP = "TRAP",
-    DETECTTRAPS = "DETECTTRAPS",
+    DETECT_TRAPS = "DETECT_TRAPS",
     FREEZE = "FREEZE",
     UNFREEZE = "UNFREEZE",
     SPY = "SPY",

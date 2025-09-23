@@ -7,11 +7,14 @@ import { ServerResponses } from "../utils/responses/serverResponses";
 import { GameStatus } from "../utils/game_utils/gameStatus";
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { Themes } from "../utils/board_utils/themesEnum";
+import { RoomParams } from "../utils/requests/roomRequests";
 
 export const GameMiddleware = {
-    startGame(req: Request<{}, {}, StartGame>, res: Response, next: NextFunction) {
+    startGame(req: Request<RoomParams, {}, StartGame>, res: Response, next: NextFunction) {
+        const { room_id } = req.params;
+        const { theme } = req.body;
+
         try {
-            const { room_id, theme } = req.body;
 
             if (
                 !room_id || !theme
@@ -36,9 +39,11 @@ export const GameMiddleware = {
         }
     },
 
-    validateMovement(req: Request<{}, {}, Movement>, res: Response, next: NextFunction) {
+    validateMovement(req: Request<RoomParams, {}, Movement>, res: Response, next: NextFunction) {
+        const { room_id } = req.params;
+        const { player_id, movement } = req.body;
+
         try {
-            const { room_id, player_id, movement } = req.body;
     
             const game = RoomService.getRoom(room_id);
 
@@ -82,9 +87,11 @@ export const GameMiddleware = {
         }
     },
 
-    passTurn(req: Request<{}, {}, PassTurn>, res: Response, next: NextFunction) {
+    passTurn(req: Request<RoomParams, {}, PassTurn>, res: Response, next: NextFunction) {
+        const { room_id } = req.params;
+        const { player_id } = req.body;
+
         try {
-            const { room_id, player_id } = req.body;
 
             if (
                 !room_id || !player_id

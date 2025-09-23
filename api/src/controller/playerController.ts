@@ -28,7 +28,7 @@ export const PlayerController = {
 
             if (
                 player !== ServerResponses.NotFound
-            ) return HandleResponse.serverResponse(res, 200, true, PlayerResponses.PlayerFounded, player);
+            ) return HandleResponse.serverResponse(res, 200, true, PlayerResponses.PlayerFound, player);
             
             return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 

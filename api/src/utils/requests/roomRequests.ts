@@ -5,13 +5,21 @@ interface CreateRoom {
     room_name: string;
     allowedPowers: MovementsEnum[];
     gameMode: GameModes;
-    spectators: boolean;
+    allowSpectators: boolean;
     privateRoom: boolean;
     player_id: string;
 }
 
-interface JoinRoom {
+interface RoomParams {
     room_id: string;
+}
+
+interface ActionParams {
+    room_id: string;
+    player_id: string;
+}
+
+interface JoinRoom {
     spectator: boolean;
     player_id: string;
 }
@@ -21,20 +29,13 @@ interface LeaveRoom {
     player_id: string;
 }
 
-interface TurnSpectator {
-    room_id: string;
-    player_id: string;
-}
-
-interface TurnPlayer {
-    room_id: string;
-    player_id: string;
+interface ChangeRole {
+    role: "player" | "spectator"
 }
 
 interface ChangeRoomSettigns {
-    room_id: string;
     allowedPowers: MovementsEnum[];
     gameMode: GameModes;
 }
 
-export { CreateRoom, JoinRoom, LeaveRoom, TurnSpectator, TurnPlayer, ChangeRoomSettigns }
+export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole, ChangeRoomSettigns }
