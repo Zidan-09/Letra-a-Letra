@@ -14,9 +14,10 @@ export const gameController = {
 
             const result = GameService.startGame(room_id, theme);
 
-            if (result === GameResponses.NotEnoughPlayers || result === ServerResponses.NotFound) return (
-                HandleResponse.serverResponse(res, 400, false, result)
-            );
+            if (
+                result === GameResponses.NotEnoughPlayers || 
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 400, false, result);
             
             SendSocket.gameStarted(room_id);
 
@@ -34,9 +35,9 @@ export const gameController = {
 
             const result = GameService.moveGame(room_id, player_id, movement, x, y);
 
-            if (typeof result === "string") return (
-                HandleResponse.serverResponse(res, 400, false, result)
-            );
+            if (
+                typeof result === "string"
+            ) return HandleResponse.serverResponse(res, 400, false, result);
 
             HandleSocket(room_id, player_id, movement, result);
             SendSocket.gameOver(room_id);
@@ -55,8 +56,10 @@ export const gameController = {
 
             const result = GameService.passTurn(room_id, player_id);
 
-            if (result === ServerResponses.NotFound) return HandleResponse.serverResponse(res, 404, false, result);
-            if (result === GameResponses.GameError) return HandleResponse.serverResponse(res, 400, false, result);
+            if (
+                result === ServerResponses.NotFound || 
+                result === GameResponses.GameError
+            ) return HandleResponse.serverResponse(res, 404, false, result);
 
             HandleResponse.serverResponse(res, 200, true, result);
 

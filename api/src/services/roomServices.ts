@@ -1,5 +1,4 @@
 import { Game } from "../entities/game";
-import { Player } from "../entities/player";
 import { ServerResponses } from "../utils/responses/serverResponses";
 import { getSocketInstance } from "../socket";
 import { RoomResponses } from "../utils/responses/roomResponses";
@@ -8,12 +7,26 @@ import { GameStatus } from "../utils/game_utils/gameStatus";
 import { createLog } from "../utils/server_utils/logs";
 import { LogEnum } from "../utils/server_utils/logEnum";
 import { SendSocket } from "../utils/game_utils/sendSocket";
+import { PlayerService } from "./playerServices";
+import { MovementsEnum } from "../utils/board_utils/movementsEnum";
+import { GameModes } from "../utils/game_utils/gameModes";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
-    public createRoom(player: Player, privateRoom: boolean) {
-        const room: Game = new Game(nanoid(6), GameStatus.GameStarting, [player], privateRoom);
+    public createRoom(
+        room_name: string, 
+        allowedPowers: MovementsEnum[], 
+        gameMode: GameModes, 
+        spectators: boolean, 
+        privateRoom: boolean, 
+        player_id: string
+    ) {
+        const player = PlayerService.getPlayer(player_id);
+
+        if (player === ServerResponses.NotFound) return ServerResponses.NotFound;
+
+        const room: Game = new Game(nanoid(6), room_name, allowedPowers, gameMode, GameStatus.GameStarting, player, spectators, privateRoom);
         createLog(room.room_id, LogEnum.RoomCreated);
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
 
@@ -22,12 +35,26 @@ class RoomServices {
         return room;
     };
 
-    public joinRoom(room_id: string, player: Player) {
+    public joinRoom(
+        room_id: string, 
+        player_id: string, 
+        spectator: boolean
+    ): Game | ServerResponses.NotFound {
         const room = this.rooms.get(room_id)!;
         const players = room.players;
+
+        const player = PlayerService.getPlayer(player_id);
+
+        if (player === ServerResponses.NotFound) return ServerResponses.NotFound;
+
+        if (spectator) {
+            room.spectators.push(player);
+            createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinedAsSpectator}`);
+        } else {
+            players.push(player);
+            createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
+        }
         
-        players.push(player);
-        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
 
         const io = getSocketInstance();
 
@@ -36,25 +63,13 @@ class RoomServices {
         })
 
         return room;
-    }
+    };
 
-    public joinAsSpectator(room_id: string, player: Player) {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
-
-        room.spectators.push(player);
-        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinedAsSpectator}`);
-
-        const io = getSocketInstance();
-
-        room.players.forEach(p => {
-            io.to(p.player_id).emit("player_joined_as_spectator", room);
-        })
-
-        return room;
-    }
-
-    public reconnectRoom(room_id: string, nickname: string, new_id: string) {
+    public reconnectRoom(
+        room_id: string, 
+        nickname: string, 
+        new_id: string
+    ): ServerResponses.Reconnected | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
 
         if (!room) return ServerResponses.NotFound;
@@ -67,26 +82,47 @@ class RoomServices {
 
             return ServerResponses.Reconnected;
         }
-    }
 
-    public leaveRoom(room_id: string, player_id: string): ServerResponses.NotFound | RoomResponses.LeftRoom {
+        return ServerResponses.NotFound;
+    };
+
+    public leaveRoom(
+        room_id: string, 
+        player_id: string
+    ): RoomResponses.LeftRoom | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
+
+        if (
+            !room
+        ) return ServerResponses.NotFound;
+
         const players = room!.players;
-        if (!players) return ServerResponses.NotFound;
+
+        if (
+            !players
+        ) return ServerResponses.NotFound;
+
         const player = players.find(p =>
             p.player_id === player_id
         )
-        if (!player) return ServerResponses.NotFound;
+
+        if (
+            !player
+        ) return ServerResponses.NotFound;
 
         const index = players.indexOf(player);
         players.splice(index, 1);
+
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);
 
-        if (players.length === 0) {
+        if (
+            players.length === 0
+        ) {
             this.closeRoom(room_id);
             createLog(room_id, LogEnum.RoomClosed);
         }
+
+        SendSocket.gameOver(room_id);
 
         const io = getSocketInstance();
 
@@ -97,11 +133,11 @@ class RoomServices {
         return RoomResponses.LeftRoom;
     }
 
-    public getRoom(id: string): Game | undefined {
-        return this.rooms.get(id);
+    public getRoom(id: string): Game | ServerResponses.NotFound {
+        return this.rooms.get(id) ?? ServerResponses.NotFound;
     }
 
-    public getPublicRooms() {
+    public getPublicRooms(): Game[] {
         const publicRooms: Game[] = [];
 
         this.rooms.forEach(room => {
@@ -117,30 +153,50 @@ class RoomServices {
         return this.rooms.delete(room_id);
     }
 
-    public afkPlayer(room_id: string, player_id: string) {
+    public afkPlayer(room_id: string, player_id: string): ServerResponses.Ended | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
-        const players = room.players;
 
+        if (
+            !room
+        ) return ServerResponses.NotFound;
+
+        const players = room.players;
         const player = players.find(p => p.player_id === player_id);
-        if (!player) return ServerResponses.NotFound;
+
+        if (
+            !player
+        ) return ServerResponses.NotFound;
 
         players.splice(players.indexOf(player), 1);
 
         SendSocket.gameOver(room_id);
+
         return ServerResponses.Ended;
     }
 
-    public turnPlayerToSpectator(room_id: string, player: Player) {
+    public turnPlayerToSpectator(room_id: string, player_id: string): Game | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
+
+        if (
+            !room
+        ) return ServerResponses.NotFound;
+
+        const player = PlayerService.getPlayer(player_id);
+
+        if (
+            player === ServerResponses.NotFound
+        ) return ServerResponses.NotFound;
 
         const playerIndex = room.players.indexOf(player);
-        if (playerIndex === -1) return ServerResponses.NotFound;
+
+        if (
+            playerIndex === -1
+        ) return ServerResponses.NotFound;
 
         room.players.splice(playerIndex, 1);
         player.spectator = true;
         room.spectators.push(player);
+
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerTurnedToSpectator}`);
 
         const io = getSocketInstance();
@@ -148,20 +204,46 @@ class RoomServices {
         return room;
     }
 
-    public turnSpectatorToPlayer(room_id: string, player: Player) {
+    public turnSpectatorToPlayer(room_id: string, player_id: string): Game | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
+
+        if (
+            !room
+        ) return ServerResponses.NotFound;
+
+        const player = PlayerService.getPlayer(player_id);
+
+        if (
+            player === ServerResponses.NotFound
+        ) return ServerResponses.NotFound;
 
         const spectatorIndex = room.spectators.indexOf(player);
-        if (spectatorIndex === -1) return ServerResponses.NotFound;
+
+        if (
+            spectatorIndex === -1
+        ) return ServerResponses.NotFound;
 
         room.spectators.splice(spectatorIndex, 1);
         player.spectator = false;
         room.players.push(player);
+
         createLog(room.room_id, `${player.nickname} ${LogEnum.SpectatorTurnedToPlayer}`);
 
         const io = getSocketInstance();
         io.to(player.player_id).emit("spectator_turned_to_player", room);
+
+        return room;
+    }
+
+    public changeRoomSettings(room_id: string, allowedPowers: MovementsEnum[], gameMode: GameModes): Game | ServerResponses.NotFound {
+        const room = this.rooms.get(room_id);
+        
+        if (
+            !room
+        ) return ServerResponses.NotFound;
+
+        room.allowedPowers = allowedPowers;
+        room.gameMode = gameMode;
 
         return room;
     }

@@ -10,7 +10,7 @@ export const SendSocket = {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
-        if (!room || !room.players || !room.board || !room.board.words) return;
+        if (room === ServerResponses.NotFound || !room.players || !room.board || !room.board.words) return;
 
         const players = room.players;
 
@@ -37,7 +37,7 @@ export const SendSocket = {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
-        if (!room || !room.players || !room.spectators) return;
+        if (room === ServerResponses.NotFound || !room.players || !room.spectators) return;
         const players = room.players.concat(room.spectators);
 
         players.forEach(p =>
@@ -49,7 +49,7 @@ export const SendSocket = {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
-        if (!room) return;
+        if (room === ServerResponses.NotFound) return;
         const players = room.players;
         if (!players) return;
         const winner = room.gameOver();

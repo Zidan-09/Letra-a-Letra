@@ -1,24 +1,21 @@
 import { Request, Response } from "express";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
-import { CreateRoom, JoinRoom, LeaveRoom, TurnPlayer, TurnSpectator } from "../utils/requests/roomRequests";
-import { PlayerServices } from "../services/playerServices";
+import { ChangeRoomSettigns, CreateRoom, JoinRoom, LeaveRoom, TurnPlayer, TurnSpectator } from "../utils/requests/roomRequests";
 import { RoomService } from "../services/roomServices";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
 
 export const RoomController = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response) {
+        const { room_name, allowedPowers, gameMode, spectators, privateRoom, player_id }: CreateRoom = req.body;
+
         try {
-            const { socket_id, nickname, privateRoom }: CreateRoom = req.body;
-
-            const player = PlayerServices.createPlayer(socket_id, nickname, false);
-
-            if (player) {
-                const room = RoomService.createRoom(player, privateRoom);
-                if (room) {
-                    return HandleResponse.serverResponse(res, 201, true, RoomResponses.RoomCreated, room)
-                }
-            }
+            const room = RoomService.createRoom(room_name, allowedPowers, gameMode, spectators, privateRoom, player_id);
+            
+            if (
+                room
+            ) return HandleResponse.serverResponse(res, 201, true, RoomResponses.RoomCreated, room)
+            
 
             return HandleResponse.serverResponse(res, 400, false, RoomResponses.RoomCreateonFailed);
 
@@ -29,33 +26,13 @@ export const RoomController = {
     },
 
     joinRoom(req: Request<{}, {}, JoinRoom>, res: Response) {
+        const { room_id, spectator, player_id } = req.body;
+
         try {
-            const { socket_id, nickname, spectator, room_id } = req.body;
+            const result = RoomService.joinRoom(room_id, player_id, spectator);
 
-            const player = PlayerServices.createPlayer(socket_id, nickname, spectator);
-
-            if (player) {
-                const result = RoomService.joinRoom(room_id, player);
-
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinned, result);
-            }
-        } catch (err) {
-            console.error(err);
-            HandleResponse.errorResponse(res, err);
-        }
-    },
-
-    joinAsSpectator(req: Request<{}, {}, JoinRoom>, res: Response) {
-        try {
-            const { socket_id, nickname, spectator, room_id } = req.body;
-
-            const player = PlayerServices.createPlayer(socket_id, nickname, spectator);
-
-            if (player) {
-                const result = RoomService.joinAsSpectator(room_id, player);
-
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinedAsSpectator, result);
-            }
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoinned, result);
+            
         } catch (err) {
             console.error(err);
             HandleResponse.errorResponse(res, err);
@@ -63,16 +40,13 @@ export const RoomController = {
     },
 
     turnSpectatorToPlayer(req: Request<{}, {}, TurnPlayer>, res: Response) {
+        const { room_id, player_id } = req.body;
+
         try {
-            const { socket_id, nickname, room_id } = req.body;
+            const result = RoomService.turnSpectatorToPlayer(room_id, player_id);
 
-            const player = PlayerServices.createPlayer(socket_id, nickname, false);
-
-            if (player) {
-                const result = RoomService.turnSpectatorToPlayer(room_id, player);
-
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToPlayer, result);
-            }
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToPlayer, result);
+            
         } catch (err) {
             console.error(err);
             HandleResponse.errorResponse(res, err);
@@ -80,16 +54,13 @@ export const RoomController = {
     },
 
     turnPlayerToSpectator(req: Request<{}, {}, TurnSpectator>, res: Response) {
+        const { room_id, player_id } = req.body;
+
         try {
-            const {room_id, player_id } = req.body;
+            const result = RoomService.turnPlayerToSpectator(room_id, player_id);
 
-            const player = PlayerServices.getPlayer(room_id, player_id);
-
-            if (player != ServerResponses.NotFound) {
-                const result = RoomService.turnPlayerToSpectator(room_id, player);
-
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToSpectator, result);
-            }
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToSpectator, result);
+            
         } catch (err) {
             console.error(err);
             HandleResponse.errorResponse(res, err);
@@ -109,14 +80,14 @@ export const RoomController = {
     },
 
     leaveRoom(req: Request<{}, {}, LeaveRoom>, res: Response) {
-        try {
-            const { room_id, player_id } = req.body;
+        const { room_id, player_id } = req.body;
 
+        try {
             const result = RoomService.leaveRoom(room_id, player_id);
 
-            if (result === ServerResponses.NotFound) return HandleResponse.serverResponse(
-                res, 404, false, result
-            )
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, result);
 
             return HandleResponse.serverResponse(res, 200, true, result);
 
@@ -124,7 +95,22 @@ export const RoomController = {
             console.error(err);
             HandleResponse.errorResponse(res, err);
         }
+    },
 
+    changeRoomSettings(req: Request<{}, {}, ChangeRoomSettigns>, res: Response) {
+        const { room_id, allowedPowers, gameMode } = req.body;
 
+        try {
+            const result = RoomService.changeRoomSettings(room_id, allowedPowers, gameMode);
+
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomSettingsChanged, result);
+
+        } catch (err) {
+            console.error(err);
+        }
     }
 }
