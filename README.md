@@ -73,43 +73,66 @@ Rooms -> Game
 ```text
 root/
 ├─ api/
-│  ├─ node_modules/
 │  ├─ src/
 │  │  ├─ controllers/
 │  │  │  ├─ gameController.ts
 │  │  │  ├─ roomController.ts
 │  │  │  └─ playerController.ts
-│  │  ├─ routes/
-│  │  │  ├─ gameRoutes.ts
-│  │  │  ├─ playerRoutes.ts
-│  │  │  └─ roomRoutes.ts
 │  │  ├─ entities/
 │  │  │  ├─ board.ts
+│  │  │  ├─ cell.ts
 │  │  │  ├─ game.ts
 │  │  │  └─ player.ts
 │  │  ├─ logs/
 │  │  │  └─ .gitkeep
-│  │  ├─ tests/
-│  │  │  └─ tests.ts
-│  │  ├─ middlewares/ (não implementado)
+│  │  ├─ middleware/
+│  │  │  ├─ gameMiddleware.ts
+│  │  │  ├─ playerMiddleware.ts
+│  │  │  └─ roomMiddleware.ts
+│  │  ├─ routes/
+│  │  │  ├─ gameRoutes.ts
+│  │  │  ├─ playerRoutes.ts
+│  │  │  └─ roomRoutes.ts
 │  │  ├─ services/
 │  │  │  ├─ gameServices.ts
 │  │  │  ├─ roomServices.ts
 │  │  │  └─ playerServices.ts
+│  │  ├─ settings/
+│  │  │  ├─ board.json
+│  │  │  ├─ cell.json
+│  │  │  ├─ server.json
+│  │  │  └─ themes.json
+│  │  ├─ tests/
+│  │  │  └─ tests.ts
 │  │  ├─ utils/
-│  │  │  ├─ emits/gameEmits.ts
+│  │  │  ├─ board_utils/
+│  │  │  │  ├─ canPlaceWord.ts
+│  │  │  │  ├─ checkCompletedWord.ts
+│  │  │  │  ├─ movements.ts
+│  │  │  │  ├─ movementsEnum.ts
+│  │  │  │  ├─ placeWord.ts
+│  │  │  │  ├─ selectTheme.ts
+│  │  │  │  └─ themesEnum.ts
+│  │  │  ├─ cell_utils/
+│  │  │  │  └─ powerRarity.ts
+│  │  │  ├─ emits/
+│  │  │  │  └─ gameEmits.ts
 │  │  │  ├─ game_utils/
-│  │  │  │  ├─ sendSocket.ts
-│  │  │  │  └─ gameStatus.ts
+│  │  │  │  ├─ gameModes.ts
+│  │  │  │  ├─ gameStatus.ts
+│  │  │  │  └─ sendSocket.ts
 │  │  │  ├─ requests/
-│  │  │  │  ├─ gameRequests.ts
+│  │  │  │  ├─ gameRequess.ts
+│  │  │  │  ├─ playerRequests.ts
 │  │  │  │  └─ roomRequests.ts
 │  │  │  ├─ responses/
 │  │  │  │  ├─ gameResponses.ts
+│  │  │  │  ├─ playerResponses.ts
 │  │  │  │  ├─ roomResponses.ts
 │  │  │  │  └─ serverResponses.ts
 │  │  │  └─ server_utils/
 │  │  │     ├─ handleResponse.ts
+│  │  │     ├─ handleSocket.ts
 │  │  │     ├─ logEnum.ts
 │  │  │     └─ logs.ts
 │  │  ├─ app.ts
@@ -118,19 +141,79 @@ root/
 │  ├─ tsconfig.json
 │  ├─ package.json
 │  └─ .env
-├─ ui/ (frontend temporário de teste)
-│  ├─ assets/
-│  ├─ pages/
-│  │  ├─ index.html
-│  │  ├─ join.html
-│  │  └─ room.html
-│  ├─ styles/
-│  │  ├─ index/styles.css
-│  │  ├─ join/styles.css
-│  │  └─ room/styles.css
-│  └─ scripts/
-│     ├─ scripts.js
-│     └─ roomScripts.js
+├─ ui/
+│  ├─ public/
+│  ├─ src/
+│  │  ├─ assets/
+│  │  │  ├─ avatar/
+│  │  │  │  ├─ avatar-1.png
+│  │  │  │  └─ avatar-2.png
+│  │  │  ├─ buttons/
+│  │  │  │  ├─ icon-back.png
+│  │  │  │  ├─ icon-create.png
+│  │  │  │  ├─ icon-enter.png
+│  │  │  │  ├─ icon-help.png
+│  │  │  │  ├─ icon-play.png
+│  │  │  │  └─ icon-refresh.png
+│  │  │  ├─ powers/
+│  │  │  │  ├─ icon-blind-min.png
+│  │  │  │  ├─ icon-blind.png
+│  │  │  │  ├─ icon-block-min.png
+│  │  │  │  ├─ icon-block.png
+│  │  │  │  ├─ icon-detecttraps-min.png
+│  │  │  │  ├─ icon-detecttraps.png
+│  │  │  │  ├─ icon-freeze-min.png
+│  │  │  │  ├─ icon-freeze.png
+│  │  │  │  ├─ icon-imunity-min.png
+│  │  │  │  ├─ icon-imunity.png
+│  │  │  │  ├─ icon-lantern-min.png
+│  │  │  │  ├─ icon-lantern.png
+│  │  │  │  ├─ icon-spy-min.png
+│  │  │  │  ├─ icon-spy.png
+│  │  │  │  ├─ icon-trap-min.png
+│  │  │  │  ├─ icon-trap.png
+│  │  │  │  ├─ icon-unblock-min.png
+│  │  │  │  ├─ icon-unblock.png
+│  │  │  │  ├─ icon-unfreeze-min.png
+│  │  │  │  └─ icon-unfreeze.png
+│  │  │  ├─ background.png
+│  │  │  └─ logo.png
+│  │  ├─ components/
+│  │  │  ├─ RoomItem.tsx
+│  │  │  ├─ RoomList.tsx
+│  │  │  └─ RoomPopup.tsx
+│  │  ├─ pages/
+│  │  │  ├─ Create.tsx
+│  │  │  ├─ Home.tsx
+│  │  │  └─ Room.tsx
+│  │  ├─ services/
+│  │  │  └─ socketProvider.tsx
+│  │  ├─ styles/
+│  │  │  ├─ Create/
+│  │  │  ├─ Room/
+│  │  │  │  ├─ RoomItem.module.css
+│  │  │  │  ├─ RoomList.module.css
+│  │  │  │  └─ RoomPopup.module.css
+│  │  │  ├─ Create.module.css
+│  │  │  ├─ Home.module.css
+│  │  │  └─ Room.module.css
+│  │  ├─ utils/
+│  │  │  ├─ room_utils.ts
+│  │  │  ├─ server_utils.ts
+│  │  │  └─ socket.ts
+│  │  ├─ App.css
+│  │  ├─ App.tsx
+│  │  ├─ index.css
+│  │  ├─ main.tsx
+│  │  └─ vite-env.d.ts
+│  ├─ .gitignore
+│  ├─ eslint.config.js
+│  ├─ index.html
+│  ├─ package.json
+│  ├─ tsconfig.app.json
+│  ├─ tsconfig.json
+│  ├─ tsconfig.node.json
+│  └─ vite.config.ts
 ├─ diagrams/
 │  └─ fluxDiagram.drawio.svg
 ├─ frontend/
@@ -166,12 +249,8 @@ root/
 └─ README.md
 ```
 
-## 10. Observações
+## 10. Como Rodar
 
-- O frontend na pasta ui/ é apenas para testes da API e não fará parte do jogo final.
+- Certifique de ter o python instalado
 
-- O projeto está em versão alfa; recursos de progressão e monetização ainda serão implementados.
-
-## 11. Como Rodar
-
-- Execute o INIT.py
+- **Execução:** python INIT.py

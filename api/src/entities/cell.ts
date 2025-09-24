@@ -1,6 +1,6 @@
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { PowerRarity } from "../utils/cell_utils/powerRarity";
-import data from "../config/cell.json";
+import data from "../settings/cell.json";
 
 export class Cell {
     letter: string;
@@ -30,16 +30,16 @@ export class Cell {
     }
 
     powerup(): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
-        const chance = data.config.chancePerCell;
+        const chance = data.settings.chancePerCell;
         const powers = Object.values(MovementsEnum);
         powers.shift();
 
         if (Math.random() < chance / 100) {
             const roll = Math.random();
 
-            const rare = data.config.percentages.rare;
-            const epic = data.config.percentages.epic;
-            const legend = data.config.percentages.legendary;
+            const rare = data.settings.percentages.rare;
+            const epic = data.settings.percentages.epic;
+            const legend = data.settings.percentages.legendary;
 
             if (roll <= legend) {
                 var index = Math.floor(Math.random() * data.powers.legendary.length);
