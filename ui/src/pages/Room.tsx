@@ -26,7 +26,7 @@ export default function Room() {
       return navigate("/");
     }
 
-    navigate("/game");
+    navigate("/lobby");
   };
 
   const handleInsertCode = () => {
@@ -38,14 +38,14 @@ export default function Room() {
   }
 
   const handleRefresh = async () => {
-    const response = await fetch(`${Server}/room/getRooms`);
+    const response = await fetch(`${Server}/room`);
     const data: Game[] = await response.json().then(data => data.data);
     setRooms(data);
   }
 
   useEffect(() => {
     async function fetchRooms() {
-      const response = await fetch(`${Server}/room/getRooms`);
+      const response = await fetch(`${Server}/room`);
       const data: Game[] = await response.json().then(data => data.data);
       setRooms(data);
     }

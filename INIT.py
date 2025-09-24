@@ -2,7 +2,13 @@ import subprocess
 import webbrowser
 import time
 import sys
-from colorama import init, Fore, Style
+
+try:
+    from colorama import init, Fore, Style
+except ImportError:
+    print("[INFO] colorama não encontrado, instalando...")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "colorama"])
+    from colorama import init, Fore, Style
 
 init(autoreset=True)
 

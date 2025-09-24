@@ -21,7 +21,7 @@ export const Movements = {
             if (cell.clicks >= 3) {
                 cell.resetCell();
 
-                createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} => x: ${x} y: ${y} and ${LogEnum.Unblocked}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) and unblocked cell`);
 
                 return {
                     status: GameResponses.Unblocked,
@@ -30,7 +30,7 @@ export const Movements = {
                 }
             }
 
-            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} => x: ${x} y: ${y} but cell stil blocked - ${3 - cell.clicks} to unblock`);
+            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) but cell stil blocked - ${3 - cell.clicks} to unblock`);
 
             return {
                 status: GameResponses.Blocked,
@@ -43,7 +43,7 @@ export const Movements = {
             if (cell.trapped.trapped_by === player.player_id) return GameResponses.InvalidMovement;
             cell.resetCell();
 
-            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} => x: ${x} y: ${y} - ${LogEnum.Trapped}`);
+            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - trapped cell`);
 
             return {
                 status: GameResponses.Trapped,
@@ -57,7 +57,7 @@ export const Movements = {
         
         if (result) {
 
-            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} => x: ${x} y: ${y} - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
+            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
             board.finded++;
             
             return {
@@ -69,7 +69,7 @@ export const Movements = {
             }
         }
 
-        createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} => x: ${x} y: ${y} - reveal letter: '${cell.letter}'`);
+        createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}'`);
 
         return {
             status: GameResponses.Revealed,
@@ -144,31 +144,32 @@ export const Movements = {
     },
 
     effectMove(players: Player[], player_id: string, effect: MovementsEnum): MoveEmit | GameResponses {
+        let player: Player | undefined;
         switch (effect) {
             case MovementsEnum.FREEZE:
-                var player = players.find(p => p.player_id !== player_id);
+                player = players.find(p => p.player_id !== player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("freeze", 3);
 
                 return {
-                    status: GameResponses.Freezed,
+                    status: GameResponses.Frozen,
                     player: player.player_id
                 }
 
             case MovementsEnum.UNFREEZE:
-                var player = players.find(p => p.player_id === player_id);
+                player = players.find(p => p.player_id === player_id);
                 if (!player) return GameResponses.GameError;
                 
                 player.removeEffect("freeze");
 
                 return {
-                    status: GameResponses.Unfreezed,
+                    status: GameResponses.Unfrozen,
                     player: player.player_id
                 }
 
             case MovementsEnum.BLIND:
-                var player = players.find(p => p.player_id !== player_id);
+                player = players.find(p => p.player_id !== player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("blind", 3);
@@ -179,7 +180,7 @@ export const Movements = {
                 }
 
             case MovementsEnum.LANTERN:
-                var player = players.find(p => p.player_id === player_id);
+                player = players.find(p => p.player_id === player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.removeEffect("blind");
@@ -190,7 +191,7 @@ export const Movements = {
                 }
 
             case MovementsEnum.IMMUNITY:
-                var player = players.find(p => p.player_id === player_id);
+                player = players.find(p => p.player_id === player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("immunity", 5);
@@ -201,7 +202,6 @@ export const Movements = {
                 }
             default:
                 return GameResponses.GameError;
-
         }
     },
 

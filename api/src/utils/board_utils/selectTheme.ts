@@ -1,5 +1,5 @@
 import { Themes } from "./themesEnum";
-import themesJson from "../../config/themes.json";
+import themesJson from "../../settings/themes.json";
 
 export function selectTheme(theme: Themes): string[] {
     if (theme !== Themes.RANDOM) {

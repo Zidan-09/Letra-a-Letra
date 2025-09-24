@@ -18,10 +18,10 @@ export class Game {
     created_by: string;
     turn: number;
     board: Board | null;
-    haveSpectators: boolean;
+    allowSpectators: boolean;
     privateRoom: boolean;
 
-    constructor(room_id: string, room_name: string, allowedPowers: MovementsEnum[], gameMode: GameModes, status: GameStatus, player: Player, haveSpectators: boolean, privateRoom: boolean) {
+    constructor(room_id: string, room_name: string, allowedPowers: MovementsEnum[], gameMode: GameModes, status: GameStatus, player: Player, allowSpectators: boolean, privateRoom: boolean) {
         this.room_id = room_id;
         this.room_name = room_name;
         this.allowedPowers = allowedPowers;
@@ -31,7 +31,7 @@ export class Game {
         this.created_by = player.nickname;
         this.turn = 0;
         this.board = null;
-        this.haveSpectators = haveSpectators;
+        this.allowSpectators = allowSpectators;
         this.privateRoom = privateRoom;
     }
 

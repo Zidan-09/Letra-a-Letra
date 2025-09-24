@@ -7,4 +7,8 @@ interface GetPlayer {
     player_id: string;
 }
 
-export { CreatePlayer, GetPlayer }
+interface DeletePlayer {
+    player_id: string;
+}
+
+export { CreatePlayer, GetPlayer, DeletePlayer }

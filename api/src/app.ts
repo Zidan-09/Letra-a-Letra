@@ -3,14 +3,14 @@ import cors from 'cors';
 import roomRouter from "./routes/roomRoutes";
 import gameRouter from "./routes/gameRoutes";
 import playerRouter from "./routes/playerRoutes";
-import config from "./config/server.json";
+import settings from "./settings/server.json";
 
 const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
 
-const VERSION: string = config.version || "v1";
+const VERSION: string = settings.version || "v1";
 
 app.use(`/api/${VERSION}/room`, roomRouter);
 app.use(`/api/${VERSION}/game`, gameRouter);
