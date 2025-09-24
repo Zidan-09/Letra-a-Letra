@@ -1,7 +1,7 @@
 {
-  "name": "word-search-battle",
-  "version": "0.0.1",
-  "description": "a battleship game with the concept of word search",
+  "name": "letra-a-letra-api",
+  "version": "0.5.1",
+  "description": "A fast-paced multiplayer game blending word search and battleship, where players race to find letters while sabotaging their opponents.",
   "main": "server.ts",
   "scripts": {
     "dev": "ts-node src/server.ts",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zidan-09/word-search-battle.git"
+    "url": "git+https://github.com/Zidan-09/Letra-a-Letra.git"
   },
   "keywords": [
     "word",
@@ -21,12 +21,12 @@
     "pvp-game",
     "word-search-game"
   ],
-  "author": "Zidan-09",
+  "author": "Samuel, Gabriel Lima",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Zidan-09/word-search-battle/issues"
+    "url": "https://github.com/Zidan-09/Letra-a-Letra/issues"
   },
-  "homepage": "https://github.com/Zidan-09/word-search-battle#readme",
+  "homepage": "https://github.com/Zidan-09/Letra-a-Letra#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",

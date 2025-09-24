@@ -1,5 +1,5 @@
 {
-    "config": {
+    "settings": {
         "chancePerCell": 10,
         "percentages": {
             "common": 0.60,
