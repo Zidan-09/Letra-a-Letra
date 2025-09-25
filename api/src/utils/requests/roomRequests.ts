@@ -3,6 +3,7 @@ import { GameModes } from "../game_utils/gameModes";
 
 interface CreateRoom {
     room_name: string;
+    turn_time: number;
     allowedPowers: MovementsEnum[];
     gameMode: GameModes;
     allowSpectators: boolean;
@@ -34,6 +35,7 @@ interface ChangeRole {
 }
 
 interface ChangeRoomSettigns {
+    turn_time: number;
     allowedPowers: MovementsEnum[];
     gameMode: GameModes;
 }

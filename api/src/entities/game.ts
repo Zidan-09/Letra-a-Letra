@@ -10,6 +10,7 @@ import { Player } from "./player";
 export class Game {
     room_id: string;
     room_name: string;
+    turn_time: number;
     allowedPowers: MovementsEnum[];
     gameMode: GameModes;
     status: GameStatus;
@@ -21,9 +22,10 @@ export class Game {
     allowSpectators: boolean;
     privateRoom: boolean;
 
-    constructor(room_id: string, room_name: string, allowedPowers: MovementsEnum[], gameMode: GameModes, status: GameStatus, player: Player, allowSpectators: boolean, privateRoom: boolean) {
+    constructor(room_id: string, room_name: string, turn_time: number, allowedPowers: MovementsEnum[], gameMode: GameModes, status: GameStatus, player: Player, allowSpectators: boolean, privateRoom: boolean) {
         this.room_id = room_id;
         this.room_name = room_name;
+        this.turn_time = turn_time;
         this.allowedPowers = allowedPowers;
         this.gameMode = gameMode;
         this.status = status;
