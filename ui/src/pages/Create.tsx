@@ -16,7 +16,7 @@ export default function Create() {
     return(
          <div className={styles.container}>
             <div className={styles.card}>
-                <div className={styles.titlecontainer}></div>
+                <div className={styles.titlecontainer}>
                 <h2 className={styles.title}>Criar Sala</h2>
                 </div>
 
@@ -45,9 +45,9 @@ export default function Create() {
                         <option value="space">Espaço</option>
                     </select>
 
-                    <div className={styles.powers}>
+                    {/* <div className={styles.powers}>
 
-                    </div>
+                    </div> */}
 
                     <select name="gamemode" id="gamemode" className={styles.gamemode}>
                         <option value="NORMAL">NORMAL</option>
@@ -75,6 +75,7 @@ export default function Create() {
                         <img src={create} alt="Create" className={styles.icon}/>
                         Criar
                     </button>
+                </div>
                 </div>
 
             </div>
