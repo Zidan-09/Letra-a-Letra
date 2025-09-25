@@ -13,6 +13,10 @@ export default function Create() {
         return navigate("/");
     }
 
+    const handleNext = () => {
+        return navigate("/lobby")
+    }
+
     return(
          <div className={styles.container}>
             <div className={styles.card}>
@@ -21,14 +25,16 @@ export default function Create() {
                 </div>
 
                 <div className={styles.form}>
-                    <p className={styles.label}>Nome da Sala</p>
+                    <p className={styles.labelname}>Nome da Sala</p>
                     <input type="text"
                     placeholder="Digite o nome da sala..."
                     value={RoomName}
                     onChange={(e) => setRoomName(e.target.value)}
                     className={styles.input}/>
+                    <div className={styles.selectcontainer}>
+                    <label htmlFor="theme" className={styles.label}>Tema:</label>
                     <select name="theme" 
-                    id="theme"
+                    id="theme" 
                     value={Theme}
                     onChange={(e) => setTheme(e.target.value)}
                     className={styles.themes}>
@@ -45,15 +51,17 @@ export default function Create() {
                         <option value="space">Espaço</option>
                     </select>
 
-                    {/* <div className={styles.powers}>
+                    <div className={styles.powers}>
+                        
+                    </div>
 
-                    </div> */}
-
+                    <label htmlFor="gamemode" className={styles.label}>Modo:</label>
                     <select name="gamemode" id="gamemode" className={styles.gamemode}>
                         <option value="NORMAL">NORMAL</option>
                         <option value="CRAZY">MALUCO</option>
                     </select>   
-
+                    </div>
+                    <div className={styles.checkbox}>
                     <div className={styles.spectators}>
                         <p className={styles.label}>Espectadores</p>
                         <input type="checkbox" className={styles.allowSpectators} id="checkbox"/>
@@ -63,7 +71,7 @@ export default function Create() {
                         <p className={styles.label}>Privada</p>
                         <input type="checkbox" className={styles.privateRoom} id="checkbox"/>
                     </div>
-
+                    </div>
                 </div>
 
                 <div className={styles.buttons}>
@@ -71,7 +79,7 @@ export default function Create() {
                         <img src={back} alt="Back" className={styles.icon}/>
                         Voltar
                     </button>
-                    <button className={`${styles.button} ${styles.create}`}>
+                    <button className={`${styles.button} ${styles.create}`} onClick={handleNext}>
                         <img src={create} alt="Create" className={styles.icon}/>
                         Criar
                     </button>

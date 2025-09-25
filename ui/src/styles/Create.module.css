@@ -49,8 +49,7 @@
 .title {
     font-size: clamp(1.5rem, 5em, 2.8rem);
     color: white;
-    -webkit-text-stroke: 1px black;
-    margin: 0;
+    -webkit-text-stroke: 0.5px black;
 }
 
 .form {
@@ -58,19 +57,29 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 3rem;
+    margin-top: 0;
     width: 100%;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .label {
     font-size: 2rem;
     color: white;
     -webkit-text-stroke: 1.5px #464646;
+    margin-bottom: 0;
+}
+
+.labelname {
+    font-size: 2rem;
+    color: white;
+    -webkit-text-stroke: 1.5px #464646;
+    margin-bottom: -1rem;
+    margin-top: 1.5rem;
+
 }
 
 .input {
-    width: 100%;
+    width: 90%;
     background-color: white;
     padding: 0.6rem 1rem;
     border-radius: 2rem;
@@ -80,12 +89,26 @@
     text-align: center;
     box-sizing: border-box;
     font-size: clamp(1rem, 1.5vw, 1.3rem);
+    margin-top: 0;
 }
 
 .input:focus {
     border: 3px solid rgba(0, 0, 0, 0.4);
     opacity: 1;
     color: black;
+}
+
+.checkbox {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+
+}
+
+.selectcontainer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .themes, .gamemode {
@@ -98,53 +121,32 @@
     border-radius: 0.5rem;
     border: 3px solid white;
     color: white;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
 }
 
 .themes:focus, .gamemode:focus {
     outline: none;
 }
 
-/* .gamemode {
-    width: 50%;
-    height: 2rem;
-    display: flex;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 0.5rem;
-    border: 3px solid white;
-    color: white;
-    justify-self: center;
-    font-size: 1.3rem;
-} */
-
-/* .gamemode:focus {
-    outline: none;
-} */
-
 option {
-    background-color: transparent;
+    background-color:rgb(255, 136, 0);
 }
 
 .buttons {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap:2rem;
     margin-bottom: 1rem;
-    flex-wrap: wrap;
 }
 
  .button {
     flex: 1 1 45%;
-    height: 60px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     gap: 0.5rem;
     border: none;
     border-radius: 2rem;
-    padding: 0 1rem;
+    padding: 0 3rem;
     font-size: 1.2rem;
     font-weight: bold;
     color: white;
