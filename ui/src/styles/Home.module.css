@@ -77,22 +77,22 @@
 }
 
 .button {
-  flex: 1 1 45%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.5rem;
-  border: none;
-  border-radius: 2rem;
-  padding: 0 1rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-  outline: none;
+    flex: 1 1 45%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+    outline: none;
 }
 
 .button:hover, .button:focus {

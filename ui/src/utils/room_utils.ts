@@ -8,6 +8,7 @@ interface Game {
     spectators: Player[];
     created_by: string;
     turn: number;
+    time_turn: number;
     board: Board | null;
     haveSpectators: boolean;
     privateRoom: boolean;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import RoomList from "../components/RoomList";
 import type { Game } from "../utils/room_utils";
 import { Server } from "../utils/server_utils";
+import { useSocket } from "../services/socketProvider";
 import styles from "../styles/Room.module.css";
 import iconBack from "../assets/buttons/icon-back.png";
 import iconEnter from "../assets/buttons/icon-enter.png";
@@ -11,20 +12,47 @@ import RoomPopup from "../components/RoomPopup";
 
 export default function Room() {
   const [rooms, setRooms] = useState<Game[]>([]);
+  const [spectator, setSpectator] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const navigate = useNavigate();
+  const socket = useSocket();
 
   const handleBack = () => {
     return navigate("/");
   };
 
-  const handleEnter = () => {
+  const joinSpectator = () => {
+    const room = rooms.find(r => r.room_id === selectedRoom);
+
+    if (!room) return;
+
+    if (room.players.length >= 2) {
+      setSpectator(true);
+    }
+  }
+
+  const handleEnter = async () => {
     const room_id = localStorage.getItem("room_id");
 
     if (!room_id) {
       return navigate("/");
     }
+
+    async function enterRoom() {
+      const data = await fetch(`${Server}/room/${room_id}/players`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          spectator: spectator,
+          player_id: socket.id
+        })
+      }).then(res => res.json()).then(data => data);
+
+      return data;
+    }
+
+    await enterRoom();
 
     navigate("/lobby");
   };
@@ -34,7 +62,8 @@ export default function Room() {
   };
 
   const handleSelectRoom = (room_id: string) => {
-    return setSelectedRoom(room_id);
+    setSelectedRoom(room_id);
+    joinSpectator();
   }
 
   const handleRefresh = async () => {

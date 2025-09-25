@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+.item {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    border-radius: 1.3rem;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-family: 'Lilita One', cursive;
+    gap: 1rem;
+    -webkit-text-stroke: 1.5px black;
+    outline: none;
+    background-color: blue;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 1.2rem;
+    border: 3px solid white;
+}
+
+.nickname {
+    font-size: 2rem;
+}
