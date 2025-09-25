@@ -7,10 +7,10 @@ import { ServerResponses } from "../utils/responses/serverResponses";
 
 export const RoomController = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response) {
-        const { room_name, allowedPowers, gameMode, allowSpectators, privateRoom, player_id }: CreateRoom = req.body;
+        const { room_name, turn_time, allowedPowers, gameMode, allowSpectators, privateRoom, player_id }: CreateRoom = req.body;
 
         try {
-            const room = RoomService.createRoom(room_name, allowedPowers, gameMode, allowSpectators, privateRoom, player_id);
+            const room = RoomService.createRoom(room_name, turn_time, allowedPowers, gameMode, allowSpectators, privateRoom, player_id);
             
             if (
                 room
@@ -104,10 +104,10 @@ export const RoomController = {
 
     changeSettings(req: Request<RoomParams, {}, ChangeRoomSettigns>, res: Response) {
         const { room_id } = req.params;
-        const { allowedPowers, gameMode } = req.body;
+        const { turn_time, allowedPowers, gameMode } = req.body;
 
         try {
-            const result = RoomService.changeRoomSettings(room_id, allowedPowers, gameMode);
+            const result = RoomService.changeRoomSettings(room_id, turn_time, allowedPowers, gameMode);
 
             if (
                 result === ServerResponses.NotFound

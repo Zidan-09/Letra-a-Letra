@@ -15,7 +15,8 @@ class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
     public createRoom(
-        room_name: string, 
+        room_name: string,
+        turn_time: number,
         allowedPowers: MovementsEnum[], 
         gameMode: GameModes, 
         spectators: boolean, 
@@ -28,7 +29,8 @@ class RoomServices {
 
         const room: Game = new Game(
             nanoid(6), 
-            room_name, 
+            room_name,
+            turn_time, 
             allowedPowers, 
             gameMode, 
             GameStatus.GameStarting, 
@@ -246,7 +248,8 @@ class RoomServices {
     }
 
     public changeRoomSettings(
-        room_id: string, 
+        room_id: string,
+        turn_time: number,
         allowedPowers: MovementsEnum[], 
         gameMode: GameModes
     ): Game | ServerResponses.NotFound {
@@ -258,6 +261,7 @@ class RoomServices {
 
         room.allowedPowers = allowedPowers;
         room.gameMode = gameMode;
+        room.turn_time = turn_time;
 
         return room;
     }
