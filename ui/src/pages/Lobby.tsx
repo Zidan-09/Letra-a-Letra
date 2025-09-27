@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../utils/server_utils";
-import type { Game } from "../utils/room_utils";
+import type { Game, RoomSettings } from "../utils/room_utils";
 import PlayerList from "../components/Lobby/PlayerList";
 import SettingsPopup from "../components/Lobby/SettingsPopup";
 import ChatPopup from "../components/Lobby/ChatPopup";
@@ -14,7 +14,8 @@ import iconChat from "../assets/buttons/icon-chat.png";
 import styles from "../styles/Lobby.module.css";
 
 export default function Lobby() {
-    const [room, setRoom] = useState<Game | undefined>(undefined);
+    const [room, setRoom] = useState<Game | null>(null);
+    const [roomSettings, setRoomSettings] = useState<RoomSettings>();
     const socket = useSocket();
     const navigate = useNavigate();
     const [isChatOpen, setChatOpen] = useState(false);
@@ -22,13 +23,15 @@ export default function Lobby() {
 
     useEffect(() => {
         const game = localStorage.getItem("game");
+        const settings = localStorage.getItem("settings");
 
-        if (!game) {
+        if (!game || !settings) {
             navigate("/create");
             return;
         }
 
         setRoom(JSON.parse(game).data);
+        setRoomSettings(JSON.parse(settings));
 
         if (!socket) return;
 
@@ -67,7 +70,21 @@ export default function Lobby() {
         navigate("/create");
     }
 
-    const handlePlay = () => {
+    const handlePlay = async () => {
+        if (room!.players.length < 2 || !roomSettings) return;
+
+        const result = await fetch(`${Server}/game/${room?.room_id}/start`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+                theme: roomSettings.theme,
+                gamemode: roomSettings.gamemode,
+                allowedPowers: roomSettings.allowedPowers
+            })
+        }).then(res => res.json()).then(data => data.data);
+
+        if (!result.status) return;
+
         navigate("/game");
     }
     
@@ -114,8 +131,13 @@ export default function Lobby() {
                     </button>
                 </div>
             </div>
-            {room && (
-                <SettingsPopup isOpen={isSettingsOpen} onClose={() => {setSettingsOpen(false)}} room={room}/>   
+            {room && roomSettings && (
+                <SettingsPopup
+                isOpen={isSettingsOpen}
+                onClose={() => {setSettingsOpen(false)}}
+                roomSettings={roomSettings}
+                onSave={setRoomSettings}
+                />   
             )}
             
             <ChatPopup isOpen={isChatOpen} onClose={() => {setChatOpen(false)}}/>

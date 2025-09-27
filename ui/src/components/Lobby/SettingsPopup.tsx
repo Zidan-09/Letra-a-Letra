@@ -1,28 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/Lobby/SettingsPopup.module.css";
-import type { Game } from "../../utils/room_utils";
+import type { RoomSettings } from "../../utils/room_utils";
+import SettingsForm from "../SettingsForm";
 
 interface SettingsPopupProps {
-    isOpen: boolean;
-    onClose: () => void;
-    room: Game;
+  isOpen: boolean;
+  onClose: () => void;
+  roomSettings?: RoomSettings;
+  onSave: (settings: RoomSettings) => void;
 }
 
-export default function SettingsPopup({isOpen, onClose, room}: SettingsPopupProps) {
+export default function SettingsPopup({
+  isOpen,
+  onClose,
+  roomSettings,
+  onSave,
+}: SettingsPopupProps) {
+  const [settings, setSettings] = useState<RoomSettings>(
+    roomSettings || {
+      theme: "random",
+      gamemode: "NORMAL",
+      allowedPowers: ["REVEAL"],
+    }
+  );
 
-    useEffect(() => {
-        if (!isOpen || !room) {
+  useEffect(() => {
+    if (roomSettings) setSettings(roomSettings);
+  }, [roomSettings]);
 
-        }
-    }, [isOpen]);
-    
-    if (!isOpen) return null;
+  if (!isOpen) return null;
 
-    return (
-        <div className={styles.overlay} onClick={onClose}>
-            <div className={styles.popup}>
+  const handleSave = () => {
+    onSave(settings);
+    onClose();
+  };
 
-            </div>
+  return (
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+        <h2>Configurações</h2>
+
+        <SettingsForm settings={settings} onChange={setSettings} />
+
+        <div className={styles.actions}>
+          <button onClick={handleSave}>Salvar</button>
+          <button onClick={onClose}>Cancelar</button>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

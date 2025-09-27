@@ -1,16 +1,20 @@
-import type { Player } from "../utils/room_utils";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../services/socketProvider";
 import { Server } from "../utils/server_utils";
+import { avatars } from "../utils/avatars";
+import type { Player } from "../utils/room_utils";
 import styles from "../styles/Home.module.css";
 import logo from "../assets/logo.png";
 import iconCreate from "../assets/buttons/icon-create.png";
 import iconEnter from "../assets/buttons/icon-enter.png";
 import iconHelp from "../assets/buttons/icon-help.png";
+import AvatarPopup from "../components/Home/AvatarPopup";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
+  const [isPopupOpen, setPopupOpen] = useState(false)
   const navigate = useNavigate();
   const socket = useSocket();
 
@@ -38,13 +42,23 @@ export default function Home() {
     alert("Instruções de como jogar serão exibidas aqui.");
   };
 
+  const handleAvatarPopupOpen = () => {
+    setPopupOpen(true);
+  }
+
+  const handleSelectAvatar = (avatar: number) => {
+    setSelectedAvatar(avatar);
+    setPopupOpen(false);
+  }
+
   const createPlayer = async (): Promise<Player> => {
     const result = await fetch(`${Server}/player`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         player_id: socket.id,
-        nickname: nickname
+        nickname: nickname,
+        avatar: selectedAvatar
       })
     }).then(res => res.json()).then(data => data);
 
@@ -56,15 +70,20 @@ export default function Home() {
       <div className={styles.card}>
         <img src={logo} alt="Logo Letra a Letra" className={styles.logo} />
 
-        <p className={styles.label}>Nickname</p>
-        <div className={styles.inputWrapper}>
-          <input
-            type="text"
-            placeholder="Digite seu Nickname..."
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            className={styles.input}
-          />
+        <p className={styles.label}>Selecione um avatar e nickname</p>
+
+        <div className={styles.inputs}>
+            <img src={avatars[selectedAvatar]} alt="Avatar" className={styles.avatar} onClick={handleAvatarPopupOpen} />
+  
+            <div className={styles.inputWrapper}>
+              <input
+                type="text"
+                placeholder="Digite seu Nickname..."
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                className={styles.input}
+              />
+            </div>
         </div>
 
         <div className={styles.buttons}>
@@ -83,6 +102,11 @@ export default function Home() {
           Como Jogar
         </button>
       </div>
+      <AvatarPopup 
+      selectedAvatar={selectedAvatar} 
+      onSelectAvatar={handleSelectAvatar} 
+      isOpen={isPopupOpen} 
+      onClose={() => setPopupOpen(false)}/>
     </div>
   );
 }
