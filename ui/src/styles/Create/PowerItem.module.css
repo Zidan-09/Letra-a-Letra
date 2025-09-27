@@ -1,0 +1,27 @@
+.item {
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+  user-select: none;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}
+
+.enabled {
+  background-color: #4caf50;
+  color: white;
+}
+
+.disabled {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.powerName {
+  font-size: 14px;
+}

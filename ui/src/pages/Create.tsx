@@ -3,10 +3,17 @@ import { useNavigate } from "react-router-dom";
 import back from "../assets/buttons/icon-back.png";
 import create from "../assets/buttons/icon-create.png";
 import styles from "../styles/Create.module.css";
+import PowerPopup from "../components/PowerPopup";
+// import { type } from '../utils/room_utils';
 
 export default function Create() {
     const [RoomName, setRoomName] = useState("");
     const [Theme, setTheme] = useState("");
+    const [gameMode, setGameMode] = useState('NORMAL');
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    // const [AllowSpectators, setAllowSpectators] = useState(false);
+    // const [PrivateRoom, setPrivateRoom] = useState(false);
+    
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -16,6 +23,17 @@ export default function Create() {
     const handleNext = () => {
         return navigate("/lobby")
     }
+
+    // const handleSubimit = () => {
+    //     const data = {
+    //         AllowSpectators,
+    //         PrivateRoom
+    //     }
+    // }
+
+    const handleModeToggle = () => {
+        setGameMode(prevMode => (prevMode === 'NORMAL' ? 'CRAZY' : 'NORMAL'))
+    };
 
     return(
          <div className={styles.container}>
@@ -32,6 +50,7 @@ export default function Create() {
                     onChange={(e) => setRoomName(e.target.value)}
                     className={styles.input}/>
                     <div className={styles.selectcontainer}>
+                        <div className={styles.themecontainer}>
                     <label htmlFor="theme" className={styles.label}>Tema:</label>
                     <select name="theme" 
                     id="theme" 
@@ -50,26 +69,53 @@ export default function Create() {
                         <option value="nature">Natureza</option>
                         <option value="space">Espaço</option>
                     </select>
-
+                    </div>
+                
                     <div className={styles.powers}>
-                        
+                        <p className={styles.label}>Power:</p>
+                        <button
+                            className={styles.selectButton}
+                            onClick={() => setIsPopupOpen(true)}>
+                                Selecionar
+                            </button>
+                    </div>
+                    <PowerPopup
+                        isOpen={isPopupOpen}
+                        onClose={() => setIsPopupOpen(false)}/>
+
+                <div className={styles.modeSelector}>
+                    <label className={styles.label}>Modo:</label>
+                    <button 
+                    type="button"
+                    onClick={handleModeToggle}
+                    className={`${styles.button1} ${gameMode === 'NORMAL' ? styles.modeNormal : styles.modeCrazy}`}
+                    > {gameMode === 'NORMAL' ? 'NORMAL' : 'MALUCO'}
+                    </button> 
+                    </div>
                     </div>
 
-                    <label htmlFor="gamemode" className={styles.label}>Modo:</label>
-                    <select name="gamemode" id="gamemode" className={styles.gamemode}>
-                        <option value="NORMAL">NORMAL</option>
-                        <option value="CRAZY">MALUCO</option>
-                    </select>   
-                    </div>
                     <div className={styles.checkbox}>
-                    <div className={styles.spectators}>
-                        <p className={styles.label}>Espectadores</p>
-                        <input type="checkbox" className={styles.allowSpectators} id="checkbox"/>
-                    </div>
+                        <div className={styles.spectators}>
+                            <p className={styles.label}>Espectadores</p>
+                             <label className={styles.switch}>
+                            <input 
+                            type="checkbox"
+                            className={styles.allowSpectators} id="checkbox"/>
+                            {/* checked={AllowSpectators}
+                             onChange={(e) => setAllowSpectators (e.target.checked)}/>*/}
+                             <span className={styles.slider}></span>
+                             </label> 
+                        </div>
 
                     <div className={styles.private}>
                         <p className={styles.label}>Privada</p>
-                        <input type="checkbox" className={styles.privateRoom} id="checkbox"/>
+                        <label className={styles.switch}>
+                            <input
+                            type="checkbox" className={styles.privateRoom} id="checkbox"/>
+                             { /* checked={PrivateRoom}
+                             onChange={(e) => setPrivateRoom(e.target.checked)}/> */}
+                             <span className={styles.slider}></span>
+                             </label> 
                     </div>
                     </div>
                 </div>
