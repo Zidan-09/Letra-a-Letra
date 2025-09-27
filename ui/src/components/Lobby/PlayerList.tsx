@@ -9,12 +9,22 @@ interface PlayerListProps {
 export default function PlayerList({ players }: PlayerListProps) {
     return (
         <div className={styles.playerList}>
-            {players.map((player, index) => (
-                <PlayerItem key={index}
-                avatar={player.score}
-                nickname={player.nickname}
-                />
-            ))}
+            {Array.from({ length: 2 }).map((_, index) => {
+                const player = players[index];
+
+                return player ? (
+                    <PlayerItem
+                    key={index}
+                    avatar={player.avatar}
+                    nickname={player.nickname}
+                    />
+                ) : (
+                    <div className={styles.empty}>
+                        <div className={styles.avatar}></div>
+                        <p className={styles.nickname}></p>
+                    </div>
+                )
+            })}
         </div>
     )
 }

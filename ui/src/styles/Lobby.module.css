@@ -40,15 +40,41 @@
 .top {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.settings, .chat {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    align-items: center;
+    width: 4rem;
+    height: 4rem;
+    background-color: rgb(21, 248, 29);
+    border: 0.2rem solid rgb(77, 255, 89);
+    padding: 0;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.2rem 0 rgb(46, 138, 52);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+    transform: translateY(0.3rem);
+    outline: none;
+}
+
+.settings:hover, .settings:focus, .chat:hover, .chat:focus {
+  border: 0.2rem solid rgb(0, 230, 17);
+  transform: translateY(2px);
 }
 
 .icons {
   filter: invert(1);
-  width: 1.5rem;
+  width: 80%;
 }
 
 .codecontainer {
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,16 +92,20 @@
     -webkit-text-stroke: 0.5px black;
 }
 
-.list {
+.players, .spectators {
     height: 100%;
     margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .buttons {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
     flex-wrap: wrap;
 }
 

@@ -6,7 +6,7 @@
     display: flex;
     border-radius: 1.3rem;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     color: white;
     font-family: 'Lilita One', cursive;
@@ -14,9 +14,12 @@
     -webkit-text-stroke: 1.5px black;
     outline: none;
     background-color: blue;
+    border: 3px solid white;
+    overflow-x: hidden;
 }
 
 .avatar {
+    margin-left: 0.5rem;
     width: 60px;
     height: 60px;
     border-radius: 1.2rem;
@@ -24,5 +27,6 @@
 }
 
 .nickname {
-    font-size: 2rem;
+    margin-right: 0.5rem;
+    font-size: clamp(1rem, 0.5rem, 2rem);
 }
