@@ -66,7 +66,7 @@ class RoomServices {
         const io = getSocketInstance();
 
         players.forEach(p => {
-            io.to(p.player_id).emit("player_joinned", room);
+            io.to(p.player_id).emit("player_joined", room);
         })
 
         return room;
