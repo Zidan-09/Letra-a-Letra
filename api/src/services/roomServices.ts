@@ -8,17 +8,13 @@ import { createLog } from "../utils/server_utils/logs";
 import { LogEnum } from "../utils/server_utils/logEnum";
 import { SendSocket } from "../utils/game_utils/sendSocket";
 import { PlayerService } from "./playerServices";
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
-import { GameModes } from "../utils/game_utils/gameModes";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
 
     public createRoom(
         room_name: string,
-        turn_time: number,
-        allowedPowers: MovementsEnum[], 
-        gameMode: GameModes, 
+        timer: number,
         spectators: boolean, 
         privateRoom: boolean, 
         player_id: string
@@ -30,11 +26,9 @@ class RoomServices {
         const room: Game = new Game(
             nanoid(6), 
             room_name,
-            turn_time, 
-            allowedPowers, 
-            gameMode, 
             GameStatus.GameStarting, 
             player, 
+            timer,
             spectators, 
             privateRoom
         );
@@ -43,6 +37,7 @@ class RoomServices {
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
 
         this.rooms.set(room.room_id, room);
+        PlayerService.removePlayer(player_id);
 
         return room;
     };
@@ -243,25 +238,6 @@ class RoomServices {
 
         const io = getSocketInstance();
         io.to(player.player_id).emit("spectator_turned_to_player", room);
-
-        return room;
-    }
-
-    public changeRoomSettings(
-        room_id: string,
-        turn_time: number,
-        allowedPowers: MovementsEnum[], 
-        gameMode: GameModes
-    ): Game | ServerResponses.NotFound {
-        const room = this.rooms.get(room_id);
-        
-        if (
-            !room
-        ) return ServerResponses.NotFound;
-
-        room.allowedPowers = allowedPowers;
-        room.gameMode = gameMode;
-        room.turn_time = turn_time;
 
         return room;
     }

@@ -10,35 +10,31 @@ import { Player } from "./player";
 export class Game {
     room_id: string;
     room_name: string;
-    turn_time: number;
-    allowedPowers: MovementsEnum[];
-    gameMode: GameModes;
     status: GameStatus;
     players: Player[];
     spectators: Player[] = [];
     created_by: string;
+    timer: number;
     turn: number;
     board: Board | null;
     allowSpectators: boolean;
     privateRoom: boolean;
 
-    constructor(room_id: string, room_name: string, turn_time: number, allowedPowers: MovementsEnum[], gameMode: GameModes, status: GameStatus, player: Player, allowSpectators: boolean, privateRoom: boolean) {
+    constructor(room_id: string, room_name: string, status: GameStatus, player: Player, timer: number, allowSpectators: boolean, privateRoom: boolean) {
         this.room_id = room_id;
         this.room_name = room_name;
-        this.turn_time = turn_time;
-        this.allowedPowers = allowedPowers;
-        this.gameMode = gameMode;
         this.status = status;
         this.players = [player];
         this.created_by = player.nickname;
+        this.timer = timer;
         this.turn = 0;
         this.board = null;
         this.allowSpectators = allowSpectators;
         this.privateRoom = privateRoom;
     }
 
-    public startGame(theme: Themes) {
-        this.board = new Board(theme);
+    public startGame(theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
+        this.board = new Board(theme, gamemode, allowedPowers);
         this.turn = 0;
         this.status = GameStatus.GameRunning;
     }

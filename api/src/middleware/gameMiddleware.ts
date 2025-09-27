@@ -8,16 +8,20 @@ import { GameStatus } from "../utils/game_utils/gameStatus";
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { Themes } from "../utils/board_utils/themesEnum";
 import { RoomParams } from "../utils/requests/roomRequests";
+import { GameModes } from "../utils/game_utils/gameModes";
 
 export const GameMiddleware = {
     startGame(req: Request<RoomParams, {}, StartGame>, res: Response, next: NextFunction) {
         const { room_id } = req.params;
-        const { theme } = req.body;
+        const { theme, gamemode, allowedPowers } = req.body;
 
         try {
 
             if (
-                !room_id || !theme
+                !room_id ||
+                !theme ||
+                !gamemode ||
+                !allowedPowers
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             const game = RoomService.getRoom(room_id);
@@ -30,6 +34,19 @@ export const GameMiddleware = {
             if (
                 !Object.values(Themes).includes(theme)
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidTheme);
+
+            const powers = Object.values(MovementsEnum);
+
+            if (
+                allowedPowers.some(power => !powers.includes(power)) ||
+                !allowedPowers.includes(MovementsEnum.REVEAL)
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
+            const gameModes = Object.values(GameModes);
+
+            if (
+                !gameModes.includes(gamemode)
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             next();
 

@@ -7,10 +7,10 @@ import { PlayerResponses } from "../utils/responses/playerResponses";
 
 export const PlayerController = {
     createPlayer(req: Request<{}, {}, CreatePlayer>, res: Response) {
-        const { player_id, nickname } = req.body;
+        const { player_id, nickname, avatar } = req.body;
 
         try {
-            const player = PlayerService.createPlayer(player_id, nickname, false);
+            const player = PlayerService.createPlayer(player_id, nickname, false, avatar);
 
             return HandleResponse.serverResponse(res, 200, true, PlayerResponses.PlayerCreated, player);
 

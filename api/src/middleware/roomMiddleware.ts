@@ -11,31 +11,16 @@ import { GameModes } from "../utils/game_utils/gameModes";
 export const RoomMiddleware = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response, next: NextFunction) {
         try {
-            const { room_name, turn_time, allowedPowers, gameMode, allowSpectators, privateRoom, player_id } = req.body;
+            const { room_name, timer, allowSpectators, privateRoom, player_id } = req.body;
 
             if (
                 !room_name ||
-                !turn_time ||
+                !timer ||
                 room_name.length > 10 ||
-                !allowedPowers || 
-                !gameMode || 
                 allowSpectators === undefined || 
                 privateRoom === undefined || 
                 !player_id
             ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.RoomCreationFailed);
-
-            const powers = Object.values(MovementsEnum);
-
-            if (
-                allowedPowers.some(power => !powers.includes(power)) ||
-                !allowedPowers.includes(MovementsEnum.REVEAL)
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
-
-            const gameModes = Object.values(GameModes);
-
-            if (
-                !gameModes.includes(gameMode)
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
 
             next();
             

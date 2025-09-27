@@ -7,9 +7,10 @@ import { createLog } from "../utils/server_utils/logs";
 import { RoomService } from "./roomServices";
 import { Movements } from "../utils/board_utils/movements";
 import { Themes } from "../utils/board_utils/themesEnum";
+import { GameModes } from "../utils/game_utils/gameModes";
 
 export const GameService = {
-    startGame(room_id: string, theme: Themes) {
+    startGame(room_id: string, theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
         const game = RoomService.getRoom(room_id);
 
         if (
@@ -26,7 +27,7 @@ export const GameService = {
             players.length < 2
         ) return GameResponses.NotEnoughPlayers;
 
-        game.startGame(theme);
+        game.startGame(theme, gamemode, allowedPowers);
         
         const first_player = Math.floor(Math.random() * 2);
 

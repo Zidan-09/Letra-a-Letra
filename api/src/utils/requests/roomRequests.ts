@@ -3,9 +3,7 @@ import { GameModes } from "../game_utils/gameModes";
 
 interface CreateRoom {
     room_name: string;
-    turn_time: number;
-    allowedPowers: MovementsEnum[];
-    gameMode: GameModes;
+    timer: number;
     allowSpectators: boolean;
     privateRoom: boolean;
     player_id: string;

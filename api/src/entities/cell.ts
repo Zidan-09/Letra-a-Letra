@@ -1,5 +1,6 @@
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { PowerRarity } from "../utils/cell_utils/powerRarity";
+import { GameModes } from "../utils/game_utils/gameModes";
 import data from "../settings/cell.json";
 
 export class Cell {
@@ -11,12 +12,12 @@ export class Cell {
     revealed: boolean = false;
     power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
 
-    constructor(letter: string, x: number, y: number) {
+    constructor(letter: string, x: number, y: number, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
         this.letter = letter;
         this.position = { x: x, y: y };
         this.blocked = { status: false, blocked_by: null }
         this.trapped = { status: false, trapped_by: null }
-        this.power = this.powerup();
+        this.power = this.powerup(allowedPowers);
     }
 
     resetCell() {
@@ -29,50 +30,43 @@ export class Cell {
         this.clicks = 0;
     }
 
-    powerup(): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
+    powerup(allowedPowers: MovementsEnum[]): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
         const chance = data.settings.chancePerCell;
-        const powers = Object.values(MovementsEnum);
-        powers.shift();
 
-        if (Math.random() < chance / 100) {
-            const roll = Math.random();
+        if (Math.random() >= chance / 100) return {
+            hasPowerup: false,
+            powerup: null
+        }
 
-            const rare = data.settings.percentages.rare;
-            const epic = data.settings.percentages.epic;
-            const legend = data.settings.percentages.legendary;
+        const roll = Math.random();
+        const rare = data.settings.percentages.rare;
+        const epic = data.settings.percentages.epic;
+        const legend = data.settings.percentages.legendary;
 
-            if (roll <= legend) {
-                var index = Math.floor(Math.random() * data.powers.legendary.length);
-                return {
-                    hasPowerup: true,
-                    rarity: data.powers.legendary[index]!.rarity as PowerRarity,
-                    powerup: data.powers.legendary[index]!.name as MovementsEnum
-                }
+        const getRandomAllowedPower = (powers: typeof data.powers.common) => {
+            const filtered = powers.filter(p => allowedPowers.includes(p.name as MovementsEnum));
 
-            } else if (roll <= epic) {
-                var index = Math.floor(Math.random() * data.powers.epic.length);
-                return {
-                    hasPowerup: true,
-                    rarity: data.powers.epic[index]!.rarity as PowerRarity,
-                    powerup: data.powers.epic[index]!.name as MovementsEnum
-                }
+            if (filtered.length === 0) return null;
 
-            } else if (roll <= rare) {
-                var index = Math.floor(Math.random() * data.powers.rare.length);
-                return {
-                    hasPowerup: true,
-                    rarity: data.powers.rare[index]!.rarity as PowerRarity,
-                    powerup: data.powers.rare[index]!.name as MovementsEnum
-                }
+            const index = Math.floor(Math.random() * filtered.length);
 
-            } else {
-                var index = Math.floor(Math.random() * data.powers.common.length);
-                return {
-                    hasPowerup: true,
-                    rarity: data.powers.common[index]!.rarity as PowerRarity,
-                    powerup: data.powers.common[index]!.name as MovementsEnum
-                }
-            }
+            return filtered[index];
+        };
+
+        let chosenPower;
+
+        if (roll <= legend) chosenPower = getRandomAllowedPower(data.powers.legendary);
+
+        if (!chosenPower && roll <= epic) chosenPower = getRandomAllowedPower(data.powers.epic);
+
+        if (!chosenPower && roll <= rare) chosenPower = getRandomAllowedPower(data.powers.rare);
+        
+        if (!chosenPower) chosenPower = getRandomAllowedPower(data.powers.common);
+
+        if (chosenPower) return {
+            hasPowerup: true,
+            rarity: chosenPower.rarity as PowerRarity,
+            powerup: chosenPower.name as MovementsEnum
         }
 
         return {
