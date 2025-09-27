@@ -1,0 +1,22 @@
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 1rem;
+    border: 3px solid white;
+    box-shadow: 0 3px 0 rgb(60, 60, 60);
+}
+
+.avatar:hover {
+    border: 3px solid rgb(97, 97, 97);;
+    cursor: pointer;
+    transform: translateY(-2px);
+}
+
+.selected {
+    border: 3px solid #3DB845;
+    box-shadow: 0 3px 0 rgb(46, 138, 52);
+}
+
+.selected:hover {
+    border: 3px solid #3DB845;
+}

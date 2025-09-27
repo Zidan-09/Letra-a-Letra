@@ -1,16 +1,14 @@
 interface Game {
     room_id: string;
     room_name: string;
-    allowedPowers: MovementsEnum[];
-    gameMode: GameModes;
     status: GameStatus;
     players: Player[];
     spectators: Player[];
     created_by: string;
+    timer: number;
     turn: number;
-    time_turn: number;
     board: Board | null;
-    haveSpectators: boolean;
+    allowSpectators: boolean;
     privateRoom: boolean;
 }
 
@@ -50,7 +48,13 @@ interface Cell {
     power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
 }
 
-type GameModes = "NORMAL" | "CRAZY"
+interface RoomSettings {
+    theme: string;
+    gamemode: string;
+    allowedPowers: MovementsEnum[];
+}
+
+export type GameModes = "NORMAL" | "CRAZY"
 
 type PowerRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
 
@@ -58,4 +62,4 @@ type MovementsEnum = "REVEAL" | "BLOCK" | "UNBLOCK" | "TRAP" | "DETECTTRAPS" | "
 
 type GameStatus = "game_starting" | "game_running" | "game_over";
 
-export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum };
+export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum, RoomSettings };
