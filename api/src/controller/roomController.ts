@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
-import { ActionParams, ChangeRole, ChangeRoomSettigns, CreateRoom, JoinRoom, LeaveRoom, RoomParams } from "../utils/requests/roomRequests";
+import { ActionParams, ChangeRole, CreateRoom, JoinRoom, RoomParams } from "../utils/requests/roomRequests";
 import { RoomService } from "../services/roomServices";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
 
 export const RoomController = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response) {
-        const { room_name, turn_time, allowedPowers, gameMode, allowSpectators, privateRoom, player_id }: CreateRoom = req.body;
+        const { room_name, timer, allowSpectators, privateRoom, player_id }: CreateRoom = req.body;
 
         try {
-            const room = RoomService.createRoom(room_name, turn_time, allowedPowers, gameMode, allowSpectators, privateRoom, player_id);
+            const room = RoomService.createRoom(room_name, timer, allowSpectators, privateRoom, player_id);
             
             if (
                 room
@@ -101,22 +101,4 @@ export const RoomController = {
             HandleResponse.errorResponse(res, err);
         }
     },
-
-    changeSettings(req: Request<RoomParams, {}, ChangeRoomSettigns>, res: Response) {
-        const { room_id } = req.params;
-        const { turn_time, allowedPowers, gameMode } = req.body;
-
-        try {
-            const result = RoomService.changeRoomSettings(room_id, turn_time, allowedPowers, gameMode);
-
-            if (
-                result === ServerResponses.NotFound
-            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
-
-            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomSettingsChanged, result);
-
-        } catch (err) {
-            console.error(err);
-        }
-    }
 }

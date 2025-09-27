@@ -7,12 +7,13 @@ import { ServerResponses } from "../utils/responses/serverResponses";
 
 export const PlayerMiddleware = {
     createPlayer(req: Request<{}, {}, CreatePlayer>, res: Response, next: NextFunction) {
-        const { player_id, nickname } = req.body;
+        const { player_id, nickname, avatar } = req.body;
 
         try {
             if (
                 !player_id || 
                 !nickname ||
+                !avatar ||
                 nickname.length > 10
             ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.PlayerCreationFailed);
 

@@ -1,8 +1,11 @@
 import { MovementsEnum } from "../board_utils/movementsEnum";
 import { Themes } from "../board_utils/themesEnum";
+import { GameModes } from "../game_utils/gameModes";
 
 interface StartGame {
     theme: Themes;
+    gamemode: GameModes;
+    allowedPowers: MovementsEnum[];
 }
 
 interface PassTurn {

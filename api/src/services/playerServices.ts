@@ -4,8 +4,8 @@ import { ServerResponses } from "../utils/responses/serverResponses";
 class PlayerServices {
     players: Map<string, Player> = new Map();
 
-    createPlayer(socket_id: string, nickname: string, spectator: boolean): Player {
-        const player: Player = new Player(socket_id, nickname, spectator)
+    createPlayer(socket_id: string, nickname: string, spectator: boolean, avatar: number): Player {
+        const player: Player = new Player(socket_id, nickname, spectator, avatar)
 
         this.players.set(player.player_id, player);
 

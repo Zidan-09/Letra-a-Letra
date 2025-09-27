@@ -1,6 +1,7 @@
 interface CreatePlayer {
     player_id: string;
     nickname: string;
+    avatar: number;
 }
 
 interface GetPlayer {

@@ -11,11 +11,11 @@ import { RoomParams } from '../utils/requests/roomRequests';
 export const gameController = {
     startGame(req: Request<RoomParams, {}, StartGame>, res: Response) {
         const { room_id } = req.params;
-        const { theme } = req.body;
+        const { theme, gamemode, allowedPowers } = req.body;
 
         try {
 
-            const result = GameService.startGame(room_id, theme);
+            const result = GameService.startGame(room_id, theme, gamemode, allowedPowers);
 
             if (
                 result === GameResponses.NotEnoughPlayers || 

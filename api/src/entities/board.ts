@@ -3,7 +3,9 @@ import { placeWord } from "../utils/board_utils/placeWord";
 import { canPlaceWord } from "../utils/board_utils/canPlaceWord";
 import { Cell } from "./cell";
 import { Themes } from "../utils/board_utils/themesEnum";
+import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import settings from "../settings/board.json";
+import { GameModes } from "../utils/game_utils/gameModes";
 
 export class Board {
     range: number = settings.range;
@@ -12,14 +14,14 @@ export class Board {
     grid: Cell[][];
     wordPositions: { [word: string]: [number, number][] } = {};
 
-    constructor(theme: Themes) {
+    constructor(theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
         this.words = selectTheme(theme);
-        this.grid = this.createBoard(this.words);
+        this.grid = this.createBoard(this.words, gamemode, allowedPowers);
     }
 
-    createBoard(words: string[]): Cell[][] {
+    createBoard(words: string[],  gamemode: GameModes, allowedPowers: MovementsEnum[]): Cell[][] {
         const grid: Cell[][] = Array.from({ length: this.range + 1}, (_, x) => 
-            Array.from({ length: this.range + 1 }, (_, y) => new Cell("", x, y))
+            Array.from({ length: this.range + 1 }, (_, y) => new Cell("", x, y, gamemode, allowedPowers))
         );
 
         const directions = [
