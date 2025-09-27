@@ -125,6 +125,22 @@ export const RoomMiddleware = {
         }
     },
 
+    getRoom(req: Request<RoomParams>, res: Response, next: NextFunction) {
+        const { room_id } = req.params;
+
+        try {
+            if (
+                !room_id
+            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+
+            next();
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
+        }
+    },
+
     leftRoom(req: Request<ActionParams, {}, LeaveRoom>, res: Response, next: NextFunction) {
         const { room_id, player_id } = req.params;
 
