@@ -15,7 +15,7 @@ export const PlayerMiddleware = {
                 !nickname ||
                 !avatar ||
                 nickname.length > 10
-            ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.PlayerCreationFailed);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             next();
 
@@ -31,7 +31,7 @@ export const PlayerMiddleware = {
         try {
             if (
                 !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.GetPlayerFailed);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             next();
             
@@ -47,7 +47,7 @@ export const PlayerMiddleware = {
         try {
             if (
                 !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.PlayerDeletedFailed);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const player = PlayerService.getPlayer(player_id);
 

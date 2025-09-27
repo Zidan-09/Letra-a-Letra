@@ -1,6 +1,3 @@
-import { MovementsEnum } from "../board_utils/movementsEnum";
-import { GameModes } from "../game_utils/gameModes";
-
 interface CreateRoom {
     room_name: string;
     timer: number;

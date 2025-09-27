@@ -41,7 +41,7 @@ export const gameController = {
             const result = GameService.moveGame(room_id, player_id, movement, x, y);
 
             if (
-                typeof result === "string"
+                typeof result !== "object"
             ) return HandleResponse.serverResponse(res, 400, false, result);
 
             HandleSocket(room_id, player_id, movement, result);
@@ -64,9 +64,12 @@ export const gameController = {
             const result = GameService.passTurn(room_id, player_id);
 
             if (
-                result === ServerResponses.NotFound || 
+                result === ServerResponses.NotFound 
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            if (
                 result === GameResponses.GameError
-            ) return HandleResponse.serverResponse(res, 404, false, result);
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             HandleResponse.serverResponse(res, 200, true, result);
 

@@ -5,8 +5,6 @@ import { RoomResponses } from "../utils/responses/roomResponses";
 import { RoomService } from "../services/roomServices";
 import { ServerResponses } from "../utils/responses/serverResponses";
 import { PlayerResponses } from "../utils/responses/playerResponses";
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
-import { GameModes } from "../utils/game_utils/gameModes";
 
 export const RoomMiddleware = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response, next: NextFunction) {
@@ -20,7 +18,7 @@ export const RoomMiddleware = {
                 allowSpectators === undefined || 
                 privateRoom === undefined || 
                 !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.RoomCreationFailed);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             next();
             
@@ -40,7 +38,7 @@ export const RoomMiddleware = {
                 !room_id || 
                 spectator === undefined || 
                 !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
 
@@ -73,7 +71,7 @@ export const RoomMiddleware = {
             if (
                 !room_id || 
                 !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
 
@@ -131,7 +129,7 @@ export const RoomMiddleware = {
         try {
             if (
                 !room_id
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             next();
 
@@ -149,7 +147,7 @@ export const RoomMiddleware = {
             if (
                 !room_id || 
                 !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
 
