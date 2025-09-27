@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Server } from "../utils/server_utils";
+import { useSocket } from "../services/socketProvider";
 import iconBack from "../assets/buttons/icon-back.png";
 import iconEnter from "../assets/buttons/icon-enter.png";
 import styles from "../styles/Room/RoomPopup.module.css";
@@ -11,6 +13,7 @@ interface PopupProps {
 
 export default function RoomPopup({isOpen, onClose}: PopupProps) {
     const [room_id, setRoom_id] = useState("");
+    const socket = useSocket();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,11 +26,23 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
         onClose();
     }
 
-    const handleEnter = () => {
-        if (room_id.trim()) {
-            navigate("/lobby")
-            localStorage.setItem("room_id", room_id);
-        }
+    const handleEnter = async () => {
+        if (!room_id.trim()) return;
+        
+        const valid = await fetch(`${Server}/room/${room_id}`).then(res => res.json()).then(data => data);
+
+        if (!valid.status) return alert("Código Inválido");
+
+        await fetch(`${Server}/room/${room_id}/players`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+                spectator: false,
+                player_id: socket.id
+            })
+        })
+
+        navigate("/lobby");
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -54,6 +69,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
                     onKeyDown={handleKeyDown}
                     />
                 </div>
+                
                 <div className={styles.buttons}>
                     <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
                         <img src={iconBack} alt="Back" className={styles.icon} />

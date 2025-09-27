@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    display: flex;
+    width: min(90%, 500px);
+    height: auto;
+    min-height: vh;
+    max-height: 80vh;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 0.3rem solid white;
+    border-radius: 3rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 5rem;
+}

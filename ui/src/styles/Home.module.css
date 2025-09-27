@@ -21,6 +21,8 @@
   border-radius: 1rem;
   border: 3px solid white;
   padding: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   width: 90%;
   max-width: 500px;
   min-width: 300px;
@@ -30,10 +32,20 @@
 }
 
 .logo {
-  max-width: 50vw;
-  max-height: 25vw;
+  max-width: 30vw;
+  max-height: 20vw;
   display: block;
   justify-self: center;
+}
+
+.inputs {
+  display: flex;
+  height: 5rem;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .label {
@@ -44,8 +56,23 @@
   margin-top: 0;
 }
 
-.inputWrapper {
-  margin-bottom: 1.5rem;
+.label:hover {
+  cursor: default;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  border: 3px solid white;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 0 rgb(60, 60, 60);
+}
+
+.avatar:hover, .avatar:focus {
+  border: 3px solid rgb(202, 202, 202);
+  transform: translateY(-2px);
+  cursor: pointer;
 }
 
 .input {
@@ -60,6 +87,7 @@
   text-align: center;
   box-sizing: border-box;
   font-size: clamp(1rem, 1.5vw, 1.3rem);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
 .input:focus {

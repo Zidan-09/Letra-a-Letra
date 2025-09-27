@@ -48,6 +48,12 @@ interface Cell {
     power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
 }
 
+interface RoomSettings {
+    theme: string;
+    gamemode: string;
+    allowedPowers: MovementsEnum[];
+}
+
 export type GameModes = "NORMAL" | "CRAZY"
 
 type PowerRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
@@ -56,4 +62,4 @@ type MovementsEnum = "REVEAL" | "BLOCK" | "UNBLOCK" | "TRAP" | "DETECTTRAPS" | "
 
 type GameStatus = "game_starting" | "game_running" | "game_over";
 
-export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum };
+export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum, RoomSettings };
