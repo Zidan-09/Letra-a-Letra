@@ -50,10 +50,6 @@ export const GameService = {
 
         const players = game.players;
 
-        if (
-            !players
-        ) return GameResponses.GameError;
-
         const player = players.find(p =>
             p.player_id === player_id
         )

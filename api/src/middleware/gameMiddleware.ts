@@ -22,7 +22,7 @@ export const GameMiddleware = {
                 !theme ||
                 !gamemode ||
                 !allowedPowers
-            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
 
@@ -61,6 +61,10 @@ export const GameMiddleware = {
         const { player_id, movement } = req.body;
 
         try {
+            if (
+                !room_id ||
+                !player_id
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
     
             const game = RoomService.getRoom(room_id);
 
@@ -112,7 +116,7 @@ export const GameMiddleware = {
 
             if (
                 !room_id || !player_id
-            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
 

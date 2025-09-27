@@ -13,13 +13,16 @@ export const SendSocket = {
         if (room === ServerResponses.NotFound || !room.players || !room.board || !room.board.words) return;
 
         const players = room.players;
+        const spectators = room.spectators;
 
         const data: GameStarted = {
             first: players.find(p => p.turn === 0)!,
             words: room.board.words
         }
 
-        players.forEach(p => 
+        const all = [...players, ...spectators];
+
+        all.forEach(p => 
             io.to(p.player_id).emit("game_started", data)
         );
     },
@@ -38,9 +41,12 @@ export const SendSocket = {
 
         const room = RoomService.getRoom(room_id);
         if (room === ServerResponses.NotFound || !room.players || !room.spectators) return;
-        const players = room.players.concat(room.spectators);
+        const players = room.players
+        const spectators = room.spectators;
 
-        players.forEach(p =>
+        const all = [...players, ...spectators];
+
+        all.forEach(p =>
             io.to(p.player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
         )
     },
@@ -51,14 +57,20 @@ export const SendSocket = {
         const room = RoomService.getRoom(room_id);
         if (room === ServerResponses.NotFound) return;
         const players = room.players;
+        const spectators = room.spectators;
+        
         if (!players) return;
+        
         const winner = room.gameOver();
 
-        if (winner) {
-            players.forEach(p =>
-                io.to(p.player_id).emit("game_over", {winner: winner})
-            )
-        }
+        if (!winner) return;
+
+        const all = [...players, ...spectators];
+
+        all.forEach(p =>
+            io.to(p.player_id).emit("game_over", {winner: winner})
+        )
+        
     },
 
     message() {

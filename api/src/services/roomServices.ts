@@ -49,6 +49,7 @@ class RoomServices {
     ): Game | ServerResponses.NotFound {
         const room = this.rooms.get(room_id)!;
         const players = room.players;
+        const spectators = room.spectators;
 
         const player = PlayerService.getPlayer(player_id);
 
@@ -65,7 +66,9 @@ class RoomServices {
 
         const io = getSocketInstance();
 
-        players.forEach(p => {
+        const all = [...players, ...spectators];
+
+        all.forEach(p => {
             io.to(p.player_id).emit("player_joined", room);
         })
 
@@ -103,7 +106,8 @@ class RoomServices {
             !room
         ) return ServerResponses.NotFound;
 
-        const players = room!.players;
+        const players = room.players;
+        const spectators = room.spectators;
 
         if (
             !players
@@ -133,7 +137,9 @@ class RoomServices {
 
         const io = getSocketInstance();
 
-        players.forEach(p => {
+        const all = [...players, ...spectators];
+
+        all.forEach(p => {
             io.to(p.player_id).emit("player_left", room);
         })
 
@@ -188,10 +194,10 @@ class RoomServices {
             !room
         ) return ServerResponses.NotFound;
 
-        const player = PlayerService.getPlayer(player_id);
+        const player = room.players.find(p => p.player_id === player_id);
 
         if (
-            player === ServerResponses.NotFound
+            !player
         ) return ServerResponses.NotFound;
 
         const playerIndex = room.players.indexOf(player);
@@ -206,8 +212,17 @@ class RoomServices {
 
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerTurnedToSpectator}`);
 
+        const spectators = room.spectators;
+        const players = room.players;
+
+        const all = [...players, ...spectators];
+
         const io = getSocketInstance();
-        io.to(player.player_id).emit("player_turned_to_spectator", room);
+
+        all.forEach(p => {
+            io.to(p.player_id).emit("turned_spectator", room);
+        })
+
         return room;
     }
 
@@ -218,10 +233,10 @@ class RoomServices {
             !room
         ) return ServerResponses.NotFound;
 
-        const player = PlayerService.getPlayer(player_id);
+        const player = room.spectators.find(p => p.player_id === player_id);
 
         if (
-            player === ServerResponses.NotFound
+            !player
         ) return ServerResponses.NotFound;
 
         const spectatorIndex = room.spectators.indexOf(player);
@@ -236,8 +251,16 @@ class RoomServices {
 
         createLog(room.room_id, `${player.nickname} ${LogEnum.SpectatorTurnedToPlayer}`);
 
+        const spectators = room.spectators;
+        const players = room.players;
+
+        const all = [...players, ...spectators];
+
         const io = getSocketInstance();
-        io.to(player.player_id).emit("spectator_turned_to_player", room);
+
+        all.forEach(p => {
+            io.to(p.player_id).emit("turned_spectator", room);
+        })
 
         return room;
     }
