@@ -32,10 +32,5 @@ interface ChangeRole {
     role: "player" | "spectator"
 }
 
-interface ChangeRoomSettigns {
-    turn_time: number;
-    allowedPowers: MovementsEnum[];
-    gameMode: GameModes;
-}
 
-export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole, ChangeRoomSettigns }
+export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole }

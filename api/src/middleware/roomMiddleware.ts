@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { CreateRoom, JoinRoom, LeaveRoom, ChangeRole, RoomParams, ActionParams, ChangeRoomSettigns } from "../utils/requests/roomRequests";
+import { CreateRoom, JoinRoom, LeaveRoom, ChangeRole, RoomParams, ActionParams } from "../utils/requests/roomRequests";
 import { HandleResponse } from "../utils/server_utils/handleResponse";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { RoomService } from "../services/roomServices";
@@ -149,37 +149,4 @@ export const RoomMiddleware = {
             HandleResponse.errorResponse(res, err);
         }
     },
-
-    changeSettings(req: Request<RoomParams, {}, ChangeRoomSettigns>, res: Response, next: NextFunction) {
-        const { room_id } = req.params;
-        const { allowedPowers, gameMode } = req.body;
-
-        try {
-
-            if (
-                !room_id ||
-                !allowedPowers ||
-                !gameMode
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
-
-            const powers = Object.values(MovementsEnum);
-
-            if (
-                !allowedPowers.some(power => !powers.includes(power)) ||
-                !allowedPowers.includes(MovementsEnum.REVEAL)
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
-
-            const gameModes = Object.values(GameModes);
-
-            if (
-                !gameModes.includes(gameMode)
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
-
-            next();
-
-        } catch (err) {
-            console.error(err);
-            HandleResponse.errorResponse(res, err);
-        }
-    }
 }
