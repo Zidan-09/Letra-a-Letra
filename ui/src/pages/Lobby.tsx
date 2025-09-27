@@ -20,25 +20,32 @@ export default function Lobby() {
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
 
-    socket.on("player_joined", (room) => {
-        setRoom(room);
-    })
-
-    socket.on("message", (data) => {
-        console.log(data);
-    })
-
     useEffect(() => {
         const game = localStorage.getItem("game");
-        console.log(game)
 
         if (!game) {
             navigate("/create");
             return;
         }
 
-        return setRoom(JSON.parse(game).data);
-    }, [])
+        setRoom(JSON.parse(game).data);
+
+        if (!socket) return;
+
+        socket.on("player_joined", (updatedRoom) => {
+            setRoom(updatedRoom);
+        });
+
+        socket.on("player_left", (updatedRoom) => {
+            setRoom(updatedRoom);
+        });
+
+        return () => {
+            socket.off("player_joined");
+            socket.off("player_left");
+        };
+
+    }, [socket])
 
     const handleChat = () => {
         setChatOpen(true);
@@ -69,7 +76,7 @@ export default function Lobby() {
             <div className={styles.card}>
                 <p>CÓDIGO DA SALA</p>
                 <div className={styles.top}>
-                    <button className={`${styles.button} ${styles.settings}`} onClick={handleSettings}>
+                    <button className={styles.settings} onClick={handleSettings}>
                         <img src={iconSettings} alt="Settings" className={styles.icons}/>
                     </button>
 
@@ -77,7 +84,7 @@ export default function Lobby() {
                         <h2 className={styles.code}>{room?.room_id}</h2>
                     </div>
 
-                    <button className={`${styles.button} ${styles.chat}`} onClick={handleChat}>
+                    <button className={styles.chat} onClick={handleChat}>
                         <img src={iconChat} alt="Chat" className={styles.icons} />
                     </button>
                 </div>
@@ -90,7 +97,7 @@ export default function Lobby() {
 
                         <section className={styles.spectators}>
                             <p>ESPECTADORS</p>
-                            <SpectatorsList spectators={room!.spectators} />
+                            <SpectatorsList spectators={room.spectators} />
                         </section>
                     </>
                 )}

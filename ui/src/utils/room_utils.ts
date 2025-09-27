@@ -19,6 +19,7 @@ interface Player {
     nickname: string;
     spectator: boolean;
     turn: 0 | 1;
+    avatar: number;
     score: number;
     passed: number;
     freeze: PlayerEffect;

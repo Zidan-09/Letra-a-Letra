@@ -1,33 +1,47 @@
 .playerList {
-  width: 80%;
-  height: 5rem;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  border: 3px solid white;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-  justify-content: start;
-  align-items: start;
-  margin: 2rem auto;
-  margin-top: 0;
-  overflow-y: auto;
-  padding: 1rem;
+    width: 80%;
+    height: 5rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    border: 3px solid white;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
 }
 
-.playerList::-webkit-scrollbar {
-  width: 1rem;
-  background: rgba(255, 255, 255, 0.2);
-  border: 3px solid rgb(27, 157, 222);
-  border-radius: 1rem;
+.empty {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    border-radius: 1.3rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-family: 'Lilita One', cursive;
+    gap: 1rem;
+    -webkit-text-stroke: 1.5px black;
+    outline: none;
+    background: rgba(255, 255, 255, 0.5);
+    border: 3px solid white;
 }
 
-.playerList::-webkit-scrollbar-thumb {
-  background-color: white;
-  border: 3px solid rgb(27, 157, 222);
-  height: 1rem;
-  border-radius: 1rem;
+.avatar {
+    margin-left: 0.5rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 1.2rem;
+    border: 3px solid white;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.nickname {
+    margin-right: 0.5rem;
+    font-size: 2rem;
 }

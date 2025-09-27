@@ -1,0 +1,15 @@
+.avatar {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    border-radius: 1.2rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Lilita One', cursive;
+    gap: 1rem;
+    -webkit-text-stroke: 1.5px black;
+    outline: none;
+    background: rgba(255, 255, 255, 0.5);
+    border: 3px solid white;
+}

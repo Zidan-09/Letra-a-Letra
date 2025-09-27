@@ -8,19 +8,18 @@ interface SpectatorsListProps {
 
 export default function SpectatorsList({ spectators }: SpectatorsListProps) {
     return (
-        <div className={styles.list}>
-            {spectators.length === 0 ? (
-                <div>
+        <div className={styles.spectatorList}>
+            {Array.from({ length: 5 }).map((_, index) => {
+                const spectator = spectators[index];
 
-                </div>
-            ) : (
-                spectators.map((spectator, index) => (
+                return spectator ? (
                     <SpectatorItem
-                    key={index}
-                    avatar={spectator.turn}
+                    avatar={spectator.avatar}
                     />
-                ))
-            )}
+                ) : (
+                    <div className={styles.empty}></div>
+                )
+            })}
         </div>
     )
 }
