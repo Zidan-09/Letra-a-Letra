@@ -84,6 +84,24 @@ export const RoomController = {
         }
     },
 
+    getRoom(req: Request<RoomParams>, res: Response) {
+        const { room_id } = req.params;
+
+        try {
+            const room = RoomService.getRoom(room_id);
+
+            if (
+                room === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomFound, room);
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
+        }
+    },
+
     leaveRoom(req: Request<ActionParams, {}, {}>, res: Response) {
         const { room_id, player_id } = req.params;
 
