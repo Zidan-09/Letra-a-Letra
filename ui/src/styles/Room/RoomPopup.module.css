@@ -17,7 +17,7 @@
     display: flex;
     width: min(90%, 500px);
     height: auto;
-    min-height: 65vh;
+    min-height: vh;
     max-height: 80vh;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.3);
@@ -47,7 +47,7 @@
     font-size: clamp(1.5rem, 5em, 2.8rem);
     margin-bottom: 0;
     color: white;
-    -webkit-text-stroke: 1px black;
+    -webkit-text-stroke: 0.5px black;
     margin-top: 0;
 }
 

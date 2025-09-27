@@ -1,0 +1,13 @@
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 16px;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #888;
+  font-size: 14px;
+  padding: 20px;
+}
