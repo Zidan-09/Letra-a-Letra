@@ -15,7 +15,7 @@ import styles from "../styles/Lobby.module.css";
 
 export default function Lobby() {
     const [room, setRoom] = useState<Game | null>(null);
-    const [roomSettings, setRoomSettings] = useState<RoomSettings>();
+    const [roomSettings, setRoomSettings] = useState<RoomSettings| null>(null);
     const socket = useSocket();
     const navigate = useNavigate();
     const [isChatOpen, setChatOpen] = useState(false);
@@ -23,15 +23,8 @@ export default function Lobby() {
 
     useEffect(() => {
         const game = localStorage.getItem("game");
-        const settings = localStorage.getItem("settings");
 
-        if (!game || !settings) {
-            navigate("/create");
-            return;
-        }
-
-        setRoom(JSON.parse(game).data);
-        setRoomSettings(JSON.parse(settings));
+        setRoom(JSON.parse(game!).data);
 
         if (!socket) return;
 

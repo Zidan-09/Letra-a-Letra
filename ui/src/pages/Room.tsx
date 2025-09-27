@@ -52,7 +52,8 @@ export default function Room() {
       return data;
     }
 
-    await enterRoom();
+    const game = await enterRoom();
+    localStorage.setItem("game", JSON.stringify(game));
 
     navigate("/lobby");
   };
