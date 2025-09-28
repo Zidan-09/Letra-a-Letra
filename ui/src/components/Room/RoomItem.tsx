@@ -1,5 +1,5 @@
-import styles from "../styles/Room/RoomItem.module.css";
-import type { Game } from "../utils/room_utils";
+import styles from "../../styles/Room/RoomItem.module.css";
+import type { Game } from "../../utils/room_utils";
 
 interface RoomItemProps {
     room: Game;

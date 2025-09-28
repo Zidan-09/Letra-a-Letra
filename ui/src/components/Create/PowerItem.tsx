@@ -1,5 +1,5 @@
-import styles from "../styles/Create/PowerItem.module.css";
-import type {MovementsEnum} from "../utils/room_utils"
+import styles from "../../styles/Create/PowerItem.module.css";
+import type {MovementsEnum} from "../../utils/room_utils"
 
 interface PowerItemProps {
     power: MovementsEnum;

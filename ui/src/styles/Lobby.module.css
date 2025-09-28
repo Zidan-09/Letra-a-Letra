@@ -64,7 +64,7 @@
     outline: none;
 }
 
-.settings:hover, .settings:focus, .chat:hover, .chat:focus {
+.settings:hover, .chat:hover {
   border: 0.2rem solid rgb(0, 230, 17);
   transform: translateY(2px);
 }

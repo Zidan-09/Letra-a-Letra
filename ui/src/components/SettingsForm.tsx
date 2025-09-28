@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import PowerList from "../components/PowerList";
+import PowerList from "./Create/PowerList";
 import type { RoomSettings, MovementsEnum } from "../utils/room_utils";
 import styles from "../styles/SettingsForm.module.css";
 

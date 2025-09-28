@@ -21,8 +21,8 @@
 {/*                                                */}
 
 import PowerItem from "./PowerItem";
-import styles from "../styles/Create/PowerList.module.css";
-import type { MovementsEnum } from "../utils/room_utils";
+import styles from "../../styles/Create/PowerList.module.css";
+import type { MovementsEnum } from "../../utils/room_utils";
 
 interface PowerListProps {
   availablePowers: MovementsEnum[];

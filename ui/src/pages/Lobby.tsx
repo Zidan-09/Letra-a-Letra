@@ -68,7 +68,7 @@ export default function Lobby() {
 
         const result = await fetch(`${Server}/game/${room?.room_id}/start`, {
             method: "POST",
-            headers: { "Content-type": "application/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 theme: roomSettings.theme,
                 gamemode: roomSettings.gamemode,
@@ -102,12 +102,12 @@ export default function Lobby() {
                     <>
                         <section className={styles.players}>
                             <p>JOGADORES NA SALA</p>
-                            <PlayerList players={room.players}/>
+                            <PlayerList room={room} updateRoom={setRoom} />
                         </section>
 
                         <section className={styles.spectators}>
                             <p>ESPECTADORS</p>
-                            <SpectatorsList spectators={room.spectators} />
+                            <SpectatorsList room={room} updateRoom={setRoom} />
                         </section>
                     </>
                 )}
