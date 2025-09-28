@@ -64,9 +64,9 @@ export default function Lobby() {
     }
 
     const handlePlay = async () => {
-        if (room!.players.length < 2 || !roomSettings) return;
+        if (!room || room.players.length < 2 || !roomSettings) return null;
 
-        const result = await fetch(`${Server}/game/${room?.room_id}/start`, {
+        const result = await fetch(`${Server}/game/${room.room_id}/start`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -76,9 +76,9 @@ export default function Lobby() {
             })
         }).then(res => res.json()).then(data => data.data);
 
-        if (!result.status) return;
+        if (!result.status) return null;
 
-        navigate("/game");
+        return navigate(`/game/${room.room_id}`);
     }
     
     return (

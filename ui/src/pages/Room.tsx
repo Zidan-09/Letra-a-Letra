@@ -56,7 +56,7 @@ export default function Room() {
         const game = await enterRoom();
         localStorage.setItem("game", JSON.stringify(game));
 
-        navigate("/lobby");
+        navigate(`/lobby/${room_id}`);
     };
 
     const handleInsertCode = () => {

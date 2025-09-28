@@ -49,7 +49,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
 
             if (!result.status) return null;
 
-            return navigate("/lobby");
+            return navigate(`/lobby/${room_id}`);
         }
 
         const result = await fetch(`${Server}/room/${room_id}/players`, {
@@ -63,7 +63,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
 
         if (!result.stataus) return null;
 
-        return navigate("/lobby");
+        return navigate(`/lobby/${room_id}`);
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
