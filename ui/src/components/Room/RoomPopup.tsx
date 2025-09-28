@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Server } from "../utils/server_utils";
-import { useSocket } from "../services/socketProvider";
-import iconBack from "../assets/buttons/icon-back.png";
-import iconEnter from "../assets/buttons/icon-enter.png";
-import styles from "../styles/Room/RoomPopup.module.css";
+import { Server } from "../../utils/server_utils";
+import { useSocket } from "../../services/socketProvider";
+import InvalidCodePopup from "./InvalidCodePopup";
+import iconBack from "../../assets/buttons/icon-back.png";
+import iconEnter from "../../assets/buttons/icon-enter.png";
+import styles from "../../styles/Room/RoomPopup.module.css";
 
 interface PopupProps {
     isOpen: boolean;
@@ -13,6 +14,7 @@ interface PopupProps {
 
 export default function RoomPopup({isOpen, onClose}: PopupProps) {
     const [room_id, setRoom_id] = useState("");
+    const [isNotValidCode, setInvalidCode] = useState(false);
     const socket = useSocket();
     const navigate = useNavigate();
 
@@ -31,18 +33,37 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
         
         const valid = await fetch(`${Server}/room/${room_id}`).then(res => res.json()).then(data => data);
 
-        if (!valid.status) return alert("Código Inválido");
+        if (!valid.status) {
+            return setInvalidCode(true);
+        }
 
-        await fetch(`${Server}/room/${room_id}/players`, {
+        if (valid.data.players.length >= 2) {
+            const result = await fetch(`${Server}/room/${room_id}/players`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    spectator: true,
+                    player_id: socket.id
+                })
+            }).then(res => res.json()).then(data => data);
+
+            if (!result.status) return null;
+
+            return navigate("/lobby");
+        }
+
+        const result = await fetch(`${Server}/room/${room_id}/players`, {
             method: "POST",
-            headers: { "Content-type": "application/json" },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 spectator: false,
                 player_id: socket.id
             })
-        })
+        }).then(res => res.json()).then(data => data);
 
-        navigate("/lobby");
+        if (!result.stataus) return null;
+
+        return navigate("/lobby");
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -81,6 +102,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
                     </button>
                 </div>
             </div>
+            <InvalidCodePopup isOpen={isNotValidCode} onClose={() => setInvalidCode(false)} />
         </div>
     )
 }

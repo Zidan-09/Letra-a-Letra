@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import back from "../assets/buttons/icon-back.png";
 import create from "../assets/buttons/icon-create.png";
 import styles from "../styles/Create.module.css";
-import PowerPopup from "../components/PowerPopup";
+import PowerPopup from "../components/Create/PowerPopup";
 // import { type } from '../utils/room_utils';
 
 export default function Create() {

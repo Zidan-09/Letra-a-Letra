@@ -32,6 +32,12 @@
     border: 3px solid white;
 }
 
+.empty:hover, .empty:focus {
+    border: 3px solid rgb(100, 100, 100);
+    cursor: pointer;
+    transform: translateY(-2px);
+}
+
 .avatar {
     margin-left: 0.5rem;
     width: 60px;

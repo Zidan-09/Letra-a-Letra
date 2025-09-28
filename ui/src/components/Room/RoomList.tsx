@@ -1,6 +1,6 @@
-import type { Game } from "../utils/room_utils";
+import type { Game } from "../../utils/room_utils";
 import RoomItem from "./RoomItem";
-import styles from "../styles/Room/RoomList.module.css"
+import styles from "../../styles/Room/RoomList.module.css"
 
 interface RoomListProps {
   rooms: Game[];

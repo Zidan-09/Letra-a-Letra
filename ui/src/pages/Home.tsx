@@ -93,7 +93,7 @@ export default function Home() {
           </button>
           <button className={`${styles.button} ${styles.enter}`} onClick={handleEnterRoom}>
             <img src={iconEnter} alt="Enter" className={styles.icon} />
-            Entrar na Sala
+            Juntar-se
           </button>
         </div>
 
