@@ -13,9 +13,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<Create />} />
           <Route path="/room" element={<Room />} />
-          <Route path="/lobby" element={<Lobby />} />
-          <Route path="/game" element={<div>Game</div>} />
-          <Route path="/winner" element={<div>Winner</div>} />
+          <Route path="/lobby/:room_id" element={<Lobby />} />
+          <Route path="/game/:room_id" element={<div>Game</div>} />
+          <Route path="/winner/:room_id" element={<div>Winner</div>} />
         </Routes>
       </SocketProvider>
     </Router>
