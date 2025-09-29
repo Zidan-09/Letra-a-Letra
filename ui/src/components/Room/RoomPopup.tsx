@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Server } from "../../utils/server_utils";
 import { useSocket } from "../../services/socketProvider";
 import InvalidCodePopup from "./InvalidCodePopup";
-import iconBack from "../../assets/buttons/icon-back.png";
-import iconEnter from "../../assets/buttons/icon-enter.png";
+import iconBack from "../../assets/buttons/icon-back.svg";
+import iconEnter from "../../assets/buttons/icon-enter.svg";
 import styles from "../../styles/Room/RoomPopup.module.css";
 
 interface PopupProps {

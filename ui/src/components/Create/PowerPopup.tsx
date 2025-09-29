@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import iconBack from "../../assets/buttons/icon-back.png";
-import iconConfirm from "../../assets/buttons/icon-create.png";
+import iconBack from "../../assets/buttons/icon-back.svg";
+import iconConfirm from "../../assets/buttons/icon-create.svg";
 import PowerList from "./PowerList";
 import styles from "../../styles/Create/PowerPopup.module.css";
 import type { MovementsEnum } from "../../utils/room_utils";
