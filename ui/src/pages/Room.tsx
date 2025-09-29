@@ -4,11 +4,11 @@ import RoomList from "../components/Room/RoomList";
 import type { Game } from "../utils/room_utils";
 import { Server } from "../utils/server_utils";
 import { useSocket } from "../services/socketProvider";
-import styles from "../styles/Room.module.css";
-import iconBack from "../assets/buttons/icon-back.png";
-import iconEnter from "../assets/buttons/icon-enter.png";
-import iconRefresh from "../assets/buttons/icon-refresh.png";
 import RoomPopup from "../components/Room/RoomPopup";
+import iconBack from "../assets/buttons/icon-back.svg";
+import iconEnter from "../assets/buttons/icon-enter.svg";
+import iconRefresh from "../assets/buttons/icon-refresh.svg";
+import styles from "../styles/Room.module.css";
 
 export default function Room() {
     const [rooms, setRooms] = useState<Game[]>([]);

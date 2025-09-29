@@ -4,12 +4,12 @@ import { useSocket } from "../services/socketProvider";
 import { Server } from "../utils/server_utils";
 import { avatars } from "../utils/avatars";
 import type { Player } from "../utils/room_utils";
-import styles from "../styles/Home.module.css";
-import logo from "../assets/logo.png";
-import iconCreate from "../assets/buttons/icon-create.png";
-import iconEnter from "../assets/buttons/icon-enter.png";
-import iconHelp from "../assets/buttons/icon-help.png";
 import AvatarPopup from "../components/Home/AvatarPopup";
+import logo from "../assets/logo.svg";
+import iconCreate from "../assets/buttons/icon-create.svg";
+import iconEnter from "../assets/buttons/icon-enter.svg";
+import iconHelp from "../assets/buttons/icon-help.svg";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const [nickname, setNickname] = useState("");

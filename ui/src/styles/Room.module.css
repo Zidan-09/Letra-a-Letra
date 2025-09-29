@@ -68,7 +68,7 @@
 }
 
 .iconRefresh {
-    filter: invert(1);
+    color: white;
     width: 1.5rem;
 }
 

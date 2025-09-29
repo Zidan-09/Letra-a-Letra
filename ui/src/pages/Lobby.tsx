@@ -7,10 +7,10 @@ import PlayerList from "../components/Lobby/PlayerList";
 import SettingsPopup from "../components/Lobby/SettingsPopup";
 import ChatPopup from "../components/Lobby/ChatPopup";
 import SpectatorsList from "../components/Lobby/SpectatorsList";
-import iconBack from "../assets/buttons/icon-back.png";
-import iconPlay from "../assets/buttons/icon-play.png";
-import iconSettings from "../assets/buttons/icon-settings.png";
-import iconChat from "../assets/buttons/icon-chat.png";
+import iconBack from "../assets/buttons/icon-back.svg";
+import iconPlay from "../assets/buttons/icon-play.svg";
+import iconSettings from "../assets/buttons/icon-settings.svg";
+import iconChat from "../assets/buttons/icon-chat.svg";
 import styles from "../styles/Lobby.module.css";
 
 export default function Lobby() {
