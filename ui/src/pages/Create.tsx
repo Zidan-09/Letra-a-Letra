@@ -1,154 +1,146 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import back from "../assets/buttons/icon-back.svg";
-import create from "../assets/buttons/icon-create.svg";
+import { useSocket } from "../services/socketProvider";
+import type { GameModes, MovementsEnum } from "../utils/room_utils";
+import { Server } from "../utils/server_utils";
+import SettingsPopup from "../components/Create/SettingsPopup";
+import iconBack from "../assets/buttons/icon-back.svg";
+import iconCreate from "../assets/buttons/icon-create.svg";
 import styles from "../styles/Create.module.css";
-import PowerPopup from "../components/Create/PowerPopup";
-// import { type } from '../utils/room_utils';
 
 export default function Create() {
-    const [RoomName, setRoomName] = useState("");
-    const [Theme, setTheme] = useState("");
-    const [gameMode, setGameMode] = useState('NORMAL');
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-    // const [AllowSpectators, setAllowSpectators] = useState(false);
-    // const [PrivateRoom, setPrivateRoom] = useState(false);
-    
+    const [roomName, setRoomName] = useState<string>("");
+    const [turnTime, setTurnTime] = useState<number>(15);
+    const [theme, setTheme] = useState<string>("random");
+    const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>([]);
+    const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
+    const [spectators, setSpectators] = useState<boolean>(true);
+    const [privateRoom, setPrivate] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [popupOpen, setPopupOpen] = useState<boolean>(false);
+
+    const socket = useSocket();
     const navigate = useNavigate();
+
+    const handleSettings = () => {
+        setPopupOpen(true);
+    }
 
     const handleBack = () => {
         return navigate("/");
     }
 
-    const handleNext = () => {
-        return navigate("/lobby")
+    const handleCreate = async () => {
+        if (!roomName.trim() || loading) return;
+
+        setLoading(true);
+
+        const result = await fetch(`${Server}/room/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                room_name: roomName,
+                timer: turnTime,
+                allowSpectators: spectators,
+                privateRoom: privateRoom,
+                player_id: socket.id
+            })
+        }).then(res => res.json()).then(data => data);
+
+        setLoading(false);
+
+        if (!result.status) return console.log(result);
+
+        localStorage.setItem("game", JSON.stringify(result.data));
+        return navigate(`/game/${result.data.room_id}`);
     }
 
-    // const handleSubimit = () => {
-    //     const data = {
-    //         AllowSpectators,
-    //         PrivateRoom
-    //     }
-    // }
-
-    const handleModeToggle = () => {
-        setGameMode(prevMode => (prevMode === 'NORMAL' ? 'CRAZY' : 'NORMAL'))
-    };
-
-    return(
-         <div className={styles.container}>
+    return (
+        <div className={styles.container}>
             <div className={styles.card}>
-                <div className={styles.titlecontainer}>
-                <h2 className={styles.title}>Criar Sala</h2>
+                <div className={styles.titleContainer}>
+                    <h2 className={styles.title}>CRIAR SALA</h2>
                 </div>
 
-                <div className={styles.form}>
-                    <p className={styles.labelname}>Nome da Sala</p>
-                    <input type="text"
-                    placeholder="Digite o nome da sala..."
-                    value={RoomName}
-                    onChange={(e) => setRoomName(e.target.value)}
-                    className={styles.input}/>
-                    <div className={styles.selectcontainer}>
-                        <div className={styles.themecontainer}>
-                    <label htmlFor="theme" className={styles.label}>Tema:</label>
-                    <select name="theme" 
-                    id="theme" 
-                    value={Theme}
-                    onChange={(e) => setTheme(e.target.value)}
-                    className={styles.themes}>
-                        <option value="random">Aleatório</option>
-                        <option value="tech">Tecnologia</option>
-                        <option value="fruits">Frutas</option>
-                        <option value="cities">Cidades</option>
-                        <option value="animals">Animais</option>
-                        <option value="colors">Cores</option>
-                        <option value="sports">Esportes</option>
-                        <option value="foods">Comidas</option>
-                        <option value="jobs">Profissões</option>
-                        <option value="nature">Natureza</option>
-                        <option value="space">Espaço</option>
-                    </select>
-                    </div>
+                <p className={styles.label}>Nome da Sala</p>
+                <input 
+                type="text" 
+                name="name" 
+                id="name" 
+                placeholder="Insira o nome da sala..."
+                value={roomName}
+                onChange={(e) => setRoomName(e.target.value)}
+                className={styles.input}
+                />
                 
-                    <div className={styles.powers}>
-                        <p className={styles.label}>Power:</p>
-                        <button
-                            className={styles.selectButton}
-                            onClick={() => setIsPopupOpen(true)}>
-                                Selecionar
-                            </button>
-                    </div>
-                    <PowerPopup
-                        isOpen={isPopupOpen}
-                        onClose={() => setIsPopupOpen(false)}/>
+                <div className={styles.rangeContainer}>
+                    <p className={styles.label}>Tempo do Turno</p>
 
-                <div className={styles.modeSelector}>
-                    <label className={styles.label}>Modo:</label>
-                    <button 
-                    type="button"
-                    onClick={handleModeToggle}
-                    className={`${styles.button1} ${gameMode === 'NORMAL' ? styles.modeNormal : styles.modeCrazy}`}
-                    > {gameMode === 'NORMAL' ? 'NORMAL' : 'MALUCO'}
-                    </button> 
-                    </div>
-                    </div>
+                    <input 
+                    type="range" 
+                    name="turn" 
+                    id="turn" 
+                    min="15"
+                    max="60"
+                    step="1"
+                    value={turnTime}
+                    onChange={(e) => setTurnTime(Number(e.target.value))}
+                    aria-label="turn"
+                    className={styles.range}
+                    />
 
-                    <div className={styles.checkbox}>
-                        <div className={styles.spectators}>
-                            <p className={styles.label}>Espectadores</p>
-                             <label className={styles.switch}>
-                            <input 
-                            type="checkbox"
-                            className={styles.allowSpectators} id="checkbox"/>
-                            {/* checked={AllowSpectators}
-                             onChange={(e) => setAllowSpectators (e.target.checked)}/>*/}
-                             <span className={styles.slider}></span>
-                             </label> 
+                    <span className={styles.timer}>{turnTime}s</span>
+                </div>
+
+                <button type="button" className={styles.settings} onClick={handleSettings}>Configurações</button>
+
+                <div className={styles.switchs}>
+                    <div className={styles.switchContainer}>
+                        <p className={styles.label}>Espectadores</p>
+                        <div 
+                        className={`${styles.switch} ${spectators ? styles.on : styles.off}`} 
+                        onClick={() => setSpectators(s => !s)}
+                        >
+                            <div className={styles.switchBall}></div>
+                            <p className={spectators ? styles.textOn : styles.textOff}>{spectators ? "on" : "off"}</p>
                         </div>
-
-                    <div className={styles.private}>
-                        <p className={styles.label}>Privada</p>
-                        <label className={styles.switch}>
-                            <input
-                            type="checkbox" className={styles.privateRoom} id="checkbox"/>
-                             { /* checked={PrivateRoom}
-                             onChange={(e) => setPrivateRoom(e.target.checked)}/> */}
-                             <span className={styles.slider}></span>
-                             </label> 
                     </div>
+
+                    <div className={styles.switchContainer}>
+                        <p className={styles.label}>Sala Privada</p>
+                        <div 
+                        className={`${styles.switch} ${privateRoom ? styles.on : styles.off}`}
+                        onClick={() => setPrivate(p => !p)}
+                        >
+                            <div className={styles.switchBall}></div>
+                            <p className={privateRoom ? styles.textOn : styles.textOff}>{privateRoom ? "on" : "off"}</p>
+                        </div>
                     </div>
                 </div>
 
                 <div className={styles.buttons}>
-                    <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
-                        <img src={back} alt="Back" className={styles.icon}/>
+                    <button className={`${styles.button} ${styles.back}`} onClick={handleBack} type="button">
+                        <img src={iconBack} alt="Create" className={styles.icon} />
                         Voltar
                     </button>
-                    <button className={`${styles.button} ${styles.create}`} onClick={handleNext}>
-                        <img src={create} alt="Create" className={styles.icon}/>
-                        Criar
+
+                    <button className={`${styles.button} ${loading ? styles.loading : styles.create}`} onClick={handleCreate} type="button">
+                        <img src={iconCreate} alt="Enter" className={styles.icon} />
+                        {loading ? "Criando..." : "Criar Sala"}
                     </button>
                 </div>
-                </div>
-
             </div>
+
+            <SettingsPopup 
+            theme={theme} 
+            allowedPowers={allowedPowers} 
+            gamemode={gamemode} 
+            setTheme={setTheme}
+            setAllowedPowers={setAllowedPowers}
+            setGamemode={setGamemode}
+            popupOpen={popupOpen}
+            closePopup={() => setPopupOpen(false)}
+            />
+        </div>
     )
-}
-
-
-
-
-
-
-
-
-/*
-1 - Nome da Sala 
-2 - Tema da partida 
-3 - Configuração de Poderes (Ótima personalização) 
-4 - Modo de jogo (Tem apenas 1 modo hoje, o normal, mas penso em adicionar outros modos) 
-5 - Tempo por turno 
-6 - Permitir espectadores 
-7 - Sala privada ou não
-*/
+};

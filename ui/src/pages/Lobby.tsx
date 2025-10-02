@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../utils/server_utils";
-import type { Game, RoomSettings } from "../utils/room_utils";
+import type { Game, GameModes, MovementsEnum, RoomSettings } from "../utils/room_utils";
 import PlayerList from "../components/Lobby/PlayerList";
-import SettingsPopup from "../components/Lobby/SettingsPopup";
 import ChatPopup from "../components/Lobby/ChatPopup";
 import SpectatorsList from "../components/Lobby/SpectatorsList";
 import iconBack from "../assets/buttons/icon-back.svg";
@@ -12,19 +11,34 @@ import iconPlay from "../assets/buttons/icon-play.svg";
 import iconSettings from "../assets/buttons/icon-settings.svg";
 import iconChat from "../assets/buttons/icon-chat.svg";
 import styles from "../styles/Lobby.module.css";
+import SettingsPopup from "../components/Create/SettingsPopup";
 
 export default function Lobby() {
     const [room, setRoom] = useState<Game | null>(null);
-    const [roomSettings, setRoomSettings] = useState<RoomSettings| null>(null);
     const socket = useSocket();
     const navigate = useNavigate();
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
 
+    const [theme, setTheme] = useState<string>("");
+    const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>([]);
+    const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
+
     useEffect(() => {
         const game = localStorage.getItem("game");
+        const settings = localStorage.getItem("settings");
 
-        setRoom(JSON.parse(game!).data);
+        if (!game || !settings) {
+            navigate("/");
+            return;
+        };
+
+        setRoom(JSON.parse(game).data);
+        const settingsData: RoomSettings = JSON.parse(settings)
+        
+        setTheme(settingsData.theme);
+        setGamemode(settingsData.gamemode as GameModes);
+        setAllowedPowers(settingsData.allowedPowers);
 
         if (!socket) return;
 
@@ -64,15 +78,15 @@ export default function Lobby() {
     }
 
     const handlePlay = async () => {
-        if (!room || room.players.length < 2 || !roomSettings) return null;
+        if (!room || room.players.length < 2 || !theme || !gamemode || !allowedPowers) return null;
 
         const result = await fetch(`${Server}/game/${room.room_id}/start`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                theme: roomSettings.theme,
-                gamemode: roomSettings.gamemode,
-                allowedPowers: roomSettings.allowedPowers
+                theme: theme,
+                gamemode: gamemode,
+                allowedPowers: allowedPowers
             })
         }).then(res => res.json()).then(data => data.data);
 
@@ -86,7 +100,7 @@ export default function Lobby() {
             <div className={styles.card}>
                 <p>CÓDIGO DA SALA</p>
                 <div className={styles.top}>
-                    <button className={styles.settings} onClick={handleSettings}>
+                    <button className={styles.settings} onClick={handleSettings} type="button">
                         <img src={iconSettings} alt="Settings" className={styles.icons}/>
                     </button>
 
@@ -94,7 +108,7 @@ export default function Lobby() {
                         <h2 className={styles.code}>{room?.room_id}</h2>
                     </div>
 
-                    <button className={styles.chat} onClick={handleChat}>
+                    <button className={styles.chat} onClick={handleChat} type="button">
                         <img src={iconChat} alt="Chat" className={styles.icons} />
                     </button>
                 </div>
@@ -114,23 +128,27 @@ export default function Lobby() {
                 
 
                 <div className={styles.buttons}>
-                    <button onClick={handleBack} className={`${styles.button} ${styles.back}`}>
+                    <button onClick={handleBack} className={`${styles.button} ${styles.back}`} type="button">
                         <img src={iconBack} alt="Back" className={styles.icon}/>
                         Sair
                     </button>
-                    <button onClick={handlePlay} className={`${styles.button} ${styles.play}`}>
+                    <button onClick={handlePlay} className={`${styles.button} ${styles.play}`} type="button">
                         <img src={iconPlay} alt="Play" className={styles.icon} />
                         Jogar
                     </button>
                 </div>
             </div>
-            {room && roomSettings && (
-                <SettingsPopup
-                isOpen={isSettingsOpen}
-                onClose={() => {setSettingsOpen(false)}}
-                roomSettings={roomSettings}
-                onSave={setRoomSettings}
-                />   
+            {theme && gamemode && allowedPowers && (
+                <SettingsPopup 
+                theme={theme}
+                setTheme={() => setTheme}
+                gamemode={gamemode}
+                setGamemode={() => setGamemode}
+                allowedPowers={allowedPowers}
+                setAllowedPowers={() => setAllowedPowers}
+                popupOpen={isSettingsOpen}
+                closePopup={() => setSettingsOpen}
+                />
             )}
             
             <ChatPopup isOpen={isChatOpen} onClose={() => {setChatOpen(false)}}/>

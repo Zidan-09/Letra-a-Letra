@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Create from "./pages/Create";
 import Room from "./pages/Room";
 import Lobby from "./pages/Lobby";
+import Game from "./pages/Game";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
           <Route path="/create" element={<Create />} />
           <Route path="/room" element={<Room />} />
           <Route path="/lobby/:room_id" element={<Lobby />} />
-          <Route path="/game/:room_id" element={<div>Game</div>} />
+          <Route path="/game/:room_id" element={<Game />} />
           <Route path="/winner/:room_id" element={<div>Winner</div>} />
         </Routes>
       </SocketProvider>
