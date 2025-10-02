@@ -33,7 +33,7 @@ export default function Lobby() {
             return;
         };
 
-        setRoom(JSON.parse(game).data);
+        setRoom(JSON.parse(game));
         const settingsData: RoomSettings = JSON.parse(settings)
         
         setTheme(settingsData.theme);
@@ -50,9 +50,19 @@ export default function Lobby() {
             setRoom(updatedRoom);
         });
 
+        socket.on("turned_player", (updatedRoom) => {
+            setRoom(updatedRoom);
+        });
+
+        socket.on("turned_spectator", (updatedRoom) => {
+            setRoom(updatedRoom);
+        });
+
         return () => {
             socket.off("player_joined");
             socket.off("player_left");
+            socket.off("turned_player");
+            socket.off("turned_spectator");
         };
 
     }, [socket])
@@ -65,16 +75,16 @@ export default function Lobby() {
         setSettingsOpen(true);
     }
 
-    const handleBack = () => {
+    const handleBack = async () => {
         async function leaveRoom() {
             await fetch(`${Server}/room/${room?.room_id}/players/${socket.id}`, {
                 method: "DELETE"
-            }).then(res => res.json()).then(data => { console.log(data) })
-        }
+            }).then(res => res.json()).then(data => data);
+        };
 
-        leaveRoom();
+        await leaveRoom();
 
-        navigate("/create");
+        navigate("/");
     }
 
     const handlePlay = async () => {
