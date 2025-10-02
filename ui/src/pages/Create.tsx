@@ -7,6 +7,7 @@ import SettingsPopup from "../components/Create/SettingsPopup";
 import iconBack from "../assets/buttons/icon-back.svg";
 import iconCreate from "../assets/buttons/icon-create.svg";
 import styles from "../styles/Create.module.css";
+import iconSettings from "../assets/buttons/icon-settings.svg"
 
 export default function Create() {
     const [roomName, setRoomName] = useState<string>("");
@@ -49,7 +50,7 @@ export default function Create() {
 
         setLoading(false);
 
-        if (!result.status) return console.log(result);
+        if (!result.success) return null;
 
         localStorage.setItem("game", JSON.stringify(result.data));
         return navigate(`/game/${result.data.room_id}`);
@@ -89,10 +90,15 @@ export default function Create() {
                     className={styles.range}
                     />
 
-                    <span className={styles.timer}>{turnTime}s</span>
+                    <span className={styles.timer} translate="no">{turnTime}s</span>
                 </div>
 
-                <button type="button" className={styles.settings} onClick={handleSettings}>Configurações</button>
+                <div className={styles.buttonSettings}>
+                <p className={styles.label}>Config.</p>
+                <button type="button" className={styles.settings} onClick={handleSettings}>
+                <img src={iconSettings} alt="Settings" />
+                </button>
+                </div>
 
                 <div className={styles.switchs}>
                     <div className={styles.switchContainer}>
@@ -110,7 +116,7 @@ export default function Create() {
                         <p className={styles.label}>Sala Privada</p>
                         <div 
                         className={`${styles.switch} ${privateRoom ? styles.on : styles.off}`}
-                        onClick={() => setPrivate(p => !p)}
+                        onClick={() => setPrivate(p => !p)} translate="no"
                         >
                             <div className={styles.switchBall}></div>
                             <p className={privateRoom ? styles.textOn : styles.textOff}>{privateRoom ? "on" : "off"}</p>
