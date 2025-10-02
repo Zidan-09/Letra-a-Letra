@@ -87,11 +87,11 @@ export default function Home() {
         </div>
 
         <div className={styles.buttons}>
-          <button className={`${styles.button} ${styles.create}`} onClick={handleCreateRoom}>
+          <button className={`${styles.button} ${styles.create}`} onClick={handleCreateRoom} type="button">
             <img src={iconCreate} alt="Create" className={styles.icon} />
             Criar Sala
           </button>
-          <button className={`${styles.button} ${styles.enter}`} onClick={handleEnterRoom}>
+          <button className={`${styles.button} ${styles.enter}`} onClick={handleEnterRoom} type="button">
             <img src={iconEnter} alt="Enter" className={styles.icon} />
             Juntar-se
           </button>
