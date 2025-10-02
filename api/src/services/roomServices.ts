@@ -259,7 +259,7 @@ class RoomServices {
         const io = getSocketInstance();
 
         all.forEach(p => {
-            io.to(p.player_id).emit("turned_spectator", room);
+            io.to(p.player_id).emit("turned_player", room);
         })
 
         return room;
