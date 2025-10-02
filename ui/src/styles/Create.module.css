@@ -131,6 +131,8 @@
     font-weight: bold;
     text-align: center;
     transition: transform 0.1s ease, box-shadow 0.2s ease;
+    min-width: 120px;
+    padding:  0 1rem 0.2rem;
 }
 
 .themes:hover {
@@ -197,10 +199,6 @@ option {
     transform: translateY(-2px);
 }
 
-.icon {
-    margin-right: 0.8rem;
-    font-size: 1.4rem;
-}
 
 .create {
     background-color: rgb(27, 157, 222);
@@ -285,7 +283,30 @@ option {
 }
 
 .modeCrazy {
-    background-color: #8e44ad; /* Roxo */
+    background-color: #8e44ad;
     border: 5px solid #9b59b6;
     box-shadow: 0 6px 0 #5D3775;
+}
+
+.selectButton {
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 2rem;
+    padding: 0 1rem 0.2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    outline: none;
+    background-color: rgb(56, 228, 41);
+    border: 5px solid rgb(55, 255, 122);
+    box-shadow: 0 6px 0 rgb(57, 148, 87);
+    min-width: 120px;
+}
+
+.selectButton:hover {
+  transform: translateY(-2px);
 }

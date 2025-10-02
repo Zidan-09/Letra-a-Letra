@@ -158,11 +158,11 @@
 .help {
     background-color: rgb(21, 248, 29);
     border: 5px solid rgb(77, 255, 89);
+    box-shadow: 0 6px 0 rgb(46, 138, 52);
     width: 50%;
     font-size: clamp(20px, 2vw, 30px);
     max-width: 400px;
     margin: 1rem auto 0 auto;
-    box-shadow: 0 6px 0 rgb(46, 138, 52);
 }
 
 .help:hover {
