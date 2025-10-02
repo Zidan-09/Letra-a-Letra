@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Server } from "../../utils/server_utils";
 import { useSocket } from "../../services/socketProvider";
 import InvalidCodePopup from "./InvalidCodePopup";
-import iconBack from "../../assets/buttons/icon-back.png";
-import iconEnter from "../../assets/buttons/icon-enter.png";
+import iconBack from "../../assets/buttons/icon-back.svg";
+import iconEnter from "../../assets/buttons/icon-enter.svg";
 import styles from "../../styles/Room/RoomPopup.module.css";
 
 interface PopupProps {
@@ -49,7 +49,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
 
             if (!result.status) return null;
 
-            return navigate("/lobby");
+            return navigate(`/lobby/${room_id}`);
         }
 
         const result = await fetch(`${Server}/room/${room_id}/players`, {
@@ -63,7 +63,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
 
         if (!result.stataus) return null;
 
-        return navigate("/lobby");
+        return navigate(`/lobby/${room_id}`);
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
