@@ -16,13 +16,13 @@ export const SendSocket = {
         const spectators = room.spectators;
 
         const data: GameStarted = {
-            first: players.find(p => p.turn === 0)!,
+            first: players.filter(Boolean).find(p => p.turn === 0)!,
             words: room.board.words
         }
 
         const all = [...players, ...spectators];
 
-        all.forEach(p => 
+        all.filter(Boolean).forEach(p => 
             io.to(p.player_id).emit("game_started", data)
         );
     },
@@ -46,7 +46,7 @@ export const SendSocket = {
 
         const all = [...players, ...spectators];
 
-        all.forEach(p =>
+        all.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
         )
     },
@@ -67,7 +67,7 @@ export const SendSocket = {
 
         const all = [...players, ...spectators];
 
-        all.forEach(p =>
+        all.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("game_over", {winner: winner})
         )
         

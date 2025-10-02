@@ -6,36 +6,34 @@ import styles from "../../styles/Lobby/SpectatorsList.module.css";
 
 interface SpectatorsListProps {
     room: Game;
-    updateRoom: (room: Game) => void;
 }
 
-export default function SpectatorsList({ room, updateRoom }: SpectatorsListProps) {
+export default function SpectatorsList({ room }: SpectatorsListProps) {
     const socket = useSocket();
 
-    const handleTurnSpectator = async () => {
-        const result = await fetch(`${Server}/room/${room.room_id}/players/${socket.id}`, {
+    const handleTurnSpectator = async (index: number) => {
+        await fetch(`${Server}/room/${room.room_id}/players/${socket.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                role: "spectator"
+                role: "spectator",
+                index: index
             })
         }).then(res => res.json()).then(data => data);
-
-        console.log(result);
-        if (result.success) updateRoom(result.data);
     }
 
     return (
         <div className={styles.spectatorList}>
-            {Array.from({ length: 5 }).map((_, index) => {
+            {room.spectators.map((_, index) => {
                 const spectator = room.spectators[index];
 
                 return spectator ? (
                     <SpectatorItem
+                    key={index}
                     avatar={spectator.avatar}
                     />
                 ) : (
-                    <div className={styles.empty} onClick={handleTurnSpectator}></div>
+                    <div className={styles.empty} key={index} onClick={() => handleTurnSpectator(index)}></div>
                 )
             })}
         </div>

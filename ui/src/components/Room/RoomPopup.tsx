@@ -33,35 +33,25 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
         
         const valid = await fetch(`${Server}/room/${room_id}`).then(res => res.json()).then(data => data);
 
-        if (!valid.status) {
+        if (!valid.success) {
             return setInvalidCode(true);
         }
 
-        if (valid.data.players.length >= 2) {
-            const result = await fetch(`${Server}/room/${room_id}/players`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    spectator: true,
-                    player_id: socket.id
-                })
-            }).then(res => res.json()).then(data => data);
-
-            if (!result.status) return null;
-
-            return navigate(`/lobby/${room_id}`);
-        }
+        if (
+            valid.data.players.filter(Boolean).length === 2 &&
+            valid.data.spectators.filter(Boolean).length === 5
+        ) return setInvalidCode(true);
 
         const result = await fetch(`${Server}/room/${room_id}/players`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                spectator: false,
+                spectator: valid.data.players.filter(Boolean).lenght === 2 ? true : false,
                 player_id: socket.id
             })
         }).then(res => res.json()).then(data => data);
 
-        if (!result.stataus) return null;
+        if (!result.success) return null;
 
         return navigate(`/lobby/${room_id}`);
     }

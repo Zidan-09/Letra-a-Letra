@@ -84,7 +84,7 @@ export const GameMiddleware = {
                 game.status !== GameStatus.GameRunning
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
     
-            const player = players.find(p =>
+            const player = players.filter(Boolean).find(p =>
                 p.player_id === player_id
             );
 
@@ -130,7 +130,7 @@ export const GameMiddleware = {
                 !players
             ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.NotFound);
 
-            const player = players.find(p => 
+            const player = players.filter(Boolean).find(p => 
                 p.player_id === player_id
             );
 
