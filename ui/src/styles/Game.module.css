@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+.container {
+    width: 100%;
+    height: 100vh;
+    background-image: url("../assets/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Lilita One', cursive;
+    box-sizing: border-box;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    border: 3px solid white;
+    padding: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    width: 90%;
+    max-width: 500px;
+    min-width: 300px;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+}

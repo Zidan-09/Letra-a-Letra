@@ -7,15 +7,13 @@ interface PowerItemProps {
     onToggle: (power: MovementsEnum) => void;
 }
 
-export default function PowerItem({power, enabled, onToggle} : PowerItemProps) {
-    const handleClick = () => {
-        onToggle(power);
-    };
-    
-    return (
-        <div className={`${styles.item} ${enabled ? styles.enabled : styles.disabled}`}
-        onClick={handleClick}>
-            <p className={styles.powerName}>{power}</p>
-        </div>
-    );
-}  
+export default function PowerItem({ power, enabled, onToggle }: PowerItemProps) {
+  return (
+    <div 
+        className={`${styles.item} ${enabled ? styles.enabled : styles.disabled}`}
+        onClick={() => onToggle(power)}
+    >
+        <p className={styles.powerName}>{power}</p>
+    </div>
+  );
+}

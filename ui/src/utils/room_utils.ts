@@ -16,6 +16,7 @@ interface Player {
     player_id: string;
     nickname: string;
     spectator: boolean;
+    powers: Power[];
     turn: 0 | 1;
     avatar: number;
     score: number;
@@ -33,6 +34,7 @@ interface PlayerEffect {
 interface Board {
     range: number;
     words: string[];
+    findedWords: string[];
     finded: number;
     grid: Cell[][];
     wordPositions: { [word: string]: [number, number][] };
@@ -54,12 +56,68 @@ interface RoomSettings {
     allowedPowers: MovementsEnum[];
 }
 
+interface Power {
+    power: MovementsEnum;
+    rarity: PowerRarity
+}
+
+interface MoveEmit {
+    status: GameResponses;
+    cell?: { x: number, y: number };
+    remaining?: number;
+    letter?: string;
+    completedWord?: { word: string, positions: [number, number][] };
+    blocked_by?: string;
+    trapped_by?: string;
+    traps?: { x: number, y: number }[];
+    player?: string;
+    for?: string;
+    power?: { hasPowerup: boolean, powerup: MovementsEnum | null }
+}
+
+type GameResponses = "revealed" | 
+"almost_revealed" | 
+"game_error" | 
+"not_enough_players" | 
+"game_started" | 
+"continue" | 
+"invalid_movement" |
+"invalid_theme" |
+"almost_blocked" |
+"blocked" |
+"unblocked" |
+"trapped" |
+"almost_trapped" |
+"detected_traps" |
+"spied" |
+"frozen" |
+"unfrozen" |
+"player_frozen" |
+"player_blind" |
+"used_lantern" |
+"player_immune";
+
 export type GameModes = "NORMAL" | "CRAZY"
 
-type PowerRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
+type PowerRarity = "COMMON" | 
+"RARE" | 
+"EPIC" | 
+"LEGENDARY";
 
-type MovementsEnum = "REVEAL" | "BLOCK" | "UNBLOCK" | "TRAP" | "DETECTTRAPS" | "FREEZE" | "UNFREEZE" | "SPY" | "BLIND" | "LANTERN" | "IMMUNITY";
+type MovementsEnum = "REVEAL" | 
+"BLOCK" | 
+"UNBLOCK" | 
+"TRAP" | 
+"DETECTTRAPS" | 
+"FREEZE" | 
+"UNFREEZE" | 
+"SPY" | 
+"BLIND" | 
+"LANTERN" | 
+"IMMUNITY";
 
-type GameStatus = "game_starting" | "game_running" | "game_over";
+type GameStatus = "game_starting" | 
+"game_running" | 
+"game_over";
 
-export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum, RoomSettings };
+export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum, RoomSettings, Power, MoveEmit };
