@@ -22,7 +22,7 @@ export default function SpectatorsList({ room, updateRoom }: SpectatorsListProps
         }).then(res => res.json()).then(data => data);
 
         console.log(result);
-        if (result.status) updateRoom(result.data);
+        if (result.success) updateRoom(result.data);
     }
 
     return (

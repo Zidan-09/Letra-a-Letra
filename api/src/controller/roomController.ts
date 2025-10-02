@@ -52,7 +52,7 @@ export const RoomController = {
                     result === ServerResponses.NotFound
                 ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToPlayer);
+                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToPlayer, result);
 
             } else if (role === "spectator") {
                 const result = RoomService.turnPlayerToSpectator(room_id, player_id);
@@ -61,7 +61,7 @@ export const RoomController = {
                     result === ServerResponses.NotFound
                 ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToSpectator);
+                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToSpectator, result);
             }
 
             return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);

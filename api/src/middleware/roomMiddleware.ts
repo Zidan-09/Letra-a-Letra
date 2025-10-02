@@ -74,7 +74,6 @@ export const RoomMiddleware = {
             ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
-
             if (
                 game === ServerResponses.NotFound
             ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
@@ -82,7 +81,7 @@ export const RoomMiddleware = {
             if (
                 role === "spectator"
             ) {
-                const target = game.spectators.find(spectator => 
+                const target = game.players.find(spectator => 
                     spectator.player_id === player_id
                 );
 
@@ -102,7 +101,7 @@ export const RoomMiddleware = {
             if (
                 role === "player"
             ) {
-                const target = game.players.find(player => 
+                const target = game.spectators.find(player => 
                     player.player_id === player_id
                 );
 
