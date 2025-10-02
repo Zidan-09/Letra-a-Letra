@@ -68,11 +68,11 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [] }: Powe
 
         <div className={styles.buttons}>
           <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
-            <img src={iconBack} alt="Back" className={styles.icon} />
+            <img src={iconBack} alt="Back" className={styles.icon1} />
             Voltar
           </button>
           <button className={`${styles.button} ${styles.confirm}`} onClick={handleConfirm}>
-            <img src={iconConfirm} alt="Confirm" className={styles.icon} />
+            <img src={iconConfirm} alt="Confirm" className={styles.icon2} />
             Confirmar
           </button>
         </div>
