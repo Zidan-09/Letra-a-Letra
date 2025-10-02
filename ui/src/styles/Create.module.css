@@ -182,20 +182,18 @@
 }
 
 .textOff {
-<<<<<<< HEAD
     max-width: 60px;
     min-width: 60px;
     width: 60px;
     text-align: center;
-    transition: transform 0.1s ease, box-shadow 0.2s ease;
-=======
-    font-size: 1.8rem;
-    margin-right: 1.5rem;
->>>>>>> 95dc610 (temp)
 }
 
-.themes:hover {
-    transform: translateY(-2px);
+.off {
+  background-color: rgb(240, 44, 38);
+  border: 5px solid rgb(195, 60, 60);
+  box-shadow: 0 6px 0 rgb(128, 53, 49);
+  color: white;
+  flex-direction: row;
 }
 
 .off .switchBall {
