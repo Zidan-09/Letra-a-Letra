@@ -6,28 +6,25 @@ import styles from "../../styles/Lobby/PlayerList.module.css";
 
 interface PlayerListProps {
     room: Game;
-    updateRoom: (room: Game) => void;
 }
 
-export default function PlayerList({ room, updateRoom }: PlayerListProps) {
+export default function PlayerList({ room }: PlayerListProps) {
     const socket = useSocket();
 
-    const handleTurnPlayer = async () => {
-        const result = await fetch(`${Server}/room/${room.room_id}/players/${socket.id}`, {
+    const handleTurnPlayer = async (index: number) => {
+        await fetch(`${Server}/room/${room.room_id}/players/${socket.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                role: "player"
+                role: "player",
+                index: index
             })
         }).then(res => res.json()).then(data => data);
-        console.log(result)
-        
-        if (result.status) updateRoom(result.data);
     }
 
     return (
         <div className={styles.playerList}>
-            {Array.from({ length: 2 }).map((_, index) => {
+            {room.players.map((_, index) => {
                 const player = room.players[index];
 
                 return player ? (
@@ -37,7 +34,7 @@ export default function PlayerList({ room, updateRoom }: PlayerListProps) {
                     nickname={player.nickname}
                     />
                 ) : (
-                    <div className={styles.empty} onClick={handleTurnPlayer}>
+                    <div className={styles.empty} key={index} onClick={() => handleTurnPlayer(index)}>
                         <div className={styles.avatar}></div>
                         <p className={styles.nickname}>Vazio</p>
                     </div>

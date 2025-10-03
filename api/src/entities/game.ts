@@ -11,8 +11,8 @@ export class Game {
     room_id: string;
     room_name: string;
     status: GameStatus;
-    players: Player[];
-    spectators: Player[] = [];
+    players: Player[] = Array(2).fill(undefined);
+    spectators: Player[] = Array(5).fill(undefined);
     created_by: string;
     timer: number;
     turn: number;
@@ -24,13 +24,13 @@ export class Game {
         this.room_id = room_id;
         this.room_name = room_name;
         this.status = status;
-        this.players = [player];
         this.created_by = player.nickname;
         this.timer = timer;
         this.turn = 0;
         this.board = null;
         this.allowSpectators = allowSpectators;
         this.privateRoom = privateRoom;
+        this.players[0] = player;
     }
 
     public startGame(theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {

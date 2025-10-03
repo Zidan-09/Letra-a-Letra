@@ -26,7 +26,8 @@ interface LeaveRoom {
 }
 
 interface ChangeRole {
-    role: "player" | "spectator"
+    role: "player" | "spectator";
+    index: number;
 }
 
 

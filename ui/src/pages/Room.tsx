@@ -12,7 +12,6 @@ import styles from "../styles/Room.module.css";
 
 export default function Room() {
     const [rooms, setRooms] = useState<Game[]>([]);
-    const [spectator, setSpectator] = useState(false);
     const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [room, setRoom] = useState<Game | null>(null);
@@ -23,29 +22,19 @@ export default function Room() {
         return navigate("/");
     };
 
-    const joinSpectator = () => {
-        const room = rooms.find(r => r.room_id === selectedRoom);
-
-        if (!room) return;
-
-        if (room.players.length >= 2) {
-            setSpectator(true);
-        }
-    }
-
     const handleEnter = async () => {
-        const room_id = localStorage.getItem("room_id");
-
-        if (!room_id) {
+        if (!room) {
             return navigate("/");
         }
 
+        const isSpectator = room.players.filter(Boolean).length >= 2;
+
         async function enterRoom() {
-            const data = await fetch(`${Server}/room/${room_id}/players`, {
+            const data = await fetch(`${Server}/room/${selectedRoom}/players`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    spectator: spectator,
+                    spectator: isSpectator,
                     player_id: socket.id
                 })
             }).then(res => res.json()).then(data => data);
@@ -54,9 +43,12 @@ export default function Room() {
         }
 
         const game = await enterRoom();
-        localStorage.setItem("game", JSON.stringify(game));
 
-        navigate(`/lobby/${room_id}`);
+        if (!game.success) return null;
+
+        localStorage.setItem("game", JSON.stringify(game.data));
+
+        navigate(`/lobby/${selectedRoom}`);
     };
 
     const handleInsertCode = () => {
@@ -70,7 +62,6 @@ export default function Room() {
         if (!room) return;
 
         setRoom(room);
-        joinSpectator();
     }
 
     const handleRefresh = async () => {
@@ -102,24 +93,24 @@ export default function Room() {
               <RoomList rooms={rooms} onSelectRoom={handleSelectRoom} selectedRoom={selectedRoom} />
 
               <div className={styles.buttons}>
-                  <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
+                  <button className={`${styles.button} ${styles.back}`} onClick={handleBack} type="button">
                       <img src={iconBack} alt="Back" className={styles.icon} />
                       Voltar
                   </button>
-                  {selectedRoom && room && room.players.length >= 2 ? (
-                      <button className={`${styles.button} ${styles.spectator}`} onClick={handleEnter}>
+                  {selectedRoom && room && room.players.filter(Boolean).length >= 2 ? (
+                      <button className={`${styles.button} ${styles.spectator}`} onClick={handleEnter} type="button">
                           <img src={iconEnter} alt="Enter" className={styles.icon} />
                           Espectar
                       </button>
                   ) : (
-                      <button className={`${styles.button} ${styles.enter}`} onClick={handleEnter}>
+                      <button className={`${styles.button} ${styles.enter}`} onClick={handleEnter} type="button">
                           <img src={iconEnter} alt="Enter" className={styles.icon} />
                           Entrar
                       </button>
                   )}
               </div>
 
-                  <button className={`${styles.button} ${styles.code}`} onClick={handleInsertCode}>Inserir Código</button>
+                  <button className={`${styles.button} ${styles.code}`} onClick={handleInsertCode} type="button">Inserir Código</button>
           </div>
           <RoomPopup isOpen={isPopupOpen} onClose={() => {setPopupOpen(false)}}/>
         </div>

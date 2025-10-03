@@ -32,6 +32,10 @@ export const RoomController = {
         try {
             const result = RoomService.joinRoom(room_id, player_id, spectator);
 
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
             return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomJoined, result);
             
         } catch (err) {
@@ -42,29 +46,20 @@ export const RoomController = {
 
     changeRole(req: Request<ActionParams, {}, ChangeRole>, res: Response, next: NextFunction) {
         const { room_id, player_id } = req.params;
-        const { role } = req.body;
+        const { role, index } = req.body;
 
         try {
-            if (role === "player") {
-                const result = RoomService.turnSpectatorToPlayer(room_id, player_id);
+            const result = RoomService.changeRole(room_id, player_id, role, index);
 
-                if (
-                    result === ServerResponses.NotFound
-                ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToPlayer);
+            if (
+                result === RoomResponses.FullRoom
+            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.FullRoom);
 
-            } else if (role === "spectator") {
-                const result = RoomService.turnPlayerToSpectator(room_id, player_id);
-
-                if (
-                    result === ServerResponses.NotFound
-                ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
-
-                return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoomTurnedToSpectator);
-            }
-
-            return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RoleChanged);
 
         } catch (err) {
             console.error(err);
