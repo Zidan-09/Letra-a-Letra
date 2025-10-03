@@ -47,8 +47,8 @@ export const RoomMiddleware = {
             ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
             if (
-                game.players.length >= 2 && 
-                !spectator
+                (!spectator && game.players.every(p => p)) ||
+                (spectator && game.spectators.every(s => s))
             ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.FullRoom);
 
             if (
@@ -65,12 +65,14 @@ export const RoomMiddleware = {
 
     changeRole(req: Request<ActionParams, {}, ChangeRole>, res: Response, next: NextFunction) {
         const { room_id, player_id } = req.params;
-        const { role } = req.body;
+        const { role, index } = req.body;
 
         try {
             if (
                 !room_id || 
-                !player_id
+                !player_id ||
+                !role ||
+                index === undefined
             ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
 
             const game = RoomService.getRoom(room_id);
@@ -81,37 +83,44 @@ export const RoomMiddleware = {
             if (
                 role === "spectator"
             ) {
-                const target = game.players.find(spectator => 
-                    spectator.player_id === player_id
-                );
+                const target = game.players.filter(Boolean).find(p => p.player_id === player_id)
+                        || game.spectators.filter(Boolean).find(s => s.player_id === player_id);
 
                 if (
                     !target
                 ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
                 if (
-                    target.spectator
-                ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.AlreadySpectator);
+                    index < 0 || index >= game.spectators.length
+                ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.InvalidSlot);
 
                 if (
-                    game.players.length >= 2
-                ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.FullRoom);
+                    target.spectator && game.spectators[index]?.player_id === player_id
+                ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.AlreadySpectator);
             }
 
             if (
                 role === "player"
             ) {
-                const target = game.spectators.find(player => 
-                    player.player_id === player_id
-                );
+                const target = game.players.filter(Boolean).find(p => p.player_id === player_id)
+                        || game.spectators.filter(Boolean).find(s => s.player_id === player_id);
 
                 if (
                     !target
                 ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
                 if (
-                    !target.spectator
+                    index < 0 || index >= game.players.length
+                ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.InvalidSlot);
+
+                if (
+                    !target.spectator && game.players[index]?.player_id === player_id
                 ) return HandleResponse.serverResponse(res, 400, false, PlayerResponses.AlreadyPlayer);
+
+
+                if (
+                    game.players[index] && game.players[index].player_id !== player_id
+                ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.FullRoom);
             }
 
             next();
@@ -152,7 +161,7 @@ export const RoomMiddleware = {
 
             if (
                 game === ServerResponses.NotFound || 
-                !game.players.find(p => p.player_id === player_id)
+                !game.players.filter(Boolean).find(p => p.player_id === player_id)
             ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
             next();

@@ -3,8 +3,7 @@ enum RoomResponses {
     RoomCreationFailed = "room_creation_failed",
     RoomJoined = "room_joined",
     RoomJoinedAsSpectator = "room_joined_as_spectator",
-    RoomTurnedToPlayer = "room_turned_to_player",
-    RoomTurnedToSpectator = "room_turned_to_spectator",
+    RoleChanged = "role_changed",
     RoomSettingsChanged = "room_settings_changed",
     SpectatorsOff = "spectators_off",
     PlayerReconnected = "player_reconnected",
@@ -12,6 +11,7 @@ enum RoomResponses {
     FullRoom = "full_room",
     LeftRoom = "left_room",
     PublicRooms = "public_rooms",
+    InvalidSlot = "invalid_slot",
     DataError = "data_error"
 }
 

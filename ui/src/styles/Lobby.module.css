@@ -147,6 +147,17 @@
     border: 5px solid rgb(253, 114, 0);
 }
 
+.disabled {
+    background-color: rgb(130, 130, 130);
+    border: 5px solid rgb(91, 91, 91);
+    box-shadow: 0 6px 0 rgb(44, 44, 44);
+}
+
+.disabled:hover {
+    transform: scale(1);
+    cursor: not-allowed;
+}
+
 .back {
     background-color: rgb(240, 44, 38);
     border: 5px solid rgb(195, 60, 60);

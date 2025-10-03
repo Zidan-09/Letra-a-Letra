@@ -24,7 +24,7 @@ export default function Home() {
 
       if (
         result.player_id === socket.id
-      ) navigate("/create");
+      ) return navigate("/create");
     }
   };
   
@@ -34,7 +34,7 @@ export default function Home() {
 
       if (
         result.player_id === socket.id
-      ) navigate("/room");
+      ) return navigate("/room");
     }
   };
 

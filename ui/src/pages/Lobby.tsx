@@ -16,9 +16,9 @@ import SettingsPopup from "../components/Create/SettingsPopup";
 export default function Lobby() {
     const [room, setRoom] = useState<Game | null>(null);
     const socket = useSocket();
-    const navigate = useNavigate();
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const [theme, setTheme] = useState<string>("");
     const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>([]);
@@ -42,27 +42,22 @@ export default function Lobby() {
 
         if (!socket) return;
 
-        socket.on("player_joined", (updatedRoom) => {
-            setRoom(updatedRoom);
+        socket.on("player_joined", (updatedRoom: Game) => {
+            setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
-        socket.on("player_left", (updatedRoom) => {
-            setRoom(updatedRoom);
+        socket.on("player_left", (updatedRoom: Game) => {
+            setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
-        socket.on("turned_player", (updatedRoom) => {
-            setRoom(updatedRoom);
-        });
-
-        socket.on("turned_spectator", (updatedRoom) => {
-            setRoom(updatedRoom);
+        socket.on("role_changed", (updatedRoom: Game) => {
+            setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
         return () => {
             socket.off("player_joined");
             socket.off("player_left");
-            socket.off("turned_player");
-            socket.off("turned_spectator");
+            socket.off("role_changed");
         };
 
     }, [socket])
@@ -77,18 +72,22 @@ export default function Lobby() {
 
     const handleBack = async () => {
         async function leaveRoom() {
-            await fetch(`${Server}/room/${room?.room_id}/players/${socket.id}`, {
+            const result = await fetch(`${Server}/room/${room?.room_id}/players/${socket.id}`, {
                 method: "DELETE"
             }).then(res => res.json()).then(data => data);
+
+            return result;
         };
 
-        await leaveRoom();
+        const result = await leaveRoom();
 
-        navigate("/");
+        if (!result.success) return null;
+
+        return navigate("/");
     }
 
     const handlePlay = async () => {
-        if (!room || room.players.length < 2 || !theme || !gamemode || !allowedPowers) return null;
+        if (!room || room.players.filter(Boolean).length < 2 || !theme || !gamemode || !allowedPowers) return null;
 
         const result = await fetch(`${Server}/game/${room.room_id}/start`, {
             method: "POST",
@@ -98,9 +97,9 @@ export default function Lobby() {
                 gamemode: gamemode,
                 allowedPowers: allowedPowers
             })
-        }).then(res => res.json()).then(data => data.data);
+        }).then(res => res.json()).then(data => data);
 
-        if (!result.status) return null;
+        if (!result.success) return null;
 
         return navigate(`/game/${room.room_id}`);
     }
@@ -126,27 +125,27 @@ export default function Lobby() {
                     <>
                         <section className={styles.players}>
                             <p>JOGADORES NA SALA</p>
-                            <PlayerList room={room} updateRoom={setRoom} />
+                            <PlayerList room={room} />
                         </section>
 
                         <section className={styles.spectators}>
                             <p>ESPECTADORS</p>
-                            <SpectatorsList room={room} updateRoom={setRoom} />
+                            <SpectatorsList room={room} />
                         </section>
+
+                        <div className={styles.buttons}>
+                            <button onClick={handleBack} className={`${styles.button} ${styles.back}`} type="button">
+                                <img src={iconBack} alt="Back" className={styles.icon}/>
+                                Sair
+                            </button>
+                            <button onClick={handlePlay} className={`${styles.button} ${room.players.filter(Boolean).length >= 2 ? styles.play : styles.disabled}`} type="button">
+                                <img src={iconPlay} alt="Play" className={styles.icon} />
+                                Jogar
+                            </button>
+                        </div>
                     </>
                 )}
-                
 
-                <div className={styles.buttons}>
-                    <button onClick={handleBack} className={`${styles.button} ${styles.back}`} type="button">
-                        <img src={iconBack} alt="Back" className={styles.icon}/>
-                        Sair
-                    </button>
-                    <button onClick={handlePlay} className={`${styles.button} ${styles.play}`} type="button">
-                        <img src={iconPlay} alt="Play" className={styles.icon} />
-                        Jogar
-                    </button>
-                </div>
             </div>
             {theme && gamemode && allowedPowers && (
                 <SettingsPopup 

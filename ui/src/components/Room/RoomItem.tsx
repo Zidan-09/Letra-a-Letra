@@ -10,20 +10,15 @@ interface RoomItemProps {
 
 export default function RoomItem({ room, color, onSelect, selected }: RoomItemProps) {
 
-    const handleSelectRoom = () => {
-        onSelect(room.room_id);
-        localStorage.setItem("room_id", room.room_id);
-    }
-
-    const playerInRoom = (room.players.length as 1 | 2).toString();
+    const playerInRoom = (room.players.filter(Boolean).length as 0 | 1 | 2).toString();
 
     return (
         <div className={`${styles.item} ${styles[color]} ${selected ? styles.selected : ""}`}
-        onClick={handleSelectRoom}
+        onClick={() => onSelect(room.room_id)}
         >
             <p className={styles.room_name}>{room.room_name}</p>
             <div className={`${styles.players} ${styles[`color_${playerInRoom}`]}`}>
-                <p>{room.players.length}/2</p>
+                <p>{room.players.filter(Boolean).length}/2</p>
             </div>
         </div>
     );

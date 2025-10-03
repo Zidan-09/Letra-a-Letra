@@ -154,7 +154,7 @@ export default function Game() {
     const handleClickCell = async (x: number, y: number) => {
         if (!actualState) return null;
 
-        const result = await fetch(`${Server}/game/${actualState.room_id}/move`, {
+        await fetch(`${Server}/game/${actualState.room_id}/move`, {
             method: "POST",
             headers: { "Content-Type": "application/json"},
             body: JSON.stringify({
@@ -164,8 +164,6 @@ export default function Game() {
                 y: y
             })
         }).then(res => res.json()).then(data => data);
-
-        console.log(result);
     }
 
     return (

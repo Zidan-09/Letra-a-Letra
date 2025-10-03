@@ -147,7 +147,7 @@ export const Movements = {
         let player: Player | undefined;
         switch (effect) {
             case MovementsEnum.FREEZE:
-                player = players.find(p => p.player_id !== player_id);
+                player = players.filter(Boolean).find(p => p.player_id !== player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("freeze", 3);
@@ -158,7 +158,7 @@ export const Movements = {
                 }
 
             case MovementsEnum.UNFREEZE:
-                player = players.find(p => p.player_id === player_id);
+                player = players.filter(Boolean).find(p => p.player_id === player_id);
                 if (!player) return GameResponses.GameError;
                 
                 player.removeEffect("freeze");
@@ -169,7 +169,7 @@ export const Movements = {
                 }
 
             case MovementsEnum.BLIND:
-                player = players.find(p => p.player_id !== player_id);
+                player = players.filter(Boolean).find(p => p.player_id !== player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("blind", 3);
@@ -180,7 +180,7 @@ export const Movements = {
                 }
 
             case MovementsEnum.LANTERN:
-                player = players.find(p => p.player_id === player_id);
+                player = players.filter(Boolean).find(p => p.player_id === player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.removeEffect("blind");
@@ -191,7 +191,7 @@ export const Movements = {
                 }
 
             case MovementsEnum.IMMUNITY:
-                player = players.find(p => p.player_id === player_id);
+                player = players.filter(Boolean).find(p => p.player_id === player_id);
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("immunity", 5);

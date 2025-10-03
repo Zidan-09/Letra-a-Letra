@@ -50,7 +50,7 @@ export const GameService = {
 
         const players = game.players;
 
-        const player = players.find(p =>
+        const player = players.filter(Boolean).find(p =>
             p.player_id === player_id
         )
 
@@ -80,7 +80,7 @@ export const GameService = {
         const players = game.players;
         const board = game.board!;
 
-        const player = players.find(p =>
+        const player = players.filter(Boolean).find(p =>
             p.player_id === player_id
         )!;
 
@@ -140,7 +140,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.FREEZE:
-                createLog(room_id, `${player.nickname} ${LogEnum.Freeze} ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Freeze} ${players.filter(Boolean).find(p => p.player_id !== player.player_id)?.nickname}`);
 
                 return Movements.effectMove(
                     players, 
@@ -168,7 +168,7 @@ export const GameService = {
                 );
 
             case MovementsEnum.BLIND:
-                createLog(room_id, `${player.nickname} ${LogEnum.Blinded} ${players.find(p => p.player_id !== player.player_id)?.nickname}`);
+                createLog(room_id, `${player.nickname} ${LogEnum.Blinded} ${players.filter(Boolean).find(p => p.player_id !== player.player_id)?.nickname}`);
                 
                 return Movements.effectMove(
                     players, 
