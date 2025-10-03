@@ -44,6 +44,10 @@
     margin-top: 0;
 }
 
+.title:hover {
+    cursor: default;
+}
+
 .refresh {
     display: flex;
     justify-content: center;
