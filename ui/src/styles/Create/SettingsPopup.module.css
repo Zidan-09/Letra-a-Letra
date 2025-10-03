@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  font-family: "Lilita One", cursive;
+}
+
+.popup {
+  background: rgba(255, 255, 255, 0.3);
+  border: 4px solid white;
+  border-radius: 3rem;
+  padding: 2rem;
+  width: min(90%, 600px);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+  animation: popupFade 0.25s ease-out;
+}
+
+
+  .titlecontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(240, 125, 34);
+    border: 5px solid rgb(255, 143, 55);
+    box-shadow: 0 6px 0 rgb(148, 97, 57);
+    border-radius: 3rem;
+}
+
+
+.title {
+  font-size: clamp(1.5rem, 5em, 2.8rem);
+    color: white;
+    -webkit-text-stroke: 0.5px black;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: #555;
+}
+
+.backButton:hover {
+  color: #000;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+
+.section {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 1rem;
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 0.5px black;
+  margin: 0;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    width: 50%;
+}
+
+.button {
+    flex: 1 1 45%;
+    min-width: 120px;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 2rem;
+    padding: 0 1rem;
+    font-size: 1.9rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+    outline: none;
+}
+
+.button:hover, .button:focus {
+    transform: translateY(-2px);
+}
+
+
+.icon {
+    margin-right: 0.8rem;
+    font-size: 1.4rem;
+}
+
+.back {
+    background-color: rgb(240, 44, 38);
+    border: 5px solid rgb(195, 60, 60);
+    box-shadow: 0 6px 0 rgb(128, 53, 49);
+}
+
+.back:hover {
+    border: 5px solid rgb(170, 47, 47);
+}

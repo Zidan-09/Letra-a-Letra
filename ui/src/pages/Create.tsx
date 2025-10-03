@@ -53,7 +53,7 @@ export default function Create() {
         if (!result.success) return null;
 
         localStorage.setItem("game", JSON.stringify(result.data));
-        return navigate(`/game/${result.data.room_id}`);
+        return navigate(`/lobby/${result.data.room_id}`);
     }
 
     return (
@@ -93,12 +93,6 @@ export default function Create() {
                     <span className={styles.timer} translate="no">{turnTime}s</span>
                 </div>
 
-                <div className={styles.buttonSettings}>
-                <p className={styles.label}>Config.</p>
-                <button type="button" className={styles.settings} onClick={handleSettings}>
-                <img src={iconSettings} alt="Settings" />
-                </button>
-                </div>
 
                 <div className={styles.switchs}>
                     <div className={styles.switchContainer}>
@@ -111,6 +105,14 @@ export default function Create() {
                             <p className={spectators ? styles.textOn : styles.textOff}>{spectators ? "on" : "off"}</p>
                         </div>
                     </div>
+
+                <div className={styles.switchContainer}>
+                    <p className={styles.label}>Config.</p>
+                    <button type="button" className={styles.settings} onClick={handleSettings}>
+                    <img src={iconSettings} alt="Settings" className={styles.icon1}/>
+                    </button>
+                </div>
+
 
                     <div className={styles.switchContainer}>
                         <p className={styles.label}>Sala Privada</p>
@@ -144,8 +146,8 @@ export default function Create() {
             setTheme={setTheme}
             setAllowedPowers={setAllowedPowers}
             setGamemode={setGamemode}
-            popupOpen={popupOpen}
-            closePopup={() => setPopupOpen(false)}
+            isOpen={popupOpen}
+            onClose={() => setPopupOpen(false)}
             />
         </div>
     )
