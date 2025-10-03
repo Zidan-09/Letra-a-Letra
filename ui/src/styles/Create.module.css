@@ -90,7 +90,6 @@
 
 .range {
   width: 80%;
-  margin: 0.5rem 0;
   accent-color: rgb(27, 157, 222);
   cursor: pointer;
 }
@@ -102,37 +101,41 @@
 }
 
 .settings {
-  background-color: #ffcc00;
-  border: 4px solid #e6b800;
-  box-shadow: 0 5px 0 #b38f00;
-  border-radius: 2rem;
-  color: rgb(255, 255, 255);
-  font-size: 1.2rem;
-  padding: 0.6rem 2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
+   display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 50px;
+    background-color: rgb(240, 125, 34);
+    border: 5px solid rgb(255, 143, 55);
+    box-shadow: 0 6px 0 rgb(148, 97, 57);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
   
 }
 
 .settings:hover {
   transform: translateY(-2px);
-  border-color: #cc9900;
-}
+ border: 5px solid rgb(253, 114, 0)}
+
 
 .switchs {
-    width: 80%;
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: flex-end;
+    gap: 1rem;
+
 }
 
 .switchContainer {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .switch {
