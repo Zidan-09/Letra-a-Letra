@@ -35,7 +35,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 95%;
+    padding: 0.5rem;
     background-color: rgb(240, 125, 34);
     border: 5px solid rgb(255, 143, 55);
     box-shadow: 0 6px 0 rgb(148, 97, 57);

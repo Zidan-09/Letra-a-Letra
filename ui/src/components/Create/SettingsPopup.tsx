@@ -1,4 +1,5 @@
 import type { GameModes, MovementsEnum } from "../../utils/room_utils";
+import { Themes, ThemeTranslations } from "../../utils/themes.ts";
 import ThemeList from "./ThemeList";
 import PowerList from "./PowerList";
 import GamemodeList from "./GamemodeList";
@@ -33,10 +34,20 @@ export default function SettingsPopup({ theme, allowedPowers, gamemode, setTheme
             <h2 className={styles.title}>Configurações</h2>
         </header>
         
-         <div className={styles.themes}>
-            <p className={styles.label}>Temas</p>
-            <ThemeList selectedTheme={theme} selectTheme={setTheme} />
-        </div>
+          <div className={styles.themes}>
+                    <p className={styles.label}>Tema</p>
+                    <select 
+                        className={styles.select}
+                        value={theme}
+                        onChange={(e) => setTheme(e.target.value)}
+                    >
+                        {Themes.map((t, index) => (
+                            <option key={index} value={t}>
+                                {ThemeTranslations[t]}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 {/*
         <div className={styles.allowedPowers}>
             <p className={styles.label}>Poderes</p>
