@@ -39,3 +39,7 @@
   text-align: center;
   opacity: 1;
 }
+
+.emptyMessage:hover {
+  cursor: default;
+}
