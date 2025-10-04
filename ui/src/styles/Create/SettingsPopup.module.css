@@ -20,13 +20,12 @@
   border: 4px solid white;
   border-radius: 3rem;
   padding: 2rem;
-  width: min(90%, 600px);
+  width: min(50%, 500px);
   max-height: 80vh;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  overflow-y: auto;
   animation: popupFade 0.25s ease-out;
 }
 
@@ -41,6 +40,7 @@
     border: 5px solid rgb(255, 143, 55);
     box-shadow: 0 6px 0 rgb(148, 97, 57);
     border-radius: 3rem;
+    margin-bottom: 1rem;
 }
 
 
@@ -48,6 +48,14 @@
   font-size: clamp(1.5rem, 5em, 2.8rem);
     color: white;
     -webkit-text-stroke: 0.5px black;
+}
+
+.settingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
 }
 
 .backButton {
@@ -81,7 +89,7 @@
 }
 
 .label {
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: bold;
   color: white;
   -webkit-text-stroke: 0.5px black;
@@ -93,21 +101,21 @@
     flex-direction: row;
     gap: 2.5rem;
     flex-wrap: wrap;
-    width: 50%;
+    width: 100%;
 }
 
 .button {
     flex: 1 1 45%;
-    min-width: 120px;
-    min-height: 70px;
+    min-width: 100px;
+    min-height: 60px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 0.5rem;
     border: none;
     border-radius: 2rem;
     padding: 0 1rem;
-    font-size: 1.9rem;
+    font-size: 1.7rem;
     font-weight: bold;
     color: white;
     cursor: pointer;
@@ -134,4 +142,91 @@
 
 .back:hover {
     border: 5px solid rgb(170, 47, 47);
+}
+
+.gamemode {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.confirm {
+    background-color: rgb(21, 248, 29);
+    border: 5px solid rgb(77, 255, 89);
+    box-shadow: 0 6px 0 rgb(46, 138, 52);
+}
+
+.confirm:hover {
+    border: 5px solid rgb(30, 180, 40);
+}
+
+.gamemodeCrazy {
+  background-color: rgb(142, 68, 173);
+  border: 5px solid rgb(155, 89, 182);
+  box-shadow: 0 6px 0 rgb(93, 55, 117);
+  padding: 0 1rem;
+}
+
+.gamemodeCrazy:hover {
+  border: 5px solid rgb(113, 59, 146);
+}
+
+.gamemodeNormal {  
+  background-color: rgb(240, 125, 34);
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 0 6px 0 rgb(148, 97, 57);
+  padding: 0 1rem;
+}
+
+.gamemodeNormal:hover {
+  border: 5px solid rgb(224, 114, 27);
+}
+
+.controlButtonT {
+  flex: 1 1 45%;
+    min-width: 100px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 2rem;
+    padding: 0 6rem;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+    outline: none;
+}
+
+.controlButtonT:hover {
+  transform: translateY(-1px);
+}
+
+.controlButtonP {
+  flex: 1 1 45%;
+    min-width: 100px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 2rem;
+    background-color: rgb(27, 157, 222);
+    border: 5px solid rgb(64, 176, 232);
+    box-shadow: 0 6px 0 rgb(57, 68, 148);
+    padding: 0 6rem;
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.controlButtonP:hover {
+border: 5px solid rgb(22, 133, 186);
+  transform: translateY(-2px);
 }
