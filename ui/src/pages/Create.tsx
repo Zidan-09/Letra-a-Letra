@@ -108,10 +108,10 @@ export default function Create() {
                         <p className={styles.label}>Espectadores</p>
                         <div 
                         className={`${styles.switch} ${spectators ? styles.on : styles.off}`} 
-                        onClick={() => setSpectators(s => !s)}
+                        onClick={() => setSpectators(s => !s)} translate="no"
                         >
                             <div className={styles.switchBall}></div>
-                            <p className={spectators ? styles.textOn : styles.textOff}>{spectators ? "on" : "off"}</p>
+                            <p className={spectators ? styles.textOn : styles.textOff} translate="no">{spectators ? "on" : "off"}</p>
                         </div>
                     </div>
 
@@ -130,7 +130,7 @@ export default function Create() {
                         onClick={() => setPrivate(p => !p)} translate="no"
                         >
                             <div className={styles.switchBall}></div>
-                            <p className={privateRoom ? styles.textOn : styles.textOff}>{privateRoom ? "on" : "off"}</p>
+                            <p className={privateRoom ? styles.textOn : styles.textOff} translate="no">{privateRoom ? "on" : "off"}</p>
                         </div>
                     </div>
                 </div>
