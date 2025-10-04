@@ -1,9 +1,10 @@
 .avatar {
-    width: 100px;
-    height: 100px;
+    width: 150px;
     border-radius: 1rem;
     border: 3px solid white;
     box-shadow: 0 3px 0 rgb(60, 60, 60);
+    flex: 1 1 100px;
+    aspect-ratio: 1 / 1;
 }
 
 .avatar:hover {

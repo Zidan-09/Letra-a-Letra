@@ -68,6 +68,10 @@ p {
     margin-top: 0;
 }
 
+p:hover, .title:hover {
+    cursor: default;
+}
+
 .input {
     width: 100%;
     max-width: 100%;

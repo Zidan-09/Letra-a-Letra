@@ -62,7 +62,7 @@
 
 .avatar {
     width: 70px;
-    height: 70px;
+    aspect-ratio: 1 / 1;
     border: 3px solid white;
     border-radius: 1rem;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
