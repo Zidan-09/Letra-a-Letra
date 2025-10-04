@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSocket } from "../services/socketProvider";
-import type { Game, MovementsEnum, MoveEmit } from "../utils/room_utils";
+import type { Game, MovementsEnum, MoveEmit, Player } from "../utils/room_utils";
 import { Server } from "../utils/server_utils";
 import PlayerCard from "../components/Game/PlayerCard";
 import Slots from "../components/Game/Slots";
@@ -8,17 +8,43 @@ import Board from "../components/Game/Board";
 import Words from "../components/Game/Words";
 import logo from "../assets/logo.svg";
 import styles from "../styles/Game.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Game() {
     const [actualState, setActualState] = useState<Game>();
+    const [words, setWords] = useState<string[]>([]);
+    const [first, setFirst] = useState();
     const [movement, setMovement] = useState<MovementsEnum>("REVEAL");
     const socket = useSocket();
+    const navigate = useNavigate();
+    const [me, setMe] = useState<Player | undefined>(undefined);
+    const [opponent, setOpponent] = useState<Player | undefined>(undefined);
 
     useEffect(() => {
-        const game = localStorage.getItem("game");
+        const gameData = localStorage.getItem("game");
+        const wordsData = localStorage.getItem("words");
+        const firstData = localStorage.getItem("first");
 
-        if (game) return setActualState(JSON.parse(game));
-    }, []);
+        if (!gameData || !wordsData || !firstData) {
+            navigate("/");
+            return;
+        };
+
+        const game: Game = JSON.parse(gameData);
+        const words = JSON.parse(wordsData);
+        const first = JSON.parse(firstData);
+        
+        setWords(words);
+        setFirst(first);
+        setActualState(game);
+
+        const searchMe = game.players.find(p => p.player_id === socket.id);
+        const searchOpponent = game.players.find(o => o.player_id !== socket.id);
+
+        setMe(searchMe);
+        setOpponent(searchOpponent);
+
+    }, [navigate, socket?.id]);
 
     useEffect(() => {
         if (!socket) return;
@@ -152,43 +178,52 @@ export default function Game() {
     }
 
     const handleClickCell = async (x: number, y: number) => {
-        if (!actualState) return null;
+        if (!actualState || !me) return null;
 
-        await fetch(`${Server}/game/${actualState.room_id}/move`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json"},
-            body: JSON.stringify({
-                player_id: socket.id,
-                movement: movement,
-                x: x,
-                y: y
-            })
-        }).then(res => res.json()).then(data => data);
+        try {
+            await fetch(`${Server}/game/${actualState.room_id}/move`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json"},
+                body: JSON.stringify({
+                    player_id: me.player_id,
+                    movement: movement,
+                    x: x,
+                    y: y
+                })
+            }).then(res => res.json()).then(data => data);
+
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
         <div className={styles.container}>
             <header>
-                {actualState && actualState.players.find(p => p.player_id === socket.id) && (
-                    <div>
-                        <PlayerCard player={actualState.players.find(p => p.player_id === socket.id)!} />
+                {actualState && me && opponent ? (
+                    <div className={styles.cardContainer}>
+                        <PlayerCard player={me} />
     
                         <img src={logo} alt="Logo" />
     
-                        <PlayerCard player={actualState.players.find(p => p.player_id !== socket.id)!} />
+                        <PlayerCard player={opponent} />
                     </div>
+                ) : (
+                    <div>NAM</div>
                 )}
             </header>
 
             <main>
-                {actualState && actualState.board && (
-                    <div>
-                        <Slots player={actualState.players.find(p => p.player_id == socket.id)!} selectPower={handleSelectPower}/>
+                {actualState && actualState.board && words && me ? (
+                    <div className={styles.gameContainer}>
+                        <Slots player={me} selectPower={handleSelectPower}/>
     
                         <Board board={actualState.board} onClickCell={handleClickCell}/>
 
-                        <Words words={actualState.board.words} findeds={actualState.board.findedWords}/>
+                        <Words words={words} findeds={actualState.board.findedWords}/>
                     </div>
+                ) : (
+                    <div>LOADING...</div>
                 )}
             </main>
         </div>

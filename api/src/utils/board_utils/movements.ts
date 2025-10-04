@@ -6,6 +6,7 @@ import { LogEnum } from "../server_utils/logEnum";
 import { createLog } from "../server_utils/logs";
 import { checkWordCompletion } from "./checkCompletedWord";
 import { MovementsEnum } from "./movementsEnum";
+import { assignPowerToPlayer } from "./assignPowerToPlayer";
 
 export const Movements = {
     clickCell(board: Board, x: number, y: number, player: Player, room_id: string): MoveEmit | GameResponses {
@@ -60,6 +61,8 @@ export const Movements = {
             createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
             board.finded++;
             
+            assignPowerToPlayer(cell, player);
+
             return {
                 status: GameResponses.Revealed,
                 letter: cell.letter,
@@ -70,6 +73,8 @@ export const Movements = {
         }
 
         createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}'`);
+
+        assignPowerToPlayer(cell, player);
 
         return {
             status: GameResponses.Revealed,

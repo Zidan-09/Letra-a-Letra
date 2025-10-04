@@ -7,21 +7,23 @@ interface SlotsProps {
 }
 
 export default function Slots({player, selectPower}: SlotsProps) {
-    return <div className={styles.panel}>
-        <div className={styles.slots}>
-            {Array.from({ length: 5 }).map((_, index) => {
-                    const power = player.powers[index];
+    return (
+        <div className={styles.panel}>
+            <div className={styles.slots}>
+                {Array.from({ length: 5 }).map((_, index) => {
+                        const power = player.powers[index];
 
-                    return power ? (
-                        <div className={`${styles.slot} ${styles}.${power.rarity}`} 
-                        onClick={() => selectPower(power.power)}
-                        ></div>
-                    ) : (
-                        <div className={`${styles.slot} ${styles.empty}`} 
-                        onClick={() => selectPower("REVEAL")}
-                        ></div>
-                    )
-                })}
+                        return power ? (
+                            <div key={index} className={`${styles.slot} ${styles}.${power.rarity}`} 
+                            onClick={() => selectPower(power.power)}
+                            ></div>
+                        ) : (
+                            <div key={index} className={`${styles.slot} ${styles.empty}`} 
+                            onClick={() => selectPower("REVEAL")}
+                            ></div>
+                        )
+                    })}
+            </div>
         </div>
-    </div>
+    )
 }

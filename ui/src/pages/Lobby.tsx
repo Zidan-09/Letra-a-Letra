@@ -21,7 +21,7 @@ export default function Lobby() {
     const navigate = useNavigate();
 
     const [theme, setTheme] = useState<string>("");
-    const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>([]);
+    const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>(["REVEAL"]);
     const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
 
     useEffect(() => {
@@ -54,13 +54,23 @@ export default function Lobby() {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
+        socket.on("game_started", (startData) => {
+            const { first, words, room } = startData;
+
+            localStorage.setItem("first", JSON.stringify(first));
+            localStorage.setItem("words", JSON.stringify(words));
+            localStorage.setItem("game", JSON.stringify(room));
+            navigate(`/game/${room.room_id}`);
+        });
+
         return () => {
             socket.off("player_joined");
             socket.off("player_left");
             socket.off("role_changed");
+            socket.off("game_started")
         };
 
-    }, [socket])
+    }, [socket]);
 
     const handleChat = () => {
         setChatOpen(true);
@@ -89,19 +99,19 @@ export default function Lobby() {
     const handlePlay = async () => {
         if (!room || room.players.filter(Boolean).length < 2 || !theme || !gamemode || !allowedPowers) return null;
 
+        const a: MovementsEnum[] = ["REVEAL", "BLIND", "BLOCK", "FREEZE"];
+
         const result = await fetch(`${Server}/game/${room.room_id}/start`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 theme: theme,
                 gamemode: gamemode,
-                allowedPowers: allowedPowers
+                allowedPowers: a
             })
         }).then(res => res.json()).then(data => data);
 
         if (!result.success) return null;
-
-        return navigate(`/game/${room.room_id}`);
     }
     
     return (
@@ -155,8 +165,8 @@ export default function Lobby() {
                 setGamemode={() => setGamemode}
                 allowedPowers={allowedPowers}
                 setAllowedPowers={() => setAllowedPowers}
-                popupOpen={isSettingsOpen}
-                closePopup={() => setSettingsOpen}
+                isOpen={isSettingsOpen}
+                onClose={() => setSettingsOpen}
                 />
             )}
             

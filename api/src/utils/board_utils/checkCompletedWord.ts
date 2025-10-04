@@ -6,6 +6,8 @@ export function checkWordCompletion(board: Board, row: number, column: number) {
             const completed = positions.every(([r, c]) => board.grid[r]![c]!.revealed);
 
             if (completed) {
+                board.findedWords.push(word);
+
                 return {
                     completedWord: word,
                     positions: positions

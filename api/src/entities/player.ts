@@ -1,3 +1,6 @@
+import { MovementsEnum } from "../utils/board_utils/movementsEnum";
+import { PowerRarity } from "../utils/cell_utils/powerRarity";
+
 interface PlayerEffect {
     active: boolean,
     remaining: number | null;
@@ -9,10 +12,11 @@ export class Player {
     player_id: string;
     nickname: string;
     spectator: boolean = false;
-    turn: 0 | 1;
+    turn: 0 | 1 = 0;
     avatar: number;
     score: number = 0;
     passed: number = 0;
+    powers: { power: MovementsEnum, rarity: PowerRarity }[] = [];
     freeze: PlayerEffect = { active: false, remaining: null };
     blind: PlayerEffect = { active: false, remaining: null };
     immunity: PlayerEffect = { active: false, remaining: null };
@@ -21,7 +25,6 @@ export class Player {
         this.player_id = player_id;
         this.nickname = nickname;
         this.spectator = spectator;
-        this.turn = 0;
         this.avatar = avatar;
     }
 
