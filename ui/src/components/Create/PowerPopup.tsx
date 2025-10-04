@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import iconConfirm from "../../assets/buttons/icon-create.svg";
 import PowerList from "./PowerList";
@@ -10,6 +10,7 @@ interface PowerPopupProps {
   isOpen: boolean;
   onClose: () => void;
   defaultPowers?: MovementsEnum[];
+  onConfirm: (powers: MovementsEnum[]) => void;
 }
 
 const ALL_POWERS: MovementsEnum[] = [
@@ -26,9 +27,9 @@ const ALL_POWERS: MovementsEnum[] = [
   "IMMUNITY",
 ];
 
-export default function PowerPopup({ isOpen, onClose, defaultPowers = [] }: PowerPopupProps) {
+export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConfirm }: PowerPopupProps) {
   const [selectedPowers, setSelectedPowers] = useState<MovementsEnum[]>(defaultPowers);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (!isOpen) {
@@ -36,14 +37,14 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [] }: Powe
     }
   }, [isOpen, defaultPowers]);
 
-  const handleBack = () => {
-    onClose();
-  };
+  // const handleBack = () => {
+  //   onClose();
+  // };
 
-  const handleConfirm = () => {
-    localStorage.setItem("allowedPowers", JSON.stringify(selectedPowers));
-    navigate("/lobby");
-  };
+  // const handleConfirm = () => {
+  //   localStorage.setItem("allowedPowers", JSON.stringify(selectedPowers));
+  //   navigate("/lobby");
+  // };
 
   const togglePower = (power: MovementsEnum) => {
     setSelectedPowers((prev) =>
@@ -67,11 +68,14 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [] }: Powe
         />
 
         <div className={styles.buttons}>
-          <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
+          <button className={`${styles.button} ${styles.back}`} onClick={onClose}>
             <img src={iconBack} alt="Back" className={styles.icon1} />
             Voltar
           </button>
-          <button className={`${styles.button} ${styles.confirm}`} onClick={handleConfirm}>
+          <button className={`${styles.button} ${styles.confirm}`} onClick={() => {
+            onConfirm(selectedPowers);
+            onClose();
+          }}>
             <img src={iconConfirm} alt="Confirm" className={styles.icon2} />
             Confirmar
           </button>
