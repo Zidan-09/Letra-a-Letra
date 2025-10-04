@@ -17,7 +17,8 @@ export const SendSocket = {
 
         const data: GameStarted = {
             first: players.filter(Boolean).find(p => p.turn === 0)!,
-            words: room.board.words
+            words: room.board.words,
+            room: room
         }
 
         const all = [...players, ...spectators];

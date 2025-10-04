@@ -10,17 +10,19 @@ interface BoardProps {
 export default function Board({ board, onClickCell }: BoardProps) {
     if (!board) return null;
 
-    return <div className={styles.board}>
-        <div className={styles.panel}>
-            {board.grid.map((row, x) =>
-                    row.map((cell, y) => (
-                        <Cell 
-                            key={`${x}-${y}`}
-                            cell={cell}
-                            onClickCell={onClickCell}
-                        />
-                    ))
-                )}
+    return (
+        <div className={styles.board}>
+            <div className={styles.panel}>
+                {board.grid.map((row, x) =>
+                        row.map((cell, y) => (
+                            <Cell 
+                                key={`${x}-${y}`}
+                                cell={cell}
+                                onClickCell={onClickCell}
+                            />
+                        ))
+                    )}
+            </div>
         </div>
-    </div>
+    )
 }

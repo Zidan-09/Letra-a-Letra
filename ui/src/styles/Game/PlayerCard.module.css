@@ -1,8 +1,74 @@
+.color-player-text {
+    color: #FFFFFF;
+}
+
 .card {
-    width: 20%;
-    height: 2rem;
-    background-color: blue;
-    border-radius: 1rem;
-    border: 2px solid black;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 30px;
+    color: #FFFFFF;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card:nth-child(1) {
+    background: linear-gradient(to bottom, #FFB74D, #FF7043);
+    justify-content: flex-start;
+}
+
+.card:nth-child(3) {
+    background: linear-gradient(to bottom, #4FC3F7, #29B6F6);
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #FFFFFF;
+    object-fit: cover;
+}
+
+.card:nth-child(1) .avatar {
+    margin-right: 15px;
+}
+.card:nth-child(3) .avatar {
+    margin-left: 15px;
+}
+
+.nickname {
+    font-size: 1.5em;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.card:nth-child(3) .nickname {
+    text-align: right;
+}
+
+.powers {
+    display: flex;
+    gap: 5px;
+}
+
+.card:nth-child(3) .powers {
+    justify-content: flex-end;
+}
+
+.have, .empty {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid #FFFFFF;
+}
+
+.have {
+    background-color: #FFFFFF;
+}
+
+.empty {
+    background-color: transparent;
 }

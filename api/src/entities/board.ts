@@ -11,6 +11,7 @@ export class Board {
     range: number = settings.range;
     words: string[];
     finded: number = 0;
+    findedWords: string[] = [];
     grid: Cell[][];
     wordPositions: { [word: string]: [number, number][] } = {};
 

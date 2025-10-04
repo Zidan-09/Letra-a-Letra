@@ -1,7 +1,31 @@
 .cell {
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    box-shadow: 0 2px 2px black;
-    border: 2px solid rgb(40, 40, 40);
+    width: 40px; /* Largura da célula */
+    height: 40px; /* Altura da célula */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #424242;
+    background-color: var(--color-grid-bg);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+/* Estilos dinâmicos para a Célula (simulando classes adicionais) */
+/* Células reveladas ou usadas */
+
+
+/* Células selecionadas atualmente (ex: 'L', 'U', 'A' em laranja) */
+.cell.selected {
+    background-color: var(--color-orange-light);
+    color: var(--color-player-text);
+}
+
+/* Células que fazem parte de uma palavra encontrada (ex: 'P', 'Y', 'T', 'H', 'O', 'N' em azul claro) */
+.cell.found {
+    background-color: var(--color-blue-light);
+    color: var(--color-player-text);
 }

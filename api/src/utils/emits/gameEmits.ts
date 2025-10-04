@@ -1,3 +1,4 @@
+import { Game } from "../../entities/game";
 import { Player } from "../../entities/player";
 import { MovementsEnum } from "../board_utils/movementsEnum";
 import { GameResponses } from "../responses/gameResponses";
@@ -5,6 +6,7 @@ import { GameResponses } from "../responses/gameResponses";
 interface GameStarted {
     first: Player;
     words: string[];
+    room: Game;
 }
 
 interface MoveEmit {
