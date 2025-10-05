@@ -1,51 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 
 .container {
-    width: 100vw;
+    width: auto;
     height: 100vh;
     background-image: url("../assets/background.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-family: 'Lilita One', cursive;
     box-sizing: border-box;
-    padding: 20px;
+    flex-direction: column;
+}
+
+.header {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.7);
     overflow: hidden;
 }
 
-.container header {
-    margin-bottom: 20px;
+.logo {
+    width: 175px;
+    aspect-ratio: 1 / 1;
 }
 
-.cardContainer {
+.game {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    gap: 3rem;
     width: 100%;
-}
-
-.cardContainer img[alt="Logo"] {
-    width: 150px;
     height: auto;
-    background-color: #4FC3F7;
-    border-radius: 10px;
-    padding: 5px 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.container main {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.gameContainer {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start; /* Alinha o topo dos painéis (Slots, Board, Words) */
-    max-width: 1200px;
-    width: 100%;
+    justify-content: center;
+    overflow: hidden;
 }

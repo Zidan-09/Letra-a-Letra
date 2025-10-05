@@ -16,9 +16,19 @@ export const SendSocket = {
         const spectators = room.spectators;
 
         const data: GameStarted = {
-            first: players.filter(Boolean).find(p => p.turn === 0)!,
             words: room.board.words,
-            room: room
+            room: {
+                room_id: room.room_id,
+                room_name: room.room_name,
+                status: room.status,
+                players: room.players,
+                spectators: room.spectators,
+                created_by: room.created_by,
+                timer: room.timer,
+                turn: room.turn,
+                allowSpectators: room.allowSpectators,
+                privateRoom: room.privateRoom
+            }
         }
 
         const all = [...players, ...spectators];

@@ -58,7 +58,7 @@ export const GameMiddleware = {
 
     validateMovement(req: Request<RoomParams, {}, Movement>, res: Response, next: NextFunction) {
         const { room_id } = req.params;
-        const { player_id, movement } = req.body;
+        const { player_id, movement, powerIndex } = req.body;
 
         try {
             if (
@@ -98,6 +98,12 @@ export const GameMiddleware = {
     
             if (
                 !movements.includes(movement)
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
+
+            if (
+                powerIndex && 0 > powerIndex || 
+                powerIndex && powerIndex > 5 ||
+                powerIndex && player.powers[powerIndex]?.power !== movement
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
     
             next();

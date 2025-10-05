@@ -54,6 +54,7 @@ export class Game {
 
        this.status = GameStatus.GameOver;
        createLog(this.room_id, `${LogEnum.GameOver}`);
+       this.board = null;
 
        if (!p1 || !p2) return (p1 || p2) ?? false;
 

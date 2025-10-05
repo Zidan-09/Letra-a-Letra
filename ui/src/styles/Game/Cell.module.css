@@ -1,31 +1,21 @@
+
+
 .cell {
-    width: 40px; /* Largura da célula */
-    height: 40px; /* Altura da célula */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2em;
-    font-weight: bold;
+    width: 45px;
+    aspect-ratio: 1 / 1;
+    border: 2px solid gray;
+    background: linear-gradient(45deg, #F0F0F0, white);
+    box-shadow: 0 2px 0 rgb(191, 191, 191);
+    border-radius: 0.3rem;
+    font-size: 2rem;
     text-transform: uppercase;
-    color: #424242;
-    background-color: var(--color-grid-bg);
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.1s;
+    font-family: "Lilita One", cursive;
 }
 
-/* Estilos dinâmicos para a Célula (simulando classes adicionais) */
-/* Células reveladas ou usadas */
-
-
-/* Células selecionadas atualmente (ex: 'L', 'U', 'A' em laranja) */
-.cell.selected {
-    background-color: var(--color-orange-light);
-    color: var(--color-player-text);
+.me {
+    border: 3px solid rgb(27, 157, 222);
 }
 
-/* Células que fazem parte de uma palavra encontrada (ex: 'P', 'Y', 'T', 'H', 'O', 'N' em azul claro) */
-.cell.found {
-    background-color: var(--color-blue-light);
-    color: var(--color-player-text);
+.opponent {
+    border: 3px solid rgb(240, 125, 34);
 }

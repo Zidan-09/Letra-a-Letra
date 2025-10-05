@@ -10,7 +10,7 @@ export class Cell {
     trapped: { status: boolean, trapped_by: string | null };
     clicks: number = 0;
     revealed: boolean = false;
-    power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
+    power: { hasPowerup: boolean, rarity?: PowerRarity, powerup?: MovementsEnum | null }
 
     constructor(letter: string, x: number, y: number, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
         this.letter = letter;

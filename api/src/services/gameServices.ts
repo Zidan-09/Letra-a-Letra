@@ -59,6 +59,7 @@ export const GameService = {
         ) return GameResponses.GameError;
 
         player.passed++;
+        game.incrementTurn();
 
         if (
             player.passed >= 3
@@ -70,7 +71,7 @@ export const GameService = {
         return GameResponses.Continue;
     },
 
-    moveGame(room_id: string, player_id: string, movement: MovementsEnum, x: number, y: number) {
+    moveGame(room_id: string, player_id: string, movement: MovementsEnum, powerIndex: number | undefined, x: number, y: number) {
         const game = RoomService.getRoom(room_id)!;
 
         if (
@@ -90,6 +91,12 @@ export const GameService = {
         ) return GameResponses.PlayerFrozen;
 
         game.incrementTurn();
+
+        if (powerIndex) {
+            player.powers.splice(powerIndex, 1);
+        }
+
+        player.decrementEffect();
 
         switch (movement) {
             case MovementsEnum.REVEAL:

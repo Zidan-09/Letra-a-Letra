@@ -15,6 +15,7 @@ interface PassTurn {
 interface Movement {
     player_id: string;
     movement: MovementsEnum;
+    powerIndex?: number;
     x: number;
     y: number;
 }

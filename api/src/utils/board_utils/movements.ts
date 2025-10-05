@@ -24,11 +24,35 @@ export const Movements = {
 
                 createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) and unblocked cell`);
 
-                return {
-                    status: GameResponses.Unblocked,
-                    cell: cell.position,
-                    remaining: 3 - cell.clicks
+                cell.revealed = true;
+                const result = checkWordCompletion(board, x, y);
+
+                if (result) {
+
+                    createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
+                    board.finded++;
+                    
+                    assignPowerToPlayer(cell, player);
+
+                    return {
+                        status: GameResponses.Unblocked,
+                        letter: cell.letter,
+                        cell: cell.position,
+                        power: cell.power,
+                        completedWord: { word: result.completedWord, positions: result.positions }
+                    }
                 }
+
+                createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}'`);
+
+                assignPowerToPlayer(cell, player);
+
+                return {
+                    status: GameResponses.Revealed,
+                    letter: cell.letter,
+                    cell: cell.position,
+                    power: cell.power
+                };
             }
 
             createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) but cell stil blocked - ${3 - cell.clicks} to unblock`);
@@ -150,6 +174,7 @@ export const Movements = {
 
     effectMove(players: Player[], player_id: string, effect: MovementsEnum): MoveEmit | GameResponses {
         let player: Player | undefined;
+        
         switch (effect) {
             case MovementsEnum.FREEZE:
                 player = players.filter(Boolean).find(p => p.player_id !== player_id);
