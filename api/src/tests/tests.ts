@@ -1,16 +1,9 @@
-import { Board } from "../entities/board";
-import { Themes } from "../utils/board_utils/themesEnum";
+import settings from "../settings/cell.json";
 
-const game = new Board(Themes.RANDOM);
-const grid = game.grid;
+const powers = Object.values(settings.powers).flat();
 
-console.warn("Letras:\n");
-
-grid.forEach(row => {
-    row.forEach(cell => {
-        process.stdout.write(`${cell.letter}    `);
-    })
-    console.log("\n");
+powers.forEach(p => {
+    if (p.name === )
 })
 
-console.log(game.words);
+console.log(powers)

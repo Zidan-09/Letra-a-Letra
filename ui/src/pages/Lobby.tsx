@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import { Server } from "../utils/server_utils";
-import type { Game, GameModes, MovementsEnum, RoomSettings } from "../utils/room_utils";
+import type { Game, GameModes, MovementsEnum, RoomSettings, StartData } from "../utils/room_utils";
 import PlayerList from "../components/Lobby/PlayerList";
 import ChatPopup from "../components/Lobby/ChatPopup";
 import SpectatorsList from "../components/Lobby/SpectatorsList";
@@ -54,10 +54,9 @@ export default function Lobby() {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
-        socket.on("game_started", (startData) => {
-            const { first, words, room } = startData;
+        socket.on("game_started", (startData: StartData) => {
+            const { words, room } = startData;
 
-            localStorage.setItem("first", JSON.stringify(first));
             localStorage.setItem("words", JSON.stringify(words));
             localStorage.setItem("game", JSON.stringify(room));
             navigate(`/game/${room.room_id}`);
@@ -160,13 +159,13 @@ export default function Lobby() {
             {theme && gamemode && allowedPowers && (
                 <SettingsPopup 
                 theme={theme}
-                setTheme={() => setTheme}
+                setTheme={setTheme}
                 gamemode={gamemode}
-                setGamemode={() => setGamemode}
+                setGamemode={setGamemode}
                 allowedPowers={allowedPowers}
-                setAllowedPowers={() => setAllowedPowers}
+                setAllowedPowers={setAllowedPowers}
                 isOpen={isSettingsOpen}
-                onClose={() => setSettingsOpen}
+                onClose={() => setSettingsOpen(false)}
                 />
             )}
             

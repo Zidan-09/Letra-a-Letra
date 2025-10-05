@@ -1,26 +1,18 @@
-import React from "react";
-import type { Cell } from "../../utils/room_utils";
+import { useSocket } from "../../services/socketProvider";
 import styles from "../../styles/Game/Cell.module.css";
 
 interface CellProps {
-    cell: Cell;
-    onClickCell: (x: number, y: number) => void;
+  player_id: string | undefined;
+  letter?: string;
+  onClick: () => void;
 }
 
-export default React.memo(function Cell({ cell, onClickCell }: CellProps) {
-    const classes = [
-        styles.cell,
-        cell.revealed ? styles.revealed : "",
-        cell.blocked.status ? styles.blocked : "",
-        cell.trapped.status ? styles.trapped : ""
-    ].join(" ");
+export default function Cell({ player_id, letter, onClick }: CellProps) {
+  const socket = useSocket();
 
-    return (
-        <div
-            className={classes}
-            onClick={() => onClickCell(cell.position.x, cell.position.y)}
-        >
-            {cell.revealed ? cell.letter : ""}
-        </div>
-    );
-});
+  return (
+    <button className={`${styles.cell} ${player_id ? player_id === socket.id ? styles.me : styles.opponent : ""}`} onClick={onClick} type="button">
+      {letter || ""}
+    </button>
+  );
+}

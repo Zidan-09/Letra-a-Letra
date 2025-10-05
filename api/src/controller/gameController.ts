@@ -34,11 +34,11 @@ export const gameController = {
 
     moveGame(req: Request<RoomParams, {}, Movement>, res: Response) {
         const { room_id } = req.params;
-        const { player_id, movement, x, y } = req.body;
+        const { player_id, movement, powerIndex, x, y } = req.body;
 
         try {
 
-            const result = GameService.moveGame(room_id, player_id, movement, x, y);
+            const result = GameService.moveGame(room_id, player_id, movement, powerIndex, x, y);
 
             if (
                 typeof result !== "object"

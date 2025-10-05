@@ -41,13 +41,12 @@ interface Board {
 }
 
 interface Cell {
-    letter: string;
+    letter?: string;
     position: { x: number; y: number};
     blocked: { status: boolean; blocked_by: string | null };
     trapped: { status: boolean, trapped_by: string | null };
-    clicks: number;
+    clicks?: number;
     revealed: boolean;
-    power: { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null }
 }
 
 interface RoomSettings {
@@ -72,7 +71,35 @@ interface MoveEmit {
     traps?: { x: number, y: number }[];
     player?: string;
     for?: string;
-    power?: { hasPowerup: boolean, powerup: MovementsEnum | null }
+    power?: { hasPowerup: boolean, rarity?: PowerRarity, powerup?: MovementsEnum }
+}
+
+interface StartData {
+    words: string[];
+    room: {
+            room_id: string,
+            room_name: string,
+            status: string,
+            players: Player[],
+            spectators: Player[],
+            created_by: string,
+            timer: number,
+            turn: number,
+            allowSpectators: boolean,
+            privateRoom: boolean
+        }
+}
+
+interface GameData {
+    player_id: string;
+    movement: MovementsEnum;
+    data: MoveEmit;
+}
+
+interface CompletedWord {
+    finded_by: string;
+    finded: string;
+    positions: [number, number][]
 }
 
 type GameResponses = "revealed" | 
@@ -99,16 +126,18 @@ type GameResponses = "revealed" |
 
 export type GameModes = "NORMAL" | "CRAZY"
 
-type PowerRarity = "COMMON" | 
+type PowerRarity = 
+"COMMON" | 
 "RARE" | 
 "EPIC" | 
 "LEGENDARY";
 
-type MovementsEnum = "REVEAL" | 
+type MovementsEnum = 
+"REVEAL" | 
 "BLOCK" | 
 "UNBLOCK" | 
 "TRAP" | 
-"DETECTTRAPS" | 
+"DETECT_TRAPS" | 
 "FREEZE" | 
 "UNFREEZE" | 
 "SPY" | 
@@ -116,8 +145,38 @@ type MovementsEnum = "REVEAL" |
 "LANTERN" | 
 "IMMUNITY";
 
-type GameStatus = "game_starting" | 
+type GameStatus = 
+"game_starting" | 
 "game_running" | 
 "game_over";
 
-export type { Game, GameStatus, Player, PlayerEffect, Board, Cell, PowerRarity, MovementsEnum, RoomSettings, Power, MoveEmit };
+type CellKeys = `${number}-${number}`;
+
+interface CellUpdate {
+    x: number;
+    y: number;
+    letter?: string;
+    power?: { hasPowerup: boolean, rarity?: PowerRarity, powerup?: MovementsEnum };
+    blocked?: { blocked_by?: string, remaining?: number };
+    trapped_by?: string;
+    actor?: string;
+}
+
+export type {
+    Game, 
+    GameStatus, 
+    Player, 
+    PlayerEffect, 
+    Board, 
+    Cell, 
+    PowerRarity, 
+    MovementsEnum, 
+    RoomSettings, 
+    Power, 
+    GameData, 
+    MoveEmit, 
+    StartData, 
+    CompletedWord,
+    CellKeys,
+    CellUpdate
+};

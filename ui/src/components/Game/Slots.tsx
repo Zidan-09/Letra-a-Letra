@@ -1,29 +1,37 @@
-import type { MovementsEnum, Player } from "../../utils/room_utils";
-import styles from "../../styles/Lobby/SpectatorsList.module.css";
+import type { MovementsEnum, Power } from "../../utils/room_utils";
+import PowerItem from "./PowerItem";
+import styles from "../../styles/Game/Slots.module.css";
 
 interface SlotsProps {
-    player: Player;
-    selectPower: (power: MovementsEnum) => void;
+    playerPowers: Power[];
+    selected: number | undefined;
+    selectMove: (movement: MovementsEnum) => void;
+    selectMoveIdx: (idx: number) => void;
 }
 
-export default function Slots({player, selectPower}: SlotsProps) {
-    return (
-        <div className={styles.panel}>
-            <div className={styles.slots}>
-                {Array.from({ length: 5 }).map((_, index) => {
-                        const power = player.powers[index];
+export default function Slots({ playerPowers, selected, selectMove, selectMoveIdx }: SlotsProps) {
+    if (!playerPowers) return;
 
-                        return power ? (
-                            <div key={index} className={`${styles.slot} ${styles}.${power.rarity}`} 
-                            onClick={() => selectPower(power.power)}
-                            ></div>
-                        ) : (
-                            <div key={index} className={`${styles.slot} ${styles.empty}`} 
-                            onClick={() => selectPower("REVEAL")}
-                            ></div>
-                        )
-                    })}
-            </div>
+    return (
+        <div className={styles.slotsContainer}>
+            {Array.from({ length: 5 }).map((_, index) => (
+                playerPowers[index] ? (
+                    <PowerItem
+                    key={index}
+                    idx={index}
+                    movement={playerPowers[index].power}
+                    selected={selected === index}
+                    selectMove={selectMove}
+                    selectIdx={selectMoveIdx}
+                    />
+                ) : (
+                    <div
+                    key={index}
+                    className={styles.empty}
+                    >
+                    </div>
+                )
+            ))}
         </div>
     )
 }

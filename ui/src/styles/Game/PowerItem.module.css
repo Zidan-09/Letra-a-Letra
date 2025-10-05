@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+
+.power {
+    position: relative;
+    width: 130px;
+    height: 130px;
+    border-radius: 0.8rem;
+    border: 3px solid rgba(255,255,255,0.6);
+    background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
+    box-shadow: inset 0 3px 6px rgba(255,255,255,0.25), 0 3px 6px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.power:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3), inset 0 3px 6px rgba(255,255,255,0.3);
+}
+
+.selected {
+    transform: scale(1.05);
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.label {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Lilita One', cursive;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.visible {
+    opacity: 1;
+}
