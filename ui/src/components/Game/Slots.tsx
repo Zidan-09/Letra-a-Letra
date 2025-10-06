@@ -6,7 +6,7 @@ interface SlotsProps {
     playerPowers: Power[];
     selected: number | undefined;
     selectMove: (movement: MovementsEnum) => void;
-    selectMoveIdx: (idx: number) => void;
+    selectMoveIdx: (idx: number | undefined) => void;
 }
 
 export default function Slots({ playerPowers, selected, selectMove, selectMoveIdx }: SlotsProps) {

@@ -2,8 +2,8 @@
 
 .power {
     position: relative;
-    width: 130px;
-    height: 130px;
+    width: 80px;
+    height: 80px;
     border-radius: 0.8rem;
     border: 3px solid rgba(255,255,255,0.6);
     background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
@@ -25,9 +25,10 @@
 }
 
 .icon {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
+    border-radius: 0.7rem;
 }
 
 .label {

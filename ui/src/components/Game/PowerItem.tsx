@@ -7,13 +7,15 @@ interface PowerItemProps {
     movement: MovementsEnum;
     selected: boolean;
     selectMove: (movement: MovementsEnum) => void;
-    selectIdx: (idx: number) => void;
+    selectIdx: (idx: number | undefined) => void;
 }
 
 export default function PowerItem({ idx, movement, selected, selectMove, selectIdx }: PowerItemProps) {
     const handleSelectMove = () => {
-        selectIdx(idx);
-        selectMove(movement);
+        const isSelected = !selected;
+
+        selectIdx(isSelected ? idx : undefined);
+        selectMove(isSelected ? movement : "REVEAL");
     }
 
     const borderColor = border(movement);

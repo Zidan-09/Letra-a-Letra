@@ -1,5 +1,3 @@
-
-
 .cell {
     width: 45px;
     aspect-ratio: 1 / 1;
@@ -12,10 +10,34 @@
     font-family: "Lilita One", cursive;
 }
 
+.cell:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
 .me {
     border: 3px solid rgb(27, 157, 222);
 }
 
 .opponent {
     border: 3px solid rgb(240, 125, 34);
+}
+
+.findedMe {
+    color: white;
+    border: 3px solid rgb(27, 157, 222);
+    background: rgb(27, 157, 222);
+    box-shadow: 0 2px 0 rgb(57, 68, 148);
+}
+
+.findedOppo {
+    color: white;
+    border: 3px solid rgb(240, 125, 34);
+    background: rgb(240, 125, 34);
+    box-shadow: 0 2px 0 rgb(148, 97, 57);
+}
+
+.findedMe:hover, .findedOppo:hover, .me:hover, .opponent:hover {
+    cursor: default;
+    transform: scale(1);
 }

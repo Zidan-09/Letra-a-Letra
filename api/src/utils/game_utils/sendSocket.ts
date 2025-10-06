@@ -38,16 +38,16 @@ export const SendSocket = {
         );
     },
 
-    movementOne(room_id: string, player_id: string, movement: MovementsEnum, data: GameResponses | ServerResponses | MoveEmit) {
+    movementOne(room_id: string, player_id: string, movement: MovementsEnum, powerIdx: number | undefined, data: GameResponses | ServerResponses | MoveEmit) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
         if (!room) return;
 
-        io.to(player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
+        io.to(player_id).emit("movement", { movement: movement, powerIdx: powerIdx, player_id: player_id, data: data })
     },
 
-    movementAll(room_id: string, player_id: string, movement: MovementsEnum, data: GameResponses | ServerResponses | MoveEmit) {
+    movementAll(room_id: string, player_id: string, movement: MovementsEnum, powerIdx: number | undefined, data: GameResponses | ServerResponses | MoveEmit) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
@@ -58,7 +58,7 @@ export const SendSocket = {
         const all = [...players, ...spectators];
 
         all.filter(Boolean).forEach(p =>
-            io.to(p.player_id).emit("movement", { movement: movement, player_id: player_id, data: data })
+            io.to(p.player_id).emit("movement", { movement: movement, powerIdx: powerIdx, player_id: player_id, data: data })
         )
     },
 

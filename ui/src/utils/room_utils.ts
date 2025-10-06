@@ -93,6 +93,7 @@ interface StartData {
 interface GameData {
     player_id: string;
     movement: MovementsEnum;
+    powerIdx?: number;
     data: MoveEmit;
 }
 
@@ -160,6 +161,7 @@ interface CellUpdate {
     blocked?: { blocked_by?: string, remaining?: number };
     trapped_by?: string;
     actor?: string;
+    finded_by?: string;
 }
 
 export type {

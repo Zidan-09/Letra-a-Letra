@@ -44,10 +44,10 @@ export const gameController = {
                 typeof result !== "object"
             ) return HandleResponse.serverResponse(res, 400, false, result);
 
-            HandleSocket(room_id, player_id, movement, result);
+            HandleSocket(room_id, player_id, movement, powerIndex, result[1]);
             SendSocket.gameOver(room_id);
 
-            return HandleResponse.serverResponse(res, 200, true, result.status);
+            return HandleResponse.serverResponse(res, 200, true, result[1].status);
 
         } catch (err) {
             console.error(err);

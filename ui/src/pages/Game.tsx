@@ -56,7 +56,7 @@ export default function Game() {
     useEffect(() => {
         if (!socket) return;
 
-        socket.on("movement", ({player_id, movement, data}: GameData) => {
+        socket.on("movement", ({player_id, movement, powerIdx, data}: GameData) => {
             setCells(prev => {
                 const copy = { ...prev };
 
@@ -86,8 +86,51 @@ export default function Game() {
                     });
                 }
 
+                if (data.completedWord) {
+                    const find = {
+                        finded_by: player_id,
+                        finded: data.completedWord.word,
+                        positions: data.completedWord.positions
+                    }
+
+                    setFindeds(prev => [...prev, find]);
+
+                    for (let i of find.positions) {
+                        const key = `${i[0]}-${i[1]}` as CellKeys;
+
+                        copy[key] = {
+                            ...copy[key],
+                            x: i[0],
+                            y: i[1],
+                            finded_by: player_id
+                        }
+                    }
+                }
+
                 return copy;
             });
+
+            const isMe = socket.id === player_id;
+
+            if (isMe) {
+                setMe(prevMe => {
+                    if (!prevMe || powerIdx === undefined) return prevMe;
+
+                    return {
+                        ...prevMe,
+                        powers: prevMe.powers.filter((_, i) => i !== powerIdx)
+                    }
+                })
+            } else {
+                setOpponent(prevOppo => {
+                    if (!prevOppo || powerIdx === undefined) return prevOppo;
+
+                    return {
+                        ...prevOppo,
+                        powers: prevOppo.powers.filter((_, i) => i !== powerIdx)
+                    }
+                })
+            }
 
             switch (movement) {
                 case "REVEAL":
@@ -99,7 +142,6 @@ export default function Game() {
                         }
 
                         setFindeds(prev => [...prev, find]);
-
                     }
 
                     if (data.power?.hasPowerup) {
@@ -163,16 +205,17 @@ export default function Game() {
             body: JSON.stringify({
                 player_id: socket.id,
                 movement: move,
-                powerIndex: moveIdx ? moveIdx : undefined,
+                powerIndex: moveIdx,
                 x: x,
                 y: y
             })
         })
+
+        setMove("REVEAL");
+        setMoveIdx(undefined);
     }
 
     if (!me || !opponent || !words) {
-        console.log("LOADING...");
-        console.log(me, opponent, words)
         return null;
     };
 
@@ -195,8 +238,8 @@ export default function Game() {
                 />
 
                 <Board
-                onCellClick={handleMovement}
                 cellsData={cells}
+                onCellClick={handleMovement}
                 />
 
                 <Words
