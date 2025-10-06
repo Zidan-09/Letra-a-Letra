@@ -2,22 +2,38 @@
 
 .item {
     width: 90%;
-    height: 60px;
+    height: min-content;
+    min-height: 120px;
     display: flex;
     border-radius: 1.3rem;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
     color: white;
     font-family: 'Lilita One', cursive;
-    gap: 10rem;
     -webkit-text-stroke: 1.5px black;
     outline: none;
 }
 
+.container1 {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    margin-bottom: 0;
+}
+
 .room_name {
+    width: 100%;
+    max-width: 9.24ch;
+    overflow: hidden;
     font-size: 2.5rem;
-    margin-left: 1rem;
+    text-align: start;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.room_name:hover {
+    cursor: pointer;
 }
 
 .blue {
@@ -63,12 +79,15 @@
     height: 2.4rem;
     justify-content: center;
     align-items: center;
-    margin-right: 1rem;
     max-width: 4rem;
     min-width: 4rem;
     min-height: 3rem;
     min-height: 2.4rem;
     font-size: 2rem;
+}
+
+.players:hover {
+    cursor: pointer;
 }
 
 .color_1 {
@@ -81,6 +100,10 @@
 
 .players p {
     color: white;
+}
+
+.players p:hover {
+    cursor: pointer;
 }
 
 .item:hover {
@@ -97,4 +120,19 @@
 .selected .players {
     background-color: rgb(21, 248, 29);
     border: 5px solid #3DB845;
+}
+
+.container2 {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem;
+    justify-content: space-between;
+    align-items: start;
+    margin-top: 0;
+}
+
+.createdBy {
+    overflow: hidden;
+    font-size: 1.5rem;
+    white-space: nowrap;
 }

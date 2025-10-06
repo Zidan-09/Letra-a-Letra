@@ -3,8 +3,8 @@ import Cell from "./Cell";
 import styles from "../../styles/Game/Board.module.css";
 
 interface BoardProps {
-  onCellClick: (x: number, y: number) => void;
   cellsData: Record<CellKeys, CellUpdate>;
+  onCellClick: (x: number, y: number) => void;
 }
 
 export default function Board({ cellsData, onCellClick }: BoardProps) {
@@ -20,6 +20,7 @@ export default function Board({ cellsData, onCellClick }: BoardProps) {
                 <Cell
                 key={key}
                 player_id={cellData?.actor}
+                finded={cellData?.finded_by}
                 letter={cellData?.letter}
                 onClick={() => onCellClick(x, y)}
                 />

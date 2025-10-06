@@ -138,7 +138,7 @@ export default function Lobby() {
                         </section>
 
                         <section className={styles.spectators}>
-                            <p>ESPECTADORS</p>
+                            <p>ESPECTADORES</p>
                             <SpectatorsList room={room} />
                         </section>
 

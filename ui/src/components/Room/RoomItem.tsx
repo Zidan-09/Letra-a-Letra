@@ -16,9 +16,15 @@ export default function RoomItem({ room, color, onSelect, selected }: RoomItemPr
         <div className={`${styles.item} ${styles[color]} ${selected ? styles.selected : ""}`}
         onClick={() => onSelect(room.room_id)}
         >
-            <p className={styles.room_name}>{room.room_name}</p>
-            <div className={`${styles.players} ${styles[`color_${playerInRoom}`]}`}>
-                <p>{room.players.filter(Boolean).length}/2</p>
+            <div className={styles.container1}>
+                <p className={styles.room_name}>{room.room_name}</p>
+                <div className={`${styles.players} ${styles[`color_${playerInRoom}`]}`}>
+                    <p>{room.players.filter(Boolean).length}/2</p>
+                </div>
+            </div>
+
+            <div className={styles.container2}>
+                <p className={styles.createdBy}>{room.created_by}</p>
             </div>
         </div>
     );
