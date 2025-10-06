@@ -1,11 +1,14 @@
 .board {
     aspect-ratio: 1 / 1;
-    padding: 1rem;
+    padding: 0.5rem;
+    margin: auto;
     display: flex;
     gap: 0.3rem;
     flex-direction: column;
-    background-color: black;
+    background-color: white;
     border-radius: 1rem;
+    margin: auto;
+    border: 5px solid black;
 }
 
 .row {

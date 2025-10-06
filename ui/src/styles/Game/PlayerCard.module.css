@@ -9,6 +9,7 @@
     box-shadow: 0 6px 0 rgba(0,0,0,0.3);
     overflow: hidden;
     margin: 0 1rem 0 1rem;
+    justify-content: space-between;
 }
 
 .me {
@@ -16,6 +17,7 @@
     border: 5px solid rgb(64, 176, 232);
     box-shadow: -5px 6px 0 rgb(57, 68, 148);
     text-align: start;
+    flex-direction: row;
 }
 
 .opponent {
@@ -28,14 +30,15 @@
 
 .avatarContainer {
     width: 80px;
-    height: 80px;
-    border-radius: 0.8rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.65rem;
     background: rgba(255,255,255,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 10px;
     margin-right: 10px;
+    border: 3px solid white;
 }
 
 .avatar {
@@ -43,6 +46,7 @@
     aspect-ratio: 1 / 1;
     border-radius: 0.5rem;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border: 2px solid rgb(76, 82, 197);
 }
 
 .infoContainer {
@@ -55,12 +59,21 @@
     -webkit-text-stroke: 1px black;
 }
 
-.powers {
+.nickname:hover {
+    cursor: default;
+}
+
+.powersContainerMe, .powersContainerOppo {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 90%;
+}
+
+.powersContainerOppo {
+    flex-direction: row-reverse;
+    transform: translateX(12.5%);
 }
 
 .mePowers, .oppoPowers, .meEmpty, .oppoEmpty {
