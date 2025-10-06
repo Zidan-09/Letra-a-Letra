@@ -1,10 +1,10 @@
 .slotsContainer {
-    display: flex;  
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    width: 110px;
+    gap: 0.5rem;
+    width: min-content;
     height: auto;
     background: rgba(255, 255, 255, 0.2);
     -webkit-backdrop-filter: blur(10px);
@@ -12,11 +12,12 @@
     border-radius: 1rem;
     border: 3px solid white;
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    padding: 1rem;
+    padding: 0.5rem;
+    margin: auto;
 }
 
 .empty {
-    width: 100px;
+    width: 80px;
     aspect-ratio: 1 / 1;
     border-radius: 0.8rem;
     border: 3px solid rgba(255,255,255,0.5);

@@ -24,7 +24,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
 
             <div className={styles.infoContainer}>
                 <h2 className={styles.nickname}>{player.nickname}</h2>
-                <div className={styles.powers}>
+                <div className={player.player_id === socket.id ? styles.powersContainerMe : styles.powersContainerOppo}>
                     {Array.from({ length: 5 }).map((_, index) => (
                         player.powers[index] ? (
                             <div
