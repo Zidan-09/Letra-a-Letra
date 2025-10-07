@@ -8,6 +8,8 @@
     font-size: 2rem;
     text-transform: uppercase;
     font-family: "Lilita One", cursive;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .cell:hover {

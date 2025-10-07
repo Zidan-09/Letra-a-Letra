@@ -12,6 +12,8 @@
     align-items: center;
     font-family: 'Lilita One', cursive;
     box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .card {

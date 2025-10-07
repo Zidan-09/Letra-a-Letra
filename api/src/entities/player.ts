@@ -57,4 +57,14 @@ export class Player {
             }
         });
     }
+
+    reset() {
+        this.score = 0;
+        this.turn = 0;
+        this.resetPass();
+        this.powers = [];
+        (["freeze", "blind", "immunity"] as EffectKey[]).forEach((effect) => {
+            this.removeEffect(effect);
+        })
+    }
 }

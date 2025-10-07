@@ -81,6 +81,10 @@ export const SendSocket = {
         all.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("game_over", {winner: winner})
         )
+
+        players.filter(Boolean).forEach(p => {
+            p.reset();
+        })
         
     },
 

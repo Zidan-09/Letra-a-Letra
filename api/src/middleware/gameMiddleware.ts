@@ -28,7 +28,7 @@ export const GameMiddleware = {
 
             if (
                 game == ServerResponses.NotFound || 
-                game.status !== GameStatus.GameStarting
+                game.status === GameStatus.GameRunning
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             if (
