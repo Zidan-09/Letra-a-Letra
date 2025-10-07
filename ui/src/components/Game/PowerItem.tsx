@@ -5,12 +5,14 @@ import styles from "../../styles/Game/PowerItem.module.css";
 interface PowerItemProps {
     idx: number;
     movement: MovementsEnum;
+    type: "manipulation" | "effect";
     selected: boolean;
     selectMove: (movement: MovementsEnum) => void;
     selectIdx: (idx: number | undefined) => void;
+    applyEffect: () => void;
 }
 
-export default function PowerItem({ idx, movement, selected, selectMove, selectIdx }: PowerItemProps) {
+export default function PowerItem({ idx, movement, type, selected, selectMove, selectIdx, applyEffect }: PowerItemProps) {
     const handleSelectMove = () => {
         const isSelected = !selected;
 
@@ -27,9 +29,19 @@ export default function PowerItem({ idx, movement, selected, selectMove, selectI
             alt="icon" 
             className={styles.icon}
             />
+
             <span 
             className={`${styles.label} ${selected ? styles.visible : ""}`}
             >{movement}</span>
+
+            {selected && type === "effect" && (
+                <div
+                className={styles.useButton}
+                onClick={() => applyEffect()}
+                >
+                    <p>{">"}</p>
+                </div>
+            )}
         </div>
     )
 }

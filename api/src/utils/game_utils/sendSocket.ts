@@ -38,16 +38,42 @@ export const SendSocket = {
         );
     },
 
-    movementOne(room_id: string, player_id: string, movement: MovementsEnum, powerIdx: number | undefined, data: GameResponses | ServerResponses | MoveEmit) {
+    movementOne(
+        room_id: string,
+        player_id: string,
+        movement: MovementsEnum,
+        data: MoveEmit
+    ) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
-        if (!room) return;
+        if (room === ServerResponses.NotFound) return;
 
-        io.to(player_id).emit("movement", { movement: movement, powerIdx: powerIdx, player_id: player_id, data: data })
+        const all = [...room.players, ...room.spectators];
+
+        all.filter(Boolean).forEach(p => {
+            if (p.player_id !== player_id) io.to(p.player_id).emit("movement", {
+                movement: movement,
+                player_id: player_id,
+                data: data.status,
+                players: room.players
+            })
+        })
+
+        io.to(player_id).emit("movement", {
+            movement: movement,
+            player_id: player_id,
+            data: data,
+            players: room.players
+        })
     },
 
-    movementAll(room_id: string, player_id: string, movement: MovementsEnum, powerIdx: number | undefined, data: GameResponses | ServerResponses | MoveEmit) {
+    movementAll(
+        room_id: string,
+        player_id: string,
+        movement: MovementsEnum,
+        data: MoveEmit
+    ) {
         const io = getSocketInstance();
 
         const room = RoomService.getRoom(room_id);
@@ -58,7 +84,12 @@ export const SendSocket = {
         const all = [...players, ...spectators];
 
         all.filter(Boolean).forEach(p =>
-            io.to(p.player_id).emit("movement", { movement: movement, powerIdx: powerIdx, player_id: player_id, data: data })
+            io.to(p.player_id).emit("movement", {
+                movement: movement,
+                player_id: player_id,
+                data: data,
+                players: players
+            })
         )
     },
 

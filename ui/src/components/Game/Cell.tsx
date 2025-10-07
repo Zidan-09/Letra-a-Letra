@@ -1,34 +1,73 @@
+import React from "react";
 import { useSocket } from "../../services/socketProvider";
+import type { MovementsEnum } from "../../utils/room_utils";
+import BlockOverlay from "./Powers/BlockOverlay";
+import TrapOverlay from "./Powers/TrapOverlay";
 import styles from "../../styles/Game/Cell.module.css";
 
 interface CellProps {
-    player_id: string | undefined;
-    finded: string | undefined;
+    player_id?: string;
+    finded?: string;
     letter?: string;
-    onClick?: () => void;
+    blocked?: { blocked_by?: string; remaining?: number };
+    trapped_by?: string;
+    trapTrigged: boolean;
+    detected: boolean;
+    spied: boolean;
+    x: number;
+    y: number;
+    selectedMovement: MovementsEnum;
+    movementId?: number;
+    onClick?: (x: number, y: number) => void;
 }
 
-export default function Cell({ player_id, finded, letter, onClick }: CellProps) {
+function CellComponent({ player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, x, y, onClick }: CellProps) {
     const socket = useSocket();
 
-    const className = 
-    finded ? 
-    finded === socket.id ? 
-    styles.findedMe : 
-    styles.findedOppo : 
-    player_id ? 
-    player_id === socket.id ? 
-    styles.me : 
-    styles.opponent : "";
+    let className = "";
+
+    if (finded) {
+    className = finded === socket.id ? styles.findedMe : styles.findedOppo;
+    } else if (player_id) {
+    className = player_id === socket.id ? styles.me : styles.opponent;
+    }
 
     return (
-        <button 
-        className={`${styles.cell} ${className}`} 
-        onClick={onClick} 
-        type="button"
-        translate="no"
+        <button
+            className={`${styles.cell} ${className}`}
+            onClick={letter ? undefined : onClick ? () => onClick(x, y) : undefined}
+            type="button"
+            translate="no"
         >
-            {letter || ""}
+            {spied || letter ? letter : ""}
+
+            <BlockOverlay
+                blocked={!!blocked}
+                blocked_by={blocked?.blocked_by}
+                remaining={blocked?.remaining}
+            />
+
+            <TrapOverlay
+            trapped_by={trapped_by}
+            detected={detected}
+            trapTrigged={trapTrigged}
+            />
+
         </button>
-        );
+    );
 }
+
+export default React.memo(CellComponent, (prev, next) => {
+  return (
+    prev.player_id === next.player_id &&
+    prev.finded === next.finded &&
+    prev.letter === next.letter &&
+    JSON.stringify(prev.blocked) === JSON.stringify(next.blocked) &&
+    prev.trapped_by === next.trapped_by &&
+    prev.detected === next.detected &&
+    prev.trapTrigged === next.trapTrigged &&
+    prev.spied === next.spied &&
+    prev.selectedMovement === next.selectedMovement &&
+    prev.movementId === next.movementId
+  );
+});

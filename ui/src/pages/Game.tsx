@@ -10,6 +10,8 @@ import logo from "../assets/logo.svg";
 import styles from "../styles/Game.module.css";
 import Words from "../components/Game/Words";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
+import EffectOverlay from "../components/Game/EffectOverlay";
+import { PassTurn } from "../utils/passTurn";
 
 export default function Game() {
     const [room, setRoom] = useState<string>();
@@ -70,141 +72,170 @@ export default function Game() {
     useEffect(() => {
         if (!socket) return;
 
-        socket.on("movement", ({player_id, movement, powerIdx, data}: GameData) => {
+        socket.on("movement", ({player_id, movement, data, players}: GameData) => {
+            setP1(prev => {
+                if (!prev) return prev;
+
+                const copy = { ...prev };
+                const player = players.find(p => p.player_id === copy.player_id);
+
+                if (!player) return prev;
+
+                return player;
+            });
+
+            setP2(prev => {
+                if (!prev) return prev;
+
+                const copy = { ...prev };
+                const player = players.find(p => p.player_id === copy.player_id);
+
+                if (!player) return prev;
+
+                return player;
+            });
+
             setCells(prev => {
                 const copy = { ...prev };
 
-                if (data.cell) {
-                    const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                Object.keys(copy).forEach(k => {
+                    const key = k as CellKeys;
 
-                    copy[key] = {
-                        ...copy[key],
-                        x: data.cell.x,
-                        y: data.cell.y,
-                        letter: data.letter,
-                        power: data.power,
-                        blocked: { blocked_by: data.blocked_by, remaining: data.remaining },
-                        trapped_by: data.trapped_by,
-                        actor: player_id
+                    if (copy[key].spied) {
+                        copy[key].spied = false;
+                        copy[key].letter = undefined;
                     }
-                }
+                });
 
-                if (movement === "DETECT_TRAPS" && data.traps) {
-                    data.traps.forEach(trap => {
-                        const key = `${trap.x}-${trap.y}` as CellKeys;
-                        copy[key] = {
-                            ...copy[key],
-                            x: trap.x,
-                            y: trap.y,
-                        };
-                    });
-                }
-
-                if (data.completedWord) {
-                    const find = {
-                        finded_by: player_id,
-                        finded: data.completedWord.word,
-                        positions: data.completedWord.positions
-                    }
-
-                    setFindeds(prev => [...prev, find]);
-
-                    for (let i of find.positions) {
-                        const key = `${i[0]}-${i[1]}` as CellKeys;
-
-                        copy[key] = {
-                            ...copy[key],
-                            x: i[0],
-                            y: i[1],
-                            finded_by: player_id
+                switch (movement) {
+                    case "BLOCK":
+                    case "UNBLOCK":
+                        if (data.cell) {
+                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                            copy[key] = {
+                                ...copy[key],
+                                blocked: { blocked_by: data.blocked_by, remaining: data.remaining },
+                                actor: player_id
+                            };
                         }
-                    }
+                        break;
+
+                    case "TRAP":
+                        if (data.cell) {
+                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                            copy[key] = {
+                                ...copy[key],
+                                trapped_by: data.trapped_by,
+                                actor: player_id
+                            };
+                        }
+                        break;
+
+                    case "DETECT_TRAPS":
+                        if (data.traps) {
+                            data.traps.forEach(trap => {
+                                const key = `${trap.x}-${trap.y}` as CellKeys;
+                                copy[key] = {
+                                    ...copy[key],
+                                    detected: true,
+                                    trapped_by: data.trapped_by
+                                };
+                            });
+                        }
+                        break;
+
+                    case "SPY":
+                        if (data.cell) {
+                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                            copy[key] = {
+                                ...copy[key],
+                                letter: data.letter
+                            };
+                        }
+                        break;
+
+                    case "REVEAL":
+                        if (data.cell) {
+                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                            
+                            if (data.status === "trapped") {
+                                copy[key] = {
+                                    ...copy[key],
+                                    trapTrigged: true,
+                                    trapped_by: data.trapped_by
+                                }
+
+                                setTimeout(() => {
+                                    setCells(prev => {
+                                        const resetCopy = { ...prev };
+                                        const cellToReset = resetCopy[key];
+                                        if (cellToReset) {
+                                            resetCopy[key] = {
+                                                ...cellToReset,
+                                                trapped_by: undefined,
+                                                trapTrigged: false,
+                                                detected: false,
+                                                actor: undefined
+                                            };
+                                        }
+                                        return resetCopy;
+                                    });
+                                }, 10000);
+                                break;
+                            }
+
+                            if (data.status === "blocked") {
+                                break;
+                            }
+
+                            copy[key] = {
+                                ...copy[key],
+                                letter: data.letter,
+                                actor: player_id
+                            };
+                        }
+
+                        if (data.completedWord) {
+                            const find = {
+                                finded_by: player_id,
+                                finded: data.completedWord.word,
+                                positions: data.completedWord.positions
+                            }
+
+                            setFindeds(prev => [...prev, find]);
+
+                            data.completedWord.positions.forEach(p => {
+                                const key = `${p[0]}-${p[1]}` as CellKeys;
+                                copy[key] = {
+                                    ...copy[key],
+                                    finded_by: player_id
+                                }
+                            })
+                        }
+
+                        break;
+                    case "FREEZE":
+                        if (player_id === socket.id) break;
+                        
+                        if (
+                            p1?.powers.includes({ power: "UNFREEZE", rarity: "RARE", type: "effect" }) ||
+                            p1?.powers.includes({ power: "IMMUNITY", rarity: "LEGENDARY", type: "effect" })
+                        ) break;
+
+                        async function getResult() {
+                            if (!room) return;
+
+                            const result = await PassTurn.passTurnEffect(room);
+                            return result;
+                        }
+
+                        getResult();
+
+                        break;
                 }
 
                 return copy;
             });
-
-            const isMe = socket.id === player_id;
-
-            if (isMe) {
-                setP1(prevMe => {
-                    if (!prevMe || powerIdx === undefined) return prevMe;
-
-                    return {
-                        ...prevMe,
-                        powers: prevMe.powers.filter((_, i) => i !== powerIdx)
-                    }
-                })
-            } else {
-                setP2(prevOppo => {
-                    if (!prevOppo || powerIdx === undefined) return prevOppo;
-
-                    return {
-                        ...prevOppo,
-                        powers: prevOppo.powers.filter((_, i) => i !== powerIdx)
-                    }
-                })
-            }
-
-            switch (movement) {
-                case "REVEAL":
-                    if (data.completedWord) {
-                        const find = {
-                            finded_by: player_id,
-                            finded: data.completedWord.word,
-                            positions: data.completedWord.positions
-                        }
-
-                        setFindeds(prev => [...prev, find]);
-                    }
-
-                    if (data.power?.hasPowerup) {
-                        const isMe = socket.id === player_id;
-
-                        if (!data.power.powerup || !data.power.rarity) break;
-
-                        const newPower = { power: data.power.powerup, rarity: data.power.rarity };
-
-                        if (isMe) {
-                            setP1(prevMe => {
-                                if (!prevMe) return prevMe;
-
-                                return {
-                                    ...prevMe,
-                                    powers: [
-                                        ...prevMe.powers,
-                                        newPower
-                                    ]
-                                };
-                            });
-                        } else {
-                            setP2(prevOppo => {
-                                if (!prevOppo) return prevOppo;
-
-                                return {
-                                    ...prevOppo,
-                                    powers: [
-                                        ...prevOppo.powers,
-                                        newPower
-                                    ]
-                                };
-                            });
-                        }
-                    }
-
-                    break;
-                    
-                case "BLOCK":
-                case "UNBLOCK":
-                case "TRAP":
-                case "DETECT_TRAPS":
-                case "FREEZE":
-                case "UNFREEZE":
-                case "SPY":
-                case "BLIND":
-                case "LANTERN":
-                case "IMMUNITY":
-            }
         });
 
         socket.on("game_over", ({winner}) => {
@@ -215,20 +246,24 @@ export default function Game() {
             socket.off("movement");
             socket.off("game_over");
         }
-    }, [socket, setP1, setP2, setCells, setFindeds])
+    }, [socket, setP1, setP2, setCells, setFindeds]);
 
     const handleMovement = async (x?: number, y?: number) => {
-        await fetch(`${settings.server}/game/${room}/move`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                player_id: socket.id,
-                movement: move,
-                powerIndex: moveIdx,
-                x: x,
-                y: y
-            })
-        })
+        try {
+            await fetch(`${settings.server}/game/${room}/move`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    player_id: socket.id,
+                    movement: move,
+                    powerIndex: moveIdx,
+                    x: x,
+                    y: y
+                })
+            });
+        } catch (err) {
+            console.error(err);
+        }
 
         setMove("REVEAL");
         setMoveIdx(undefined);
@@ -261,6 +296,7 @@ export default function Game() {
                     selected={moveIdx}
                     selectMove={setMove}
                     selectMoveIdx={setMoveIdx}
+                    applyEffect={handleMovement}
                     />
                 ) : (
                     <div></div>
@@ -268,6 +304,8 @@ export default function Game() {
 
                 <Board
                 cellsData={cells}
+                move={move}
+                moveIdx={moveIdx}
                 onCellClick={p1.player_id === socket.id ? handleMovement : undefined}
                 />
 
@@ -276,7 +314,8 @@ export default function Game() {
                 findeds={findeds}
                 />
             </div>
-
+            
+            <EffectOverlay freeze={p1.freeze.active} blind={p1.blind.active} immunity={p1.immunity.active} />
             <WinnerOverlay room_id={room} winner={winner} duration={10000} isOpen={winner ? true : false} />
         </div>
     )
