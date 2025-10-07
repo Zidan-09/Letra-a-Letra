@@ -5,7 +5,7 @@ interface CellProps {
     player_id: string | undefined;
     finded: string | undefined;
     letter?: string;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 export default function Cell({ player_id, finded, letter, onClick }: CellProps) {

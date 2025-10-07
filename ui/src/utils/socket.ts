@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
+import settings from "../settings.json";
 
-export const socket = io("http://192.168.149.104:3333", {
+export const socket = io(settings.socket, {
     autoConnect: false
 })

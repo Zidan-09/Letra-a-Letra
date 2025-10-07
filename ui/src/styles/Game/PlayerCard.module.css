@@ -12,7 +12,7 @@
     justify-content: space-between;
 }
 
-.me {
+.p1 {
     background: linear-gradient(45deg, rgb(27, 157, 222), rgb(31, 116, 158));
     border: 5px solid rgb(64, 176, 232);
     box-shadow: -5px 6px 0 rgb(57, 68, 148);
@@ -20,7 +20,7 @@
     flex-direction: row;
 }
 
-.opponent {
+.p2 {
     background: linear-gradient(45deg, rgb(240, 125, 34), rgb(203, 104, 23));
     border: 5px solid rgb(255, 143, 55);
     box-shadow: 5px 6px 0 rgb(148, 97, 57);
@@ -63,7 +63,7 @@
     cursor: default;
 }
 
-.powersContainerMe, .powersContainerOppo {
+.powersContainerP1, .powersContainerP2 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -71,12 +71,12 @@
     width: 90%;
 }
 
-.powersContainerOppo {
+.powersContainerP2 {
     flex-direction: row-reverse;
     transform: translateX(12.5%);
 }
 
-.mePowers, .oppoPowers, .meEmpty, .oppoEmpty {
+.p1Powers, .p2Powers, .p1Empty, .p2Empty {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -85,10 +85,10 @@
     background-color: white;
 }
     
-.mePowers {
+.p1Powers {
     background-color: rgb(76, 82, 197);
 }
 
-.oppoPowers {
+.p2Powers {
     background-color: rgb(173, 99, 40);
 }

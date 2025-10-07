@@ -17,7 +17,7 @@ export class Cell {
         this.position = { x: x, y: y };
         this.blocked = { status: false, blocked_by: null }
         this.trapped = { status: false, trapped_by: null }
-        this.power = this.powerup(allowedPowers);
+        this.power = this.powerup(gamemode, allowedPowers);
     }
 
     resetCell() {
@@ -30,8 +30,8 @@ export class Cell {
         this.clicks = 0;
     }
 
-    powerup(allowedPowers: MovementsEnum[]): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
-        const chance = data.settings.chancePerCell;
+    powerup(gamemode: GameModes, allowedPowers: MovementsEnum[]): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
+        const chance = gamemode === GameModes.NORMAL ? data.settings.chancePerCell : 100;
 
         if (Math.random() >= chance / 100) return {
             hasPowerup: false,

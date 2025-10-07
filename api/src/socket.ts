@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import { RoomService } from "./services/roomServices";
 import { ServerResponses } from "./utils/responses/serverResponses";
+import { SendSocket } from "./utils/game_utils/sendSocket";
 
 let io: Server;
 
@@ -19,6 +20,10 @@ export const initSocket = (server: any) => {
                 console.log(`Reconnected socket: ${socket.id}`);
             }
 
+        })
+
+        socket.on("message", ({ room_id, from, message }) => {
+            SendSocket.message(room_id, from, message);
         })
 
         socket.on("disconnect", () => {

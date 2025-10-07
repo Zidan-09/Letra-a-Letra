@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
-import { Server } from "../utils/server_utils";
+import settings from "../settings.json";
 import type { Game, Player, MovementsEnum, GameData, CompletedWord, CellKeys, CellUpdate } from "../utils/room_utils";
 import PlayerCard from "../components/Game/PlayerCard";
 import Slots from "../components/Game/Slots";
@@ -9,11 +9,12 @@ import Board from "../components/Game/Board";
 import logo from "../assets/logo.svg";
 import styles from "../styles/Game.module.css";
 import Words from "../components/Game/Words";
+import WinnerOverlay from "../components/Game/WinnerOverlay";
 
 export default function Game() {
     const [room, setRoom] = useState<string>();
-    const [me, setMe] = useState<Player>();
-    const [opponent, setOpponent] = useState<Player>();
+    const [p1, setP1] = useState<Player>();
+    const [p2, setP2] = useState<Player>();
     const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
 
     const [words, setWords] = useState<string[]>();
@@ -21,6 +22,8 @@ export default function Game() {
 
     const [move, setMove] = useState<MovementsEnum>("REVEAL");
     const [moveIdx, setMoveIdx] = useState<number | undefined>(undefined);
+
+    const [winner, setWinner] = useState<Player | undefined>(undefined);
 
     const socket = useSocket();
     const navigate = useNavigate();
@@ -38,18 +41,29 @@ export default function Game() {
 
         const data: Game = JSON.parse(game);
         const wordsParsed: string[] = JSON.parse(wordsData);
-        const searchMe = data.players.filter(Boolean).find(p => p.player_id === socket.id);
-        const searchOpponent = data.players.filter(Boolean).find(p => p.player_id !== socket.id);
 
-        if (!searchMe || !searchOpponent || !wordsParsed) {
+        const me = [...data.players, ...data.spectators].filter(Boolean).find(p => p.player_id === socket.id);
+        const p1Data = data.players[0];
+        const p2Data = data.players[1];
+
+        if (!me || !p1Data || !p2Data || !wordsParsed) {
             navigate("/");
             return;
         }
 
         setRoom(data.room_id);
-        setMe(searchMe);
-        setOpponent(searchOpponent);
         setWords(wordsParsed);
+
+        if (me.spectator) {
+            setP1(p1Data);
+            setP2(p2Data);
+            return;
+        }
+
+        setP1(me);
+        const opponent = data.players.find(p => p.player_id !== me.player_id);
+        setP2(opponent); 
+        
 
     }, [navigate, socket]);
 
@@ -113,7 +127,7 @@ export default function Game() {
             const isMe = socket.id === player_id;
 
             if (isMe) {
-                setMe(prevMe => {
+                setP1(prevMe => {
                     if (!prevMe || powerIdx === undefined) return prevMe;
 
                     return {
@@ -122,7 +136,7 @@ export default function Game() {
                     }
                 })
             } else {
-                setOpponent(prevOppo => {
+                setP2(prevOppo => {
                     if (!prevOppo || powerIdx === undefined) return prevOppo;
 
                     return {
@@ -152,7 +166,7 @@ export default function Game() {
                         const newPower = { power: data.power.powerup, rarity: data.power.rarity };
 
                         if (isMe) {
-                            setMe(prevMe => {
+                            setP1(prevMe => {
                                 if (!prevMe) return prevMe;
 
                                 return {
@@ -164,7 +178,7 @@ export default function Game() {
                                 };
                             });
                         } else {
-                            setOpponent(prevOppo => {
+                            setP2(prevOppo => {
                                 if (!prevOppo) return prevOppo;
 
                                 return {
@@ -193,13 +207,18 @@ export default function Game() {
             }
         });
 
+        socket.on("game_over", ({winner}) => {
+            setWinner(winner);
+        })
+
         return () => {
             socket.off("movement");
+            socket.off("game_over");
         }
-    }, [socket, setMe, setOpponent, setCells, setFindeds])
+    }, [socket, setP1, setP2, setCells, setFindeds])
 
     const handleMovement = async (x?: number, y?: number) => {
-        await fetch(`${Server}/game/${room}/move`, {
+        await fetch(`${settings.server}/game/${room}/move`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -215,31 +234,41 @@ export default function Game() {
         setMoveIdx(undefined);
     }
 
-    if (!me || !opponent || !words) {
+    if (!p1 || !p2 || !words) {
         return null;
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <PlayerCard player={me} />
+                <PlayerCard
+                id={0}
+                player={p1}
+                />
 
                 <img src={logo} alt="Logo" className={styles.logo} />
 
-                <PlayerCard player={opponent} />
+                <PlayerCard
+                id={1}
+                player={p2}
+                />
             </div>
 
             <div className={styles.game}>
-                <Slots 
-                playerPowers={me.powers}
-                selected={moveIdx}
-                selectMove={setMove}
-                selectMoveIdx={setMoveIdx}
-                />
+                {p1.player_id === socket.id ? (
+                    <Slots
+                    playerPowers={p1.powers}
+                    selected={moveIdx}
+                    selectMove={setMove}
+                    selectMoveIdx={setMoveIdx}
+                    />
+                ) : (
+                    <div></div>
+                )}
 
                 <Board
                 cellsData={cells}
-                onCellClick={handleMovement}
+                onCellClick={p1.player_id === socket.id ? handleMovement : undefined}
                 />
 
                 <Words
@@ -247,6 +276,8 @@ export default function Game() {
                 findeds={findeds}
                 />
             </div>
+
+            <WinnerOverlay room_id={room} winner={winner} duration={10000} isOpen={winner ? true : false} />
         </div>
     )
 }

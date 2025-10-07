@@ -1,0 +1,70 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.6s ease;
+}
+
+.card {
+    background: linear-gradient(145deg, #1f1f1f, #2b2b2b);
+    color: white;
+    padding: 2rem 3rem;
+    border-radius: 2rem;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    animation: popIn 0.8s ease;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #ffd700;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 3px solid #ffd700;
+}
+
+.stats p {
+    margin: 0.5rem 0;
+    font-size: 2rem;
+}
+
+.stats span {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.button {
+    margin-top: 1.5rem;
+    background: #ffd700;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.button:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
