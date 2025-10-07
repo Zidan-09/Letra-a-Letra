@@ -1,19 +1,17 @@
 import type { Player } from "../../utils/room_utils";
-import { useSocket } from "../../services/socketProvider";
 import { avatars } from "../../utils/avatars";
 import styles from "../../styles/Game/PlayerCard.module.css";
 
 interface PlayerCardProps {
+    id: 0 | 1;
     player: Player
 }
 
-export default function PlayerCard({ player }: PlayerCardProps) {
+export default function PlayerCard({ id, player }: PlayerCardProps) {
     if (!player) return;
 
-    const socket = useSocket();
-
     return (
-        <div className={`${styles.card} ${player.player_id === socket.id ? styles.me : styles.opponent}`}>
+        <div className={`${styles.card} ${id === 0 ? styles.p1 : styles.p2}`}>
             <div className={styles.avatarContainer}>
                 <img 
                 src={avatars[player.avatar]} 
@@ -24,17 +22,17 @@ export default function PlayerCard({ player }: PlayerCardProps) {
 
             <div className={styles.infoContainer}>
                 <h2 className={styles.nickname}>{player.nickname}</h2>
-                <div className={player.player_id === socket.id ? styles.powersContainerMe : styles.powersContainerOppo}>
+                <div className={id === 0 ? styles.powersContainerP1 : styles.powersContainerP2}>
                     {Array.from({ length: 5 }).map((_, index) => (
                         player.powers[index] ? (
                             <div
                             key={index}
-                            className={player.player_id === socket.id ? styles.mePowers : styles.oppoPowers}
+                            className={id === 0 ? styles.p1Powers : styles.p2Powers}
                             ></div>
                         ) : (
                             <div
                             key={index}
-                            className={player.player_id === socket.id ? styles.meEmpty : styles.oppoEmpty}
+                            className={id === 0 ? styles.p1Empty : styles.p2Empty}
                             ></div>
                         )
                     ))}

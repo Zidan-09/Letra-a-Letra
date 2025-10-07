@@ -13,6 +13,8 @@
     font-family: 'Lilita One', cursive;
     box-sizing: border-box;
     flex-direction: column;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .header {

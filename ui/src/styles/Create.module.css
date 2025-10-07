@@ -13,6 +13,8 @@
   font-family: 'Lilita One', cursive;
   box-sizing: border-box;
   padding: 2rem 1rem;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .card {
@@ -241,7 +243,7 @@
 
 .icon {
     margin-right: 0.8rem;
-    font-size: 1.4rem;
+    width: 2.2rem;
 }
 
 .create {

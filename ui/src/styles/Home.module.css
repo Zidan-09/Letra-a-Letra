@@ -12,6 +12,8 @@
     align-items: center;
     font-family: 'Lilita One', cursive;
     box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .card {
@@ -87,7 +89,6 @@
     text-align: center;
     box-sizing: border-box;
     font-size: clamp(1rem, 1.5vw, 1.3rem);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
 }
 
 .input:focus {
@@ -132,7 +133,7 @@
 }
 
 .icon {
-    font-size: 1.4rem;
+    width: 2.5rem;
 }
 
 .create {
@@ -160,7 +161,7 @@
     border: 5px solid rgb(77, 255, 89);
     box-shadow: 0 6px 0 rgb(46, 138, 52);
     width: 50%;
-    font-size: clamp(20px, 2vw, 30px);
+    font-size: clamp(18px, 2vw, 28px);
     max-width: 400px;
     margin: 1rem auto 0 auto;
 }

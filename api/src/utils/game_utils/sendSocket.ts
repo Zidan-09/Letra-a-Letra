@@ -81,10 +81,26 @@ export const SendSocket = {
         all.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("game_over", {winner: winner})
         )
+
+        players.filter(Boolean).forEach(p => {
+            p.reset();
+        })
         
     },
 
-    message() {
+    message(room_id: string, from: string, message: string) {
+        const io = getSocketInstance();
 
+        const room = RoomService.getRoom(room_id);
+
+        if (room === ServerResponses.NotFound) return;
+
+        const all = [...room.players, ...room.spectators];
+
+        if (!all) return;
+
+        all.filter(Boolean).forEach(p => 
+            io.to(p.player_id).emit("message", { from: from, message: message })
+        );
     }
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../services/socketProvider";
-import { Server } from "../utils/server_utils";
+import settings from "../settings.json";
 import { avatars } from "../utils/avatars";
 import type { Player } from "../utils/room_utils";
 import AvatarPopup from "../components/Home/AvatarPopup";
@@ -52,7 +52,7 @@ export default function Home() {
   }
 
   const createPlayer = async (): Promise<Player> => {
-    const result = await fetch(`${Server}/player`, {
+    const result = await fetch(`${settings.server}/player`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

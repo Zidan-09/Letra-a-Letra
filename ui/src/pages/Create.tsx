@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../services/socketProvider";
 import type { GameModes, MovementsEnum } from "../utils/room_utils";
-import { Server } from "../utils/server_utils";
+import settings from "../settings.json";
 import SettingsPopup from "../components/Create/SettingsPopup";
 import iconBack from "../assets/buttons/icon-back.svg";
 import iconCreate from "../assets/buttons/icon-create.svg";
@@ -37,7 +37,7 @@ export default function Create() {
 
         setLoading(true);
 
-        const result = await fetch(`${Server}/room/`, {
+        const result = await fetch(`${settings.server}/room/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -53,13 +53,13 @@ export default function Create() {
 
         if (!result.success) return null;
 
-        const settings : RoomSettings = {
+        const settingsParsed : RoomSettings = {
             theme: theme,
             allowedPowers: allowedPowers,
             gamemode: gamemode
         };
 
-        localStorage.setItem("settings", JSON.stringify(settings));
+        localStorage.setItem("settings", JSON.stringify(settingsParsed));
         localStorage.setItem("game", JSON.stringify(result.data));
         
         return navigate(`/lobby/${result.data.room_id}`);

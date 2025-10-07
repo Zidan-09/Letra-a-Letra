@@ -8,15 +8,14 @@
     font-size: 2rem;
     text-transform: uppercase;
     font-family: "Lilita One", cursive;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .cell:hover {
     cursor: pointer;
     transform: scale(1.02);
-}
-
-.me {
-    border: 3px solid rgb(27, 157, 222);
+    border: 2px solid black;
 }
 
 .opponent {
@@ -40,4 +39,12 @@
 .findedMe:hover, .findedOppo:hover, .me:hover, .opponent:hover {
     cursor: default;
     transform: scale(1);
+}
+
+.findedMe:hover, .me:hover, .me {
+    border: 3px solid rgb(27, 157, 222);
+}
+
+.findedOppo:hover, .opponent:hover, .opponent {
+    border: 3px solid rgb(240, 125, 34);
 }
