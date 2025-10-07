@@ -46,7 +46,7 @@ def main():
         log_success("Frontend rodando em http://localhost:5173")
 
         log_info("Aguardando o frontend iniciar...")
-        time.sleep(10)
+        time.sleep(3)
 
         log_info("Abrindo navegador...")
         webbrowser.open("http://localhost:5173")

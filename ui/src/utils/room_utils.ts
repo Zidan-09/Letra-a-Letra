@@ -103,6 +103,11 @@ interface CompletedWord {
     positions: [number, number][]
 }
 
+interface Message {
+    from: string;
+    message: string;
+}
+
 type GameResponses = "revealed" | 
 "almost_revealed" | 
 "game_error" | 
@@ -180,5 +185,6 @@ export type {
     StartData, 
     CompletedWord,
     CellKeys,
-    CellUpdate
+    CellUpdate,
+    Message
 };

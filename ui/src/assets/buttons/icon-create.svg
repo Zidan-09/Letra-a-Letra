@@ -1,28 +1,7 @@
-<svg width="41" height="42" viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_d_37_65)">
-<path d="M20.4653 37.7704C30.2872 37.7704 38.2495 29.8082 38.2495 19.9863C38.2495 10.1644 30.2872 2.20215 20.4653 2.20215C10.6434 2.20215 2.68115 10.1644 2.68115 19.9863C2.68115 29.8082 10.6434 37.7704 20.4653 37.7704Z" stroke="white" stroke-width="3.75" shape-rendering="crispEdges"/>
-</g>
-<g filter="url(#filter1_d_37_65)">
-<path d="M25.8006 19.9863H20.4654M20.4654 19.9863H15.1301M20.4654 19.9863V14.6511M20.4654 19.9863V25.3216" stroke="white" stroke-width="3.75" stroke-linecap="round" shape-rendering="crispEdges"/>
-</g>
-<defs>
-<filter id="filter0_d_37_65" x="0.806152" y="0.327148" width="39.3184" height="41.3183" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="2"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_37_65"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_37_65" result="shape"/>
-</filter>
-<filter id="filter1_d_37_65" x="13.2551" y="12.7761" width="14.4204" height="16.4205" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="2"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_37_65"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_37_65" result="shape"/>
-</filter>
-</defs>
-</svg>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
+<svg fill="#FFFFFF" width="800px" height="800px" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+<g id="SVGRepo_bgCarrier" stroke-width="0"/>
+<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+<g id="SVGRepo_iconCarrier"> <title/> <g> <path d="M66,42H54V30a6,6,0,0,0-12,0V42H30a6,6,0,0,0,0,12H42V66a6,6,0,0,0,12,0V54H66a6,6,0,0,0,0-12Z"/> <path d="M48,0A48,48,0,1,0,96,48,48.0512,48.0512,0,0,0,48,0Zm0,84A36,36,0,1,1,84,48,36.0393,36.0393,0,0,1,48,84Z"/> </g> </g>
+</svg>

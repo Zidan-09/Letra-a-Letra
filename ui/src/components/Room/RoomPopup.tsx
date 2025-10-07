@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Server } from "../../utils/server_utils";
+import settings from "../../settings.json";
 import { useSocket } from "../../services/socketProvider";
 import InvalidCodePopup from "./InvalidCodePopup";
 import iconBack from "../../assets/buttons/icon-back.svg";
@@ -31,7 +31,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
     const handleEnter = async () => {
         if (!room_id.trim()) return;
         
-        const valid = await fetch(`${Server}/room/${room_id}`).then(res => res.json()).then(data => data);
+        const valid = await fetch(`${settings.server}/room/${room_id}`).then(res => res.json()).then(data => data);
 
         if (!valid.success) {
             return setInvalidCode(true);
@@ -42,7 +42,7 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
             valid.data.spectators.filter(Boolean).length === 5
         ) return setInvalidCode(true);
 
-        const result = await fetch(`${Server}/room/${room_id}/players`, {
+        const result = await fetch(`${settings.server}/room/${room_id}/players`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

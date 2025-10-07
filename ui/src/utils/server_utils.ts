@@ -1,1 +1,0 @@
-export const Server: string = "http://192.168.149.104:3333/api/v1";

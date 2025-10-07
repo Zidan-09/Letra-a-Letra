@@ -1,6 +1,6 @@
 import type { Game } from "../../utils/room_utils";
 import { useSocket } from "../../services/socketProvider";
-import { Server } from "../../utils/server_utils";
+import settings from "../../settings.json";
 import SpectatorItem from "./SpectatorItem";
 import styles from "../../styles/Lobby/SpectatorsList.module.css";
 
@@ -12,7 +12,7 @@ export default function SpectatorsList({ room }: SpectatorsListProps) {
     const socket = useSocket();
 
     const handleTurnSpectator = async (index: number) => {
-        await fetch(`${Server}/room/${room.room_id}/players/${socket.id}`, {
+        await fetch(`${settings.server}/room/${room.room_id}/players/${socket.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

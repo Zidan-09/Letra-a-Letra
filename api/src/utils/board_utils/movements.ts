@@ -33,6 +33,7 @@ export const Movements = {
                     board.finded++;
                     
                     assignPowerToPlayer(cell, player);
+                    player.addScore();
 
                     return {
                         status: GameResponses.Unblocked,
@@ -46,6 +47,7 @@ export const Movements = {
                 createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}'`);
 
                 assignPowerToPlayer(cell, player);
+                player.addScore();
 
                 return {
                     status: GameResponses.Revealed,
@@ -86,6 +88,7 @@ export const Movements = {
             board.finded++;
             
             assignPowerToPlayer(cell, player);
+            player.addScore();
 
             return {
                 status: GameResponses.Revealed,

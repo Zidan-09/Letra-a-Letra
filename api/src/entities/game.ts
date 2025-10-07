@@ -48,16 +48,15 @@ export class Game {
     }
 
     gameOver(): Player | false {
-       const [p1, p2] = this.players;
+        const [p1, p2] = this.players;
 
-       if (!this.board || (this.board.finded < this.board.words.length && p1 && p2)) return false;
+        if (!this.board || !p1 || !p2 || (p1.score < 3 && p2.score < 3)) return false;
 
-       this.status = GameStatus.GameOver;
-       createLog(this.room_id, `${LogEnum.GameOver}`);
-       this.board = null;
+        this.status = GameStatus.GameOver;
+        createLog(this.room_id, LogEnum.GameOver);
+        this.board = null;
 
-       if (!p1 || !p2) return (p1 || p2) ?? false;
-
-       return p1.score > p2.score ? p1 : p2;
+        return p1.score > p2.score ? p1 : p2;
     }
+
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
-import { Server } from "../utils/server_utils";
+import settings from "../settings.json";
 import type { Game, GameModes, MovementsEnum, RoomSettings, StartData } from "../utils/room_utils";
 import PlayerList from "../components/Lobby/PlayerList";
 import ChatPopup from "../components/Lobby/ChatPopup";
@@ -15,9 +15,10 @@ import SettingsPopup from "../components/Create/SettingsPopup";
 
 export default function Lobby() {
     const [room, setRoom] = useState<Game | null>(null);
-    const socket = useSocket();
+    const [creator, setCreator] = useState<string>();
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const socket = useSocket();
     const navigate = useNavigate();
 
     const [theme, setTheme] = useState<string>("");
@@ -32,16 +33,35 @@ export default function Lobby() {
             navigate("/");
             return;
         };
-
-        setRoom(JSON.parse(game));
+        
+        const gameData: Game = JSON.parse(game);
         const settingsData: RoomSettings = JSON.parse(settings)
         
+        setRoom(gameData);
         setTheme(settingsData.theme);
         setGamemode(settingsData.gamemode as GameModes);
         setAllowedPowers(settingsData.allowedPowers);
 
+        const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.nickname === gameData.created_by);
+
+        if (!creatorData) {
+            console.log(creatorData);
+            return;
+        };
+
+        setCreator(creatorData.player_id);
+
         if (!socket) return;
 
+        socket.on("game_started", (startData: StartData) => {
+            const { words, room } = startData;
+
+            localStorage.setItem("words", JSON.stringify(words));
+            localStorage.setItem("game", JSON.stringify(room));
+
+            navigate(`/game/${room.room_id}`);
+        });
+        
         socket.on("player_joined", (updatedRoom: Game) => {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
@@ -54,13 +74,6 @@ export default function Lobby() {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
-        socket.on("game_started", (startData: StartData) => {
-            const { words, room } = startData;
-
-            localStorage.setItem("words", JSON.stringify(words));
-            localStorage.setItem("game", JSON.stringify(room));
-            navigate(`/game/${room.room_id}`);
-        });
 
         return () => {
             socket.off("player_joined");
@@ -81,7 +94,7 @@ export default function Lobby() {
 
     const handleBack = async () => {
         async function leaveRoom() {
-            const result = await fetch(`${Server}/room/${room?.room_id}/players/${socket.id}`, {
+            const result = await fetch(`${settings.server}/room/${room?.room_id}/players/${socket.id}`, {
                 method: "DELETE"
             }).then(res => res.json()).then(data => data);
 
@@ -98,15 +111,13 @@ export default function Lobby() {
     const handlePlay = async () => {
         if (!room || room.players.filter(Boolean).length < 2 || !theme || !gamemode || !allowedPowers) return null;
 
-        const a: MovementsEnum[] = ["REVEAL", "BLIND", "BLOCK", "FREEZE"];
-
-        const result = await fetch(`${Server}/game/${room.room_id}/start`, {
+        const result = await fetch(`${settings.server}/game/${room.room_id}/start`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 theme: theme,
                 gamemode: gamemode,
-                allowedPowers: a
+                allowedPowers: ["REVEAL"]
             })
         }).then(res => res.json()).then(data => data);
 
@@ -147,16 +158,19 @@ export default function Lobby() {
                                 <img src={iconBack} alt="Back" className={styles.icon}/>
                                 Sair
                             </button>
-                            <button onClick={handlePlay} className={`${styles.button} ${room.players.filter(Boolean).length >= 2 ? styles.play : styles.disabled}`} type="button">
-                                <img src={iconPlay} alt="Play" className={styles.icon} />
-                                Jogar
-                            </button>
+
+                            {socket && creator && socket.id === creator && (
+                                <button onClick={handlePlay} className={`${styles.button} ${room.players.filter(Boolean).length >= 2 ? styles.play : styles.disabled}`} type="button">
+                                    <img src={iconPlay} alt="Play" className={styles.icon} />
+                                    Jogar
+                                </button>
+                            )}
                         </div>
                     </>
                 )}
 
             </div>
-            {theme && gamemode && allowedPowers && (
+            {theme && gamemode && allowedPowers && socket && creator && socket.id === creator && (
                 <SettingsPopup 
                 theme={theme}
                 setTheme={setTheme}
@@ -168,8 +182,14 @@ export default function Lobby() {
                 onClose={() => setSettingsOpen(false)}
                 />
             )}
-            
-            <ChatPopup isOpen={isChatOpen} onClose={() => {setChatOpen(false)}}/>
+            {room && (
+                <ChatPopup
+                room_id={room?.room_id}
+                nickname={[...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id === socket.id)?.nickname}
+                isOpen={isChatOpen}
+                onClose={() => {setChatOpen(false)}}
+                />
+            )}
         </div>
     )
 }

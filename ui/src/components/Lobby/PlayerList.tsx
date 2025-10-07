@@ -1,7 +1,7 @@
 import PlayerItem from "./PlayerItem";
 import type { Game } from "../../utils/room_utils";
 import { useSocket } from "../../services/socketProvider";
-import { Server } from "../../utils/server_utils";
+import settings from "../../settings.json";
 import styles from "../../styles/Lobby/PlayerList.module.css";
 
 interface PlayerListProps {
@@ -12,7 +12,7 @@ export default function PlayerList({ room }: PlayerListProps) {
     const socket = useSocket();
 
     const handleTurnPlayer = async (index: number) => {
-        await fetch(`${Server}/room/${room.room_id}/players/${socket.id}`, {
+        await fetch(`${settings.server}/room/${room.room_id}/players/${socket.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

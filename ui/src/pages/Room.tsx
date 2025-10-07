@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RoomList from "../components/Room/RoomList";
 import type { Game } from "../utils/room_utils";
-import { Server } from "../utils/server_utils";
+import settings from "../settings.json";
 import { useSocket } from "../services/socketProvider";
 import RoomPopup from "../components/Room/RoomPopup";
 import iconBack from "../assets/buttons/icon-back.svg";
@@ -30,7 +30,7 @@ export default function Room() {
         const isSpectator = room.players.filter(Boolean).length >= 2;
 
         async function enterRoom() {
-            const data = await fetch(`${Server}/room/${selectedRoom}/players`, {
+            const data = await fetch(`${settings.server}/room/${selectedRoom}/players`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -65,14 +65,14 @@ export default function Room() {
     }
 
     const handleRefresh = async () => {
-        const response = await fetch(`${Server}/room`);
+        const response = await fetch(`${settings.server}/room`);
         const data: Game[] = await response.json().then(data => data.data);
         setRooms(data);
     }
 
     useEffect(() => {
         async function fetchRooms() {
-            const response = await fetch(`${Server}/room`);
+            const response = await fetch(`${settings.server}/room`);
             const data: Game[] = await response.json().then(data => data.data);
             setRooms(data);
         }
