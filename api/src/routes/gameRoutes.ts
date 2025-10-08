@@ -7,5 +7,6 @@ const gameRouter: Router = Router();
 gameRouter.post("/:room_id/start", GameMiddleware.startGame, gameController.startGame);
 gameRouter.post("/:room_id/move", GameMiddleware.validateMovement, gameController.moveGame);
 gameRouter.post("/:room_id/pass", GameMiddleware.passTurn, gameController.passTurn);
+gameRouter.post("/:room_id/effect/pass", GameMiddleware.passBecauseEffect, gameController.passBecauseEffect);
 
 export default gameRouter;

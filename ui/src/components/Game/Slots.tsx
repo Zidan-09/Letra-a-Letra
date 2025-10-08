@@ -7,9 +7,10 @@ interface SlotsProps {
     selected: number | undefined;
     selectMove: (movement: MovementsEnum) => void;
     selectMoveIdx: (idx: number | undefined) => void;
+    applyEffect: () => void;
 }
 
-export default function Slots({ playerPowers, selected, selectMove, selectMoveIdx }: SlotsProps) {
+export default function Slots({ playerPowers, selected, selectMove, selectMoveIdx, applyEffect }: SlotsProps) {
     if (!playerPowers) return;
 
     return (
@@ -20,9 +21,11 @@ export default function Slots({ playerPowers, selected, selectMove, selectMoveId
                     key={index}
                     idx={index}
                     movement={playerPowers[index].power}
+                    type={playerPowers[index].type}
                     selected={selected === index}
                     selectMove={selectMove}
                     selectIdx={selectMoveIdx}
+                    applyEffect={applyEffect}
                     />
                 ) : (
                     <div

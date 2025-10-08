@@ -1,0 +1,32 @@
+.overlay {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress {
+    width: 90%;
+    height: min-content;
+    display: flex;
+    flex-direction: row;
+}
+
+.p1Stage {
+    width: 33.3%;
+    height: 20px;
+    background-color: rgb(27, 157, 222);
+}
+
+.p2Stage {
+    width: 33.3%;
+    height: 20px;
+    background-color: rgb(240, 125, 34);
+}
+
+.emptyStage {
+    width: 33.3%;
+    height: 20px;
+    background-color: gray;
+}

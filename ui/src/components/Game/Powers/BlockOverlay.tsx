@@ -1,0 +1,35 @@
+import type { Player } from "../../../utils/room_utils";
+import styles from "../../../styles/Game/Powers/BlockOverlay.module.css";
+
+interface BlockOverlayProps {
+  p1: Player;
+  blocked: boolean;
+  blocked_by?: string;
+  remaining?: number;
+}
+
+export default function BlockOverlay({ p1, blocked, remaining, blocked_by }: BlockOverlayProps) {
+
+  if (!blocked || remaining === undefined || !blocked_by) return null;
+
+  const isMine = p1.player_id === blocked_by;
+
+  return (
+    <div className={`${styles.overlay} ${blocked_by === p1.player_id ? styles.p1 : styles.p2}`}>
+      <div className={styles.progress}>
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div
+            key={index}
+            className={
+              remaining <= 3 - index
+                ? isMine
+                  ? styles.p1Stage
+                  : styles.p2Stage
+                : styles.emptyStage
+            }
+          ></div>
+        ))}
+      </div>
+    </div>
+  );
+}

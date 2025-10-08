@@ -7,6 +7,7 @@ import { ServerResponses } from '../utils/responses/serverResponses';
 import { SendSocket } from '../utils/game_utils/sendSocket';
 import { HandleSocket } from '../utils/server_utils/handleSocket';
 import { RoomParams } from '../utils/requests/roomRequests';
+import { MovementsEnum } from '../utils/board_utils/movementsEnum';
 
 export const gameController = {
     startGame(req: Request<RoomParams, {}, StartGame>, res: Response) {
@@ -44,10 +45,10 @@ export const gameController = {
                 typeof result !== "object"
             ) return HandleResponse.serverResponse(res, 400, false, result);
 
-            HandleSocket(room_id, player_id, movement, powerIndex, result[1]);
+            HandleSocket(room_id, player_id, movement, result);
             SendSocket.gameOver(room_id);
 
-            return HandleResponse.serverResponse(res, 200, true, result[1].status);
+            return HandleResponse.serverResponse(res, 200, true, result.status);
 
         } catch (err) {
             console.error(err);
@@ -77,5 +78,36 @@ export const gameController = {
             console.error(err);
             HandleResponse.errorResponse(res, err);
         }
-    }
+    },
+
+    passBecauseEffect(req: Request<RoomParams, {}, PassTurn>, res: Response) {
+        const { room_id } = req.params;
+        const { player_id } = req.body;
+
+        try {
+            
+            const result = GameService.moveGame(room_id, player_id, MovementsEnum.FREEZE, 0);
+
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            if (
+                result === GameResponses.GameError
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
+            if (
+                result === GameResponses.PlayerFrozen
+            ) {
+                HandleSocket(room_id, player_id, MovementsEnum.FREEZE, { status: GameResponses.Frozen });
+                return HandleResponse.serverResponse(res, 200, true, GameResponses.Frozen);
+            }
+
+            HandleResponse.serverResponse(res, 400, false, GameResponses.GameError, "FATAL");
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, err);
+        }
+    } 
 }
