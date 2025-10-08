@@ -72,14 +72,34 @@ export const GameService = {
         return GameResponses.Continue;
     },
 
+    passTurnEffect(room_id: string, player_id: string) {
+        const game = RoomService.getRoom(room_id);
+
+        if (
+            game === ServerResponses.NotFound
+        ) return ServerResponses.NotFound;
+
+        const players = game.players;
+
+        const player = players.filter(Boolean).find(p =>
+            p.player_id === player_id
+        )
+
+        if (
+            !player
+        ) return GameResponses.GameError;
+
+        game.incrementTurn();
+    },
+
     moveGame(
         room_id: string, 
         player_id: string, 
         movement: MovementsEnum, 
         powerIndex: number | undefined, 
-        x: number, 
-        y: number
-    ): ServerResponses.NotFound | GameResponses | [number | undefined, MoveEmit] {
+        x?: number, 
+        y?: number
+    ): ServerResponses.NotFound | GameResponses | MoveEmit {
         const game = RoomService.getRoom(room_id)!;
 
         if (
@@ -95,12 +115,18 @@ export const GameService = {
 
         if (
             player.freeze.active && 
-            movement !== MovementsEnum.UNFREEZE
-        ) return GameResponses.PlayerFrozen;
+            movement !== MovementsEnum.UNFREEZE ||
+            player.freeze.active &&
+            movement !== MovementsEnum.IMMUNITY
+        ) {
+            game.incrementTurn();
+            return GameResponses.PlayerFrozen
+        };
+
 
         game.incrementTurn();
 
-        if (powerIndex) {
+        if (powerIndex !== undefined) {
             player.powers.splice(powerIndex, 1);
         }
 
@@ -110,49 +136,49 @@ export const GameService = {
             case MovementsEnum.REVEAL:
                 const resultReveal = Movements.clickCell(
                     board,
-                    x,
-                    y,
+                    x!,
+                    y!,
                     player,
                     room_id
                 )
                 
-                return typeof resultReveal !== "string" ? [powerIndex, resultReveal] : resultReveal;
+                return resultReveal;
                 
             case MovementsEnum.BLOCK:
                 createLog(room_id, `${player.nickname} ${LogEnum.Blocked} (${x}, ${y})`);
 
                 const resultBlock = Movements.blockCell(
                     board,
-                    x,
-                    y,
+                    x!,
+                    y!,
                     player_id
                 );
 
-                return typeof resultBlock !== "string" ? [powerIndex, resultBlock] : resultBlock;
+                return resultBlock;
 
             case MovementsEnum.UNBLOCK:
                 createLog(room_id, `${player.nickname} ${LogEnum.Unblocked} (${x}, ${y})`);
 
                 const resultUnblock = Movements.unblockCell(
                     board,
-                    x,
-                    y,
+                    x!,
+                    y!,
                     player_id
                 );
 
-                return typeof resultUnblock !== "string" ? [powerIndex, resultUnblock] : resultUnblock; 
+                return resultUnblock;
 
             case MovementsEnum.TRAP:
                 createLog(room_id, `${player.nickname} ${LogEnum.Trapped} (${x}, ${y})`);
 
                 const resultTrap = Movements.trapCell(
                     board, 
-                    x, 
-                    y, 
+                    x!, 
+                    y!, 
                     player_id
                 );
 
-                return typeof resultTrap !== "string" ? [powerIndex, resultTrap] : resultTrap;
+                return resultTrap;
 
             case MovementsEnum.DETECT_TRAPS:
                 createLog(room_id, `${player.nickname} ${LogEnum.Detect}`);
@@ -162,7 +188,7 @@ export const GameService = {
                     player_id
                 );
 
-                return typeof resultDetect !== "string" ? [powerIndex, resultDetect] : resultDetect;
+                return resultDetect;
 
             case MovementsEnum.FREEZE:
                 createLog(room_id, `${player.nickname} ${LogEnum.Freeze} ${players.filter(Boolean).find(p => p.player_id !== player.player_id)?.nickname}`);
@@ -173,7 +199,7 @@ export const GameService = {
                     MovementsEnum.FREEZE
                 );
 
-                return typeof resultFreeze !== "string" ? [powerIndex, resultFreeze] : resultFreeze;
+                return resultFreeze;
 
             case MovementsEnum.UNFREEZE:
                 createLog(room_id, `${player.nickname} ${LogEnum.Unfreeze} ${player.nickname}`);
@@ -184,17 +210,19 @@ export const GameService = {
                     MovementsEnum.UNFREEZE
                 );
 
+                return resultUnfreeze;
+
             case MovementsEnum.SPY:
                 createLog(room_id, `${player.nickname} ${LogEnum.Spied} (${x}, ${y})`);
 
                 const resultSpy = Movements.spy(
                     board, 
-                    x, 
-                    y, 
+                    x!, 
+                    y!, 
                     player_id
                 );
 
-                return typeof resultSpy !== "string" ? [powerIndex, resultSpy] : resultSpy;
+                return resultSpy;
 
             case MovementsEnum.BLIND:
                 createLog(room_id, `${player.nickname} ${LogEnum.Blinded} ${players.filter(Boolean).find(p => p.player_id !== player.player_id)?.nickname}`);
@@ -205,6 +233,8 @@ export const GameService = {
                     MovementsEnum.BLIND
                 );
 
+                return resultBlind;
+
             case MovementsEnum.LANTERN:
                 createLog(room_id, `${player.nickname} ${LogEnum.Lantern}`);
 
@@ -214,7 +244,7 @@ export const GameService = {
                     MovementsEnum.LANTERN
                 );
 
-                return typeof resultLantern !== "string" ? [powerIndex, resultLantern] : resultLantern;
+                return resultLantern;
 
             case MovementsEnum.IMMUNITY:
                 createLog(room_id, `${player.nickname} ${LogEnum.Immunity}`);
@@ -225,7 +255,7 @@ export const GameService = {
                     MovementsEnum.IMMUNITY
                 );
 
-                return typeof resultImmunity !== "string" ? [powerIndex, resultImmunity] : resultImmunity;
+                return resultImmunity;
 
             default:
                 createLog(room_id, `${player.nickname} ${LogEnum.InvalidMovement}`);

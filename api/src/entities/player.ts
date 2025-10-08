@@ -16,7 +16,7 @@ export class Player {
     avatar: number;
     score: number = 0;
     passed: number = 0;
-    powers: { power: MovementsEnum, rarity: PowerRarity }[] = [];
+    powers: { power: MovementsEnum, rarity: PowerRarity, type: "manipulation" | "effect" }[] = [];
     freeze: PlayerEffect = { active: false, remaining: null };
     blind: PlayerEffect = { active: false, remaining: null };
     immunity: PlayerEffect = { active: false, remaining: null };

@@ -57,7 +57,8 @@ interface RoomSettings {
 
 interface Power {
     power: MovementsEnum;
-    rarity: PowerRarity
+    rarity: PowerRarity;
+    type: "effect" | "manipulation";
 }
 
 interface MoveEmit {
@@ -95,6 +96,7 @@ interface GameData {
     movement: MovementsEnum;
     powerIdx?: number;
     data: MoveEmit;
+    players: Player[]
 }
 
 interface CompletedWord {
@@ -108,7 +110,8 @@ interface Message {
     message: string;
 }
 
-type GameResponses = "revealed" | 
+type GameResponses = 
+"revealed" | 
 "almost_revealed" | 
 "game_error" | 
 "not_enough_players" | 
@@ -165,6 +168,9 @@ interface CellUpdate {
     power?: { hasPowerup: boolean, rarity?: PowerRarity, powerup?: MovementsEnum };
     blocked?: { blocked_by?: string, remaining?: number };
     trapped_by?: string;
+    trapTrigged: boolean;
+    detected: boolean;
+    spied: boolean;
     actor?: string;
     finded_by?: string;
 }
@@ -188,3 +194,5 @@ export type {
     CellUpdate,
     Message
 };
+
+export const allPowersList = ["REVEAL", "BLOCK", "UNBLOCK", "TRAP", "DETECT_TRAPS", "FREEZE", "UNFREEZE", "SPY", "BLIND", "LANTERN", "IMMUNITY"]
