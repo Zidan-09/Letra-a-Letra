@@ -1,15 +1,16 @@
-import type { CellKeys, CellUpdate, MovementsEnum } from "../../utils/room_utils";
+import type { CellKeys, CellUpdate, MovementsEnum, Player } from "../../utils/room_utils";
 import Cell from "./Cell";
 import styles from "../../styles/Game/Board.module.css";
 
 interface BoardProps {
+  p1: Player;
   cellsData: Record<CellKeys, CellUpdate>;
   move: MovementsEnum;
   moveIdx?: number;
   onCellClick?: (x: number, y: number) => void;
 }
 
-export default function Board({ cellsData, move, moveIdx, onCellClick }: BoardProps) {
+export default function Board({ p1, cellsData, move, moveIdx, onCellClick }: BoardProps) {
   return (
     <div className={styles.board}>
       {Array.from({ length: 10 }).map((_, y) => (
@@ -20,6 +21,7 @@ export default function Board({ cellsData, move, moveIdx, onCellClick }: BoardPr
             return (
               <Cell
                 key={key}
+                p1={p1}
                 player_id={cellData?.actor}
                 finded={cellData?.finded_by}
                 letter={cellData?.letter}

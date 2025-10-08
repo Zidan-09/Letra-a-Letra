@@ -180,7 +180,7 @@ export default function Game() {
                                         }
                                         return resetCopy;
                                     });
-                                }, 10000);
+                                }, 1500);
                                 break;
                             }
 
@@ -303,6 +303,7 @@ export default function Game() {
                 )}
 
                 <Board
+                p1={p1}
                 cellsData={cells}
                 move={move}
                 moveIdx={moveIdx}

@@ -1,11 +1,12 @@
 import React from "react";
 import { useSocket } from "../../services/socketProvider";
-import type { MovementsEnum } from "../../utils/room_utils";
+import type { MovementsEnum, Player } from "../../utils/room_utils";
 import BlockOverlay from "./Powers/BlockOverlay";
 import TrapOverlay from "./Powers/TrapOverlay";
 import styles from "../../styles/Game/Cell.module.css";
 
 interface CellProps {
+    p1: Player;
     player_id?: string;
     finded?: string;
     letter?: string;
@@ -21,7 +22,7 @@ interface CellProps {
     onClick?: (x: number, y: number) => void;
 }
 
-function CellComponent({ player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, x, y, onClick }: CellProps) {
+function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, x, y, onClick }: CellProps) {
     const socket = useSocket();
 
     let className = "";
@@ -42,12 +43,14 @@ function CellComponent({ player_id, finded, letter, blocked, trapped_by, trapTri
             {spied || letter ? letter : ""}
 
             <BlockOverlay
-                blocked={!!blocked}
-                blocked_by={blocked?.blocked_by}
-                remaining={blocked?.remaining}
+            p1={p1}
+            blocked={!!blocked}
+            blocked_by={blocked?.blocked_by}
+            remaining={blocked?.remaining}
             />
 
             <TrapOverlay
+            p1={p1}
             trapped_by={trapped_by}
             detected={detected}
             trapTrigged={trapTrigged}
