@@ -1,7 +1,9 @@
+import { RoomService } from "../services/roomServices";
 import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { Themes } from "../utils/board_utils/themesEnum";
 import { GameModes } from "../utils/game_utils/gameModes";
 import { GameStatus } from "../utils/game_utils/gameStatus";
+import { nullPlayer, NullPlayer } from "../utils/game_utils/nullPlayer";
 import { LogEnum } from "../utils/server_utils/logEnum";
 import { createLog } from "../utils/server_utils/logs";
 import { Board } from "./board";
@@ -47,16 +49,48 @@ export class Game {
         this.turn++;
     }
 
-    gameOver(): Player | false {
+    gameOver(): Player | NullPlayer | false {
         const [p1, p2] = this.players;
 
-        if (!this.board || !p1 || !p2 || (p1.score < 3 && p2.score < 3)) return false;
+        if (
+            !this.board ||
+            this.status === GameStatus.GameStarting ||
+            this.status === GameStatus.GameOver
+        ) return false;
 
-        this.status = GameStatus.GameOver;
-        createLog(this.room_id, LogEnum.GameOver);
-        this.board = null;
+        if (!p1 && !p2) {
+            const spectatorsExist = this.spectators.some(s => s);
 
-        return p1.score > p2.score ? p1 : p2;
-    }
+            this.status = GameStatus.GameOver;
+            createLog(this.room_id, LogEnum.GameOver);
+            this.board = null;
 
+            if (spectatorsExist) {
+                return nullPlayer;
+            }
+
+            RoomService.closeRoom(this.room_id);
+            return false;
+        }
+
+        if ((p1 && !p2) || (!p1 && p2)) {
+            const winner = p1 || p2;
+            this.status = GameStatus.GameOver;
+            createLog(this.room_id, LogEnum.GameOver);
+            this.board = null;
+            return winner!;
+        }
+
+        if (p1 && p2) {
+            if (p1.score < 3 && p2.score < 3) return false;
+
+            this.status = GameStatus.GameOver;
+            createLog(this.room_id, LogEnum.GameOver);
+            this.board = null;
+
+            return p1.score >= 3 ? p1 : p2;
+        }
+
+        return false;
+    };
 }

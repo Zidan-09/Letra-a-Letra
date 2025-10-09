@@ -89,6 +89,7 @@ export const GameService = {
             !player
         ) return GameResponses.GameError;
 
+        player.decrementEffect();
         game.incrementTurn();
     },
 
@@ -114,23 +115,21 @@ export const GameService = {
         )!;
 
         if (
-            player.freeze.active && 
-            movement !== MovementsEnum.UNFREEZE ||
             player.freeze.active &&
+            movement !== MovementsEnum.UNFREEZE &&
             movement !== MovementsEnum.IMMUNITY
         ) {
+            player.decrementEffect();
             game.incrementTurn();
-            return GameResponses.PlayerFrozen
-        };
+            return GameResponses.PlayerFrozen;
+        }
 
-
+        player.decrementEffect();
         game.incrementTurn();
 
         if (powerIndex !== undefined) {
             player.powers.splice(powerIndex, 1);
         }
-
-        player.decrementEffect();
 
         switch (movement) {
             case MovementsEnum.REVEAL:

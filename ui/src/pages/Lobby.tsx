@@ -96,6 +96,8 @@ export default function Lobby() {
             const result = await fetch(`${settings.server}/room/${room?.room_id}/players/${socket.id}`, {
                 method: "DELETE"
             }).then(res => res.json()).then(data => data);
+            
+            if (!result.success) console.warn(result);
 
             return result;
         };
@@ -116,7 +118,7 @@ export default function Lobby() {
             body: JSON.stringify({
                 theme: theme,
                 gamemode: "CRAZY",
-                allowedPowers: ["REVEAL", "TRAP", "DETECT_TRAPS"]
+                allowedPowers: ["REVEAL", "FREEZE"]
             })
         }).then(res => res.json()).then(data => data);
 
@@ -185,6 +187,7 @@ export default function Lobby() {
                 <ChatPopup
                 room_id={room?.room_id}
                 nickname={[...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id === socket.id)?.nickname}
+                local="lobby"
                 isOpen={isChatOpen}
                 onClose={() => {setChatOpen(false)}}
                 />

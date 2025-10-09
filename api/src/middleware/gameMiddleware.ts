@@ -89,10 +89,13 @@ export const GameMiddleware = {
             );
 
             if (
-                !player || 
-                game.turn % 2 !== player.turn || 
+                !player ||  
                 !board || player.spectator
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
+            if (
+                game.turn % 2 !== player.turn
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidTurnAction);
 
             const movements = Object.values(MovementsEnum);
     
