@@ -33,7 +33,6 @@ interface PowerListProps {
 
 export default function PowerList({ selectedPowers, onTogglePower, availablePowers }: PowerListProps) {
     return (
-      <div>
         <div className={styles.powerListContainer}>
           {availablePowers.map((power, index) => (
               <PowerItem 
@@ -43,7 +42,6 @@ export default function PowerList({ selectedPowers, onTogglePower, availablePowe
               onToggle={onTogglePower}
               />
           ))}
-      </div>
       </div>
     )
 }

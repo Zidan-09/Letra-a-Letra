@@ -13,7 +13,7 @@
   justify-content: center;
   z-index: 2000;
   font-family: "Lilita One", cursive;
-}
+} 
 
 .popup {
   background: rgba(255, 255, 255, 0.3);
@@ -36,16 +36,17 @@
     align-items: center;
     width: 95%;
     padding: 0.5rem;
+    border-radius: 3rem;
+    position:relative;
     background-color: rgb(240, 125, 34);
     border: 5px solid rgb(255, 143, 55);
     box-shadow: 0 6px 0 rgb(148, 97, 57);
-    border-radius: 3rem;
-    margin-bottom: 1rem;
 }
 
 
+
 .title {
-  font-size: clamp(1.5rem, 5em, 2.8rem);
+  font-size: clamp(1.5rem, 5rem, 2.4rem);
     color: white;
     -webkit-text-stroke: 0.5px black;
 }
@@ -54,30 +55,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
   width: 100%;
 }
-
-.backButton {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  color: #555;
-}
-
-.backButton:hover {
-  color: #000;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-}
-
 
 .section {
   background: rgba(255, 255, 255, 0.25);
@@ -94,6 +73,15 @@
   color: white;
   -webkit-text-stroke: 0.5px black;
   margin: 0;
+}
+
+.labelTheme {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke: 0.5px black;
+  margin: 0;
+
 }
 
 .buttons {
@@ -130,19 +118,35 @@
 
 
 .icon {
-    margin-right: 0.8rem;
-    font-size: 1.4rem;
+     width: 60px;
+    height: 60px;
+    filter: drop-shadow(1px 1px 0 black)
+        drop-shadow(-1px -1px 0 black)
+        drop-shadow(1px -1px 0 black)
+        drop-shadow(-1px 1px 0 black);
+transition: transform 0.1s ease}
+
+.icon:hover{
+transform: scale(1.1);
+
 }
+
 
 .back {
-    background-color: rgb(240, 44, 38);
-    border: 5px solid rgb(195, 60, 60);
-    box-shadow: 0 6px 0 rgb(128, 53, 49);
+   background: transparent;
+    border: 0.5px black; /* Remove qualquer borda */
+    cursor: pointer;
+    position: absolute;
+    left: 15px; /* Espaçamento da borda esquerda */
+    top: 50%; /* Alinha verticalmente ao centro */
+    transform: translateY(-50%); /* Ajuste fino para centralização vertical perfeita */
+    padding: 0; /* Remove padding para não ocupar espaço extra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%; /* Faz a área de clique ser grande */
 }
 
-.back:hover {
-    border: 5px solid rgb(170, 47, 47);
-}
 
 .gamemode {
   margin-top: 1rem;
@@ -171,34 +175,37 @@
 }
 
 .gamemodeNormal {  
-  background-color: rgb(240, 125, 34);
-  border: 5px solid rgb(255, 143, 55);
-  box-shadow: 0 6px 0 rgb(148, 97, 57);
+  background-color: rgb(21, 248, 29);
+    border: 5px solid rgb(77, 255, 89);
+    box-shadow: 0 6px 0 rgb(46, 138, 52);
+  
   padding: 0 1rem;
 }
 
 .gamemodeNormal:hover {
-  border: 5px solid rgb(224, 114, 27);
+    border: 5px solid rgb(0, 230, 17);
 }
 
-.controlButtonT {
-  flex: 1 1 45%;
+.selectTheme {
+    flex: 1 1 45%;
     min-width: 100px;
     min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border: none;
-    border-radius: 2rem;
     padding: 0 6rem;
     font-size: 1.7rem;
     font-weight: bold;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
     outline: none;
+    background-color: rgb(240, 125, 34);
+    border: 5px solid rgb(255, 143, 55);
+    box-shadow: 0 6px 0 rgb(148, 97, 57);
+    border-radius: 2rem;
+
+    
 }
 
 .controlButtonT:hover {
@@ -217,7 +224,7 @@
     background-color: rgb(27, 157, 222);
     border: 5px solid rgb(64, 176, 232);
     box-shadow: 0 6px 0 rgb(57, 68, 148);
-    padding: 0 6rem;
+    padding: 0 1rem;
     font-size: 1.7rem;
     font-weight: bold;
     color: rgb(255, 255, 255);
@@ -229,4 +236,30 @@
 .controlButtonP:hover {
 border: 5px solid rgb(22, 133, 186);
   transform: translateY(-2px);
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 5px solid white;
+  border-radius: 10px;
+  justify-content: center; 
+  align-items: center; 
+  padding: 1rem 0;
+  padding-bottom: 2rem; 
+  overflow-y: auto; 
+}
+
+.sideBySide {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  gap: 2rem;
 }

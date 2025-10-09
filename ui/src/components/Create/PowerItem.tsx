@@ -17,7 +17,8 @@ export default function PowerItem({ power, enabled, onToggle }: PowerItemProps) 
         className={`${styles.item} ${enabled ? styles.enabled : styles.disabled}`}
         onClick={() => onToggle(power)}
     >
-        {icon && <img src={icon} alt={label} className={styles.icon} />}
+      <img src={icon} alt={label} className={styles.icon} />
+        {/* {icon && <img src={icon} alt={label} className={styles.icon} />} */}
       <p className={styles.powerName}>{label}</p>
     </div>
   );

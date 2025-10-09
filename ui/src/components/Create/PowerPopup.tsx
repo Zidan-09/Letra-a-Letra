@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import iconBack from "../../assets/buttons/icon-back.svg";
-import iconConfirm from "../../assets/buttons/icon-create.svg";
 import PowerList from "./PowerList";
 import styles from "../../styles/Create/PowerPopup.module.css";
 import type { MovementsEnum } from "../../utils/room_utils";
@@ -34,16 +33,7 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
     if (!isOpen) {
       setSelectedPowers(defaultPowers);
     }
-  }, [isOpen, defaultPowers]);
-
-  // const handleBack = () => {
-  //   onClose();
-  // };
-
-  // const handleConfirm = () => {
-  //   localStorage.setItem("allowedPowers", JSON.stringify(selectedPowers));
-  //   navigate("/lobby");
-  // };
+  }, [isOpen, defaultPowers]);  
 
   const togglePower = (power: MovementsEnum) => {
     setSelectedPowers((prev) =>
@@ -54,9 +44,21 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay} onClick={() => {
+  onConfirm(selectedPowers);
+  onClose();
+}}>
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titlecontainer}>
+          <button
+            className={styles.back}
+            onClick={() => {
+              onConfirm(selectedPowers);
+            onClose()}}
+          >
+            <img src={iconBack} alt="Back" className={styles.icon} />
+            
+          </button>
           <h2 className={styles.title}>ESCOLHER PODERES</h2>
         </div>
 
@@ -66,20 +68,7 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
           onTogglePower={togglePower}
         />
 
-        <div className={styles.buttons}>
-          <button className={`${styles.button} ${styles.back}`} onClick={onClose}>
-            <img src={iconBack} alt="Back" className={styles.icon1} />
-            Voltar
-          </button>
-          <button className={`${styles.button} ${styles.confirm}`} onClick={() => {
-            onConfirm(selectedPowers);
-            onClose();
-          }}>
-            <img src={iconConfirm} alt="Confirm" className={styles.icon2} />
-            Confirmar
-          </button>
         </div>
       </div>
-    </div>
   );
 }

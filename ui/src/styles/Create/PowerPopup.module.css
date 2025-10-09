@@ -6,8 +6,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6px); 
+    backdrop-filter: blur(12px); 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,31 +19,33 @@
     flex-direction: column;
     width: min(90%, 500px);
     max-height: 80vh;
-    background: rgba(255, 255, 255, 0.3); 
+  background: rgba(255, 255, 255, 0.6);
     border: 0.3rem solid white;
     border-radius: 3rem;
     padding: 2rem;
     gap: 2rem;
     box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      animation: popupFade 0.25s ease-out;
+
 }
 
 .titlecontainer {
-    display: flex;
+   display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    min-height: 5rem;
+    width: 95%;
+    padding: 0.5rem;
+    border-radius: 3rem;
+    position:relative;
     background-color: rgb(142, 68, 173);
     border: 5px solid rgb(155, 89, 182); 
     box-shadow: 0 6px 0 rgb(93, 55, 117);
-    border-radius: 3rem;
 }
 
 .title {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-size: clamp(1.5rem, 5rem, 2.4rem);
     color: white;
     -webkit-text-stroke: 1px black;
-    margin: 0;
 }
 
 .buttons {
@@ -79,14 +80,20 @@
 }
 
 .back {
-    background-color: rgb(240, 44, 38);
-    border: 5px solid rgb(195, 60, 60);
-    box-shadow: 0 6px 0 rgb(128, 53, 49);
+  background: transparent;
+    border: 0.5px black; /* Remove qualquer borda */
+    cursor: pointer;
+    position: absolute;
+    left: 15px; /* Espaçamento da borda esquerda */
+    top: 50%; /* Alinha verticalmente ao centro */
+    transform: translateY(-50%); /* Ajuste fino para centralização vertical perfeita */
+    padding: 0; /* Remove padding para não ocupar espaço extra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80%; 
 }
 
-.back:hover {
-    border: 5px solid rgb(170, 47, 47);
-}
 
 .confirm {
     background-color: rgb(21, 248, 29);
@@ -98,8 +105,17 @@
     border: 5px solid rgb(30, 180, 40);
 }
 
-.icon1, .icon2 {
-    width: 1.5rem;
-    height: 1.5rem;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5)); 
+.icon {
+  width: 60px;
+    height: 60px;
+    filter: drop-shadow(1px 1px 0 black)
+        drop-shadow(-1px -1px 0 black)
+        drop-shadow(1px -1px 0 black)
+        drop-shadow(-1px 1px 0 black);
+transition: transform 0.1s ease
+}
+
+.icon:hover{
+transform: scale(1.1);
+
 }
