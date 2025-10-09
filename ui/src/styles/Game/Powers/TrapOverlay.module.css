@@ -1,0 +1,73 @@
+.overlay {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.p1 {
+    background-color: rgb(27, 157, 222);
+}
+
+.p2 {
+    background-color: rgb(240, 125, 34);
+}
+
+.icon {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    will-change: transform, opacity;
+}
+
+.trapped {
+    animation: trap-activate 1s ease-in-out forwards;
+}
+
+.trigged {
+    will-change: opacity;
+}
+
+@keyframes trap-activate {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    25% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+
+    60% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+}
+
+.trigged.p1 {
+    animation: trap-activate-bg-p1 1s ease-in-out forwards;
+}
+
+.trigged.p2 {
+    animation: trap-activate-bg-p2 1s ease-in-out forwards;
+}
+
+@keyframes trap-activate-bg-p1 {
+    0% { background-color: rgb(27, 157, 222); opacity: 0; }
+    25% { opacity: 1; }
+    60% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+@keyframes trap-activate-bg-p2 {
+    0% { background-color: rgb(240, 125, 34); opacity: 0; }
+    25% { opacity: 1; }
+    60% { opacity: 1; }
+    100% { opacity: 0; }
+}

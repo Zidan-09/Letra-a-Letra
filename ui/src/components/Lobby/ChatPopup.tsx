@@ -38,7 +38,6 @@ export default function ChatPopup({ room_id, nickname, isOpen, onClose }: ChatPo
     }, [messages]);
 
     const sendMessage = () => {
-        console.log(socket, room_id, nickname, myMessage)
         if (!socket || !room_id || !nickname || !myMessage.trim()) return;
 
         socket.emit("message", {

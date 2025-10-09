@@ -21,7 +21,7 @@ export default function Lobby() {
     const socket = useSocket();
     const navigate = useNavigate();
 
-    const [theme, setTheme] = useState<string>("");
+    const [theme, setTheme] = useState<string>("random");
     const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>(["REVEAL"]);
     const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
 
@@ -45,7 +45,6 @@ export default function Lobby() {
         const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.nickname === gameData.created_by);
 
         if (!creatorData) {
-            console.log(creatorData);
             return;
         };
 
@@ -79,7 +78,7 @@ export default function Lobby() {
             socket.off("player_joined");
             socket.off("player_left");
             socket.off("role_changed");
-            socket.off("game_started")
+            socket.off("game_started");
         };
 
     }, [socket]);
@@ -116,8 +115,8 @@ export default function Lobby() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 theme: theme,
-                gamemode: gamemode,
-                allowedPowers: ["REVEAL"]
+                gamemode: "CRAZY",
+                allowedPowers: ["REVEAL", "TRAP", "DETECT_TRAPS"]
             })
         }).then(res => res.json()).then(data => data);
 

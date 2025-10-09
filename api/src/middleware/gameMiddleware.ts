@@ -9,6 +9,7 @@ import { MovementsEnum } from "../utils/board_utils/movementsEnum";
 import { Themes } from "../utils/board_utils/themesEnum";
 import { RoomParams } from "../utils/requests/roomRequests";
 import { GameModes } from "../utils/game_utils/gameModes";
+import { PowerRarity } from "../utils/cell_utils/powerRarity";
 
 export const GameMiddleware = {
     startGame(req: Request<RoomParams, {}, StartGame>, res: Response, next: NextFunction) {
@@ -16,7 +17,6 @@ export const GameMiddleware = {
         const { theme, gamemode, allowedPowers } = req.body;
 
         try {
-
             if (
                 !room_id ||
                 !theme ||
@@ -101,11 +101,17 @@ export const GameMiddleware = {
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
 
             if (
-                powerIndex && 0 > powerIndex || 
-                powerIndex && powerIndex > 5 ||
-                powerIndex && player.powers[powerIndex]?.power !== movement
+                powerIndex !== undefined && 0 > powerIndex || 
+                powerIndex !== undefined && powerIndex > 5 ||
+                powerIndex !== undefined && player.powers[powerIndex]?.power !== movement
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
-    
+
+            if (
+                powerIndex !== undefined && 
+                player.powers[powerIndex]?.power && 
+                player.powers[powerIndex].power !== movement
+            ) return HandleResponse.serverResponse(res, 400, false, GameResponses.WithoutPower);
+            
             next();
             
         } catch (err) {
@@ -151,5 +157,36 @@ export const GameMiddleware = {
             console.error(err);
             HandleResponse.errorResponse(res, err);
         }
+    },
+
+    passBecauseEffect(req: Request<RoomParams, {}, PassTurn>, res: Response, next: NextFunction) {
+        const { room_id } = req.params;
+        const { player_id } = req.body;
+
+        if (
+            !room_id ||
+            !player_id
+        ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
+
+        const room = RoomService.getRoom(room_id);
+
+        if (
+            room === ServerResponses.NotFound
+        ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+        const player = room.players.filter(Boolean).find(p => p.player_id === player_id);
+
+        if (
+            !player
+        ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+        if (
+            player.freeze.active &&
+            player.powers.includes({ power: MovementsEnum.IMMUNITY, rarity: PowerRarity.LEGENDARY, type: "effect" }) ||
+            player.freeze.active &&
+            player.powers.includes({ power: MovementsEnum.UNFREEZE, rarity: PowerRarity.RARE, type: "effect" })
+        ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
+
+        next();
     }
 }

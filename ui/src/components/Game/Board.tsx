@@ -1,33 +1,45 @@
-import type { CellKeys, CellUpdate } from "../../utils/room_utils";
+import type { CellKeys, CellUpdate, MovementsEnum, Player } from "../../utils/room_utils";
 import Cell from "./Cell";
 import styles from "../../styles/Game/Board.module.css";
 
 interface BoardProps {
+  p1: Player;
   cellsData: Record<CellKeys, CellUpdate>;
+  move: MovementsEnum;
+  moveIdx?: number;
   onCellClick?: (x: number, y: number) => void;
 }
 
-export default function Board({ cellsData, onCellClick }: BoardProps) {
-
+export default function Board({ p1, cellsData, move, moveIdx, onCellClick }: BoardProps) {
   return (
     <div className={styles.board}>
       {Array.from({ length: 10 }).map((_, y) => (
         <div key={y} className={styles.row}>
-            {Array.from({ length: 10 }).map((_, x) => {
+          {Array.from({ length: 10 }).map((_, x) => {
             const key = `${x}-${y}` as CellKeys;
             const cellData = cellsData[key];
             return (
-                <Cell
+              <Cell
                 key={key}
+                p1={p1}
                 player_id={cellData?.actor}
                 finded={cellData?.finded_by}
                 letter={cellData?.letter}
-                onClick={onCellClick ? () => onCellClick(x, y) : undefined}
-                />
+                blocked={cellData?.blocked}
+                trapped_by={cellData?.trapped_by}
+                trapTrigged={cellData?.trapTrigged}
+                detected={cellData?.detected}
+                spied={cellData?.spied}
+                x={x}
+                y={y}
+                selectedMovement={move}
+                movementId={moveIdx}
+                onClick={onCellClick ? onCellClick : undefined}
+              />
             );
-            })}
+          })}
         </div>
-        ))}
+      ))}
     </div>
   );
 }
