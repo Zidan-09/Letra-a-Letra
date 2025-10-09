@@ -12,8 +12,38 @@
   padding: 20px;
 }
 .powerListContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.powerItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.4);
+  border: 3px solid white;
+  border-radius: 1.5rem;
+  padding: 0.8rem 1rem;
+  font-size: 1.2rem;
+  font-family: 'Lilita One', cursive;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.powerItem:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.enabled {
+  background-color: rgba(142, 68, 173, 0.8);
+  color: white;
+  border-color: rgb(142, 68, 173);
+}
+
+.powerIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
 }

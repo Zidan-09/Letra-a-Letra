@@ -1,11 +1,14 @@
 .item {
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.4);
+  border: 3px solid white;
+  border-radius: 1.5rem;
   cursor: pointer;
-  transition: 0.2s ease;
-  user-select: none;
+  transition: transform 0.2s, background 0.2s;
+  font-family: 'Lilita One', cursive;
 }
 
 .item:hover {
@@ -13,15 +16,25 @@
 }
 
 .enabled {
-  background-color: #4caf50;
+  background-color: rgb(21, 248, 29);
   color: white;
+  border: 5px solid rgb(77, 255, 89);
+      box-shadow: 0 6px 0 rgb(46, 138, 52);
+
 }
 
 .disabled {
-  background-color: #e0e0e0;
-  color: #333;
+  color: black;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
 }
 
 .powerName {
-  font-size: 1.5rem;
+  margin: 0;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  font-size: 1 rem;
 }

@@ -94,19 +94,12 @@ export default function SettingsPopup({
             <img src={iconBack} alt="Back" className={styles.icon} />
             Voltar
           </button>
-          <button
-            className={`${styles.button} ${styles.confirm}`}
-            onClick={handleBack}
-          >
-            <img src={iconBack} alt="Save" className={styles.icon} />
-            Salvar
-          </button>
         </div>
         <PowerPopup
           isOpen={powerPopupOpen}
           onClose={() => setPowerPopupOpen(false)}
           defaultPowers={allowedPowers}
-          onConfirm={setAllowedPowers}
+          onConfirm={(powers)=>{setAllowedPowers(powers)}}
         />
       </div>
     </div>

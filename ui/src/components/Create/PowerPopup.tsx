@@ -14,11 +14,10 @@ interface PowerPopupProps {
 }
 
 const ALL_POWERS: MovementsEnum[] = [
-  "REVEAL",
   "BLOCK",
   "UNBLOCK",
   "TRAP",
-  "DETECTTRAPS",
+  "DETECT_TRAPS",
   "FREEZE",
   "UNFREEZE",
   "SPY",
