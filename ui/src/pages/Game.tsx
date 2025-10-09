@@ -2,19 +2,20 @@ import { useEffect, useState } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import settings from "../settings.json";
-import type { Game, Player, MovementsEnum, GameData, CompletedWord, CellKeys, CellUpdate } from "../utils/room_utils";
+import type { Game, Player, MovementsEnum, GameData, CompletedWord, CellKeys, CellUpdate, NullPlayer } from "../utils/room_utils";
+import { PassTurn } from "../utils/passTurn";
 import PlayerCard from "../components/Game/PlayerCard";
 import Slots from "../components/Game/Slots";
 import Board from "../components/Game/Board";
+import ExtraButtons from "../components/Game/ExtraButtons";
+import Words from "../components/Game/Words";
+import EffectOverlay from "../components/Game/EffectOverlay";
+import WinnerOverlay from "../components/Game/WinnerOverlay";
 import logo from "../assets/logo.svg";
 import styles from "../styles/Game.module.css";
-import Words from "../components/Game/Words";
-import WinnerOverlay from "../components/Game/WinnerOverlay";
-import EffectOverlay from "../components/Game/EffectOverlay";
-import { PassTurn } from "../utils/passTurn";
 
 export default function Game() {
-    const [room, setRoom] = useState<string>();
+    const [room, setRoom] = useState<Game>();
     const [p1, setP1] = useState<Player>();
     const [p2, setP2] = useState<Player>();
     const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
@@ -25,9 +26,12 @@ export default function Game() {
     const [move, setMove] = useState<MovementsEnum>("REVEAL");
     const [moveIdx, setMoveIdx] = useState<number | undefined>(undefined);
 
-    const [winner, setWinner] = useState<Player | undefined>(undefined);
+    const [winner, setWinner] = useState<Player | NullPlayer | undefined>(undefined);
+
+    const [isChatOpen, setChatOpen] = useState<boolean>(false);
 
     const socket = useSocket();
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -53,7 +57,7 @@ export default function Game() {
             return;
         }
 
-        setRoom(data.room_id);
+        setRoom(data);
         setWords(wordsParsed);
 
         if (me.spectator) {
@@ -83,6 +87,8 @@ export default function Game() {
 
                 return player;
             });
+
+            if (p1 && room) PassTurn.passTurnEffect(p1, room.room_id);
 
             setP2(prev => {
                 if (!prev) return prev;
@@ -214,43 +220,32 @@ export default function Game() {
                         }
 
                         break;
-                    case "FREEZE":
-                        if (player_id === socket.id) break;
-                        
-                        if (
-                            p1?.powers.includes({ power: "UNFREEZE", rarity: "RARE", type: "effect" }) ||
-                            p1?.powers.includes({ power: "IMMUNITY", rarity: "LEGENDARY", type: "effect" })
-                        ) break;
-
-                        async function getResult() {
-                            if (!room) return;
-
-                            const result = await PassTurn.passTurnEffect(room);
-                            return result;
-                        }
-
-                        getResult();
-
-                        break;
                 }
 
                 return copy;
             });
         });
 
-        socket.on("game_over", ({winner}) => {
-            setWinner(winner);
+        socket.on("player_left", (updatedRoom: Game) => {
+            setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         })
+
+        socket.on("game_over", ({winner, room}) => {
+            if (room) localStorage.setItem("game", JSON.stringify(room));
+
+            setWinner(winner);
+        });
 
         return () => {
             socket.off("movement");
+            socket.off("player_left");
             socket.off("game_over");
         }
     }, [socket, setP1, setP2, setCells, setFindeds]);
 
     const handleMovement = async (x?: number, y?: number) => {
         try {
-            await fetch(`${settings.server}/game/${room}/move`, {
+            const res = await fetch(`${settings.server}/game/${room?.room_id}/move`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -260,13 +255,20 @@ export default function Game() {
                     x: x,
                     y: y
                 })
-            });
+            }).then(res => res.json()).then(data => data);
+
+            if (!res.success) console.warn(res);
+
         } catch (err) {
             console.error(err);
         }
 
         setMove("REVEAL");
         setMoveIdx(undefined);
+    }
+
+    const handleChat = () => {
+        setChatOpen(true);
     }
 
     if (!p1 || !p2 || !words) {
@@ -316,8 +318,18 @@ export default function Game() {
                 />
             </div>
             
+            {room && (
+                <ExtraButtons
+                room_id={room.room_id}
+                nickname={[...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id === socket.id)?.nickname}
+                setPopup={handleChat}
+                isOpen={isChatOpen}
+                onClose={() => {setChatOpen(false)}}
+                />
+            )}
+            
             <EffectOverlay freeze={p1.freeze.active} blind={p1.blind.active} immunity={p1.immunity.active} />
-            <WinnerOverlay room_id={room} winner={winner} duration={10000} isOpen={winner ? true : false} />
+            <WinnerOverlay room_id={room?.room_id} winner={winner} isOpen={winner ? true : false} />
         </div>
     )
 }

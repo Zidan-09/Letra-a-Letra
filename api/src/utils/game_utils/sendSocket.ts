@@ -101,8 +101,6 @@ export const SendSocket = {
         const players = room.players;
         const spectators = room.spectators;
         
-        if (!players) return;
-        
         const winner = room.gameOver();
 
         if (!winner) return;
@@ -110,13 +108,15 @@ export const SendSocket = {
         const all = [...players, ...spectators];
 
         all.filter(Boolean).forEach(p =>
-            io.to(p.player_id).emit("game_over", {winner: winner})
+            io.to(p.player_id).emit("game_over", {
+                winner: winner,
+                room: room
+            })
         )
 
         players.filter(Boolean).forEach(p => {
             p.reset();
         })
-        
     },
 
     message(room_id: string, from: string, message: string) {

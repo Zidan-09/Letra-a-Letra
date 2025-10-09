@@ -11,24 +11,13 @@ export const initSocket = (server: any) => {
     });
 
     io.on("connection", (socket) => {
-        console.log(`Connected socket: ${socket.id}`);
-
         socket.on("reconnect_player", ({room_id, nickname}) => {
-            const result = RoomService.reconnectRoom(room_id, nickname, socket.id);
-
-            if (result !== ServerResponses.NotFound) {
-                console.log(`Reconnected socket: ${socket.id}`);
-            }
-
+            RoomService.reconnectRoom(room_id, nickname, socket.id);
         })
 
         socket.on("message", ({ room_id, from, message }) => {
             SendSocket.message(room_id, from, message);
         })
-
-        socket.on("disconnect", () => {
-            console.log(`Disconnected socket: ${socket.id}`);
-        });
     });
 
     return io;

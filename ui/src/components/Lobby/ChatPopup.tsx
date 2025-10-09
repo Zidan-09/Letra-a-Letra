@@ -8,11 +8,12 @@ import styles from "../../styles/ChatPopup.module.css";
 interface ChatPopupProps {
     room_id: string | undefined;
     nickname: string | undefined;
+    local: "lobby" | "game";
     isOpen: boolean;
     onClose: () => void;
 }
 
-export default function ChatPopup({ room_id, nickname, isOpen, onClose }: ChatPopupProps) {
+export default function ChatPopup({ room_id, nickname, local, isOpen, onClose }: ChatPopupProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [myMessage, setMyMessage] = useState<string>("");
     const endRef = useRef<HTMLDivElement>(null);
@@ -53,7 +54,7 @@ export default function ChatPopup({ room_id, nickname, isOpen, onClose }: ChatPo
     if (!isOpen) return null;
 
     return (
-        <div className={styles.overlay} onClick={onClose}>
+        <div className={local === "lobby" ? styles.overlayLobby : styles.overlayGame } onClick={onClose}>
             <div className={styles.popup} onClick={(e) => e.stopPropagation()}> 
                 <div className={styles.header}>
                     <div className={styles.button} onClick={onClose}>

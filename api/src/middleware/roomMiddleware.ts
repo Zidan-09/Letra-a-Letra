@@ -79,7 +79,6 @@ export const RoomMiddleware = {
             if (
                 game === ServerResponses.NotFound
             ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
-
             if (
                 role === "spectator"
             ) {
