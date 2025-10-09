@@ -100,26 +100,27 @@ class RoomServices {
         if (player.spectator) {
             const playerIndex = room.spectators.findIndex(p => p.player_id === player_id);
             room.spectators[playerIndex] = undefined as any;
+
         } else {
+            const other = room.players.filter(Boolean).find(p => p.player_id !== player_id) || 
+            room.spectators.filter(Boolean).find(s => s.player_id !== player_id);
+
             const playerIndex = room.players.findIndex(p => p.player_id === player_id);
             room.players[playerIndex] = undefined as any;
+
+            if (other && room.created_by === player.nickname) room.created_by = other.nickname;
         }
 
         createLog(room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);
 
         const all = [...room.players, ...room.spectators];
 
-        if (all.every(p => !p)) {
-            this.closeRoom(room_id);
-            createLog(room_id, LogEnum.RoomClosed);
-        }
-
-        SendSocket.gameOver(room_id);
-
         const io = getSocketInstance();
         all.filter(Boolean).forEach(p => {
             io.to(p!.player_id).emit("player_left", room);
         });
+
+        SendSocket.gameOver(room_id);
 
         return RoomResponses.LeftRoom;
     }
@@ -190,7 +191,7 @@ class RoomServices {
         return Array.from(this.rooms.values()).filter(room => !room.privateRoom);
     }
 
-    protected closeRoom(room_id: string): boolean {
+    public closeRoom(room_id: string): boolean {
         return this.rooms.delete(room_id);
     }
 }

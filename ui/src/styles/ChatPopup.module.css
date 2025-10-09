@@ -1,4 +1,4 @@
-.overlay {
+.overlayLobby {
     position: fixed;
     top: 0;
     left: 0;
@@ -13,8 +13,25 @@
     -webkit-user-select: none;
 }
 
+.overlayGame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    z-index: 1000;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
 .popup {
     display: flex;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
     width: 30rem;
     height: 33rem;
     flex-direction: column;

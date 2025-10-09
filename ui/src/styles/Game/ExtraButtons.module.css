@@ -1,0 +1,60 @@
+.extraButtons {
+    position: fixed;
+    bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    width: 99.5%;
+    height: min-content;
+}
+
+.button {
+    height: 60px;
+    max-width: 50%;
+    min-width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    border-radius: 1rem;
+    padding: 0 1rem;
+    font-weight: bold;
+    font-size: clamp(15px, 3vw, 30px);
+    white-space: nowrap;
+    text-align: start;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
+    outline: none;
+}
+
+.button:hover, .button:focus {
+    transform: translateY(-2px);
+}
+
+.back {
+    background-color: rgb(240, 44, 38);
+    border: 5px solid rgb(195, 60, 60);
+    box-shadow: 0 6px 0 rgb(128, 53, 49);
+}
+
+.back:hover {
+    border: 5px solid rgb(170, 47, 47);
+}
+
+.chat {
+    background-color: rgb(27, 157, 222);
+    border: 5px solid rgb(64, 176, 232);
+    box-shadow: 0 6px 0 rgb(57, 68, 148);
+}
+
+.chat:hover {
+    border: 5px solid rgb(22, 133, 186);
+}
+
+.icon {
+    width: 2rem;
+    aspect-ratio: 1 / 1;
+}

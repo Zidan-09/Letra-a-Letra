@@ -12,7 +12,7 @@ export default function PlayerList({ room }: PlayerListProps) {
     const socket = useSocket();
 
     const handleTurnPlayer = async (index: number) => {
-        await fetch(`${settings.server}/room/${room.room_id}/players/${socket.id}`, {
+        const result = await fetch(`${settings.server}/room/${room.room_id}/players/${socket.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -20,6 +20,8 @@ export default function PlayerList({ room }: PlayerListProps) {
                 index: index
             })
         }).then(res => res.json()).then(data => data);
+
+        if (!result.success) console.warn(result);
     }
 
     return (

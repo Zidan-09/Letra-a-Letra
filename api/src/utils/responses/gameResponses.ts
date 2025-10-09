@@ -5,6 +5,7 @@ enum GameResponses {
     WithoutPower = "without_power",
     NotEnoughPlayers = "not_enough_players",
     GameStarted = "game_started",
+    InvalidTurnAction = "invalid_turn_action",
     Continue = "continue",
     InvalidMovement = "invalid_movement",
     InvalidTheme = "invalid_theme",
