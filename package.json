@@ -1,0 +1,11 @@
+{
+    "name": "letra-a-letra",
+    "description": "A fast-paced multiplayer game blending word search and battleship, where players race to find letters while sabotaging their opponents.",
+    "scripts": {
+        "prestart": "npm install --prefix api && npm install --prefix ui",
+        "start": "concurrently \"npm run dev --prefix api\" \"npm run dev --prefix ui\""
+    },
+    "devDependencies": {
+        "concurrently": "^9.2.1"
+    }
+}
