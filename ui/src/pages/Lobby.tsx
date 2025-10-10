@@ -42,7 +42,7 @@ export default function Lobby() {
         setGamemode(settingsData.gamemode as GameModes);
         setAllowedPowers(settingsData.allowedPowers);
 
-        const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.nickname === gameData.created_by);
+        const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.player_id === gameData.created_by);
 
         if (!creatorData) {
             return;
