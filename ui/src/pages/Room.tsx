@@ -9,10 +9,13 @@ import iconBack from "../assets/buttons/icon-back.svg";
 import iconEnter from "../assets/buttons/icon-enter.svg";
 import iconRefresh from "../assets/buttons/icon-refresh.svg";
 import styles from "../styles/Room.module.css";
+import RoomErrorPopup from "../components/Room/RoomEnterError";
 
 export default function Room() {
     const [rooms, setRooms] = useState<Game[]>([]);
-    const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+    const [selectedRoom, setSelectedRoom] = useState<string>("");
+    const [roomError, setRoomError] = useState<"not_found" | "full_room" | undefined>(undefined);
+    const [onRoomError, setOnRoomError] = useState(false);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [room, setRoom] = useState<Game | null>(null);
     const navigate = useNavigate();
@@ -23,35 +26,42 @@ export default function Room() {
     };
 
     const handleEnter = async () => {
-        if (!room) {
-            return navigate("/");
+        if (!selectedRoom) return;
+        
+        const valid = await fetch(`${settings.server}/room/${selectedRoom}`).then(res => res.json()).then(data => data);
+
+        if (!valid.success) {
+            setRoomError("not_found");
+            return setOnRoomError(true);
         }
 
-        const isSpectator = room.players.filter(Boolean).length >= 2;
-
-        async function enterRoom() {
-            const data = await fetch(`${settings.server}/room/${selectedRoom}/players`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    spectator: isSpectator,
-                    player_id: socket.id
-                })
-            }).then(res => res.json()).then(data => data);
-
-            return data;
+        if (
+            valid.data.players.filter(Boolean).length === 2 &&
+            valid.data.spectators.filter(Boolean).length === 5
+        ) {
+            setRoomError("full_room");
+            setOnRoomError(true);
+            return;
         }
 
-        const game = await enterRoom();
+        const result = await fetch(`${settings.server}/room/${selectedRoom}/players`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                spectator: valid.data.players.filter(Boolean).length === 2,
+                player_id: socket.id
+            })
+        }).then(res => res.json()).then(data => data);
 
-        if (!game.success) return null;
+        if (!result.success) return null;
 
-        localStorage.setItem("game", JSON.stringify(game.data));
-
-        navigate(`/lobby/${selectedRoom}`);
-    };
+        localStorage.setItem("game", JSON.stringify(result.data));
+        return navigate(`/lobby/${selectedRoom}`);
+    }
 
     const handleInsertCode = () => {
+        setRoomError(undefined);
+        setOnRoomError(false);
         setPopupOpen(true);
     };
 
@@ -85,7 +95,11 @@ export default function Room() {
           <div className={styles.card}>
               <div className={styles.titleRow}>
                   <h1 className={styles.title}>Salas Disponíveis</h1>
-                  <button className={styles.refresh} onClick={handleRefresh}>
+                  <button
+                  type="button"
+                  className={styles.refresh}
+                  onClick={handleRefresh}
+                  >
                       <img src={iconRefresh} alt="refresh" className={styles.iconRefresh}/>
                   </button>
               </div>
@@ -93,26 +107,69 @@ export default function Room() {
               <RoomList rooms={rooms} onSelectRoom={handleSelectRoom} selectedRoom={selectedRoom} />
 
               <div className={styles.buttons}>
-                  <button className={`${styles.button} ${styles.back}`} onClick={handleBack} type="button">
-                      <img src={iconBack} alt="Back" className={styles.icon} />
+                  <button
+                  type="button"
+                  className={`${styles.button} ${styles.back}`}
+                  onClick={handleBack}
+                  >
+                      <img
+                      src={iconBack}
+                      alt="Back"
+                      className={styles.icon} />
                       Voltar
                   </button>
                   {selectedRoom && room && room.players.filter(Boolean).length >= 2 ? (
-                      <button className={`${styles.button} ${styles.spectator}`} onClick={handleEnter} type="button">
-                          <img src={iconEnter} alt="Enter" className={styles.icon} />
+                      <button
+                      type="button"
+                      className={`${styles.button} ${styles.spectator}`}
+                      onClick={() => handleEnter()}
+                      >
+                          <img
+                          src={iconEnter}
+                          alt="Enter"
+                          className={styles.icon}
+                          />
                           Espectar
                       </button>
                   ) : (
-                      <button className={`${styles.button} ${styles.enter}`} onClick={handleEnter} type="button">
-                          <img src={iconEnter} alt="Enter" className={styles.icon} />
+                      <button
+                      type="button"
+                      className={`${styles.button} ${styles.enter}`}
+                      onClick={() => handleEnter()}
+                      >
+                          <img
+                          src={iconEnter}
+                          alt="Enter"
+                          className={styles.icon}
+                          />
                           Entrar
                       </button>
                   )}
               </div>
 
-                  <button className={`${styles.button} ${styles.code}`} onClick={handleInsertCode} type="button">Inserir Código</button>
+                  <button
+                  type="button"
+                  className={`${styles.button} ${styles.code}`}
+                  onClick={handleInsertCode}
+                  >Inserir Código</button>
           </div>
-          <RoomPopup isOpen={isPopupOpen} onClose={() => {setPopupOpen(false)}}/>
+
+          <RoomPopup
+          room_id={selectedRoom}
+          setRoomId={setSelectedRoom}
+          roomError={roomError}
+          onRoomError={onRoomError}
+          setRoomError={setRoomError}
+          setOnRoomError={setOnRoomError}
+          enterRoom={handleEnter}
+          isOpen={isPopupOpen}
+          onClose={() => {setPopupOpen(false)}}/>
+
+          <RoomErrorPopup
+          isOpen={onRoomError}
+          error={roomError}
+          onClose={() => setOnRoomError(false)}
+          />
         </div>
     );
 }
