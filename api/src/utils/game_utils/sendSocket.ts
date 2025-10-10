@@ -2,7 +2,6 @@ import { RoomService } from "../../services/roomServices";
 import { getSocketInstance } from "../../socket";
 import { GameStarted, MoveEmit } from "../emits/gameEmits";
 import { MovementsEnum } from "../board_utils/movementsEnum";
-import { GameResponses } from "../responses/gameResponses";
 import { ServerResponses } from "../responses/serverResponses";
 
 export const SendSocket = {
@@ -24,6 +23,7 @@ export const SendSocket = {
                 players: room.players,
                 spectators: room.spectators,
                 created_by: room.created_by,
+                creator: room.creator,
                 timer: room.timer,
                 turn: room.turn,
                 allowSpectators: room.allowSpectators,

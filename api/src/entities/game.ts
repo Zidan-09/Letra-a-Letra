@@ -16,6 +16,7 @@ export class Game {
     players: Player[] = Array(2).fill(undefined);
     spectators: Player[] = Array(5).fill(undefined);
     created_by: string;
+    creator: string;
     timer: number;
     turn: number;
     board: Board | null;
@@ -26,7 +27,8 @@ export class Game {
         this.room_id = room_id;
         this.room_name = room_name;
         this.status = status;
-        this.created_by = player.nickname;
+        this.created_by = player.player_id;
+        this.creator = player.nickname;
         this.timer = timer;
         this.turn = 0;
         this.board = null;
