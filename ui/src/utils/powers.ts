@@ -37,3 +37,17 @@ export const powers: Record<MovementsEnum, string> = {
     "IMMUNITY": immunity,
     "REVEAL": "NONE"
 }
+
+export const PowerData : Record<MovementsEnum, { label: string; icon: string }> = {
+  BLOCK: { label: "Bloquear", icon: block },
+  UNBLOCK: { label: "Desbloquear", icon: unblock},
+  TRAP: { label: "Armadilha", icon: trap },
+  DETECT_TRAPS: { label: "Detectar Armadilhas", icon: detect_traps },
+  FREEZE: { label: "Congelar", icon: freeze },
+  UNFREEZE: { label: "Descongelar", icon: unfreeze },
+  SPY: { label: "Espionar", icon: spy },
+  BLIND: { label: "Cegar", icon: blind },
+  LANTERN: { label: "Lanterna", icon: lantern },
+  IMMUNITY: { label: "Imunidade", icon: immunity },
+  REVEAL: { label: "Revelar", icon: "" },
+};

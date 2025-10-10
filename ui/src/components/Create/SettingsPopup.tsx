@@ -36,7 +36,6 @@ export default function SettingsPopup({
     onClose();
   };
 
-
   const gamemodeLabels: Record<GameModes, string> = {
     NORMAL: "NORMAL",
     CRAZY: "MALUCO",
@@ -46,13 +45,21 @@ export default function SettingsPopup({
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <header className={styles.titlecontainer}>
+        <button
+            className={styles.back}
+            onClick={handleBack}
+          >
+            <img src={iconBack} alt="Back" className={styles.icon} />
+            
+          </button>
           <h2 className={styles.title}>Configurações</h2>
         </header>
+<div className={styles.messages}>
 
  <div className={styles.settingSection}>
-          <p className={styles.label}>Tema</p>
+          <p className={styles.labelTheme}>Tema</p>
           <select
-            className={styles.controlButtonT}
+            className={styles.selectTheme}
             value={theme}
             onChange={(e) => setTheme(e.target.value)}
           >
@@ -64,6 +71,7 @@ export default function SettingsPopup({
           </select>
         </div>
 
+<div className={styles.sideBySide}>
  <div className={styles.settingSection}>
             <p className={styles.label}>Poderes</p>
             <button
@@ -75,7 +83,7 @@ export default function SettingsPopup({
         </div>
 
  <div className={styles.settingSection}>
-          <p className={styles.label}>Modo de Jogo</p>
+          <p className={styles.label}>Modo</p>
           <button
             className={`${styles.button} ${gamemode == "CRAZY" ? styles.gamemodeCrazy : styles.gamemodeNormal}`}
             onClick={() =>
@@ -85,30 +93,15 @@ export default function SettingsPopup({
             {gamemodeLabels[gamemode]}
           </button>
         </div>
-
-        <div className={styles.buttons}>
-          <button
-            className={`${styles.button} ${styles.back}`}
-            onClick={handleBack}
-          >
-            <img src={iconBack} alt="Back" className={styles.icon} />
-            Voltar
-          </button>
-          <button
-            className={`${styles.button} ${styles.confirm}`}
-            onClick={handleBack}
-          >
-            <img src={iconBack} alt="Save" className={styles.icon} />
-            Salvar
-          </button>
-        </div>
+          </div>
+          </div>
         <PowerPopup
           isOpen={powerPopupOpen}
           onClose={() => setPowerPopupOpen(false)}
           defaultPowers={allowedPowers}
-          onConfirm={setAllowedPowers}
-        />
-      </div>
-    </div>
+          onConfirm={(powers)=>{setAllowedPowers(powers)}}
+          />
+          </div>
+          </div>
   );
 }
