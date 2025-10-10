@@ -65,7 +65,7 @@ class RoomServices {
 
         const io = getSocketInstance();
         [...room.players, ...room.spectators].filter(Boolean).forEach(p => {
-            io.to(p!.player_id).emit("player_joined", room);
+            io.to(p!.player_id !== player_id ? p!.player_id : "").emit("player_joined", room);
         });
 
         return room;
@@ -88,39 +88,58 @@ class RoomServices {
         return ServerResponses.Reconnected;
     }
 
-    public leaveRoom(room_id: string, player_id: string): RoomResponses.LeftRoom | ServerResponses.NotFound {
+    public leaveRoom(
+        room_id: string,
+        player_id: string
+    ): RoomResponses.LeftRoom | RoomResponses.RoomClosed | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
         if (!room) return ServerResponses.NotFound;
 
-        const player = room.players.filter(Boolean).find(p => p.player_id === player_id) || 
-        room.spectators.filter(Boolean).find(s => s.player_id === player_id);
+        const player =
+            room.players.filter(Boolean).find(p => p.player_id === player_id) ||
+            room.spectators.filter(Boolean).find(s => s.player_id === player_id);
 
         if (!player) return ServerResponses.NotFound;
 
         if (player.spectator) {
-            const playerIndex = room.spectators.findIndex(p => p.player_id === player_id);
-            room.spectators[playerIndex] = undefined as any;
-
+            const index = room.spectators.findIndex(p => p?.player_id === player_id);
+            if (index !== -1) room.spectators[index] = undefined as any;
+            
         } else {
-            const other = room.players.filter(Boolean).find(p => p.player_id !== player_id) || 
-            room.spectators.filter(Boolean).find(s => s.player_id !== player_id);
+            const index = room.players.findIndex(p => p?.player_id === player_id);
+            if (index !== -1) room.players[index] = undefined as any;
+        }
 
-            const playerIndex = room.players.findIndex(p => p.player_id === player_id);
-            room.players[playerIndex] = undefined as any;
+        if (room.created_by === player.player_id) {
+        
+            const allRemaining = [...room.players, ...room.spectators].filter(Boolean);
+            
+            const newLeader = allRemaining[0]; 
 
-            if (other && room.created_by === player.nickname) room.created_by = other.nickname;
+            if (newLeader) {
+                room.created_by = newLeader.player_id;
+                room.creator = newLeader.nickname;
+            }
         }
 
         createLog(room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);
 
         const all = [...room.players, ...room.spectators];
+        if (!all.some(Boolean)) {
+            this.rooms.delete(room_id);
+            return RoomResponses.RoomClosed;
+        }
 
         const io = getSocketInstance();
         all.filter(Boolean).forEach(p => {
             io.to(p!.player_id).emit("player_left", room);
         });
 
-        SendSocket.gameOver(room_id);
+        try {
+            SendSocket.gameOver(room_id);
+        } catch (err) {
+            console.warn(`gameOver failed for room ${room_id}:`, err);
+        }
 
         return RoomResponses.LeftRoom;
     }

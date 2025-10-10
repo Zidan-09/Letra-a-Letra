@@ -10,6 +10,7 @@ enum RoomResponses {
     RoomFound = "room_found",
     FullRoom = "full_room",
     LeftRoom = "left_room",
+    RoomClosed = "room_closed",
     PublicRooms = "public_rooms",
     InvalidSlot = "invalid_slot",
     DataError = "data_error"

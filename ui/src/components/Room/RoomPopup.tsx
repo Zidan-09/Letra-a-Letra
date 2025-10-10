@@ -1,26 +1,27 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import settings from "../../settings.json";
-import { useSocket } from "../../services/socketProvider";
-import InvalidCodePopup from "./InvalidCodePopup";
+import { useEffect } from "react";
+import RoomEnterError from "./RoomEnterError";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import iconEnter from "../../assets/buttons/icon-enter.svg";
 import styles from "../../styles/Room/RoomPopup.module.css";
 
 interface PopupProps {
+    room_id: string | "";
+    setRoomId: (id: string) => void;
+    roomError?: "not_found" | "full_room";
+    onRoomError: boolean;
+    setRoomError: (error: "not_found" | "full_room") => void;
+    setOnRoomError: (hasError: boolean) => void;
+    enterRoom: () => void;
     isOpen: boolean;
     onClose: () => void;
 }
 
-export default function RoomPopup({isOpen, onClose}: PopupProps) {
-    const [room_id, setRoom_id] = useState("");
-    const [isNotValidCode, setInvalidCode] = useState(false);
-    const socket = useSocket();
-    const navigate = useNavigate();
+export default function RoomPopup({ room_id, setRoomId, roomError, onRoomError, setOnRoomError, enterRoom, isOpen, onClose}: PopupProps) {
 
     useEffect(() => {
         if (!isOpen) {
-            setRoom_id("");
+            setRoomId("");
+            setOnRoomError(false);
         }
     }, [isOpen]);
 
@@ -28,36 +29,8 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
         onClose();
     }
 
-    const handleEnter = async () => {
-        if (!room_id.trim()) return;
-        
-        const valid = await fetch(`${settings.server}/room/${room_id}`).then(res => res.json()).then(data => data);
-
-        if (!valid.success) {
-            return setInvalidCode(true);
-        }
-
-        if (
-            valid.data.players.filter(Boolean).length === 2 &&
-            valid.data.spectators.filter(Boolean).length === 5
-        ) return setInvalidCode(true);
-
-        const result = await fetch(`${settings.server}/room/${room_id}/players`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                spectator: valid.data.players.filter(Boolean).lenght === 2 ? true : false,
-                player_id: socket.id
-            })
-        }).then(res => res.json()).then(data => data);
-
-        if (!result.success) return null;
-
-        return navigate(`/lobby/${room_id}`);
-    }
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") handleEnter();
+        if (e.key === "Enter") enterRoom();
     };
 
     if (!isOpen) return null;
@@ -75,24 +48,32 @@ export default function RoomPopup({isOpen, onClose}: PopupProps) {
                     type="text"
                     placeholder="Digite o código da sala..."
                     value={room_id}
-                    onChange={(e) => setRoom_id(e.target.value)}
+                    onChange={(e) => setRoomId(e.target.value)}
                     className={styles.input}
                     onKeyDown={handleKeyDown}
                     />
                 </div>
                 
                 <div className={styles.buttons}>
-                    <button className={`${styles.button} ${styles.back}`} onClick={handleBack}>
+                    <button 
+                    type="button"
+                    className={`${styles.button} ${styles.back}`}
+                    onClick={handleBack}
+                    >
                         <img src={iconBack} alt="Back" className={styles.icon} />
                         Voltar
                     </button>
-                    <button className={`${styles.button} ${styles.enter}`} onClick={handleEnter}>
+                    <button
+                    type="button"
+                    className={`${styles.button} ${styles.enter}`}
+                    onClick={() => enterRoom()}
+                    >
                         <img src={iconEnter} alt="Enter" className={styles.icon} />
                         Entrar
                     </button>
                 </div>
             </div>
-            <InvalidCodePopup isOpen={isNotValidCode} onClose={() => setInvalidCode(false)} />
+            <RoomEnterError isOpen={onRoomError} error={roomError} onClose={() => setOnRoomError(false)} />
         </div>
     )
 }

@@ -12,6 +12,7 @@ interface GameData {
     players: Player[];
     spectators: Player[];
     created_by: string;
+    creator: string;
     timer: number;
     turn: number;
     allowSpectators: boolean;

@@ -1,9 +1,20 @@
-import settings from "../settings/cell.json";
+import { RoomService } from "../services/roomServices";
+import { PlayerService } from "../services/playerServices";
 
-const powers = Object.values(settings.powers).flat();
+PlayerService.createPlayer("player1", "CRIADOR 2", false, 1);
 
-powers.forEach(p => {
-    if (p.name === )
-})
+const room = RoomService.createRoom("2", 15, true, false, "player1");
 
-console.log(powers)
+if (room === "not_found") {
+    console.log("NOT FOUND");
+
+} else {
+    console.log('Room created:', room.room_id);
+    
+    console.log('Public rooms:', RoomService.getPublicRooms());
+    
+    const deleted = RoomService.closeRoom(room.room_id);
+    console.log('Deleted:', deleted);
+    
+    console.log('Public rooms:', RoomService.getPublicRooms());
+};

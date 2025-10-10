@@ -5,6 +5,7 @@ interface Game {
     players: Player[];
     spectators: Player[];
     created_by: string;
+    creator: string;
     timer: number;
     turn: number;
     board: Board | null;
