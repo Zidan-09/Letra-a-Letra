@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import settings from "../settings.json";
-import type { Game, GameModes, MovementsEnum, RoomSettings, StartData } from "../utils/room_utils";
+import { type Game, type GameModes, type MovementsEnum, type RoomSettings, type StartData } from "../utils/room_utils";
 import PlayerList from "../components/Lobby/PlayerList";
 import ChatPopup from "../components/Lobby/ChatPopup";
 import SpectatorsList from "../components/Lobby/SpectatorsList";
@@ -67,6 +67,7 @@ export default function Lobby() {
 
         socket.on("player_left", (updatedRoom: Game) => {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
+            setCreator(updatedRoom.created_by);
         });
 
         socket.on("role_changed", (updatedRoom: Game) => {
@@ -110,19 +111,22 @@ export default function Lobby() {
     }
 
     const handlePlay = async () => {
-        if (!room || room.players.filter(Boolean).length < 2 || !theme || !gamemode || !allowedPowers) return null;
 
+        if (!room || room.players.filter(Boolean).length < 2 || !theme || !gamemode || !allowedPowers) return null;
+        console.log("🔍 Dados para iniciar o jogo:", { theme, gamemode, allowedPowers });
         const result = await fetch(`${settings.server}/game/${room.room_id}/start`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 theme: theme,
-                gamemode: "CRAZY",
-                allowedPowers: ["REVEAL", "FREEZE"]
+                gamemode: gamemode,
+                allowedPowers: allowedPowers,
             })
         }).then(res => res.json()).then(data => data);
+        console.log(result)
 
         if (!result.success) return null;
+        console.log(result)
     }
     
     return (

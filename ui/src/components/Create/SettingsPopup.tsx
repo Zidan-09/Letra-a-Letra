@@ -47,13 +47,12 @@ export default function SettingsPopup({
         <header className={styles.titlecontainer}>
         <button
             className={styles.back}
-            
             onClick={handleBack}
           >
             <img src={iconBack} alt="Back" className={styles.icon} />
             
           </button>
-          <h2 className={styles.title}>CONFIGURAÇÕES</h2>
+          <h2 className={styles.title}>Configurações</h2>
         </header>
 <div className={styles.messages}>
 

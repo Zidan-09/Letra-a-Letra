@@ -27,7 +27,6 @@ const ALL_POWERS: MovementsEnum[] = [
 
 export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConfirm }: PowerPopupProps) {
   const [selectedPowers, setSelectedPowers] = useState<MovementsEnum[]>(defaultPowers);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     if (!isOpen) {
@@ -44,7 +43,8 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={() => {
+    <div className={styles.overlay} onClick={(e) => {
+      e.stopPropagation();
   onConfirm(selectedPowers);
   onClose();
 }}>
@@ -54,7 +54,8 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
             className={styles.back}
             onClick={() => {
               onConfirm(selectedPowers);
-            onClose()}}
+            onClose();
+          }}
           >
             <img src={iconBack} alt="Back" className={styles.icon} />
             
