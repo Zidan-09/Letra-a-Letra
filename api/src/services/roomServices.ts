@@ -104,12 +104,22 @@ class RoomServices {
         if (player.spectator) {
             const index = room.spectators.findIndex(p => p?.player_id === player_id);
             if (index !== -1) room.spectators[index] = undefined as any;
+            
         } else {
             const index = room.players.findIndex(p => p?.player_id === player_id);
             if (index !== -1) room.players[index] = undefined as any;
+        }
 
-            const other = [...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id !== player_id);
-            if (other && room.created_by === player.nickname) room.created_by = other.nickname;
+        if (room.created_by === player.player_id) {
+        
+            const allRemaining = [...room.players, ...room.spectators].filter(Boolean);
+            
+            const newLeader = allRemaining[0]; 
+
+            if (newLeader) {
+                room.created_by = newLeader.player_id;
+                room.creator = newLeader.nickname;
+            }
         }
 
         createLog(room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);

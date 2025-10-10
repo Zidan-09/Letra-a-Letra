@@ -24,7 +24,7 @@ export default function RoomItem({ room, color, onSelect, selected }: RoomItemPr
             </div>
 
             <div className={styles.container2}>
-                <p className={styles.createdBy}>{room.created_by}</p>
+                <p className={styles.createdBy}>{room.creator}</p>
             </div>
         </div>
     );
