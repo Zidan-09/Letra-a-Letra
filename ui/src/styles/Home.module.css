@@ -24,7 +24,7 @@
     border: 3px solid white;
     padding: 2rem;
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 2.2rem;
     width: 90%;
     max-width: 500px;
     min-width: 300px;
@@ -34,6 +34,7 @@
 }
 
 .logo {
+    width: 100%;
     max-width: 30vw;
     max-height: 20vw;
     display: block;

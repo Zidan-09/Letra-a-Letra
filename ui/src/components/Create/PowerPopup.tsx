@@ -25,14 +25,20 @@ const ALL_POWERS: MovementsEnum[] = [
   "IMMUNITY",
 ];
 
-export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConfirm }: PowerPopupProps) {
-  const [selectedPowers, setSelectedPowers] = useState<MovementsEnum[]>(defaultPowers);
+export default function PowerPopup({
+  isOpen,
+  onClose,
+  defaultPowers = [],
+  onConfirm,
+}: PowerPopupProps) {
+  const [selectedPowers, setSelectedPowers] =
+    useState<MovementsEnum[]>(defaultPowers);
 
   useEffect(() => {
     if (!isOpen) {
       setSelectedPowers(defaultPowers);
     }
-  }, [isOpen, defaultPowers]);  
+  }, [isOpen, defaultPowers]);
 
   const togglePower = (power: MovementsEnum) => {
     setSelectedPowers((prev) =>
@@ -43,22 +49,24 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={(e) => {
-      e.stopPropagation();
-  onConfirm(selectedPowers);
-  onClose();
-}}>
+    <div
+      className={styles.overlay}
+      onClick={(e) => {
+        e.stopPropagation();
+        onConfirm(selectedPowers);
+        onClose();
+      }}
+    >
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titlecontainer}>
           <button
             className={styles.back}
             onClick={() => {
               onConfirm(selectedPowers);
-            onClose();
-          }}
+              onClose();
+            }}
           >
             <img src={iconBack} alt="Back" className={styles.icon} />
-            
           </button>
           <h2 className={styles.title}>ESCOLHER PODERES</h2>
         </div>
@@ -68,8 +76,7 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
           selectedPowers={selectedPowers}
           onTogglePower={togglePower}
         />
-
-        </div>
       </div>
+    </div>
   );
 }
