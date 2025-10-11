@@ -39,8 +39,6 @@ export default function Create() {
 
         const finalPowers = new Set(allowedPowers);
 
-        finalPowers.add("REVEAL");
-
         const settingsParsed: RoomSettings = {
             theme: theme || "random",
             allowedPowers: Array.from(finalPowers),
