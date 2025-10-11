@@ -67,15 +67,18 @@ export const Movements = {
         }
 
         if (cell.trapped.status) {
-            if (cell.trapped.trapped_by === player.player_id) return GameResponses.InvalidMovement;
-            cell.resetCell();
-
-            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - trapped cell`);
-
-            return {
-                status: GameResponses.Trapped,
-                cell: cell.position
-            }
+            if (cell.trapped.trapped_by === player.player_id) {
+                cell.resetCell();
+            } else {
+                cell.resetCell();
+    
+                createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - trapped cell`);
+    
+                return {
+                    status: GameResponses.Trapped,
+                    cell: cell.position
+                }
+            };
         }
 
         cell.revealed = true;
@@ -236,6 +239,8 @@ export const Movements = {
                 if (!player) return GameResponses.GameError;
 
                 player.applyEffect("immunity", 5);
+                player.removeEffect("blind");
+                player.removeEffect("freeze");
 
                 return {
                     status: GameResponses.Immunity,
