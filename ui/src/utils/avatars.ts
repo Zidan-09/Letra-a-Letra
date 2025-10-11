@@ -13,3 +13,10 @@ export const avatars: Record<number, string> = {
     5: avatar5,
     6: avatar6,
 }
+
+export function preloadAvatars() {
+    Object.values(avatars).forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
