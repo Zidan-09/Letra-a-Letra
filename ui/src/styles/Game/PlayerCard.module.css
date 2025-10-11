@@ -41,12 +41,20 @@
     border: 3px solid white;
 }
 
-.avatar {
+.avatarP1 {
     width: 70px;
     aspect-ratio: 1 / 1;
     border-radius: 0.5rem;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border: 2px solid rgb(76, 82, 197);
+    border: 2px solid rgb(57, 68, 148);
+}
+
+.avatarP2 {
+    width: 70px;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border: 2px solid rgb(148, 97, 57);
 }
 
 .infoContainer {
