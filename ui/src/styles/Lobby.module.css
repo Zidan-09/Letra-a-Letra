@@ -42,9 +42,10 @@
 .top {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    width: 80%;
+    margin: auto;
 }
 
 .settings, .chat {
@@ -80,7 +81,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: min-content;
+    padding: 0 1rem 0 1rem;
     height: 5rem;
     background-color: rgb(27, 157, 222);
     border: 5px solid rgb(64, 176, 232);
@@ -92,6 +94,10 @@
     font-size: clamp(1.5rem, 5em, 2.8rem);
     color: white;
     -webkit-text-stroke: 0.5px black;
+}
+
+.space {
+    width: 4rem;
 }
 
 .players, .spectators {
