@@ -88,7 +88,8 @@ export const SendSocket = {
                 movement: movement,
                 player_id: player_id,
                 data: data,
-                players: players
+                players: players,
+                turn: room.turn
             })
         )
     },

@@ -9,6 +9,7 @@ import Slots from "../components/Game/Slots";
 import Board from "../components/Game/Board";
 import ExtraButtons from "../components/Game/ExtraButtons";
 import Words from "../components/Game/Words";
+import TurnOverlay from "../components/Game/TurnOverlay";
 import EffectOverlay from "../components/Game/EffectOverlay";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
 import Loading from "../components/Loading";
@@ -20,6 +21,7 @@ export default function Game() {
     const [p1, setP1] = useState<Player>();
     const [p2, setP2] = useState<Player>();
     const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
+    const [turn, setTurn] = useState<number>(0);
 
     const [words, setWords] = useState<string[]>();
     const [findeds, setFindeds] = useState<CompletedWord[]>([]);
@@ -80,9 +82,20 @@ export default function Game() {
     }, [navigate, socket]);
 
     useEffect(() => {
+        if (!room || !p1) return;
+
+        if (turn % 2 !== p1.turn) return;
+
+        PassTurn.passTurnEffect(p1, room.room_id);
+
+    }, [turn]);
+
+    useEffect(() => {
         if (!socket) return;
 
-        socket.on("movement", ({player_id, movement, data, players}: GameData) => {
+        socket.on("movement", ({player_id, movement, data, players, turn}: GameData) => {
+            setTurn(turn);
+
             setP1(prev => {
                 if (!prev) return prev;
 
@@ -93,8 +106,6 @@ export default function Game() {
 
                 return player;
             });
-
-            if (p1 && room) PassTurn.passTurnEffect(p1, room.room_id);
 
             setP2(prev => {
                 if (!prev) return prev;
@@ -350,6 +361,8 @@ export default function Game() {
                 onClose={() => {setChatOpen(false)}}
                 />
             )}
+
+            <TurnOverlay p1={p1} p2Nickname={p2.nickname} turn={turn} />
             
             <EffectOverlay freeze={p1.freeze.active} blind={p1.blind.active} immunity={p1.immunity.active} />
             <WinnerOverlay room_id={room?.room_id} winner={winner} isOpen={winner ? true : false} />

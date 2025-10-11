@@ -1,0 +1,32 @@
+.overlay {
+    position: fixed;
+    justify-self: end;
+    align-items: end;
+    bottom: 0.7rem;
+}
+
+.p1, .p2 {
+    width: min-content;
+    height: min-content;
+    border-radius: 1rem;
+}
+
+.p1 {
+    background: linear-gradient(45deg, rgb(27, 157, 222), rgb(31, 116, 158));
+    border: 5px solid rgb(64, 176, 232);
+    box-shadow: -5px 6px 0 rgb(57, 68, 148);
+    text-align: start;
+}
+
+.p2 {
+    background: linear-gradient(45deg, rgb(240, 125, 34), rgb(203, 104, 23));
+    border: 5px solid rgb(255, 143, 55);
+    box-shadow: 5px 6px 0 rgb(148, 97, 57);
+    text-align: start;
+}
+
+.turnText {
+    font-size: 3rem;
+    white-space: nowrap;
+    margin: 0.1rem 1rem;
+}

@@ -194,6 +194,7 @@ export const Movements = {
                 player = players.filter(Boolean).find(p => p.player_id !== player_id);
                 if (!player) return GameResponses.GameError;
 
+                if (player.immunity.active) return GameResponses.Immunity;
                 player.applyEffect("freeze", 3);
 
                 return {
@@ -215,7 +216,8 @@ export const Movements = {
             case MovementsEnum.BLIND:
                 player = players.filter(Boolean).find(p => p.player_id !== player_id);
                 if (!player) return GameResponses.GameError;
-
+                
+                if (player.immunity.active) return GameResponses.Immunity;
                 player.applyEffect("blind", 3);
 
                 return {
