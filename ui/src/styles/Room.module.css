@@ -31,15 +31,20 @@
 }
 
 .titleRow {
-    display: flex;
-    flex-direction: row;
+   display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
-    margin-left: 2.6rem;
+    width: 95%;
+    padding: 0.5rem;
+    border-radius: 3rem;
+    position:relative;
+    background-color: rgb(21, 248, 29);
+    border: 5px solid rgb(77, 255, 89);
+    box-shadow: 0 6px 0 rgb(46, 138, 52);
 }
 
 .title {
-    font-size: 3.5rem;
+    font-size: 3rem;
     margin-bottom: 0;
     color: white;
     -webkit-text-stroke: 0.5px black;
@@ -51,31 +56,34 @@
 }
 
 .refresh {
+     background: transparent; 
+    border: none;
+    box-shadow: none;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2rem;
-    height: 2rem;
-    background-color: rgb(21, 248, 29);
-    border: 0.2rem solid rgb(77, 255, 89);
     padding: 0;
-    border-radius: 0.75rem;
-    box-shadow: 0 0.2rem 0 rgb(46, 138, 52);
     cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-    transform: translateY(0.3rem);
+    transition: transform 0.2s ease;
     outline: none;
+    position: absolute;
+    right: 15px;
+    width: 3rem; 
+    height: 3rem;
 }
 
 .refresh:hover {
-    border: 0.2rem solid rgb(0, 230, 17);
-    transform: translateY(2px);
+    transform: scale(1.1);
 }
 
 .iconRefresh {
-    color: white;
-    width: 1.5rem;
+   width: 45px;
+    height: 45px;
+    filter: drop-shadow(1px 1px 0 black)
+        drop-shadow(-1px -1px 0 black)
+        drop-shadow(1px -1px 0 black)
+        drop-shadow(-1px 1px 0 black);
+transition: transform 0.1s ease
 }
 
 .buttons {

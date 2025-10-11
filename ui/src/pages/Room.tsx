@@ -94,6 +94,7 @@ export default function Room() {
       <div className={styles.container}>
           <div className={styles.card}>
               <div className={styles.titleRow}>
+
                   <h1 className={styles.title}>Salas Disponíveis</h1>
                   <button
                   type="button"

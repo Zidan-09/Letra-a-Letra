@@ -25,13 +25,13 @@ const ALL_POWERS: MovementsEnum[] = [
 ];
 
 export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConfirm }: PowerPopupProps) {
-    const [selectedPowers, setSelectedPowers] = useState<MovementsEnum[]>(defaultPowers);
+  const [selectedPowers, setSelectedPowers] = useState<MovementsEnum[]>(defaultPowers);
 
-    useEffect(() => {
-        if (!isOpen) {
-            setSelectedPowers(defaultPowers);
-        }
-    }, [isOpen, defaultPowers]);  
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedPowers(defaultPowers);
+    }
+  }, [isOpen, defaultPowers]);  
 
     const togglePower = (power: MovementsEnum) => {
         setSelectedPowers((prev) =>
@@ -41,34 +41,34 @@ export default function PowerPopup({ isOpen, onClose, defaultPowers = [], onConf
 
     if (!isOpen) return null;
 
-    return (
-        <div className={styles.overlay} onClick={(e) => {
-            e.stopPropagation();
-            onConfirm(selectedPowers);
+  return (
+    <div className={styles.overlay} onClick={(e) => {
+      e.stopPropagation();
+  onConfirm(selectedPowers);
+  onClose();
+}}>
+      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.titlecontainer}>
+          <button
+            className={styles.back}
+            onClick={() => {
+              onConfirm(selectedPowers);
             onClose();
-        }}>
-            <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
-                <div className={styles.titlecontainer}>
-                    <button
-                    className={styles.back}
-                    onClick={() => {
-                        onConfirm(selectedPowers);
-                    onClose();
-                    }}
-                    >
-                        <img src={iconBack} alt="Back" className={styles.icon} />
-                    
-                    </button>
-                    <h2 className={styles.title}>ESCOLHER PODERES</h2>
-                </div>
-
-                <PowerList
-                  availablePowers={ALL_POWERS}
-                  selectedPowers={selectedPowers}
-                  onTogglePower={togglePower}
-                />
-
-            </div>
+          }}
+          >
+            <img src={iconBack} alt="Back" className={styles.icon} />
+            
+          </button>
+          <h2 className={styles.title}>ESCOLHER PODERES</h2>
         </div>
-    );
+
+        <PowerList
+          availablePowers={ALL_POWERS}
+          selectedPowers={selectedPowers}
+          onTogglePower={togglePower}
+        />
+
+        </div>
+      </div>
+  );
 }
