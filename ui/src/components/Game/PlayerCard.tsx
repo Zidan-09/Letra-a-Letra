@@ -16,7 +16,7 @@ export default function PlayerCard({ id, player }: PlayerCardProps) {
                 <img 
                 src={avatars[player.avatar]} 
                 alt="Avatar"
-                className={styles.avatar} 
+                className={id === 0 ? styles.avatarP1 : styles.avatarP2} 
                 />
             </div>
 

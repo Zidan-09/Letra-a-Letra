@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import settings from "../settings.json";
@@ -11,6 +11,7 @@ import ExtraButtons from "../components/Game/ExtraButtons";
 import Words from "../components/Game/Words";
 import EffectOverlay from "../components/Game/EffectOverlay";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
+import Loading from "../components/Loading";
 import logo from "../assets/logo.svg";
 import styles from "../styles/Game.module.css";
 
@@ -29,6 +30,10 @@ export default function Game() {
     const [winner, setWinner] = useState<Player | NullPlayer | undefined>(undefined);
 
     const [isChatOpen, setChatOpen] = useState<boolean>(false);
+
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const spyTimers = useRef<Map<string, number>>(new Map());
 
     const socket = useSocket();
 
@@ -70,6 +75,7 @@ export default function Game() {
         const opponent = data.players.find(p => p.player_id !== me.player_id);
         setP2(opponent); 
         
+        setLoading(false);
 
     }, [navigate, socket]);
 
@@ -103,15 +109,15 @@ export default function Game() {
 
             setCells(prev => {
                 const copy = { ...prev };
+                const key = data.cell ? `${data.cell.x}-${data.cell.y}` as CellKeys : null;
 
-                Object.keys(copy).forEach(k => {
-                    const key = k as CellKeys;
-
-                    if (copy[key].spied) {
-                        copy[key].spied = false;
-                        copy[key].letter = undefined;
+                if (key) {
+                    const oldTimer = spyTimers.current.get(key);
+                    if (oldTimer) {
+                        clearTimeout(oldTimer);
+                        spyTimers.current.delete(key);
                     }
-                });
+                }
 
                 switch (movement) {
                     case "BLOCK":
@@ -151,14 +157,30 @@ export default function Game() {
                         break;
 
                     case "SPY":
-                        if (data.cell) {
-                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
-                            copy[key] = {
-                                ...copy[key],
-                                letter: data.letter,
-                                spied: true
-                            };
-                        }
+                        if (!key) break;
+
+                        copy[key] = {
+                            ...copy[key],
+                            letter: data.letter,
+                            spied: true
+                        };
+
+                        const timer = window.setTimeout(() => {
+                            setCells(prev => {
+                                const updated = { ...prev };
+                                if (updated[key]?.spied) {
+                                    updated[key] = {
+                                        ...updated[key],
+                                        letter: undefined,
+                                        spied: false
+                                    };
+                                }
+                                return updated;
+                            });
+                            spyTimers.current.delete(key);
+                        }, 10000);
+
+                        spyTimers.current.set(key, timer);
                         break;
 
                     case "REVEAL":
@@ -241,6 +263,8 @@ export default function Game() {
             socket.off("movement");
             socket.off("player_left");
             socket.off("game_over");
+            spyTimers.current.forEach(timer => clearTimeout(timer));
+            spyTimers.current.clear();
         }
     }, [socket, setP1, setP2, setCells, setFindeds]);
 
@@ -272,9 +296,7 @@ export default function Game() {
         setChatOpen(true);
     }
 
-    if (!p1 || !p2 || !words) {
-        return null;
-    };
+    if (loading || !p1 || !p2 || !words) return <Loading />
 
     return (
         <div className={styles.container}>

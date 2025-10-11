@@ -22,8 +22,10 @@ interface CellProps {
     onClick?: (x: number, y: number) => void;
 }
 
-function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, x, y, onClick }: CellProps) {
+function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, selectedMovement, x, y, onClick }: CellProps) {
     const socket = useSocket();
+
+    const cantCellMove = ["BLIND", "FREEZE", "LANTERN", "UNFREEZE", "IMMUNITY", "DETECT_TRAPS"].includes(selectedMovement);
 
     let className = "";
 
@@ -36,7 +38,7 @@ function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, tra
     return (
         <button
             className={`${styles.cell} ${className}`}
-            onClick={letter ? undefined : onClick ? () => onClick(x, y) : undefined}
+            onClick={letter ? undefined : cantCellMove ? undefined : onClick ? () => onClick(x, y) : undefined}
             type="button"
             translate="no"
         >

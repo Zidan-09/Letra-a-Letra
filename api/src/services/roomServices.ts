@@ -68,10 +68,10 @@ class RoomServices {
 
         if (sameNickname) enumNicknames([...room.players, ...room.spectators]);
 
-        /* const io = getSocketInstance();
+        const io = getSocketInstance();
         [...room.players, ...room.spectators].filter(Boolean).forEach(p => {
             io.to(p!.player_id !== player_id ? p!.player_id : "").emit("player_joined", room);
-        }); */
+        });
 
         return room;
     }
@@ -137,10 +137,10 @@ class RoomServices {
             return RoomResponses.RoomClosed;
         }
 
-        /* const io = getSocketInstance();
+        const io = getSocketInstance();
         all.filter(Boolean).forEach(p => {
             io.to(p!.player_id).emit("player_left", room);
-        }); */
+        });
 
         try {
             SendSocket.gameOver(room_id);

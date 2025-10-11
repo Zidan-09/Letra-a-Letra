@@ -51,10 +51,3 @@ export const PowerData : Record<MovementsEnum, { label: string; icon: string }> 
     IMMUNITY: { label: "Imunidade", icon: immunity },
     REVEAL: { label: "Revelar", icon: "" },
 };
-
-export function preloadPowers() {
-    Object.values(PowerData).forEach(power => {
-        const img = new Image();
-        img.src = power.icon;
-    });
-}
