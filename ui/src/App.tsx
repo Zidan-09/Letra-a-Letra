@@ -1,5 +1,8 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { SocketProvider } from "./services/socketProvider";
+import { preloadAvatars } from "./utils/avatars";
+import { preloadPowers } from "./utils/powers";
 import Home from "./pages/Home";
 import Create from "./pages/Create";
 import Room from "./pages/Room";
@@ -7,6 +10,12 @@ import Lobby from "./pages/Lobby";
 import Game from "./pages/Game";
 
 function App() {
+
+  useEffect(() => {
+    preloadAvatars();
+    preloadPowers();
+  }, []);
+  
   return (
     <Router>
       <SocketProvider>

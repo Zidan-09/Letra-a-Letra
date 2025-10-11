@@ -14,7 +14,7 @@ export default function Create() {
     const [roomName, setRoomName] = useState<string>("");
     const [turnTime, setTurnTime] = useState<number>(15);
     const [theme, setTheme] = useState<string>("random");
-    const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>([]);
+    const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>(["BLIND", "BLOCK", "DETECT_TRAPS", "FREEZE", "IMMUNITY", "LANTERN", "SPY", "TRAP", "UNBLOCK", "UNFREEZE"]);
     const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
     const [spectators, setSpectators] = useState<boolean>(true);
     const [privateRoom, setPrivate] = useState<boolean>(false);

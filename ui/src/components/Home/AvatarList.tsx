@@ -8,8 +8,8 @@ interface AvatarListProps {
 }
 
 export default function AvatarList({onSelectAvatar, selectedAvatar}: AvatarListProps) {
-    return (
 
+    return (
         <div className={styles.avatarList}>
             {Object.entries(avatars).map(([id, src]) => (
                 <AvatarItem 

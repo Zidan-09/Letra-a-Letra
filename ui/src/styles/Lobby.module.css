@@ -93,6 +93,7 @@
 .code {
     font-size: clamp(1.5rem, 5em, 2.8rem);
     color: white;
+    white-space: nowrap;
     -webkit-text-stroke: 0.5px black;
 }
 

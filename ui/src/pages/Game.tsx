@@ -155,7 +155,8 @@ export default function Game() {
                             const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
                             copy[key] = {
                                 ...copy[key],
-                                letter: data.letter
+                                letter: data.letter,
+                                spied: true
                             };
                         }
                         break;
