@@ -216,33 +216,6 @@ root/
 │  └─ vite.config.ts
 ├─ diagrams/
 │  └─ fluxDiagram.drawio.svg
-├─ frontend/
-│  ├─ node_modules/
-│  ├─ public/
-│  ├─ src/
-│  │  ├─ assets/
-│  │  │  └─ react.svg
-│  │  ├─ pages/
-│  │  │  ├─ Home/
-│  │  │  │  └─ HomePage.tsx
-│  │  │  ├─ Join/
-│  │  │  │  └─ JoinPage.tsx
-│  │  │  └─ Room/
-│  │  │     └─ RoomPage.tsx
-│  │  ├─ services/
-│  │  │  └─ socket.ts
-│  │  ├─ App.tsx
-│  │  ├─ main.tsx
-│  │  ├─ styles.css
-│  │  └─ vite-env.d.ts
-│  ├─ .gitignore
-│  ├─ eslint.config.js
-│  ├─ index.html
-│  ├─ package.json
-│  ├─ tsconfig.app.json
-│  ├─ tsconfig.json
-│  ├─ tsconfig.node.json
-│  └─ vite.config.ts
 ├─ .vscode/
 ├─ .gitignore
 ├─ INIT.py
@@ -251,6 +224,5 @@ root/
 
 ## 10. Como Rodar
 
-- Certifique de ter o python instalado
-
-- **Execução:** python INIT.py
+- **Instalação:** npm install
+- **Execução:** npm start
