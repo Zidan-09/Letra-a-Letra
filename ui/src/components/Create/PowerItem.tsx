@@ -10,16 +10,15 @@ interface PowerItemProps {
 }
 
 export default function PowerItem({ power, enabled, onToggle }: PowerItemProps) {
-  const { label, icon } = PowerData[power] || { label: power, icon: "" };
+    const { label, icon } = PowerData[power] || { label: power, icon: "" };
   
-  return (
-    <div 
+    return (
+        <div 
         className={`${styles.item} ${enabled ? styles.enabled : styles.disabled}`}
         onClick={() => onToggle(power)}
-    >
-      <img src={icon} alt={label} className={styles.icon} />
-        {/* {icon && <img src={icon} alt={label} className={styles.icon} />} */}
-      <p className={styles.powerName}>{label}</p>
-    </div>
-  );
+        >
+            <img src={icon} alt={label} className={styles.icon} />
+            <p className={styles.powerName}>{label}</p>
+        </div>
+    );
 }

@@ -38,8 +38,7 @@ export const GameMiddleware = {
             const powers = Object.values(MovementsEnum);
 
             if (
-                allowedPowers.some(power => !powers.includes(power)) ||
-                !allowedPowers.includes(MovementsEnum.REVEAL)
+                allowedPowers.some(power => !powers.includes(power))
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
 
             const gameModes = Object.values(GameModes);
