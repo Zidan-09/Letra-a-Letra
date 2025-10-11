@@ -42,7 +42,7 @@ export default function Lobby() {
         setGamemode(settingsData.gamemode as GameModes);
         setAllowedPowers(settingsData.allowedPowers);
 
-        const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.nickname === gameData.created_by);
+        const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.player_id === gameData.created_by);
 
         if (!creatorData) {
             return;
@@ -134,10 +134,14 @@ export default function Lobby() {
             <div className={styles.card}>
                 <p>CÓDIGO DA SALA</p>
                 <div className={styles.top}>
-                    <button className={styles.settings} onClick={handleSettings} type="button">
-                        <img src={iconSettings} alt="Settings" className={styles.icons}/>
-                    </button>
-
+                    {socket && creator && socket.id === creator ? (
+                        <button className={styles.settings} onClick={handleSettings} type="button">
+                            <img src={iconSettings} alt="Settings" className={styles.icons}/>
+                        </button>
+                    ): (
+                        <div className={styles.space}></div>
+                    )}
+                    
                     <div className={styles.codecontainer}>
                         <h2 className={styles.code}>{room?.room_id}</h2>
                     </div>

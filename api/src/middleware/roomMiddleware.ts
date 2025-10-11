@@ -160,7 +160,7 @@ export const RoomMiddleware = {
 
             if (
                 game === ServerResponses.NotFound || 
-                !game.players.filter(Boolean).find(p => p.player_id === player_id)
+                ![...game.players, ...game.spectators].filter(Boolean).find(p => p.player_id === player_id)
             ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
             next();

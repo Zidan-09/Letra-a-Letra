@@ -8,6 +8,7 @@ import { createLog } from "../utils/server_utils/logs";
 import { LogEnum } from "../utils/server_utils/logEnum";
 import { SendSocket } from "../utils/game_utils/sendSocket";
 import { PlayerService } from "./playerServices";
+import { enumNicknames } from "../utils/enumNicknames";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -63,10 +64,14 @@ class RoomServices {
             createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
         }
 
-        const io = getSocketInstance();
+        const sameNickname = [...room.players, ...room.spectators].filter(Boolean).find(p => p.nickname === player.nickname);
+
+        if (sameNickname) enumNicknames([...room.players, ...room.spectators]);
+
+        /* const io = getSocketInstance();
         [...room.players, ...room.spectators].filter(Boolean).forEach(p => {
             io.to(p!.player_id !== player_id ? p!.player_id : "").emit("player_joined", room);
-        });
+        }); */
 
         return room;
     }
@@ -110,6 +115,8 @@ class RoomServices {
             if (index !== -1) room.players[index] = undefined as any;
         }
 
+        enumNicknames([...room.players, ...room.spectators]);
+
         if (room.created_by === player.player_id) {
         
             const allRemaining = [...room.players, ...room.spectators].filter(Boolean);
@@ -130,10 +137,10 @@ class RoomServices {
             return RoomResponses.RoomClosed;
         }
 
-        const io = getSocketInstance();
+        /* const io = getSocketInstance();
         all.filter(Boolean).forEach(p => {
             io.to(p!.player_id).emit("player_left", room);
-        });
+        }); */
 
         try {
             SendSocket.gameOver(room_id);
