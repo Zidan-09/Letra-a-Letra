@@ -14,14 +14,18 @@ export const PassTurn = {
         });
     },
 
-    async passTurnEffect(p1?: Player, room_id?: string): Promise<void> {
+    async passTurnEffect(p1: Player, room_id: string): Promise<void> {
+        console.log("ENTROU")
         if (!p1 || !room_id) return;
         if (!p1.freeze.active) return;
 
         if (
-            p1?.powers.includes({ power: "UNFREEZE", rarity: "RARE", type: "effect" }) ||
-            p1?.powers.includes({ power: "IMMUNITY", rarity: "LEGENDARY", type: "effect" })
+            p1?.powers.some(p => 
+                (p.power === "UNFREEZE" && p.rarity === "RARE" && p.type === "effect") ||
+                (p.power === "IMMUNITY" && p.rarity === "LEGENDARY" && p.type === "effect")
+            )
         ) return;
+
 
         await fetch(`${settings.server}/game/${room_id}/effect/pass`, {
             method: "POST",

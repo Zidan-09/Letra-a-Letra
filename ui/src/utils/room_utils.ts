@@ -97,7 +97,8 @@ interface GameData {
     movement: MovementsEnum;
     powerIdx?: number;
     data: MoveEmit;
-    players: Player[]
+    players: Player[];
+    turn: number;
 }
 
 interface CompletedWord {
