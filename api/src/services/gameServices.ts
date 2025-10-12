@@ -127,7 +127,7 @@ export const GameService = {
         player.decrementEffect();
         game.incrementTurn();
 
-        if (powerIndex !== undefined) {
+        if (powerIndex !== undefined && movement !== MovementsEnum.TRAP) {
             player.powers.splice(powerIndex, 1);
         }
 
@@ -139,7 +139,7 @@ export const GameService = {
                     y!,
                     player,
                     room_id
-                )
+                );
                 
                 return resultReveal;
                 
@@ -174,7 +174,9 @@ export const GameService = {
                     board, 
                     x!, 
                     y!, 
-                    player_id
+                    player,
+                    room_id,
+                    powerIndex!
                 );
 
                 return resultTrap;

@@ -47,7 +47,6 @@ export const Movements = {
                 createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}'`);
 
                 assignPowerToPlayer(cell, player);
-                player.addScore();
 
                 return {
                     status: GameResponses.Revealed,
@@ -75,8 +74,9 @@ export const Movements = {
                 createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - trapped cell`);
     
                 return {
-                    status: GameResponses.Trapped,
-                    cell: cell.position
+                    status: GameResponses.TrapTrigged,
+                    cell: cell.position,
+                    trapped_by: cell.trapped.trapped_by!
                 }
             };
         }
@@ -145,18 +145,31 @@ export const Movements = {
         }
     },
 
-    trapCell(board: Board, x: number, y: number, player_id: string): GameResponses | MoveEmit {
+    trapCell(board: Board, x: number, y: number, player: Player, room_id: string, powerIdx: number): GameResponses | MoveEmit {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
         if (cell.revealed) return GameResponses.AlmostRevealed;
 
-        if (cell.trapped.status && cell.trapped.trapped_by === player_id) return GameResponses.AlmostTrapped;
+        if (cell.trapped.status && cell.trapped.trapped_by === player.player_id) return GameResponses.AlmostTrapped;
 
-        cell.trapped = { status: true, trapped_by: player_id }
+        if (cell.trapped.status && cell.trapped.trapped_by !== player.player_id) {
+            cell.resetCell();
+
+            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - trapped cell`);
+    
+            return {
+                status: GameResponses.TrapTrigged,
+                cell: cell.position,
+                trapped_by: cell.trapped.trapped_by!
+            }
+        }
+
+        cell.trapped = { status: true, trapped_by: player.player_id }
+        player.powers.splice(powerIdx, 1);
 
         return {
             status: GameResponses.Trapped,
-            trapped_by: player_id,
+            trapped_by: player.player_id,
             cell: cell.position
         }
     },

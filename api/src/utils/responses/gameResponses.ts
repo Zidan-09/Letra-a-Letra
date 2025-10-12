@@ -13,6 +13,7 @@ enum GameResponses {
     Blocked = "blocked",
     Unblocked = "unblocked",
     Trapped = "trapped",
+    TrapTrigged = "trap_trigged",
     AlmostTrapped = "almost_trapped",
     DetectedTraps = "detected_traps",
     Spied = "spied",
