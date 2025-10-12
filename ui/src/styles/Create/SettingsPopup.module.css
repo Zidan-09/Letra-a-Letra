@@ -120,10 +120,10 @@
 .icon {
      width: 60px;
     height: 60px;
-    filter: drop-shadow(1px 1px 0 black)
-        drop-shadow(-1px -1px 0 black)
-        drop-shadow(1px -1px 0 black)
-        drop-shadow(-1px 1px 0 black);
+    filter: drop-shadow(1px -1px 0 black)
+        drop-shadow(1px 1px 0 black)
+        drop-shadow(-1px 1px 0 black)
+        drop-shadow(1px 1px 0 black);
 transition: transform 0.1s ease}
 
 .icon:hover{
@@ -134,17 +134,17 @@ transform: scale(1.1);
 
 .back {
    background: transparent;
-    border: 0.5px black; /* Remove qualquer borda */
+    border: 0.5px black;
     cursor: pointer;
     position: absolute;
-    left: 15px; /* Espaçamento da borda esquerda */
-    top: 50%; /* Alinha verticalmente ao centro */
-    transform: translateY(-50%); /* Ajuste fino para centralização vertical perfeita */
-    padding: 0; /* Remove padding para não ocupar espaço extra */
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80%; /* Faz a área de clique ser grande */
+    height: 80%;
 }
 
 
