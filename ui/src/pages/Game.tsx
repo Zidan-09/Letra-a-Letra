@@ -132,14 +132,44 @@ export default function Game() {
 
                 switch (movement) {
                     case "BLOCK":
+                        if (data.cell) {
+                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                            copy[key] = {
+                                ...copy[key],
+                                blocked: { blocked_by: data.blocked_by, remaining: data.remaining }
+                            }
+                        }
+
+                        break;
                     case "UNBLOCK":
                         if (data.cell) {
                             const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
                             copy[key] = {
                                 ...copy[key],
-                                blocked: { blocked_by: data.blocked_by, remaining: data.remaining },
+                                blocked: { blocked_by: undefined, remaining: undefined},
+                                letter: data.letter,
+                                actor: player_id
                             };
                         }
+
+                        if (data.completedWord) {
+                            const find = {
+                                finded_by: player_id,
+                                finded: data.completedWord.word,
+                                positions: data.completedWord.positions
+                            }
+
+                            setFindeds(prev => [...prev, find]);
+
+                            data.completedWord.positions.forEach(p => {
+                                const key = `${p[0]}-${p[1]}` as CellKeys;
+                                copy[key] = {
+                                    ...copy[key],
+                                    finded_by: player_id
+                                }
+                            })
+                        }
+                        
                         break;
 
                     case "TRAP":
@@ -171,7 +201,7 @@ export default function Game() {
                                 }, 1500);
                                 break;
                             }
-                            
+
                             copy[key] = {
                                 ...copy[key],
                                 trapped_by: data.trapped_by,
@@ -251,6 +281,11 @@ export default function Game() {
                             }
 
                             if (data.status === "blocked") {
+                                copy[key] = {
+                                    ...copy[key],
+                                    blocked: { blocked_by: copy[key].blocked?.blocked_by, remaining: data.remaining }
+                                }
+
                                 break;
                             }
 

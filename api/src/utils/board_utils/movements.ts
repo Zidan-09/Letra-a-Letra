@@ -126,23 +126,50 @@ export const Movements = {
         return {
             status: GameResponses.Blocked,
             blocked_by: player_id,
+            remaining: 3,
             cell: cell.position
         }
     },
 
-    unblockCell(board: Board, x: number, y: number, player_id: string): MoveEmit | GameResponses {
+    unblockCell(board: Board, x: number, y: number, player: Player, room_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
         if (cell.revealed) return GameResponses.AlmostRevealed;
 
-        if (!cell.blocked.status || cell.blocked.blocked_by === player_id) return GameResponses.InvalidMovement;
+        if (!cell.blocked.status || cell.blocked.blocked_by === player.player_id) return GameResponses.InvalidMovement;
 
         cell.resetCell();
 
-        return {
-            status: GameResponses.Unblocked,
-            cell: cell.position
+        cell.revealed = true;
+        const result = checkWordCompletion(board, x, y);
+
+        if (result) {
+
+            createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
+            board.finded++;
+            
+            assignPowerToPlayer(cell, player);
+            player.addScore();
+
+            return {
+                status: GameResponses.Unblocked,
+                letter: cell.letter,
+                cell: cell.position,
+                power: cell.power,
+                completedWord: { word: result.completedWord, positions: result.positions }
+            }
         }
+
+        createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}'`);
+
+        assignPowerToPlayer(cell, player);
+
+        return {
+            status: GameResponses.Revealed,
+            letter: cell.letter,
+            cell: cell.position,
+            power: cell.power
+        };
     },
 
     trapCell(board: Board, x: number, y: number, player: Player, room_id: string, powerIdx: number): GameResponses | MoveEmit {

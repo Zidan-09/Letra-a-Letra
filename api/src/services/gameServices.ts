@@ -162,7 +162,8 @@ export const GameService = {
                     board,
                     x!,
                     y!,
-                    player_id
+                    player,
+                    room_id
                 );
 
                 return resultUnblock;
