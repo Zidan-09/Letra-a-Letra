@@ -35,10 +35,10 @@
 
 .logo {
     width: 100%;
-    max-width: 30vw;
-    max-height: 20vw;
     display: block;
-    justify-self: center;
+    margin: 0 auto;
+    max-width: 350px; 
+    height: auto;
 }
 
 .inputs {
@@ -101,23 +101,22 @@
 .buttons {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.5rem;
     margin-bottom: 1rem;
+    margin-top: 2rem;
     flex-wrap: nowrap;
 }
 
 .button {
     flex: 1 1 45%;
     height: 60px;
-    max-width: 50%;
-    min-width: 10%;
     display: flex;
     align-items: center;
     justify-content: start;
     gap: 0.5rem;
     border: none;
     border-radius: 2rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
     font-weight: bold;
     font-size: clamp(15px, 3vw, 30px);
     white-space: nowrap;

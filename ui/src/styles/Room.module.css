@@ -80,16 +80,16 @@
    width: 45px;
     height: 45px;
     filter: drop-shadow(1px 1px 0 black)
-        drop-shadow(-1px -1px 0 black)
-        drop-shadow(1px -1px 0 black)
-        drop-shadow(-1px 1px 0 black);
+        drop-shadow(1px 1px 0 black)
+        drop-shadow(-1px 1px 0 black)
+        drop-shadow(1px -1px 0 black);
 transition: transform 0.1s ease
 }
 
 .buttons {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 2rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
 }

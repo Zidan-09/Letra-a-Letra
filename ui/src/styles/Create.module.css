@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .titleContainer {
@@ -58,7 +58,12 @@
     font-size: 2rem;
     color: white;
     -webkit-text-stroke: 1.5px #464646;
-    margin-bottom: 0;
+  }
+  
+  .labelName {
+  margin-bottom: -0.5rem;
+  margin-top: 1.5rem;
+
 }
 
 .input {
@@ -107,7 +112,7 @@
     align-items: center;
     justify-content: center;
     width: 100px;
-    height: 50px;
+    height: 60px;
     background-color: rgb(240, 125, 34);
     border: 5px solid rgb(255, 143, 55);
     box-shadow: 0 6px 0 rgb(148, 97, 57);
@@ -142,7 +147,7 @@
 
 .switch {
   width: 100px;
-  height: 40px;
+  height: 50px;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -214,27 +219,30 @@
 .buttons {
     display: flex;
     justify-content: space-between;
-    gap:2rem;
-    margin-bottom: 1rem;
+    gap: 2rem;
+    flex-wrap: nowrap;
+    width: 90%;
 }
 
 .button {
     flex: 1 1 45%;
+    height: 60px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
     gap: 0.5rem;
     border: none;
     border-radius: 2rem;
-    padding: 0.2rem 3rem;
-    font-size: 1.2rem;
+    padding: 0 0.5rem;
     font-weight: bold;
+    font-size: clamp(20px, 3vw, 30px);
+    white-space: nowrap;
+    text-align: start;
     color: white;
     cursor: pointer;
     transition: transform 0.1s ease, box-shadow 0.2s ease;
     box-shadow: 0 6px 8px rgba(0,0,0,0.2);
     outline: none;
-    min-width: 120px;
 }
 
 .button:hover, .button:focus {
@@ -242,8 +250,7 @@
 }
 
 .icon {
-    margin-right: 0.8rem;
-    width: 2.2rem;
+    width: 2.5rem;
 }
 
 .create {

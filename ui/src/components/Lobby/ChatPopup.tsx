@@ -88,7 +88,7 @@ export default function ChatPopup({ room_id, nickname, local, isOpen, onClose }:
                 </div>
 
                 <div className={styles.sendContainer}>
-                    <textarea 
+                    <textarea
                     placeholder="Digite sua mensagem..."
                     className={styles.message}
                     value={myMessage}

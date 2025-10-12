@@ -77,7 +77,7 @@ export default function Create() {
                     <h2 className={styles.title}>CRIAR SALA</h2>
                 </div>
 
-                <p className={styles.label}>Nome da Sala</p>
+                <p className={styles.labelName}>Nome da Sala</p>
                 <input
                 type="text"
                 name="name"
