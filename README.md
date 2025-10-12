@@ -27,16 +27,19 @@
 
 ## 3. Estrutura do Jogo
 - **Telas/Páginas principais:**  
-  - **Home Page:** Insere nickname e escolhe criar ou entrar em sala.  
+  - **Home Page:** Insere nickname, escolhe avatar e escolhe criar ou entrar em sala.  
   - **Create Room Page:** Configura e cria a sala.  
-  - **Rooms Page:** Lista salas públicas e permite inserir código de sala específica.  
-  - **Game Page:** Exibe jogadores na sala, permite iniciar partida, mostra o jogo e o vencedor no final.  
+  - **Rooms Page:** Lista salas públicas e permite inserir código de sala específica.
+  - **Lobby Page:** Exibe jogadores na sala e permite chat entre os jogadores e troca de slots.
+  - **Game Page:** Mostra o jogo e o vencedor final.  
 
 - **Fluxo de navegação:**  
 ```text
 Home -> Create Room
 Home -> Rooms
-Rooms -> Game
+Create Room -> Lobby
+Rooms -> Lobby
+Lobby -> Game
 ```
 
 ## 4. Personagens / Avatares
@@ -47,9 +50,9 @@ Rooms -> Game
 
 - **Tipo:** Online, multiplayer
 
-- **Salas:** Cada sala suporta 2 jogadores, jogo por turnos
+- **Salas:** Cada sala suporta 2 jogadores e 5 espectadores, jogo por turnos
 
-- **Limite de jogadores:** 2 por sala
+- **Limite de jogadores:** 7 por sala
 
 ## 6. Progressão e Recompensas
 
@@ -67,7 +70,7 @@ Rooms -> Game
 
 - WebSockets: Socket.io
 
-- Outras bibliotecas: Nanoid, Cors, Dotenv, React-DOM, Socket.io-client
+- Outras bibliotecas: Nanoid, Cors, React-DOM, Socket.io-client
 
 ## 9. Estrutura de Pastas do Projeto
 ```text
@@ -113,16 +116,13 @@ root/
 │  │  │  │  └─ themesEnum.ts
 │  │  │  ├─ cell/
 │  │  │  │  └─ powerRarity.ts
-│  │  │  ├─ emits/
-│  │  │  │  └─ gameEmits.ts
 │  │  │  ├─ game/
 │  │  │  │  ├─ assignPowerToPlayer.ts
 │  │  │  │  ├─ gameModes.ts
 │  │  │  │  ├─ gameStatus.ts
 │  │  │  │  ├─ movements.ts
 │  │  │  │  ├─ movementsEnum.ts
-│  │  │  │  ├─ nullPlayer.ts
-│  │  │  │  └─ sendSocket.ts
+│  │  │  │  └─ nullPlayer.ts
 │  │  │  ├─ requests/
 │  │  │  │  ├─ gameRequess.ts
 │  │  │  │  ├─ playerRequests.ts
@@ -132,12 +132,18 @@ root/
 │  │  │  │  ├─ playerResponses.ts
 │  │  │  │  ├─ roomResponses.ts
 │  │  │  │  └─ serverResponses.ts
-│  │  │  ├─ server_utils/
+│  │  │  ├─ room/
+│  │  │  │  └─ enumNicknames.ts
+│  │  │  ├─ server/
 │  │  │  │  ├─ handleResponse.ts
 │  │  │  │  ├─ handleSocket.ts
 │  │  │  │  ├─ logEnum.ts
-│  │  │  │  └─ logs.ts
-│  │  │  └─ enumNicknames.ts
+│  │  │  │  └─ logger.ts
+│  │  │  ├─ socket/
+│  │  │  │  ├─ gameEmits.ts
+│  │  │  │  ├─ gameSocket.ts
+│  │  │  │  ├─ message.ts
+│  │  │  │  └─ roomService.ts
 │  │  ├─ app.ts
 │  │  ├─ server.ts
 │  │  └─ socket.ts
@@ -145,68 +151,147 @@ root/
 │  └─ package.json
 ├─ ui/
 │  ├─ public/
+│  │  └─ logo.svg
 │  ├─ src/
 │  │  ├─ assets/
 │  │  │  ├─ avatar/
 │  │  │  │  ├─ avatar-1.png
-│  │  │  │  └─ avatar-2.png
+│  │  │  │  ├─ avatar-2.png
+│  │  │  │  ├─ avatar-3.png
+│  │  │  │  ├─ avatar-4.png
+│  │  │  │  ├─ avatar-5.png
+│  │  │  │  └─ avatar-6.png
 │  │  │  ├─ buttons/
 │  │  │  │  ├─ icon-back.png
+│  │  │  │  ├─ icon-chat.png
 │  │  │  │  ├─ icon-create.png
 │  │  │  │  ├─ icon-enter.png
 │  │  │  │  ├─ icon-help.png
 │  │  │  │  ├─ icon-play.png
-│  │  │  │  └─ icon-refresh.png
+│  │  │  │  ├─ icon-refresh.png
+│  │  │  │  ├─ icon-send.png
+│  │  │  │  └─ icon-settings.png
 │  │  │  ├─ powers/
-│  │  │  │  ├─ icon-blind-min.png
 │  │  │  │  ├─ icon-blind.png
-│  │  │  │  ├─ icon-block-min.png
 │  │  │  │  ├─ icon-block.png
-│  │  │  │  ├─ icon-detecttraps-min.png
 │  │  │  │  ├─ icon-detecttraps.png
-│  │  │  │  ├─ icon-freeze-min.png
 │  │  │  │  ├─ icon-freeze.png
-│  │  │  │  ├─ icon-imunity-min.png
 │  │  │  │  ├─ icon-imunity.png
-│  │  │  │  ├─ icon-lantern-min.png
 │  │  │  │  ├─ icon-lantern.png
-│  │  │  │  ├─ icon-spy-min.png
 │  │  │  │  ├─ icon-spy.png
-│  │  │  │  ├─ icon-trap-min.png
+│  │  │  │  ├─ icon-trap-cell.png
 │  │  │  │  ├─ icon-trap.png
-│  │  │  │  ├─ icon-unblock-min.png
 │  │  │  │  ├─ icon-unblock.png
-│  │  │  │  ├─ icon-unfreeze-min.png
 │  │  │  │  └─ icon-unfreeze.png
 │  │  │  ├─ background.png
 │  │  │  └─ logo.png
 │  │  ├─ components/
-│  │  │  ├─ RoomItem.tsx
-│  │  │  ├─ RoomList.tsx
-│  │  │  └─ RoomPopup.tsx
+│  │  │  ├─ Create/
+│  │  │  │  ├─ GamemodeItem.tsx
+│  │  │  │  ├─ GamemodeList.tsx
+│  │  │  │  ├─ PowerItem.tsx
+│  │  │  │  ├─ PowerList.tsx
+│  │  │  │  ├─ PowerPopup.tsx
+│  │  │  │  ├─ SettingsPopup.tsx
+│  │  │  │  ├─ ThemeItem.tsx
+│  │  │  │  └─ ThemeList.tsx
+│  │  │  ├─ Game/
+│  │  │  │  ├─ Powers/
+│  │  │  │  │  ├─ BlockOverlay.ts
+│  │  │  │  │  └─ TrapOverlay.ts
+│  │  │  │  ├─ Board.tsx
+│  │  │  │  ├─ Cell.tsx
+│  │  │  │  ├─ EffectOverlay.tsx
+│  │  │  │  ├─ ExtraButtons.tsx
+│  │  │  │  ├─ PlayerCard.tsx
+│  │  │  │  ├─ PowerItem.tsx
+│  │  │  │  ├─ Slots.tsx
+│  │  │  │  ├─ TurnOverlay.tsx
+│  │  │  │  ├─ WinnerOverlay.tsx
+│  │  │  │  └─ Words.tsx
+│  │  │  ├─ Home/
+│  │  │  │  ├─ AvatarItem.tsx
+│  │  │  │  ├─ AvatarList.tsx
+│  │  │  │  └─ AvatarPopup.tsx
+│  │  │  ├─ Lobby/
+│  │  │  │  ├─ ChatPopup.tsx
+│  │  │  │  ├─ PlayerItem.tsx
+│  │  │  │  ├─ PlayerList.tsx
+│  │  │  │  ├─ SpectatorItem.tsx
+│  │  │  │  └─ SpectatorList.tsx
+│  │  │  ├─ Room/
+│  │  │  │  ├─ RoomEnterError.tsx
+│  │  │  │  ├─ RoomItem.tsx
+│  │  │  │  ├─ RoomList.tsx
+│  │  │  │  └─ RoomPopup.tsx
+│  │  │  └─ Loading.tsx
 │  │  ├─ pages/
 │  │  │  ├─ Create.tsx
+│  │  │  ├─ Game.tsx
 │  │  │  ├─ Home.tsx
+│  │  │  ├─ Lobby.tsx
 │  │  │  └─ Room.tsx
 │  │  ├─ services/
 │  │  │  └─ socketProvider.tsx
 │  │  ├─ styles/
 │  │  │  ├─ Create/
+│  │  │  │  ├─ GamemodeItem.module.css
+│  │  │  │  ├─ GamemodeList.module.css
+│  │  │  │  ├─ PowerItem.module.css
+│  │  │  │  ├─ PowerList.module.css
+│  │  │  │  ├─ PowerPopup.module.css
+│  │  │  │  ├─ SettingsPopup.module.css
+│  │  │  │  ├─ ThemeItem.module.css
+│  │  │  │  └─ ThemeList.module.css
+│  │  │  ├─ Game/
+│  │  │  │  ├─ Powers/
+│  │  │  │  │  ├─ BlockOverlay.module.css
+│  │  │  │  │  └─ TrapOverlay.module.css
+│  │  │  │  ├─ Board.module.css
+│  │  │  │  ├─ Cell.module.css
+│  │  │  │  ├─ EffectOverlay.module.css
+│  │  │  │  ├─ ExtraButtons.module.css
+│  │  │  │  ├─ PlayerCard.module.css
+│  │  │  │  ├─ PowerItem.module.css
+│  │  │  │  ├─ Slots.module.css
+│  │  │  │  ├─ TurnOverlay.module.css
+│  │  │  │  ├─ WinnerOverlay.module.css
+│  │  │  │  └─ Words.module.css
+│  │  │  ├─ Home/
+│  │  │  │  ├─ AvatarItem.module.css
+│  │  │  │  ├─ AvatarList.module.css
+│  │  │  │  └─ AvatarPopup.module.css
+│  │  │  ├─ Lobby/
+│  │  │  │  ├─ PlayerItem.module.css
+│  │  │  │  ├─ PlayerList.module.css
+│  │  │  │  ├─ SpectatorItem.module.css
+│  │  │  │  └─ SpectatorList.module.css
 │  │  │  ├─ Room/
+│  │  │  │  ├─ RoomErrorPopup.module.css
 │  │  │  │  ├─ RoomItem.module.css
 │  │  │  │  ├─ RoomList.module.css
 │  │  │  │  └─ RoomPopup.module.css
+│  │  │  ├─ ChatPopup.module.css
 │  │  │  ├─ Create.module.css
+│  │  │  ├─ Game.module.css
 │  │  │  ├─ Home.module.css
+│  │  │  ├─ Loading.module.css
+│  │  │  ├─ Lobby.module.css
 │  │  │  └─ Room.module.css
 │  │  ├─ utils/
+│  │  │  ├─ avatars.ts
+│  │  │  ├─ gameResponses.ts
+│  │  │  ├─ passTurn.ts
+│  │  │  ├─ powers.ts
+│  │  │  ├─ preloads.ts
 │  │  │  ├─ room_utils.ts
-│  │  │  ├─ server_utils.ts
-│  │  │  └─ socket.ts
+│  │  │  ├─ socket.ts
+│  │  │  └─ themes.ts
 │  │  ├─ App.css
 │  │  ├─ App.tsx
 │  │  ├─ index.css
 │  │  ├─ main.tsx
+│  │  ├─ settings.json
 │  │  └─ vite-env.d.ts
 │  ├─ .gitignore
 │  ├─ eslint.config.js
@@ -226,5 +311,4 @@ root/
 
 ## 10. Como Rodar
 
-- **Instalação:** npm install
-- **Execução:** npm start
+- **Instalação + Execução:** npm start
