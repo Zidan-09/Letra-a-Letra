@@ -46,7 +46,6 @@ function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, tra
 
             <BlockOverlay
             p1={p1}
-            blocked={!!blocked}
             blocked_by={blocked?.blocked_by}
             remaining={blocked?.remaining}
             />

@@ -3,6 +3,7 @@ import { getSocketInstance } from "../../socket";
 import { GameStarted, MoveEmit } from "../emits/gameEmits";
 import { MovementsEnum } from "../board_utils/movementsEnum";
 import { ServerResponses } from "../responses/serverResponses";
+import { GameResponses } from "../responses/gameResponses";
 
 export const SendSocket = {
     gameStarted(room_id: string) {
@@ -55,8 +56,9 @@ export const SendSocket = {
             if (p.player_id !== player_id) io.to(p.player_id).emit("movement", {
                 movement: movement,
                 player_id: player_id,
-                data: data.status,
-                players: room.players
+                data: data.status === GameResponses.TrapTrigged ? data : data.status,
+                players: room.players,
+                turn: room.turn
             })
         })
 
@@ -64,7 +66,8 @@ export const SendSocket = {
             movement: movement,
             player_id: player_id,
             data: data,
-            players: room.players
+            players: room.players,
+            turn: room.turn
         })
     },
 

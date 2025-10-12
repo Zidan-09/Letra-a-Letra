@@ -3,14 +3,13 @@ import styles from "../../../styles/Game/Powers/BlockOverlay.module.css";
 
 interface BlockOverlayProps {
   p1: Player;
-  blocked: boolean;
   blocked_by?: string;
   remaining?: number;
 }
 
-export default function BlockOverlay({ p1, blocked, remaining, blocked_by }: BlockOverlayProps) {
+export default function BlockOverlay({ p1, remaining, blocked_by }: BlockOverlayProps) {
 
-  if (!blocked || remaining === undefined || !blocked_by) return null;
+  if (remaining === undefined || !blocked_by) return null;
 
   const isMine = p1.player_id === blocked_by;
 

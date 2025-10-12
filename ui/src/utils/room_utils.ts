@@ -125,6 +125,7 @@ type GameResponses =
 "blocked" |
 "unblocked" |
 "trapped" |
+"trap_trigged" |
 "almost_trapped" |
 "detected_traps" |
 "spied" |

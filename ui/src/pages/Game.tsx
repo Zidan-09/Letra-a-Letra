@@ -138,7 +138,6 @@ export default function Game() {
                             copy[key] = {
                                 ...copy[key],
                                 blocked: { blocked_by: data.blocked_by, remaining: data.remaining },
-                                actor: player_id
                             };
                         }
                         break;
@@ -146,6 +145,33 @@ export default function Game() {
                     case "TRAP":
                         if (data.cell) {
                             const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+
+                            if (data.status === "trap_trigged") {
+                                copy[key] = {
+                                    ...copy[key],
+                                    trapTrigged: true,
+                                    trapped_by: data.trapped_by
+                                }
+
+                                setTimeout(() => {
+                                    setCells(prev => {
+                                        const resetCopy = { ...prev };
+                                        const cellToReset = resetCopy[key];
+                                        if (cellToReset) {
+                                            resetCopy[key] = {
+                                                ...cellToReset,
+                                                trapped_by: undefined,
+                                                trapTrigged: false,
+                                                detected: false,
+                                                actor: undefined
+                                            };
+                                        }
+                                        return resetCopy;
+                                    });
+                                }, 1500);
+                                break;
+                            }
+                            
                             copy[key] = {
                                 ...copy[key],
                                 trapped_by: data.trapped_by,
@@ -198,7 +224,7 @@ export default function Game() {
                         if (data.cell) {
                             const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
                             
-                            if (data.status === "trapped") {
+                            if (data.status === "trap_trigged") {
                                 copy[key] = {
                                     ...copy[key],
                                     trapTrigged: true,
