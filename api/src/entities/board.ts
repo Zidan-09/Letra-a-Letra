@@ -1,11 +1,11 @@
-import { selectTheme } from "../utils/board_utils/selectTheme";
-import { placeWord } from "../utils/board_utils/placeWord";
-import { canPlaceWord } from "../utils/board_utils/canPlaceWord";
+import { selectTheme } from "../utils/board/selectTheme";
+import { placeWord } from "../utils/board/placeWord";
+import { canPlaceWord } from "../utils/board/canPlaceWord";
 import { Cell } from "./cell";
-import { Themes } from "../utils/board_utils/themesEnum";
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
+import { Themes } from "../utils/board/themesEnum";
+import { MovementsEnum } from "../utils/game/movementsEnum";
 import settings from "../settings/board.json";
-import { GameModes } from "../utils/game_utils/gameModes";
+import { GameModes } from "../utils/game/gameModes";
 
 export class Board {
     range: number = settings.range;

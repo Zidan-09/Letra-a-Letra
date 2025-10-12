@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { CreatePlayer, DeletePlayer, GetPlayer } from "../utils/requests/playerRequests";
-import { HandleResponse } from "../utils/server_utils/handleResponse";
-import { PlayerService } from "../services/playerServices";
+import { HandleResponse } from "../utils/server/handleResponse";
+import { PlayerService } from "../services/playerService";
 import { ServerResponses } from "../utils/responses/serverResponses";
 
 export const PlayerMiddleware = {

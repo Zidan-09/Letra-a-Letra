@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { PlayerService } from "../services/playerServices";
-import { HandleResponse } from "../utils/server_utils/handleResponse";
+import { PlayerService } from "../services/playerService";
+import { HandleResponse } from "../utils/server/handleResponse";
 import { CreatePlayer, DeletePlayer, GetPlayer } from "../utils/requests/playerRequests";
 import { ServerResponses } from "../utils/responses/serverResponses";
 import { PlayerResponses } from "../utils/responses/playerResponses";

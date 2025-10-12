@@ -1,4 +1,4 @@
-import { Player } from "../entities/player";
+import { Player } from "../../entities/player";
 
 export function enumNicknames(all: (Player | undefined)[]) {
     const playersList = all.filter((p): p is Player => Boolean(p));

@@ -1,14 +1,14 @@
 import { Game } from "../entities/game";
 import { ServerResponses } from "../utils/responses/serverResponses";
-import { getSocketInstance } from "../socket";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { nanoid } from "nanoid";
-import { GameStatus } from "../utils/game_utils/gameStatus";
-import { createLog } from "../utils/server_utils/logs";
-import { LogEnum } from "../utils/server_utils/logEnum";
-import { SendSocket } from "../utils/game_utils/sendSocket";
-import { PlayerService } from "./playerServices";
-import { enumNicknames } from "../utils/enumNicknames";
+import { GameStatus } from "../utils/game/gameStatus";
+import { createLog } from "../utils/server/logger";
+import { LogEnum } from "../utils/server/logEnum";
+import { GameSocket } from "../utils/socket/gameSocket";
+import { RoomSocket } from "../utils/socket/roomSocket";
+import { PlayerService } from "./playerService";
+import { enumNicknames } from "../utils/room/enumNicknames";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -68,10 +68,7 @@ class RoomServices {
 
         if (sameNickname) enumNicknames([...room.players, ...room.spectators]);
 
-        const io = getSocketInstance();
-        [...room.players, ...room.spectators].filter(Boolean).forEach(p => {
-            io.to(p!.player_id !== player_id ? p!.player_id : "").emit("player_joined", room);
-        });
+        RoomSocket.joinRoom([...room.players, ...room.spectators], room);
 
         return room;
     }
@@ -137,13 +134,10 @@ class RoomServices {
             return RoomResponses.RoomClosed;
         }
 
-        const io = getSocketInstance();
-        all.filter(Boolean).forEach(p => {
-            io.to(p!.player_id).emit("player_left", room);
-        });
+        RoomSocket.leftRoom(all, room);
 
         try {
-            SendSocket.gameOver(room_id);
+            GameSocket.gameOver(room_id);
         } catch (err) {
             console.warn(`gameOver failed for room ${room_id}:`, err);
         }
@@ -159,7 +153,7 @@ class RoomServices {
         if (playerIndex === -1) return ServerResponses.NotFound;
 
         room.players[playerIndex] = undefined as any;
-        SendSocket.gameOver(room_id);
+        GameSocket.gameOver(room_id);
 
         return ServerResponses.Ended;
     }
@@ -200,11 +194,7 @@ class RoomServices {
             createLog(room.room_id, `${player.nickname} ${spectator ? LogEnum.PlayerTurnedToSpectator : LogEnum.SpectatorTurnedToPlayer}`);
         }
 
-
-        const io = getSocketInstance();
-        [...room.players, ...room.spectators].filter(Boolean).forEach(p => {
-            io.to(p!.player_id).emit("role_changed", room);
-        });
+        RoomSocket.changeRole([...room.players, ...room.spectators], room);
 
         return room;
     }

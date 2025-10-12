@@ -1,14 +1,14 @@
-import { GameStatus } from "../utils/game_utils/gameStatus";
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
+import { GameStatus } from "../utils/game/gameStatus";
+import { MovementsEnum } from "../utils/game/movementsEnum";
 import { GameResponses } from "../utils/responses/gameResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
-import { LogEnum } from "../utils/server_utils/logEnum";
-import { createLog } from "../utils/server_utils/logs";
-import { RoomService } from "./roomServices";
-import { Movements } from "../utils/board_utils/movements";
-import { Themes } from "../utils/board_utils/themesEnum";
-import { GameModes } from "../utils/game_utils/gameModes";
-import { MoveEmit } from "../utils/emits/gameEmits";
+import { LogEnum } from "../utils/server/logEnum";
+import { createLog } from "../utils/server/logger";
+import { RoomService } from "./roomService";
+import { Movements } from "../utils/game/movements";
+import { GameModes } from "../utils/game/gameModes";
+import { Themes } from "../utils/board/themesEnum";
+import { MoveEmit } from "../utils/socket/gameEmits";
 
 export const GameService = {
     startGame(room_id: string, theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
