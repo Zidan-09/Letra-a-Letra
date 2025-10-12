@@ -1,6 +1,6 @@
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
-import { PowerRarity } from "../utils/cell_utils/powerRarity";
-import { GameModes } from "../utils/game_utils/gameModes";
+import { MovementsEnum } from "../utils/game/movementsEnum";
+import { PowerRarity } from "../utils/cell/powerRarity";
+import { GameModes } from "../utils/game/gameModes";
 import data from "../settings/cell.json";
 
 export class Cell {

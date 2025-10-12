@@ -1,10 +1,10 @@
 import { Board } from "../../entities/board"
 import { Player } from "../../entities/player";
-import { MoveEmit } from "../emits/gameEmits";
+import { MoveEmit } from "../socket/gameEmits";
 import { GameResponses } from "../responses/gameResponses";
-import { LogEnum } from "../server_utils/logEnum";
-import { createLog } from "../server_utils/logs";
-import { checkWordCompletion } from "./checkCompletedWord";
+import { LogEnum } from "../server/logEnum";
+import { createLog } from "../server/logger";
+import { checkWordCompletion } from "../board/checkCompletedWord";
 import { MovementsEnum } from "./movementsEnum";
 import { assignPowerToPlayer } from "./assignPowerToPlayer";
 

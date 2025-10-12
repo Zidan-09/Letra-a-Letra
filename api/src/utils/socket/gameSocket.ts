@@ -1,11 +1,11 @@
-import { RoomService } from "../../services/roomServices";
+import { RoomService } from "../../services/roomService";
 import { getSocketInstance } from "../../socket";
-import { GameStarted, MoveEmit } from "../emits/gameEmits";
-import { MovementsEnum } from "../board_utils/movementsEnum";
+import { MoveEmit, GameStarted } from "./gameEmits";
+import { MovementsEnum } from "../game/movementsEnum";
 import { ServerResponses } from "../responses/serverResponses";
 import { GameResponses } from "../responses/gameResponses";
 
-export const SendSocket = {
+export const GameSocket = {
     gameStarted(room_id: string) {
         const io = getSocketInstance();
 
@@ -121,21 +121,5 @@ export const SendSocket = {
         players.filter(Boolean).forEach(p => {
             p.reset();
         })
-    },
-
-    message(room_id: string, from: string, message: string) {
-        const io = getSocketInstance();
-
-        const room = RoomService.getRoom(room_id);
-
-        if (room === ServerResponses.NotFound) return;
-
-        const all = [...room.players, ...room.spectators];
-
-        if (!all) return;
-
-        all.filter(Boolean).forEach(p => 
-            io.to(p.player_id).emit("message", { from: from, message: message })
-        );
     }
 }

@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { HandleResponse } from '../utils/server_utils/handleResponse';
-import { GameService } from '../services/gameServices';
+import { HandleResponse } from '../utils/server/handleResponse';
+import { GameService } from '../services/gameService';
 import { Movement, PassTurn, StartGame } from '../utils/requests/gameRequests';
 import { GameResponses } from '../utils/responses/gameResponses';
 import { ServerResponses } from '../utils/responses/serverResponses';
-import { SendSocket } from '../utils/game_utils/sendSocket';
-import { HandleSocket } from '../utils/server_utils/handleSocket';
+import { GameSocket } from '../utils/socket/gameSocket';
+import { HandleSocket } from '../utils/server/handleSocket';
 import { RoomParams } from '../utils/requests/roomRequests';
-import { MovementsEnum } from '../utils/board_utils/movementsEnum';
+import { MovementsEnum } from '../utils/game/movementsEnum';
 
 export const gameController = {
     startGame(req: Request<RoomParams, {}, StartGame>, res: Response) {
@@ -23,7 +23,7 @@ export const gameController = {
                 result === ServerResponses.NotFound
             ) return HandleResponse.serverResponse(res, 400, false, result);
             
-            SendSocket.gameStarted(room_id);
+            GameSocket.gameStarted(room_id);
 
             return HandleResponse.serverResponse(res, 200, true, result);
 
@@ -46,7 +46,7 @@ export const gameController = {
             ) return HandleResponse.serverResponse(res, 400, false, result);
 
             HandleSocket(room_id, player_id, movement, result);
-            SendSocket.gameOver(room_id);
+            GameSocket.gameOver(room_id);
 
             return HandleResponse.serverResponse(res, 200, true, result.status);
 

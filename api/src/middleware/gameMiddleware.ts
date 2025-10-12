@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from "express";
-import { HandleResponse } from "../utils/server_utils/handleResponse";
+import { HandleResponse } from "../utils/server/handleResponse";
 import { Movement, PassTurn, StartGame } from "../utils/requests/gameRequests";
 import { GameResponses } from "../utils/responses/gameResponses";
-import { RoomService } from "../services/roomServices";
+import { RoomService } from "../services/roomService";
 import { ServerResponses } from "../utils/responses/serverResponses";
-import { GameStatus } from "../utils/game_utils/gameStatus";
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
-import { Themes } from "../utils/board_utils/themesEnum";
+import { GameStatus } from "../utils/game/gameStatus";
+import { MovementsEnum } from "../utils/game/movementsEnum";
+import { Themes } from "../utils/board/themesEnum";
 import { RoomParams } from "../utils/requests/roomRequests";
-import { GameModes } from "../utils/game_utils/gameModes";
-import { PowerRarity } from "../utils/cell_utils/powerRarity";
+import { GameModes } from "../utils/game/gameModes";
+import { PowerRarity } from "../utils/cell/powerRarity";
 
 export const GameMiddleware = {
     startGame(req: Request<RoomParams, {}, StartGame>, res: Response, next: NextFunction) {

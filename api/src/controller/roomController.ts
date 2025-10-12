@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { HandleResponse } from "../utils/server_utils/handleResponse";
+import { HandleResponse } from "../utils/server/handleResponse";
 import { ActionParams, ChangeRole, CreateRoom, JoinRoom, RoomParams } from "../utils/requests/roomRequests";
-import { RoomService } from "../services/roomServices";
+import { RoomService } from "../services/roomService";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
 

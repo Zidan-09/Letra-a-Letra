@@ -1,8 +1,7 @@
-import { Game } from "../../entities/game";
 import { Player } from "../../entities/player";
-import { MovementsEnum } from "../board_utils/movementsEnum";
-import { PowerRarity } from "../cell_utils/powerRarity";
-import { GameStatus } from "../game_utils/gameStatus";
+import { MovementsEnum } from "../game/movementsEnum";
+import { PowerRarity } from "../cell/powerRarity";
+import { GameStatus } from "../game/gameStatus";
 import { GameResponses } from "../responses/gameResponses";
 
 interface GameData {

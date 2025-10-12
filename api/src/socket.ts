@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
-import { RoomService } from "./services/roomServices";
-import { ServerResponses } from "./utils/responses/serverResponses";
-import { SendSocket } from "./utils/game_utils/sendSocket";
+import { RoomService } from "./services/roomService";
+import { sendMessage } from "./utils/socket/message";
 
 let io: Server;
 
@@ -16,7 +15,7 @@ export const initSocket = (server: any) => {
         })
 
         socket.on("message", ({ room_id, from, message }) => {
-            SendSocket.message(room_id, from, message);
+            sendMessage(room_id, from, message);
         })
     });
 

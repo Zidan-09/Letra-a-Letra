@@ -94,9 +94,9 @@ root/
 │  │  │  ├─ playerRoutes.ts
 │  │  │  └─ roomRoutes.ts
 │  │  ├─ services/
-│  │  │  ├─ gameServices.ts
-│  │  │  ├─ roomServices.ts
-│  │  │  └─ playerServices.ts
+│  │  │  ├─ gameService.ts
+│  │  │  ├─ roomService.ts
+│  │  │  └─ playerService.ts
 │  │  ├─ settings/
 │  │  │  ├─ board.json
 │  │  │  ├─ cell.json
@@ -105,21 +105,23 @@ root/
 │  │  ├─ tests/
 │  │  │  └─ tests.ts
 │  │  ├─ utils/
-│  │  │  ├─ board_utils/
+│  │  │  ├─ board/
 │  │  │  │  ├─ canPlaceWord.ts
 │  │  │  │  ├─ checkCompletedWord.ts
-│  │  │  │  ├─ movements.ts
-│  │  │  │  ├─ movementsEnum.ts
 │  │  │  │  ├─ placeWord.ts
 │  │  │  │  ├─ selectTheme.ts
 │  │  │  │  └─ themesEnum.ts
-│  │  │  ├─ cell_utils/
+│  │  │  ├─ cell/
 │  │  │  │  └─ powerRarity.ts
 │  │  │  ├─ emits/
 │  │  │  │  └─ gameEmits.ts
-│  │  │  ├─ game_utils/
+│  │  │  ├─ game/
+│  │  │  │  ├─ assignPowerToPlayer.ts
 │  │  │  │  ├─ gameModes.ts
 │  │  │  │  ├─ gameStatus.ts
+│  │  │  │  ├─ movements.ts
+│  │  │  │  ├─ movementsEnum.ts
+│  │  │  │  ├─ nullPlayer.ts
 │  │  │  │  └─ sendSocket.ts
 │  │  │  ├─ requests/
 │  │  │  │  ├─ gameRequess.ts
@@ -130,17 +132,17 @@ root/
 │  │  │  │  ├─ playerResponses.ts
 │  │  │  │  ├─ roomResponses.ts
 │  │  │  │  └─ serverResponses.ts
-│  │  │  └─ server_utils/
-│  │  │     ├─ handleResponse.ts
-│  │  │     ├─ handleSocket.ts
-│  │  │     ├─ logEnum.ts
-│  │  │     └─ logs.ts
+│  │  │  ├─ server_utils/
+│  │  │  │  ├─ handleResponse.ts
+│  │  │  │  ├─ handleSocket.ts
+│  │  │  │  ├─ logEnum.ts
+│  │  │  │  └─ logs.ts
+│  │  │  └─ enumNicknames.ts
 │  │  ├─ app.ts
 │  │  ├─ server.ts
 │  │  └─ socket.ts
 │  ├─ tsconfig.json
-│  ├─ package.json
-│  └─ .env
+│  └─ package.json
 ├─ ui/
 │  ├─ public/
 │  ├─ src/

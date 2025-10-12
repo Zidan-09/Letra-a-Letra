@@ -1,11 +1,11 @@
-import { RoomService } from "../services/roomServices";
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
-import { Themes } from "../utils/board_utils/themesEnum";
-import { GameModes } from "../utils/game_utils/gameModes";
-import { GameStatus } from "../utils/game_utils/gameStatus";
-import { nullPlayer, NullPlayer } from "../utils/game_utils/nullPlayer";
-import { LogEnum } from "../utils/server_utils/logEnum";
-import { createLog } from "../utils/server_utils/logs";
+import { RoomService } from "../services/roomService";
+import { MovementsEnum } from "../utils/game/movementsEnum";
+import { Themes } from "../utils/board/themesEnum";
+import { GameModes } from "../utils/game/gameModes";
+import { GameStatus } from "../utils/game/gameStatus";
+import { NullPlayer, nullPlayer } from "../utils/game/nullPlayer";
+import { LogEnum } from "../utils/server/logEnum";
+import { createLog } from "../utils/server/logger";
 import { Board } from "./board";
 import { Player } from "./player";
 

@@ -1,5 +1,5 @@
-import { MovementsEnum } from "../utils/board_utils/movementsEnum";
-import { PowerRarity } from "../utils/cell_utils/powerRarity";
+import { MovementsEnum } from "../utils/game/movementsEnum";
+import { PowerRarity } from "../utils/cell/powerRarity";
 
 interface PlayerEffect {
     active: boolean,

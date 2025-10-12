@@ -1,5 +1,5 @@
-import { RoomService } from "../services/roomServices";
-import { PlayerService } from "../services/playerServices";
+import { RoomService } from "../services/roomService";
+import { PlayerService } from "../services/playerService";
 
 PlayerService.createPlayer("player1", "Alex", false, 1);
 PlayerService.createPlayer("player2", "Alex", false, 2);
