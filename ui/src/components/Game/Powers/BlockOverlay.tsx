@@ -20,7 +20,7 @@ export default function BlockOverlay({ p1, remaining, blocked_by }: BlockOverlay
           <div
             key={index}
             className={
-              remaining <= 3 - index
+              remaining <= 2 - index
                 ? isMine
                   ? styles.p1Stage
                   : styles.p2Stage
