@@ -130,7 +130,7 @@
     border-radius: 2rem;
     padding: 0 0.5rem;
     font-weight: bold;
-    font-size: clamp(40px, 3vw, 50px);
+    font-size: clamp(40px, 2.5vw, 50px);
     white-space: nowrap;
     text-align: start;
     color: white;

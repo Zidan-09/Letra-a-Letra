@@ -18,6 +18,8 @@ export default function Lobby() {
     const [creator, setCreator] = useState<string>();
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
+    // const [unreadMessages, setUnreadMessages] = useState(0);
+
     const socket = useSocket();
     const navigate = useNavigate();
 
@@ -29,28 +31,32 @@ export default function Lobby() {
         const game = localStorage.getItem("game");
         const settings = localStorage.getItem("settings");
 
-        if (!game || !settings) {
+        if (!game) {
             navigate("/");
             return;
         };
         
         const gameData: Game = JSON.parse(game);
-        const settingsData: RoomSettings = JSON.parse(settings)
         
         setRoom(gameData);
-        setTheme(settingsData.theme);
-        setGamemode(settingsData.gamemode as GameModes);
-        setAllowedPowers(settingsData.allowedPowers);
-
+        
         const creatorData = [...gameData.players, ...gameData.spectators].filter(Boolean).find(c => c.player_id === gameData.created_by);
-
+        
         if (!creatorData) {
             return;
         };
-
+        
         setCreator(creatorData.player_id);
-
+        
         if (!socket) return;
+        
+        if (creator === socket.id && settings) {        
+            const settingsData: RoomSettings = JSON.parse(settings);
+
+            setTheme(settingsData.theme);
+            setGamemode(settingsData.gamemode as GameModes);
+            setAllowedPowers(settingsData.allowedPowers);
+        }
 
         socket.on("game_started", (startData: StartData) => {
             const { words, room } = startData;

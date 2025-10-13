@@ -9,7 +9,6 @@ import Slots from "../components/Game/Slots";
 import Board from "../components/Game/Board";
 import ExtraButtons from "../components/Game/ExtraButtons";
 import Words from "../components/Game/Words";
-import TurnOverlay from "../components/Game/TurnOverlay";
 import EffectOverlay from "../components/Game/EffectOverlay";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
 import Loading from "../components/Loading";
@@ -489,6 +488,7 @@ export default function Game() {
 
                 <Board
                 p1={p1}
+                turn={turn}
                 cellsData={cells}
                 move={move}
                 moveIdx={moveIdx}
@@ -510,8 +510,6 @@ export default function Game() {
                 onClose={() => {setChatOpen(false)}}
                 />
             )}
-
-            <TurnOverlay p1={p1} p2Nickname={p2.nickname} turn={turn} />
             
             <EffectOverlay freeze={p1.freeze.active} blind={p1.blind.active} immunity={p1.immunity.active} />
             <WinnerOverlay room_id={room?.room_id} winner={winner} isOpen={winner ? true : false} />

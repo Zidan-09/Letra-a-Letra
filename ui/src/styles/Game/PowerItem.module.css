@@ -20,6 +20,7 @@
 }
 
 .selected {
+    border: 2px solid green;
     transform: scale(1.05);
 }
 

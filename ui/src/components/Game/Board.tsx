@@ -4,15 +4,18 @@ import styles from "../../styles/Game/Board.module.css";
 
 interface BoardProps {
   p1: Player;
+  turn: number;
   cellsData: Record<CellKeys, CellUpdate>;
   move: MovementsEnum;
   moveIdx?: number;
   onCellClick?: (x: number, y: number) => void;
 }
 
-export default function Board({ p1, cellsData, move, moveIdx, onCellClick }: BoardProps) {
+export default function Board({ p1,turn, cellsData, move, moveIdx, onCellClick }: BoardProps) {
+  const isMine = turn % 2 === p1.turn; 
+
   return (
-    <div className={styles.board}>
+    <div className={`${styles.board} ${isMine ? styles.p1 : styles.p2}`}>
       {Array.from({ length: 10 }).map((_, y) => (
         <div key={y} className={styles.row}>
           {Array.from({ length: 10 }).map((_, x) => {
