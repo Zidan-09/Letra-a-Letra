@@ -106,7 +106,7 @@ export default function Game() {
 
         if (turn % 2 !== p1.turn) return;
 
-        //PassTurn.passTurnEffect(p1, room.room_id);
+        PassTurn.passTurnEffect(p1, room.room_id);
 
     }, [turn]);
 

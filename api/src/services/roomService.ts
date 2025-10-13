@@ -9,6 +9,8 @@ import { GameSocket } from "../utils/socket/gameSocket";
 import { RoomSocket } from "../utils/socket/roomSocket";
 import { PlayerService } from "./playerService";
 import { enumNicknames } from "../utils/room/enumNicknames";
+import { roomTimeOut } from "../utils/room/roomTImeOut";
+import { CloseReasons } from "../utils/room/closeReasons";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -33,14 +35,18 @@ class RoomServices {
             privateRoom
         );
 
+        
         createLog(room.room_id, LogEnum.RoomCreated);
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
+        
+        roomTimeOut(room);
 
         this.rooms.set(room.room_id, room);
         PlayerService.removePlayer(player_id);
 
+
         return room;
-    }
+    };
 
     public joinRoom(
         room_id: string,
@@ -71,7 +77,7 @@ class RoomServices {
         RoomSocket.joinRoom([...room.players, ...room.spectators], room);
 
         return room;
-    }
+    };
 
     public reconnectRoom(
         room_id: string,
@@ -88,7 +94,7 @@ class RoomServices {
         createLog(room_id, `${nickname} ${LogEnum.PlayerReconnected}`);
 
         return ServerResponses.Reconnected;
-    }
+    };
 
     public leaveRoom(
         room_id: string,
@@ -110,7 +116,7 @@ class RoomServices {
         } else {
             const index = room.players.findIndex(p => p?.player_id === player_id);
             if (index !== -1) room.players[index] = undefined as any;
-        }
+        };
 
         enumNicknames([...room.players, ...room.spectators]);
 
@@ -143,7 +149,7 @@ class RoomServices {
         }
 
         return RoomResponses.LeftRoom;
-    }
+    };
 
     public afkPlayer(room_id: string, player_id: string): ServerResponses.Ended | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
@@ -156,7 +162,7 @@ class RoomServices {
         GameSocket.gameOver(room_id);
 
         return ServerResponses.Ended;
-    }
+    };
 
     public changeRole(
         room_id: string,
@@ -197,19 +203,28 @@ class RoomServices {
         RoomSocket.changeRole([...room.players, ...room.spectators], room);
 
         return room;
-    }
+    };
 
     public getRoom(id: string): Game | ServerResponses.NotFound {
         return this.rooms.get(id) ?? ServerResponses.NotFound;
-    }
+    };
 
     public getPublicRooms(): Game[] {
         return Array.from(this.rooms.values()).filter(room => !room.privateRoom);
-    }
+    };
 
-    public closeRoom(room_id: string): boolean {
+    public closeRoom(room_id: string, reason: CloseReasons): boolean {
+        const room = this.rooms.get(room_id);
+
+        if (!room) return false;
+
+        clearTimeout(room.timeout);
+
+        RoomSocket.roomClosed([...room.players, ...room.spectators], reason);
+        createLog(room_id, `${LogEnum.RoomClosed} because ${reason}`);
+
         return this.rooms.delete(room_id);
-    }
-}
+    };
+};
 
 export const RoomService = new RoomServices();

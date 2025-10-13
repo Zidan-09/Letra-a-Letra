@@ -8,11 +8,14 @@ import { LogEnum } from "../utils/server/logEnum";
 import { createLog } from "../utils/server/logger";
 import { Board } from "./board";
 import { Player } from "./player";
+import { CloseReasons } from "../utils/room/closeReasons";
 
 export class Game {
     room_id: string;
     room_name: string;
     status: GameStatus;
+    createdAt: number;
+    timeout?: NodeJS.Timeout;
     players: Player[] = Array(2).fill(undefined);
     spectators: Player[] = Array(5).fill(undefined);
     created_by: string;
@@ -35,7 +38,26 @@ export class Game {
         this.allowSpectators = allowSpectators;
         this.privateRoom = privateRoom;
         this.players[0] = player;
-    }
+        this.createdAt = Date.now();
+    };
+
+    toJSON() {
+        return {
+            room_id: this.room_id,
+            room_name: this.room_name,
+            status: this.status,
+            createdAt: this.createdAt,
+            players: this.players,
+            spectators: this.spectators,
+            created_by: this.created_by,
+            creator: this.creator,
+            timer: this.timer,
+            turn: this.turn,
+            board: this.board,
+            allowSpectators: this.allowSpectators,
+            privateRoom: this.privateRoom,
+        };
+    };
 
     public startGame(theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
         this.board = new Board(theme, gamemode, allowedPowers);
@@ -71,7 +93,7 @@ export class Game {
                 return nullPlayer;
             }
 
-            RoomService.closeRoom(this.room_id);
+            RoomService.closeRoom(this.room_id, CloseReasons.ALL_LEFT);
             return false;
         }
 

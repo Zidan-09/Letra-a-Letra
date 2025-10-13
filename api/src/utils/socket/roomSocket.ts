@@ -1,6 +1,7 @@
 import { getSocketInstance } from "../../socket";
 import { Game } from "../../entities/game";
 import { Player } from "../../entities/player";
+import { CloseReasons } from "../room/closeReasons";
 
 export const RoomSocket = {
     joinRoom(players: Player[], room: Game) {
@@ -24,6 +25,14 @@ export const RoomSocket = {
 
         players.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("role_changed", room)
+        );
+    },
+
+    roomClosed(players: Player[], reason: CloseReasons) {
+        const io = getSocketInstance();
+
+        players.filter(Boolean).forEach(p =>
+            io.to(p.player_id).emit("room_closed", reason)
         );
     }
 }

@@ -46,7 +46,7 @@ export const GameMiddleware = {
             if (
                 !gameModes.includes(gamemode)
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
-
+            
             next();
 
         } catch (err) {
