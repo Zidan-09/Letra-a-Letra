@@ -77,14 +77,15 @@ export const GameSocket = {
         movement: MovementsEnum,
         data: MoveEmit
     ) {
-        const io = getSocketInstance();
-
+        
         const room = RoomService.getRoom(room_id);
         if (room === ServerResponses.NotFound || !room.players || !room.spectators) return;
         const players = room.players
         const spectators = room.spectators;
-
+        
         const all = [...players, ...spectators];
+        
+        const io = getSocketInstance();
 
         all.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("movement", {
@@ -95,6 +96,21 @@ export const GameSocket = {
                 turn: room.turn
             })
         )
+    },
+
+    passTurn(room_id: string) {
+        const room = RoomService.getRoom(room_id);
+        if (room === ServerResponses.NotFound || !room.players || !room.spectators) return;
+        const players = room.players
+        const spectators = room.spectators;
+        
+        const all = [...players, ...spectators];
+        
+        const io = getSocketInstance();
+
+        all.filter(Boolean).forEach(p =>
+            io.to(p.player_id).emit("pass_turn", { turn: room.turn })
+        );
     },
 
     gameOver(room_id: string) {

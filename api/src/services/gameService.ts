@@ -9,6 +9,7 @@ import { Movements } from "../utils/game/movements";
 import { GameModes } from "../utils/game/gameModes";
 import { Themes } from "../utils/board/themesEnum";
 import { MoveEmit } from "../utils/socket/gameEmits";
+import { GameSocket } from "../utils/socket/gameSocket";
 
 export const GameService = {
     startGame(room_id: string, theme: Themes, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
@@ -67,7 +68,9 @@ export const GameService = {
         ) {
             const result = RoomService.afkPlayer(room_id, player_id);
             return result;
-        }
+        };
+
+        GameSocket.passTurn(room_id);
 
         return GameResponses.Continue;
     },
