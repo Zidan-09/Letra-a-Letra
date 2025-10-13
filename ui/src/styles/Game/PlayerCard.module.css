@@ -32,13 +32,16 @@
     width: 80px;
     aspect-ratio: 1 / 1;
     border-radius: 0.65rem;
-    background: rgba(255,255,255,0.2);
     display: flex;
     justify-content: center;
     align-items: center;
     margin-left: 10px;
     margin-right: 10px;
-    border: 3px solid white;
+    padding: 5px;
+    background: conic-gradient(
+        white calc(var(--progress, 0) * 360deg),
+        var(--border-color, #4caf50) 0deg
+    );
 }
 
 .avatarP1 {
