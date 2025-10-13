@@ -460,6 +460,8 @@ export default function Game() {
                 <PlayerCard
                 id={0}
                 player={p1}
+                timer={timer}
+                turn={turn}
                 />
 
                 <img src={logo} alt="Logo" className={styles.logo} />
@@ -467,6 +469,8 @@ export default function Game() {
                 <PlayerCard
                 id={1}
                 player={p2}
+                timer={timer}
+                turn={turn}
                 />
             </div>
 
