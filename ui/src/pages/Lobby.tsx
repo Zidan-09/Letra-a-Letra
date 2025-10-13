@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import settings from "../settings.json";
-import { type Game, type GameModes, type MovementsEnum, type RoomSettings, type StartData } from "../utils/room_utils";
+import { type CloseReasons, type Game, type GameModes, type MovementsEnum, type RoomSettings, type StartData } from "../utils/room_utils";
 import PlayerList from "../components/Lobby/PlayerList";
 import ChatPopup from "../components/Lobby/ChatPopup";
 import SpectatorsList from "../components/Lobby/SpectatorsList";
@@ -80,12 +80,17 @@ export default function Lobby() {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
 
+        socket.on("room_closed", (reason: CloseReasons) => {
+            alert(`Sala fechada por ${reason == "time_out" ? "inatividade" : "falta de jogadores"}`);
+            navigate("/");
+        });
 
         return () => {
             socket.off("player_joined");
             socket.off("player_left");
             socket.off("role_changed");
             socket.off("game_started");
+            socket.off("room_closed");
         };
 
     }, [socket]);

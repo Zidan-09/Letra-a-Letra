@@ -19,6 +19,8 @@ export const GameService = {
             game === ServerResponses.NotFound
         ) return ServerResponses.NotFound;
 
+        if (game.timeout) clearTimeout(game.timeout);
+
         const players = game.players;
 
         if (

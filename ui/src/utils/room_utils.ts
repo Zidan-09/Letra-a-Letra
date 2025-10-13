@@ -185,6 +185,8 @@ export interface NullPlayer {
     avatar: 1
 }
 
+export type CloseReasons = "all_left" | "time_out"
+
 export type {
     Game, 
     GameStatus, 
