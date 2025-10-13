@@ -15,7 +15,6 @@ export const PassTurn = {
     },
 
     async passTurnEffect(p1: Player, room_id: string): Promise<void> {
-        console.log("ENTROU")
         if (!p1 || !room_id) return;
         if (!p1.freeze.active) return;
 
@@ -25,7 +24,6 @@ export const PassTurn = {
                 (p.power === "IMMUNITY" && p.rarity === "LEGENDARY" && p.type === "effect")
             )
         ) return;
-
 
         await fetch(`${settings.server}/game/${room_id}/effect/pass`, {
             method: "POST",

@@ -23,6 +23,9 @@ export default function Game() {
     const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
     const [turn, setTurn] = useState<number>(0);
 
+    const [hidedLetters, setHidedLetters] = useState<CellUpdate[]>([]);
+    const [hidedWords, setHidedWords] = useState<{ finded_by: string, finded: string, positions: [number, number][] }[]>([]);
+
     const [words, setWords] = useState<string[]>();
     const [findeds, setFindeds] = useState<CompletedWord[]>([]);
 
@@ -91,18 +94,57 @@ export default function Game() {
     }, [turn]);
 
     useEffect(() => {
+        console.log("ENTROU NO USE");
+        if (!room || !p1) return;
+        if (p1.blind.active) return;
+        if (hidedLetters.length === 0 && hidedWords.length === 0) return;
+        console.log("VAI FAZER");
+
+        setCells(prev => {
+            const copy = { ...prev };
+
+            hidedLetters.forEach(data => {
+                const key = `${data.x}-${data.y}` as CellKeys;
+                copy[key] = {
+                    ...copy[key],
+                    letter: data.letter,
+                    actor: data.actor
+                };
+            });
+
+            hidedWords.forEach(p => {
+                p.positions.forEach(pos => {
+                    const key = `${pos[0]}-${pos[1]}` as CellKeys;
+                    copy[key] = {
+                        ...copy[key],
+                        finded_by: p.finded_by
+                    };
+                });
+            });
+
+            return copy;
+        });
+
+        setHidedLetters([]);
+        setHidedWords([]);
+    }, [p1?.blind.active]);
+
+
+    useEffect(() => {
         if (!socket) return;
 
         socket.on("movement", ({player_id, movement, data, players, turn}: GameData) => {
             setTurn(turn);
+            let p1Data: Player;
 
             setP1(prev => {
                 if (!prev) return prev;
 
                 const copy = { ...prev };
                 const player = players.find(p => p.player_id === copy.player_id);
-
+                
                 if (!player) return prev;
+                p1Data = player;
 
                 return player;
             });
@@ -253,6 +295,31 @@ export default function Game() {
                     case "REVEAL":
                         if (data.cell) {
                             const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+
+                            if (p1Data && p1Data.blind.active) {
+                                const newHideLetter: CellUpdate = {
+                                    ...copy[key],
+                                    x: data.cell.x,
+                                    y: data.cell.y,
+                                    letter: data.letter,
+                                    actor: player_id
+                                };
+
+                                const newFind: CompletedWord | undefined = data.completedWord ? {
+                                    finded_by: player_id,
+                                    finded: data.completedWord.word,
+                                    positions: data.completedWord.positions
+                                } : undefined;
+
+                                setHidedLetters(prev => [...prev, newHideLetter]);
+
+                                if (newFind) {
+                                    setHidedWords(prev => [...prev, newFind]);
+                                    setFindeds(prev => [...prev, newFind]);
+                                };
+
+                                break;
+                            };
                             
                             if (data.status === "trap_trigged") {
                                 copy[key] = {
@@ -297,25 +364,25 @@ export default function Game() {
                         }
 
                         if (data.completedWord) {
-                            const find = {
+                            const find: CompletedWord | undefined = data.completedWord ? {
                                 finded_by: player_id,
                                 finded: data.completedWord.word,
                                 positions: data.completedWord.positions
-                            }
+                            } : undefined;
 
-                            setFindeds(prev => [...prev, find]);
+                            if (find) setFindeds(prev => [...prev, find]);
 
                             data.completedWord.positions.forEach(p => {
                                 const key = `${p[0]}-${p[1]}` as CellKeys;
                                 copy[key] = {
                                     ...copy[key],
                                     finded_by: player_id
-                                }
-                            })
-                        }
+                                };
+                            });
+                        };
 
                         break;
-                }
+                };
 
                 return copy;
             });
