@@ -10,5 +10,7 @@ roomRouter.patch("/:room_id/players/:player_id", RoomMiddleware.changeRole, Room
 roomRouter.get("/", RoomController.getRooms);
 roomRouter.get("/:room_id", RoomMiddleware.getRoom, RoomController.getRoom)
 roomRouter.delete("/:room_id/players/:player_id", RoomMiddleware.leftRoom, RoomController.leaveRoom);
+roomRouter.post("/:room_id/players/:player_id/remove", RoomMiddleware.removePlayer, RoomController.removePlayer);
+//roomRouter.post("/:room_id/players/:player_id/unban", RoomMiddleware.unbanPlayer, RoomController.unbanPlayer);
 
 export default roomRouter;

@@ -6,6 +6,8 @@ enum LogEnum {
     PlayerReconnected = "reconnected to the game",
     PlayerTurnedToSpectator = "turned to spectator",
     SpectatorTurnedToPlayer = "turned to player",
+    PlayerKicked = "was kicked",
+    PlayerBanned = "was banned",
     SwapSlot = "swaped slot",
     PlayerLeft = "left the game",
     GameStarted = "game started",

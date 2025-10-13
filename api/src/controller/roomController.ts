@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { HandleResponse } from "../utils/server/handleResponse";
-import { ActionParams, ChangeRole, CreateRoom, JoinRoom, RoomParams } from "../utils/requests/roomRequests";
+import { ActionParams, ChangeRole, CreateRoom, JoinRoom, RemovePlayer, RoomParams } from "../utils/requests/roomRequests";
 import { RoomService } from "../services/roomService";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { ServerResponses } from "../utils/responses/serverResponses";
@@ -114,4 +114,24 @@ export const RoomController = {
             HandleResponse.errorResponse(res, ServerResponses.ServerError);
         }
     },
+
+    removePlayer(req: Request<ActionParams, {}, RemovePlayer>, res: Response) {
+        const { room_id, player_id } = req.params;
+        const { banned } = req.body;
+
+        try {
+            const result = RoomService.removePlayer(room_id, player_id, banned);
+
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.RemovedPlayer, result);
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+        }
+    },
+
 }

@@ -30,5 +30,9 @@ interface ChangeRole {
     index: number;
 }
 
+interface RemovePlayer {
+    banned: boolean;
+}
 
-export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole }
+
+export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole, RemovePlayer }
