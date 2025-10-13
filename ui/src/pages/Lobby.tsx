@@ -111,9 +111,7 @@ export default function Lobby() {
     }
 
     const handlePlay = async () => {
-
         if (!room || room.players.filter(Boolean).length < 2 || !theme || !gamemode || !allowedPowers) return null;
-        console.log("🔍 Dados para iniciar o jogo:", { theme, gamemode, allowedPowers });
         const result = await fetch(`${settings.server}/game/${room.room_id}/start`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -123,10 +121,8 @@ export default function Lobby() {
                 allowedPowers: allowedPowers,
             })
         }).then(res => res.json()).then(data => data);
-        console.log(result)
 
         if (!result.success) return null;
-        console.log(result)
     }
     
     return (

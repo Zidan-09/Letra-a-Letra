@@ -30,48 +30,51 @@ export class Cell {
         this.clicks = 0;
     }
 
-    powerup(gamemode: GameModes, allowedPowers: MovementsEnum[]): { hasPowerup: boolean, rarity?: PowerRarity, powerup: MovementsEnum | null } {
+    powerup(
+        gamemode: GameModes, 
+        allowedPowers: MovementsEnum[]
+    ): { hasPowerup: boolean; rarity?: PowerRarity; powerup: MovementsEnum | null } {
+
         const chance = gamemode === GameModes.NORMAL ? data.settings.chancePerCell : 100;
 
-        if (Math.random() >= chance / 100) return {
-            hasPowerup: false,
-            powerup: null
-        }
+        if (Math.random() >= chance / 100) return { hasPowerup: false, powerup: null };
 
         const roll = Math.random();
-        const rare = data.settings.percentages.rare;
-        const epic = data.settings.percentages.epic;
-        const legend = data.settings.percentages.legendary;
+        const { rare, epic, legendary } = data.settings.percentages;
 
         const getRandomAllowedPower = (powers: typeof data.powers.common) => {
             const filtered = powers.filter(p => allowedPowers.includes(p.name as MovementsEnum));
-
             if (filtered.length === 0) return null;
-
             const index = Math.floor(Math.random() * filtered.length);
-
             return filtered[index];
         };
 
-        let chosenPower;
-
-        if (roll <= legend) chosenPower = getRandomAllowedPower(data.powers.legendary);
+        let chosenPower =
+            roll <= legendary ? getRandomAllowedPower(data.powers.legendary) : null;
 
         if (!chosenPower && roll <= epic) chosenPower = getRandomAllowedPower(data.powers.epic);
-
         if (!chosenPower && roll <= rare) chosenPower = getRandomAllowedPower(data.powers.rare);
-        
         if (!chosenPower) chosenPower = getRandomAllowedPower(data.powers.common);
 
-        if (chosenPower) return {
-            hasPowerup: true,
-            rarity: chosenPower.rarity as PowerRarity,
-            powerup: chosenPower.name as MovementsEnum
+        if (!chosenPower) {
+            const allPowers = [
+                ...data.powers.legendary,
+                ...data.powers.epic,
+                ...data.powers.rare,
+                ...data.powers.common
+            ];
+            chosenPower = allPowers.find(p => allowedPowers.includes(p.name as MovementsEnum)) || null;
         }
 
-        return {
-            hasPowerup: false,
-            powerup: null
+        if (chosenPower) {
+            return {
+                hasPowerup: true,
+                rarity: chosenPower.rarity as PowerRarity,
+                powerup: chosenPower.name as MovementsEnum
+            };
         }
+
+        return { hasPowerup: false, powerup: null };
     }
+
 }

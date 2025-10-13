@@ -94,11 +94,9 @@ export default function Game() {
     }, [turn]);
 
     useEffect(() => {
-        console.log("ENTROU NO USE");
         if (!room || !p1) return;
         if (p1.blind.active) return;
         if (hidedLetters.length === 0 && hidedWords.length === 0) return;
-        console.log("VAI FAZER");
 
         setCells(prev => {
             const copy = { ...prev };
