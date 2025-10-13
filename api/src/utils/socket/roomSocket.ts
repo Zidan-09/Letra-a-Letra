@@ -34,5 +34,15 @@ export const RoomSocket = {
         players.filter(Boolean).forEach(p =>
             io.to(p.player_id).emit("room_closed", reason)
         );
+    },
+
+    removePlayer(players: Player[], room: Game, banned: boolean) {
+        const io = getSocketInstance();
+
+        const event = banned ? "banned" : "kicked"
+
+        players.filter(Boolean).forEach(p =>
+            io.to(p.player_id).emit(event, room)
+        );
     }
 }

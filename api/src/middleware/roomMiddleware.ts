@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express"
-import { CreateRoom, JoinRoom, LeaveRoom, ChangeRole, RoomParams, ActionParams } from "../utils/requests/roomRequests";
+import { CreateRoom, JoinRoom, LeaveRoom, ChangeRole, RoomParams, ActionParams, RemovePlayer } from "../utils/requests/roomRequests";
 import { HandleResponse } from "../utils/server/handleResponse";
 import { RoomResponses } from "../utils/responses/roomResponses";
 import { RoomService } from "../services/roomService";
@@ -24,7 +24,7 @@ export const RoomMiddleware = {
             
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err)
+            HandleResponse.errorResponse(res, ServerResponses.ServerError)
         }
     },
 
@@ -53,13 +53,17 @@ export const RoomMiddleware = {
 
             if (
                 !game.allowSpectators && spectator
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.SpectatorsOff); 
+            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.SpectatorsOff);
+
+            if (
+                game.bannedPlayerIds.includes(player_id)
+            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer);
 
             next();
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res, ServerResponses.ServerError);
         }
     },
 
@@ -126,7 +130,7 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res, ServerResponses.ServerError);
         }
     },
 
@@ -142,7 +146,7 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res, ServerResponses.ServerError);
         }
     },
 
@@ -167,7 +171,36 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+        }
+    },
+
+    removePlayer(req: Request<ActionParams, {}, RemovePlayer>, res: Response, next: NextFunction) {
+        const { room_id, player_id } = req.params;
+        const { banned } = req.body;
+
+        try {
+            if (
+                !room_id ||
+                !player_id ||
+                banned === undefined
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
+
+            const game = RoomService.getRoom(room_id);
+
+            if (
+                game === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            const player = [...game.players, ...game.spectators].filter(Boolean).find(p => p.player_id === player_id);
+
+            if (!player) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            next();
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res, ServerResponses.ServerError)
         }
     },
 }

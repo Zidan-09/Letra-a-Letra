@@ -225,6 +225,29 @@ class RoomServices {
 
         return this.rooms.delete(room_id);
     };
+
+    public removePlayer(room_id: string, player_id: string, banned: boolean) {
+        const room = this.rooms.get(room_id);
+
+        if (!room) return ServerResponses.NotFound;
+
+        const all = [...room.players, ...room.spectators];
+
+        const player = all.filter(Boolean).find(p => p.player_id === player_id);
+
+        if (!player) return ServerResponses.NotFound;
+
+        const idx = all.filter(Boolean).findIndex(p => p === player);
+        room.players.splice(idx, 1);
+
+        if (banned) room.bannedPlayerIds.push(player_id);
+
+        createLog(room_id, `${player.nickname} ${banned ? LogEnum.PlayerBanned : LogEnum.PlayerKicked}`)
+
+        RoomSocket.removePlayer(all, room, banned);
+
+        return room;
+    };
 };
 
 export const RoomService = new RoomServices();

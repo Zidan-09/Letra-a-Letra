@@ -18,6 +18,7 @@ export class Game {
     timeout?: NodeJS.Timeout;
     players: Player[] = Array(2).fill(undefined);
     spectators: Player[] = Array(5).fill(undefined);
+    bannedPlayerIds: string[] = [];
     created_by: string;
     creator: string;
     timer: number;
