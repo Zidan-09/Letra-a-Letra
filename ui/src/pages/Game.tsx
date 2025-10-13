@@ -22,6 +22,7 @@ export default function Game() {
     const [p2, setP2] = useState<Player>();
     const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
     const [turn, setTurn] = useState<number>(0);
+    const [timer, setTimer] = useState<number>();
 
     const [hidedLetters, setHidedLetters] = useState<CellUpdate[]>([]);
     const [hidedWords, setHidedWords] = useState<{ finded_by: string, finded: string, positions: [number, number][] }[]>([]);
@@ -69,6 +70,7 @@ export default function Game() {
 
         setRoom(data);
         setWords(wordsParsed);
+        setTimer(data.timer);
 
         if (me.spectator) {
             setP1(p1Data);
@@ -85,6 +87,18 @@ export default function Game() {
     }, [navigate, socket]);
 
     useEffect(() => {
+        if (!room || !p1 || !timer) return;
+        if (turn % 2 !== p1.turn) return;
+
+        const timeout = setTimeout(() => {
+            PassTurn.passTurnTimer(p1, room.room_id);
+        }, (timer * 1000));
+
+        return () => clearTimeout(timeout);
+
+    }, [turn]);
+
+    useEffect(() => {
         if (!room || !p1) return;
 
         if (turn % 2 !== p1.turn) return;
@@ -94,11 +108,9 @@ export default function Game() {
     }, [turn]);
 
     useEffect(() => {
-        console.log("ENTROU NO USE");
         if (!room || !p1) return;
         if (p1.blind.active) return;
         if (hidedLetters.length === 0 && hidedWords.length === 0) return;
-        console.log("VAI FAZER");
 
         setCells(prev => {
             const copy = { ...prev };
@@ -390,7 +402,11 @@ export default function Game() {
 
         socket.on("player_left", (updatedRoom: Game) => {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
-        })
+        });
+
+        socket.on("pass_turn", ({turn}) => {
+            setTurn(turn)
+        });
 
         socket.on("game_over", ({winner, room}) => {
             if (room) localStorage.setItem("game", JSON.stringify(room));
@@ -401,6 +417,7 @@ export default function Game() {
         return () => {
             socket.off("movement");
             socket.off("player_left");
+            socket.off("pass_turn");
             socket.off("game_over");
             spyTimers.current.forEach(timer => clearTimeout(timer));
             spyTimers.current.clear();
