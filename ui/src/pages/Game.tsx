@@ -22,6 +22,8 @@ export default function Game() {
     const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
     const [turn, setTurn] = useState<number>(0);
     const [timer, setTimer] = useState<number>();
+    const [viewFlipped, setViewFlipped] = useState<boolean>(false);
+    const turnStartRef = useRef<number>(Date.now());
 
     const [hidedLetters, setHidedLetters] = useState<CellUpdate[]>([]);
     const [hidedWords, setHidedWords] = useState<{ finded_by: string, finded: string, positions: [number, number][] }[]>([]);
@@ -45,8 +47,8 @@ export default function Game() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        let game = localStorage.getItem("game");
-        let wordsData = localStorage.getItem("words");
+        const game = localStorage.getItem("game");
+        const wordsData = localStorage.getItem("words");
 
         if (!socket || !socket.id) return;
 
@@ -74,6 +76,7 @@ export default function Game() {
         if (me.spectator) {
             setP1(p1Data);
             setP2(p2Data);
+            setLoading(false);
             return;
         }
 
@@ -87,6 +90,7 @@ export default function Game() {
 
     useEffect(() => {
         if (!room || !p1 || !timer) return;
+
         if (turn % 2 !== p1.turn) return;
 
         const timeout = setTimeout(() => {
@@ -102,7 +106,7 @@ export default function Game() {
 
         if (turn % 2 !== p1.turn) return;
 
-        PassTurn.passTurnEffect(p1, room.room_id);
+        //PassTurn.passTurnEffect(p1, room.room_id);
 
     }, [turn]);
 
@@ -146,6 +150,8 @@ export default function Game() {
 
         socket.on("movement", ({player_id, movement, data, players, turn}: GameData) => {
             setTurn(turn);
+            turnStartRef.current = Date.now();
+
             let p1Data: Player;
 
             setP1(prev => {
@@ -404,7 +410,8 @@ export default function Game() {
         });
 
         socket.on("pass_turn", ({turn}) => {
-            setTurn(turn)
+            setTurn(turn);
+            turnStartRef.current = Date.now();
         });
 
         socket.on("game_over", ({winner, room}) => {
@@ -445,11 +452,17 @@ export default function Game() {
 
         setMove("REVEAL");
         setMoveIdx(undefined);
-    }
+    };
 
     const handleChat = () => {
         setChatOpen(true);
-    }
+    };
+
+    const handleFlipView = () => {
+        if (p1?.player_id === socket.id) return;
+
+        setViewFlipped(prev => !prev);
+    };
 
     if (loading || !p1 || !p2 || !words) return <Loading />
 
@@ -458,18 +471,20 @@ export default function Game() {
             <div className={styles.header}>
                 <PlayerCard
                 id={0}
-                player={p1}
+                player={viewFlipped ? p2 : p1}
                 timer={timer}
                 turn={turn}
+                turnStart={turnStartRef.current}
                 />
 
                 <img src={logo} alt="Logo" className={styles.logo} />
 
                 <PlayerCard
                 id={1}
-                player={p2}
+                player={viewFlipped ? p1 : p2}
                 timer={timer}
                 turn={turn}
+                turnStart={turnStartRef.current}
                 />
             </div>
 
@@ -483,7 +498,13 @@ export default function Game() {
                     applyEffect={handleMovement}
                     />
                 ) : (
-                    <div></div>
+                    <button
+                    type="button"
+                    className={styles.switchView}
+                    onClick={handleFlipView}
+                    >
+                        Trocar
+                    </button>
                 )}
 
                 <Board

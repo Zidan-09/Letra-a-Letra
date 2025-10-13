@@ -39,3 +39,21 @@
     align-items: center;
     justify-items: center;
 }
+
+.switchView {
+    width: 7rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    background-color: rgb(21, 248, 29);
+    border: 5px solid rgb(77, 255, 89);
+    box-shadow: 0 6px 0 rgb(46, 138, 52);
+    font-family: 'Lilita One', cursive;
+    font-size: 2rem;
+    color: white;
+}
+
+.switchView:hover {
+    transform: translateY(-3px);
+    cursor: pointer;
+    border: 5px solid rgb(0, 230, 17);
+}
