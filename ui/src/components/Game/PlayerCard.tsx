@@ -8,9 +8,10 @@ interface PlayerCardProps {
     player: Player;
     timer: number | undefined;
     turn: number;
+    turnStart: number;
 }
 
-export default function PlayerCard({ id, player, timer, turn }: PlayerCardProps) {
+export default function PlayerCard({ id, player, timer, turn, turnStart }: PlayerCardProps) {
     const [progress, setProgress] = useState<number>(0);
     const [borderColor, setBorderColor] = useState("#4caf50");
 
@@ -21,30 +22,22 @@ export default function PlayerCard({ id, player, timer, turn }: PlayerCardProps)
     useEffect(() => {
         if (!timerBorder) {
             setProgress(0);
-            setBorderColor("white")
+            setBorderColor("white");
             return;
         }
 
-        setProgress(0);
-        setBorderColor("#4caf50");
-        const start = Date.now();
-
         const interval = setInterval(() => {
-            const elapsed = Date.now() - start;
+            const elapsed = Date.now() - turnStart;
             const prog = Math.min(elapsed / (timer * 1000), 1);
             setProgress(prog);
 
-            if (prog < 0.5) {
-                setBorderColor("#4caf50");
-            } else if (prog < 0.8) {
-                setBorderColor("#ffe600ff");
-            } else {
-                setBorderColor("#f44336");
-            }
+            if (prog < 0.5) setBorderColor("#4caf50");
+            else if (prog < 0.8) setBorderColor("#ffe600ff");
+            else setBorderColor("#f44336");
         }, 16);
 
         return () => clearInterval(interval);
-    }, [turn, timer, timerBorder]);
+    }, [turn, timer, timerBorder, turnStart]);
 
     return (
         <div className={`${styles.card} ${id === 0 ? styles.p1 : styles.p2}`}>
