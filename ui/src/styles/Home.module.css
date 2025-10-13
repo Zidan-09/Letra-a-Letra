@@ -53,7 +53,7 @@
 
 .label {
     font-size: 2rem;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
     color: white;
     -webkit-text-stroke: 1.5px #464646;
     margin-top: 0;
@@ -64,7 +64,7 @@
 }
 
 .avatar {
-    width: 70px;
+    width: 80px;
     aspect-ratio: 1 / 1;
     border: 3px solid white;
     border-radius: 1rem;
@@ -90,6 +90,7 @@
     text-align: center;
     box-sizing: border-box;
     font-size: clamp(1rem, 1.5vw, 1.3rem);
+    height: 3rem;
 }
 
 .input:focus {
