@@ -1,21 +1,29 @@
 import { useRef, useEffect, useState } from "react";
 import { useSocket } from "../../services/socketProvider";
-import type { Message } from "../../utils/room_utils";
+import type { Message, Player } from "../../utils/room_utils";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import iconSend from "../../assets/buttons/icon-send.svg";
 import styles from "../../styles/ChatPopup.module.css";
+import ChatPlayersPopup from "./ChatPlayersPopup";
 
 interface ChatPopupProps {
     room_id: string | undefined;
     nickname: string | undefined;
     local: "lobby" | "game";
+    creator: string | undefined;
+    players?: Player[];
+    selectedPlayer: string | undefined;
+    selectPlayer: (player: string) => void;
+    remove: (ban: boolean) => void;
+    unban: () => void;
     isOpen: boolean;
     onClose: () => void;
 }
 
-export default function ChatPopup({ room_id, nickname, local, isOpen, onClose }: ChatPopupProps) {
+export default function ChatPopup({ room_id, nickname, local, creator, players, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose }: ChatPopupProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [myMessage, setMyMessage] = useState<string>("");
+    const [isChatPlayersOpen, setChatPlayersOpen] = useState<boolean>(false);
     const endRef = useRef<HTMLDivElement>(null);
     const socket = useSocket();
 
@@ -65,7 +73,14 @@ export default function ChatPopup({ room_id, nickname, local, isOpen, onClose }:
                         />
                     </div>
                     <h2 className={styles.titleChat}>Chat</h2>
-                    <div className={styles.space}></div>
+
+                    {local === "lobby" && creator === nickname ? (
+                        <button
+                        className={styles.chatPlayers}
+                        >Jogadores</button>
+                    ) : (
+                        <div className={styles.space}></div>
+                    )}    
                 </div>
 
                 <div className={styles.messages}>
@@ -110,6 +125,16 @@ export default function ChatPopup({ room_id, nickname, local, isOpen, onClose }:
                     </div>
                 </div>
             </div>
+
+            <ChatPlayersPopup
+            players={players}
+            isOpen={isChatPlayersOpen}
+            onClose={() => setChatPlayersOpen(false)}
+            selected={selectedPlayer}
+            select={selectPlayer}
+            removePlayer={remove}
+            unban={unban}
+            />
         </div>
     )
 }

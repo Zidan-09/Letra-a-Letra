@@ -196,6 +196,10 @@ export const RoomMiddleware = {
 
             if (!player) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
 
+            if (
+                player.player_id === game.created_by
+            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.DataError);
+
             next();
 
         } catch (err) {

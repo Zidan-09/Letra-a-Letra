@@ -19,6 +19,7 @@ export default function Lobby() {
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     // const [unreadMessages, setUnreadMessages] = useState(0);
+    const [selectedPlayer, setSelectedPlayer] = useState<string>();
 
     const socket = useSocket();
     const navigate = useNavigate();
@@ -134,6 +135,30 @@ export default function Lobby() {
         }).then(res => res.json()).then(data => data);
 
         if (!result.success) return null;
+    };
+
+    const handleRemovePlayer = async (ban: boolean) => {
+        if (!selectedPlayer || !room) return;
+
+        const result = await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/remove`, {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                banned: ban
+            })
+        }).then(res => res.json())
+        .then(data => data);
+
+        if (!result.success) return null;
+    };
+
+    const handleUnbanPlayer = async () => {
+        if (!selectedPlayer || !room) return;
+
+        const result = await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/unban`,)
+        .then(res => res.json())
+        .then(data => data);
+
+        if (!result.success) return null;
     }
     
     return (
@@ -203,6 +228,12 @@ export default function Lobby() {
                 room_id={room?.room_id}
                 nickname={[...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id === socket.id)?.nickname}
                 local="lobby"
+                creator={room.creator}
+                players={[...room.players, ...room.spectators]}
+                selectedPlayer={selectedPlayer}
+                selectPlayer={setSelectedPlayer}
+                remove={handleRemovePlayer}
+                unban={handleUnbanPlayer}
                 isOpen={isChatOpen}
                 onClose={() => {setChatOpen(false)}}
                 />
