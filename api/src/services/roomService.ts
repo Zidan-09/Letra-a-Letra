@@ -248,6 +248,26 @@ class RoomServices {
 
         return room;
     };
+
+    public unbanPlayer(room_id: string, player_id: string) {
+        const room = this.rooms.get(room_id);
+
+        if (!room) return ServerResponses.NotFound;
+
+        if (
+            !room.bannedPlayerIds.includes(player_id)
+        ) return RoomResponses.BannedPlayerNotFound;
+
+        const idx = room.bannedPlayerIds.findIndex(id => id === player_id);
+
+        if (!idx) return ServerResponses.NotFound;
+
+        room.bannedPlayerIds.splice(idx, 1);
+
+        createLog(room_id, `player with id: ${player_id} ${LogEnum.PlayerUnbanned}`);
+
+        return room;
+    };
 };
 
 export const RoomService = new RoomServices();

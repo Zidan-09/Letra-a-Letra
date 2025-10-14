@@ -9,6 +9,8 @@ enum RoomResponses {
     PlayerReconnected = "player_reconnected",
     RemovedPlayer = "removed_player",
     BannedPlayer = "banned_player",
+    BannedPlayerNotFound = "banned_player_not_found",
+    PlayerUbanned = "player_ubanned",
     RoomFound = "room_found",
     FullRoom = "full_room",
     LeftRoom = "left_room",

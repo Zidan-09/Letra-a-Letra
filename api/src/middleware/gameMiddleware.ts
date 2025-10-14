@@ -51,7 +51,7 @@ export const GameMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -118,7 +118,7 @@ export const GameMiddleware = {
             
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -157,7 +157,7 @@ export const GameMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res);
         }
     },
 

@@ -16,7 +16,7 @@ export const PlayerController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -34,7 +34,7 @@ export const PlayerController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -46,7 +46,7 @@ export const PlayerController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -62,7 +62,7 @@ export const PlayerController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     }
 }

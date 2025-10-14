@@ -24,7 +24,7 @@ export const RoomMiddleware = {
             
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError)
+            HandleResponse.errorResponse(res)
         }
     },
 
@@ -63,7 +63,7 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -130,7 +130,7 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -146,7 +146,7 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -171,7 +171,7 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -200,7 +200,34 @@ export const RoomMiddleware = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError)
+            HandleResponse.errorResponse(res)
         }
     },
+
+    unbanPlayer(req: Request<ActionParams>, res: Response, next: NextFunction) {
+        const { room_id, player_id } = req.params;
+
+        try {
+            if (
+                !room_id ||
+                !player_id
+            ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
+
+            const game = RoomService.getRoom(room_id);
+
+            if (
+                game === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            if (
+                !game.bannedPlayerIds.includes(player_id)
+            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.BannedPlayerNotFound);
+
+            next();
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res);
+        }
+    }
 }
