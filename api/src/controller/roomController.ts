@@ -21,7 +21,7 @@ export const RoomController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -40,7 +40,7 @@ export const RoomController = {
             
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -63,7 +63,7 @@ export const RoomController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, err);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -75,7 +75,7 @@ export const RoomController = {
            
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -93,7 +93,7 @@ export const RoomController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -111,7 +111,7 @@ export const RoomController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
 
@@ -130,8 +130,27 @@ export const RoomController = {
 
         } catch (err) {
             console.error(err);
-            HandleResponse.errorResponse(res, ServerResponses.ServerError);
+            HandleResponse.errorResponse(res);
         }
     },
+
+    unbanPlayer(req: Request<ActionParams>, res: Response) {
+        const { room_id, player_id } = req.params;
+
+        try {
+            const result = RoomService.unbanPlayer(room_id, player_id);
+
+            if (
+                result === ServerResponses.NotFound ||
+                result === RoomResponses.BannedPlayerNotFound
+            ) return HandleResponse.serverResponse(res, 404, false, result);
+
+            return HandleResponse.serverResponse(res, 200, true, RoomResponses.PlayerUbanned, result);
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res);
+        }
+    }
 
 }

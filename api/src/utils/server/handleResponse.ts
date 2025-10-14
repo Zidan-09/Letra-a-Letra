@@ -10,11 +10,10 @@ export const HandleResponse = {
         })
     },
 
-    errorResponse(res: Response, err: any) {
+    errorResponse(res: Response) {
         res.status(500).json({
             success: false,
             message: ServerResponses.ServerError,
-            error_data: err
         })
     }
 }
