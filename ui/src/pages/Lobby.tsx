@@ -80,10 +80,30 @@ export default function Lobby() {
         socket.on("role_changed", (updatedRoom: Game) => {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
         });
-
+        
         socket.on("room_closed", (reason: CloseReasons) => {
             alert(`Sala fechada por ${reason == "time_out" ? "inatividade" : "falta de jogadores"}`);
             navigate("/");
+        });
+        
+        socket.on("kicked", ({room, player}) => {
+            setRoom({ ...room, players: [...room.players], spectators: [...room.spectators] });
+
+            if (player === socket.id) {
+                alert("Você foi kickado da sala");
+
+                navigate("/room");
+            };
+        });
+        
+        socket.on("banned", ({room, player}) => {
+            setRoom({ ...room, players: [...room.players], spectators: [...room.spectators] });
+
+            if (player === socket.id) {
+                alert("Você foi kickado da sala");
+                
+                navigate("/room");
+            };
         });
 
         return () => {
@@ -92,6 +112,8 @@ export default function Lobby() {
             socket.off("role_changed");
             socket.off("game_started");
             socket.off("room_closed");
+            socket.off("kicked");
+            socket.off("banned");
         };
 
     }, [socket]);
@@ -146,25 +168,31 @@ export default function Lobby() {
     const handleRemovePlayer = async (ban: boolean) => {
         if (!selectedPlayer || !room) return;
 
-        const result = await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/remove`, {
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                banned: ban
-            })
-        }).then(res => res.json())
-        .then(data => data);
+        try {
+            await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/remove`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    banned: ban
+                })
+            });
 
-        if (!result.success) return null;
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const handleUnbanPlayer = async () => {
         if (!selectedPlayer || !room) return;
 
-        const result = await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/unban`,)
-        .then(res => res.json())
-        .then(data => data);
+        try {
+            await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/unban`,)
+            .then(res => res.json())
+            .then(data => data);
 
-        if (!result.success) return null;
+        } catch (err) {
+            console.error(err);
+        }
     }
     
     return (
@@ -235,7 +263,7 @@ export default function Lobby() {
                 room_id={room?.room_id}
                 nickname={[...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id === socket.id)?.nickname}
                 local="lobby"
-                creator={room.creator}
+                created_by={room.created_by}
                 players={[...room.players, ...room.spectators]}
                 selectedPlayer={selectedPlayer}
                 selectPlayer={setSelectedPlayer}

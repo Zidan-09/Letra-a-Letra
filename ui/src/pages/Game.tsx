@@ -462,7 +462,7 @@ export default function Game() {
     };
 
     const handleNewMessage = () => {
-        if (!isChatOpen) setUnreadMessages(prev => prev + 1); // ✅ soma se fechado
+        if (!isChatOpen) setUnreadMessages(prev => prev + 1);
     };
 
     const handleFlipView = () => {

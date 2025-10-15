@@ -14,7 +14,7 @@ import RoomErrorPopup from "../components/Room/RoomEnterError";
 export default function Room() {
     const [rooms, setRooms] = useState<Game[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<string>("");
-    const [roomError, setRoomError] = useState<"not_found" | "full_room" | undefined>(undefined);
+    const [roomError, setRoomError] = useState<"not_found" | "full_room" | "banned" | undefined>(undefined);
     const [onRoomError, setOnRoomError] = useState(false);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [room, setRoom] = useState<Game | null>(null);
@@ -44,19 +44,32 @@ export default function Room() {
             return;
         }
 
-        const result = await fetch(`${settings.server}/room/${selectedRoom}/players`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                spectator: valid.data.players.filter(Boolean).length === 2,
-                player_id: socket.id
-            })
-        }).then(res => res.json()).then(data => data);
+        try {
+            const result = await fetch(`${settings.server}/room/${selectedRoom}/players`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    spectator: valid.data.players.filter(Boolean).length === 2,
+                    player_id: socket.id
+                })
+            }).then(res => res.json()).then(data => data);
 
-        if (!result.success) return null;
+            if (
+                result.message === "banned_player"
+            ) {
+                setRoomError("banned");
+                setOnRoomError(true);
+                return;
+            }
 
-        localStorage.setItem("game", JSON.stringify(result.data));
-        return navigate(`/lobby/${selectedRoom}`);
+            localStorage.setItem("game", JSON.stringify(result.data));
+            return navigate(`/lobby/${selectedRoom}`);
+            
+        } catch (err) {
+            console.error(err);
+        }
+
+
     }
 
     const handleInsertCode = () => {

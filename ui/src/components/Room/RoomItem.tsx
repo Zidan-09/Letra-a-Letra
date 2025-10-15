@@ -14,7 +14,7 @@ export default function RoomItem({ room, color, onSelect, selected }: RoomItemPr
 
     return (
         <div className={`${styles.item} ${styles[color]} ${selected ? styles.selected : ""}`}
-        onClick={() => onSelect(room.room_id)}
+        onClick={selected ? () => onSelect("") : () => onSelect(room.room_id)}
         >
             <div className={styles.container1}>
                 <p className={styles.room_name}>{room.room_name}</p>

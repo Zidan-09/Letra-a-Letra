@@ -10,7 +10,7 @@ interface ChatPopupProps {
     room_id: string | undefined;
     nickname: string | undefined;
     local: "lobby" | "game";
-    creator: string | undefined;
+    created_by: string | undefined;
     players?: Player[];
     selectedPlayer: string | undefined;
     selectPlayer: (player: string) => void;
@@ -21,7 +21,7 @@ interface ChatPopupProps {
     onNewMessage: () => void;
 }
 
-export default function ChatPopup({ room_id, nickname, local, creator, players, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose, onNewMessage }: ChatPopupProps) {
+export default function ChatPopup({ room_id, nickname, local, created_by, players, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose, onNewMessage }: ChatPopupProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [myMessage, setMyMessage] = useState<string>("");
     const [isChatPlayersOpen, setChatPlayersOpen] = useState<boolean>(false);
@@ -76,10 +76,12 @@ export default function ChatPopup({ room_id, nickname, local, creator, players, 
                     </div>
                     <h2 className={styles.titleChat}>Chat</h2>
 
-                    {local === "lobby" && creator === nickname ? (
+                    {local === "lobby" && created_by === socket.id ? (
                         <button
+                        type="button"
                         className={styles.chatPlayers}
-                        >Jogadores</button>
+                        onClick={() => setChatPlayersOpen(!isChatPlayersOpen)}
+                        >J</button>
                     ) : (
                         <div className={styles.space}></div>
                     )}    
@@ -131,7 +133,6 @@ export default function ChatPopup({ room_id, nickname, local, creator, players, 
             <ChatPlayersPopup
             players={players}
             isOpen={isChatPlayersOpen}
-            onClose={() => setChatPlayersOpen(false)}
             selected={selectedPlayer}
             select={selectPlayer}
             removePlayer={remove}
