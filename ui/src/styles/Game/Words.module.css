@@ -21,7 +21,7 @@
     font-family: 'Lilita One', cursive;
     font-size: 3rem;
     color: white;
-    -webkit-text-stroke: 4px black;
+    -webkit-text-stroke: 2px black;
     text-align: center;
     text-transform: uppercase;
 }

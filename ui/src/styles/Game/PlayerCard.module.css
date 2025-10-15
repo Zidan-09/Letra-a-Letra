@@ -67,7 +67,7 @@
 
 .nickname {
     font-family: 'Lilita One', cursive;
-    -webkit-text-stroke: 1px black;
+    -webkit-text-stroke: 0.4px black;
 }
 
 .nickname:hover {

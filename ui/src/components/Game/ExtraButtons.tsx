@@ -12,9 +12,11 @@ interface ExtraButtonsProps {
     isOpen: boolean;
     setPopup: () => void;
     onClose: () => void;
+    onNewMessage: () => void;
+    unreadMessages: number;
 }
 
-export default function ExtraButtons({ room_id, nickname, isOpen, setPopup, onClose }: ExtraButtonsProps) {
+export default function ExtraButtons({ room_id, nickname, isOpen, setPopup, onClose, unreadMessages, onNewMessage }: ExtraButtonsProps) {
     const socket = useSocket();
     const navigate = useNavigate();
 
@@ -55,6 +57,9 @@ export default function ExtraButtons({ room_id, nickname, isOpen, setPopup, onCl
                 alt="Icon"
                 className={styles.icon}
                 />
+                {unreadMessages > 0 && (
+                    <span className={styles.notificationDot}></span>
+                )}
                 Chat
             </button>
 
@@ -64,6 +69,7 @@ export default function ExtraButtons({ room_id, nickname, isOpen, setPopup, onCl
             local="game"
             isOpen={isOpen}
             onClose={onClose}
+            onNewMessage={onNewMessage}
             />
         </div>
     )

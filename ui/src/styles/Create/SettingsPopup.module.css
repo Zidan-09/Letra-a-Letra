@@ -43,8 +43,6 @@
     box-shadow: 0 6px 0 rgb(148, 97, 57);
 }
 
-
-
 .title {
   font-size: clamp(1.5rem, 5rem, 2.4rem);
     color: white;
@@ -121,11 +119,10 @@
      width: 60px;
     height: 60px;
     filter:
-        drop-shadow(1.5px 0 0 black)  
-        drop-shadow(-1.5px 0 0 black) 
-        drop-shadow(0 1.5px 0 black)  
-        drop-shadow(0 -1.5px 0 black)  
-        drop-shadow(1px 1px 0 black)
+        drop-shadow(0.5px 0.5px 0 black)
+        drop-shadow(-0.5px -0.5px 0 black)
+        drop-shadow(1px 0px 0 black)
+        drop-shadow(-0.5px 2px 0 black);
         ;
 transition: transform 0.1s ease}
 
@@ -197,8 +194,8 @@ transform: scale(1.1);
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0 6rem;
-    font-size: 1.3rem;
+    padding: 0 4rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: rgb(255, 255, 255);
     cursor: pointer;
