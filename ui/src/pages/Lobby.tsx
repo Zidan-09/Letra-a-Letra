@@ -18,7 +18,7 @@ export default function Lobby() {
     const [creator, setCreator] = useState<string>();
     const [isChatOpen, setChatOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
-    // const [unreadMessages, setUnreadMessages] = useState(0);
+    const [unreadMessages, setUnreadMessages] = useState(0);
     const [selectedPlayer, setSelectedPlayer] = useState<string>();
 
     const socket = useSocket();
@@ -98,6 +98,12 @@ export default function Lobby() {
 
     const handleChat = () => {
         setChatOpen(true);
+        setUnreadMessages(0);
+    }
+
+    const handleNewMessage = () => {
+        if (!isChatOpen) {
+            setUnreadMessages(prev => prev + 1)};
     }
 
     const handleSettings = () => {
@@ -180,6 +186,7 @@ export default function Lobby() {
 
                     <button className={styles.chat} onClick={handleChat} type="button">
                         <img src={iconChat} alt="Chat" className={styles.icons} />
+                        {unreadMessages > 0 && <span className={styles.notificationDot}></span>}
                     </button>
                 </div>
                 {room && (
@@ -236,6 +243,7 @@ export default function Lobby() {
                 unban={handleUnbanPlayer}
                 isOpen={isChatOpen}
                 onClose={() => {setChatOpen(false)}}
+                onNewMessage={handleNewMessage}
                 />
             )}
         </div>

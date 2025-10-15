@@ -38,6 +38,8 @@ export default function Game() {
 
     const [isChatOpen, setChatOpen] = useState<boolean>(false);
 
+    const [unreadMessages, setUnreadMessages] = useState<number>(0);
+
     const [loading, setLoading] = useState<boolean>(true);
 
     const spyTimers = useRef<Map<string, number>>(new Map());
@@ -456,6 +458,11 @@ export default function Game() {
 
     const handleChat = () => {
         setChatOpen(true);
+        setUnreadMessages(0);
+    };
+
+    const handleNewMessage = () => {
+        if (!isChatOpen) setUnreadMessages(prev => prev + 1); // ✅ soma se fechado
     };
 
     const handleFlipView = () => {
@@ -529,6 +536,8 @@ export default function Game() {
                 setPopup={handleChat}
                 isOpen={isChatOpen}
                 onClose={() => {setChatOpen(false)}}
+                onNewMessage={handleNewMessage}
+                unreadMessages={unreadMessages}
                 />
             )}
             

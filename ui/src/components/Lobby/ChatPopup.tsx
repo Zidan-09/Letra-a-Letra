@@ -18,9 +18,10 @@ interface ChatPopupProps {
     unban: () => void;
     isOpen: boolean;
     onClose: () => void;
+    onNewMessage: () => void;
 }
 
-export default function ChatPopup({ room_id, nickname, local, creator, players, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose }: ChatPopupProps) {
+export default function ChatPopup({ room_id, nickname, local, creator, players, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose, onNewMessage }: ChatPopupProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [myMessage, setMyMessage] = useState<string>("");
     const [isChatPlayersOpen, setChatPlayersOpen] = useState<boolean>(false);
@@ -32,6 +33,7 @@ export default function ChatPopup({ room_id, nickname, local, creator, players, 
 
         const handleMessage = (message: Message) => {
             setMessages(prev => [...prev, message]);
+            onNewMessage()
         }
 
         socket.on("message", handleMessage);
@@ -40,7 +42,7 @@ export default function ChatPopup({ room_id, nickname, local, creator, players, 
             socket.off("message", handleMessage);
         }
 
-    }, [socket]);
+    }, [socket, onNewMessage]);
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: "smooth" });
