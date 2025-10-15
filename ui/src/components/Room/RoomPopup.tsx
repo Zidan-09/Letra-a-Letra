@@ -7,7 +7,7 @@ import styles from "../../styles/Room/RoomPopup.module.css";
 interface PopupProps {
     room_id: string | "";
     setRoomId: (id: string) => void;
-    roomError?: "not_found" | "full_room";
+    roomError?: "not_found" | "full_room" | "banned";
     onRoomError: boolean;
     setRoomError: (error: "not_found" | "full_room") => void;
     setOnRoomError: (hasError: boolean) => void;

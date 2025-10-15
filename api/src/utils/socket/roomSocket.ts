@@ -36,13 +36,13 @@ export const RoomSocket = {
         );
     },
 
-    removePlayer(players: Player[], room: Game, banned: boolean) {
+    removePlayer(players: Player[], room: Game, banned: boolean, player_id: string) {
         const io = getSocketInstance();
 
         const event = banned ? "banned" : "kicked"
 
         players.filter(Boolean).forEach(p =>
-            io.to(p.player_id).emit(event, room)
+            io.to(p.player_id).emit(event, {room: room, player: player_id})
         );
     }
 }

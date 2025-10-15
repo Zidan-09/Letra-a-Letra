@@ -171,7 +171,7 @@
 }
 
 .back {
-     flex-grow: 0;
+    flex-grow: 0;
     width: 180px;
     background-color: rgb(240, 44, 38);
     border: 5px solid rgb(195, 60, 60);

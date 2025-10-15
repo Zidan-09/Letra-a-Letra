@@ -238,13 +238,13 @@ class RoomServices {
         if (!player) return ServerResponses.NotFound;
 
         const idx = all.filter(Boolean).findIndex(p => p === player);
-        room.players.splice(idx, 1);
+        room.players[idx] = undefined as any;
 
         if (banned) room.bannedPlayerIds.push(player_id);
 
         createLog(room_id, `${player.nickname} ${banned ? LogEnum.PlayerBanned : LogEnum.PlayerKicked}`)
 
-        RoomSocket.removePlayer(all, room, banned);
+        RoomSocket.removePlayer(all, room, banned, player_id);
 
         return room;
     };
