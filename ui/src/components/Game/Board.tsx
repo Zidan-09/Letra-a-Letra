@@ -6,12 +6,13 @@ interface BoardProps {
   p1: Player;
   turn: number;
   cellsData: Record<CellKeys, CellUpdate>;
+  hideds: CellUpdate[];
   move: MovementsEnum;
   moveIdx?: number;
   onCellClick?: (x: number, y: number) => void;
 }
 
-export default function Board({ p1,turn, cellsData, move, moveIdx, onCellClick }: BoardProps) {
+export default function Board({ p1,turn, cellsData, hideds, move, moveIdx, onCellClick }: BoardProps) {
   const isMine = turn % 2 === p1.turn; 
 
   return (
@@ -33,6 +34,7 @@ export default function Board({ p1,turn, cellsData, move, moveIdx, onCellClick }
                 trapTrigged={cellData?.trapTrigged}
                 detected={cellData?.detected}
                 spied={cellData?.spied}
+                hided={hideds}
                 x={x}
                 y={y}
                 selectedMovement={move}

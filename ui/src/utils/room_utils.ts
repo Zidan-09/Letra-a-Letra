@@ -170,6 +170,7 @@ type CellKeys = `${number}-${number}`;
 interface CellUpdate {
     x: number;
     y: number;
+    revealed: boolean;
     letter?: string;
     power?: { hasPowerup: boolean, rarity?: PowerRarity, powerup?: MovementsEnum };
     blocked?: { blocked_by?: string, remaining?: number };

@@ -1,9 +1,10 @@
 import React from "react";
 import { useSocket } from "../../services/socketProvider";
-import type { MovementsEnum, Player } from "../../utils/room_utils";
+import type { CellUpdate, MovementsEnum, Player } from "../../utils/room_utils";
 import BlockOverlay from "./Powers/BlockOverlay";
 import TrapOverlay from "./Powers/TrapOverlay";
 import styles from "../../styles/Game/Cell.module.css";
+import BlindOverlay from "./Powers/BlindOverlay";
 
 interface CellProps {
     p1: Player;
@@ -15,6 +16,7 @@ interface CellProps {
     trapTrigged: boolean;
     detected: boolean;
     spied: boolean;
+    hided: CellUpdate[];
     x: number;
     y: number;
     selectedMovement: MovementsEnum;
@@ -22,7 +24,7 @@ interface CellProps {
     onClick?: (x: number, y: number) => void;
 }
 
-function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, selectedMovement, x, y, onClick }: CellProps) {
+function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, hided, selectedMovement, x, y, onClick }: CellProps) {
     const socket = useSocket();
 
     const cantCellMove = ["BLIND", "FREEZE", "LANTERN", "UNFREEZE", "IMMUNITY", "DETECT_TRAPS"].includes(selectedMovement);
@@ -57,6 +59,13 @@ function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, tra
             trapTrigged={trapTrigged}
             />
 
+            <BlindOverlay
+            p1={p1}
+            x={x}
+            y={y}
+            cells={hided}
+            />
+
         </button>
     );
 }
@@ -72,6 +81,8 @@ export default React.memo(CellComponent, (prev, next) => {
     prev.trapTrigged === next.trapTrigged &&
     prev.spied === next.spied &&
     prev.selectedMovement === next.selectedMovement &&
-    prev.movementId === next.movementId
+    prev.movementId === next.movementId &&
+    prev.p1.blind.active === next.p1.blind.active &&
+    prev.hided === next.hided
   );
 });
