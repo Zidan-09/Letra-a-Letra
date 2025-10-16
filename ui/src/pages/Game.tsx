@@ -337,6 +337,11 @@ export default function Game() {
                                     setFindeds(prev => [...prev, newFind]);
                                 };
 
+                                copy[key] = {
+                                    ...copy[key],
+                                    revealed: true
+                                }
+
                                 break;
                             };
                             
@@ -378,6 +383,8 @@ export default function Game() {
                             copy[key] = {
                                 ...copy[key],
                                 letter: data.letter,
+                                revealed: true,
+                                trapped_by: undefined,
                                 actor: player_id
                             };
                         }
@@ -518,6 +525,7 @@ export default function Game() {
                 p1={p1}
                 turn={turn}
                 cellsData={cells}
+                hideds={hidedLetters}
                 move={move}
                 moveIdx={moveIdx}
                 onCellClick={p1.player_id === socket.id ? handleMovement : undefined}
