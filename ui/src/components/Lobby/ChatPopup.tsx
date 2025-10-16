@@ -12,16 +12,17 @@ interface ChatPopupProps {
     local: "lobby" | "game";
     created_by: string | undefined;
     players?: Player[];
+    banneds?: Player[];
     selectedPlayer: string | undefined;
     selectPlayer: (player: string) => void;
     remove: (ban: boolean) => void;
-    unban: () => void;
+    unban: (player_id: string) => void;
     isOpen: boolean;
     onClose: () => void;
     onNewMessage: () => void;
 }
 
-export default function ChatPopup({ room_id, nickname, local, created_by, players, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose, onNewMessage }: ChatPopupProps) {
+export default function ChatPopup({ room_id, nickname, local, created_by, players, banneds, selectedPlayer, selectPlayer, remove, unban, isOpen, onClose, onNewMessage }: ChatPopupProps) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [myMessage, setMyMessage] = useState<string>("");
     const [isChatPlayersOpen, setChatPlayersOpen] = useState<boolean>(false);
@@ -59,15 +60,20 @@ export default function ChatPopup({ room_id, nickname, local, created_by, player
 
 
         setMyMessage("");
+    };
+
+    const handleClose = () => {
+        setChatPlayersOpen(false);
+        onClose();
     }
 
     if (!isOpen) return null;
 
     return (
-        <div className={local === "lobby" ? styles.overlayLobby : styles.overlayGame } onClick={onClose}>
+        <div className={local === "lobby" ? styles.overlayLobby : styles.overlayGame } onClick={handleClose}>
             <div className={styles.popup} onClick={(e) => e.stopPropagation()}> 
                 <div className={styles.header}>
-                    <div className={styles.button} onClick={onClose}>
+                    <div className={styles.button} onClick={handleClose}>
                         <img
                         src={iconBack}
                         alt="Back"
@@ -132,6 +138,7 @@ export default function ChatPopup({ room_id, nickname, local, created_by, player
 
             <ChatPlayersPopup
             players={players}
+            banneds={banneds}
             isOpen={isChatPlayersOpen}
             selected={selectedPlayer}
             select={selectPlayer}

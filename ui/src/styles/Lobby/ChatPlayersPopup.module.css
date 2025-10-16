@@ -41,6 +41,20 @@
     padding: 0.5rem;
 }
 
+.banned {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    gap: 0.5rem;
+    background-color: rgb(240, 44, 38);
+    border: 5px solid rgb(195, 60, 60);
+    box-shadow: 0 6px 0 rgb(128, 53, 49);
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
 .selected:hover {
     cursor: pointer;
 }
@@ -55,17 +69,20 @@
     cursor: pointer;
 }
 
+.bannedNickname {
+    font-size: 2rem;
+}
+
 .nickname:hover {
     cursor: pointer;
 }
-
 .buttons {
     display: flex;
     flex-direction: row;
     gap: 2rem;
 }
 
-.kick, .ban {
+.kick, .ban, .unban {
     width: min-content;
     height: min-content;
     background-color: rgb(240, 44, 38);
@@ -77,9 +94,15 @@
     align-items: center;
 }
 
-.kick:hover, .ban:hover {
+.kick:hover, .ban:hover, .unban:hover {
     transform: scale(1.05);
     cursor: pointer;
+}
+
+.unban {
+    background-color: rgb(240, 125, 34);
+    border: 5px solid rgb(255, 143, 55);
+    box-shadow: 0 6px 0 rgb(148, 97, 57);  
 }
 
 .icon {
