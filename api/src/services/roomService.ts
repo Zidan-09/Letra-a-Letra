@@ -240,7 +240,10 @@ class RoomServices {
         const idx = all.filter(Boolean).findIndex(p => p === player);
         room.players[idx] = undefined as any;
 
-        if (banned) room.bannedPlayerIds.push(player_id);
+        if (banned) {
+            room.bannedPlayerIds.push(player_id);
+            room.bannedPlayers.push(player);
+        };
 
         createLog(room_id, `${player.nickname} ${banned ? LogEnum.PlayerBanned : LogEnum.PlayerKicked}`)
 
@@ -259,10 +262,12 @@ class RoomServices {
         ) return RoomResponses.BannedPlayerNotFound;
 
         const idx = room.bannedPlayerIds.findIndex(id => id === player_id);
-
-        if (!idx) return ServerResponses.NotFound;
+        const pid = room.bannedPlayers.findIndex(p => p.player_id === player_id);
+        
+        if (idx === undefined || pid === undefined) return RoomResponses.BannedPlayerNotFound;
 
         room.bannedPlayerIds.splice(idx, 1);
+        room.bannedPlayers.splice(pid, 1);
 
         createLog(room_id, `player with id: ${player_id} ${LogEnum.PlayerUnbanned}`);
 

@@ -1,21 +1,24 @@
 import { useSocket } from "../../services/socketProvider";
 import type { Player } from "../../utils/room_utils";
-import kick from "../../assets/buttons/icon-kick.svg";
-import ban from "../../assets/buttons/icon-ban.svg";
+import kickIcon from "../../assets/buttons/icon-kick.svg";
+import banIcon from "../../assets/buttons/icon-ban.svg";
+import unbanIcon from "../../assets/buttons/icon-unban.svg";
 import styles from "../../styles/Lobby/ChatPlayersPopup.module.css";
 
 interface ChatPlayersPopupProps {
     players?: Player[] | undefined;
+    banneds?: Player[] | undefined;
     isOpen: boolean;
     selected: string | undefined;
     select: (player_id: string) => void;
-    unban: () => void;
+    unban: (player_id: string) => void;
     removePlayer: (ban: boolean) => void;
 }
 
-export default function ChatPlayersPopup({ players, isOpen, selected, select, removePlayer}: ChatPlayersPopupProps) {
-    if (!isOpen || !players || players.filter(Boolean).length === 1) return;
-
+export default function ChatPlayersPopup({ players, banneds, isOpen, selected, select, unban, removePlayer}: ChatPlayersPopupProps) {
+    if (!isOpen || !players || !banneds) return;
+    if (players.filter(Boolean).length === 1 && banneds.length === 0) return;
+    
     const socket = useSocket();
 
     return (
@@ -40,7 +43,7 @@ export default function ChatPlayersPopup({ players, isOpen, selected, select, re
                                     onClick={() => removePlayer(false)}
                                     >
                                         <img
-                                        src={kick}
+                                        src={kickIcon}
                                         alt="Kick"
                                         className={styles.icon}
                                         />
@@ -52,7 +55,7 @@ export default function ChatPlayersPopup({ players, isOpen, selected, select, re
                                     onClick={() => removePlayer(true)}
                                     >
                                         <img
-                                        src={ban}
+                                        src={banIcon}
                                         alt="Ban"
                                         className={styles.icon}
                                         />
@@ -62,6 +65,27 @@ export default function ChatPlayersPopup({ players, isOpen, selected, select, re
 
                         </div>
                     )       
+            )}
+
+            {banneds.map((banned, index) => 
+                <div
+                key={index}
+                className={styles.banned}
+                >
+                    <p className={styles.bannedNickname}>{banned.nickname}</p>
+
+                    <button
+                    type="button"
+                    className={styles.unban}
+                    onClick={() => unban(banned.player_id)}
+                    >
+                        <img
+                        src={unbanIcon}
+                        alt="Unban"
+                        className={styles.icon}
+                        />
+                    </button>
+                </div>
             )}
         </div>
     )

@@ -2,8 +2,11 @@ interface Game {
     room_id: string;
     room_name: string;
     status: GameStatus;
+    createdAt: number;
     players: Player[];
     spectators: Player[];
+    bannedPlayerIds: string[];
+    bannedPlayers: Player[];
     created_by: string;
     creator: string;
     timer: number;

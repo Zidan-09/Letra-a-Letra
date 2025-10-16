@@ -19,6 +19,7 @@ export class Game {
     players: Player[] = Array(2).fill(undefined);
     spectators: Player[] = Array(5).fill(undefined);
     bannedPlayerIds: string[] = [];
+    bannedPlayers: Player[] = [];
     created_by: string;
     creator: string;
     timer: number;
@@ -50,6 +51,8 @@ export class Game {
             createdAt: this.createdAt,
             players: this.players,
             spectators: this.spectators,
+            bannedPlayerIds: this.bannedPlayerIds,
+            bannedPlayers: this.bannedPlayers,
             created_by: this.created_by,
             creator: this.creator,
             timer: this.timer,

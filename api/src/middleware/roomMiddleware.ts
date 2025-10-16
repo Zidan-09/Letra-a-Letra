@@ -222,10 +222,10 @@ export const RoomMiddleware = {
             if (
                 game === ServerResponses.NotFound
             ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
-
+            
             if (
                 !game.bannedPlayerIds.includes(player_id)
-            ) return HandleResponse.serverResponse(res, 400, false, RoomResponses.BannedPlayerNotFound);
+            ) return HandleResponse.serverResponse(res, 404, false, RoomResponses.BannedPlayerNotFound);
 
             next();
 

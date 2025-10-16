@@ -182,13 +182,19 @@ export default function Lobby() {
         }
     };
 
-    const handleUnbanPlayer = async () => {
-        if (!selectedPlayer || !room) return;
+    const handleUnbanPlayer = async (player_id: string) => {
+        if (!room) return;
 
         try {
-            await fetch(`${settings.server}/room/${room.room_id}/players/${selectedPlayer}/unban`,)
+            const result = await fetch(`${settings.server}/room/${room.room_id}/players/${player_id}/unban`, {
+                method: "POST"
+            })
             .then(res => res.json())
             .then(data => data);
+
+            if (!result.success) return;
+
+            setRoom(result.data);
 
         } catch (err) {
             console.error(err);
@@ -265,6 +271,7 @@ export default function Lobby() {
                 local="lobby"
                 created_by={room.created_by}
                 players={[...room.players, ...room.spectators]}
+                banneds={[...room.bannedPlayers]}
                 selectedPlayer={selectedPlayer}
                 selectPlayer={setSelectedPlayer}
                 remove={handleRemovePlayer}
