@@ -30,7 +30,7 @@ interface MoveEmit {
     letter?: string;
     completedWord?: { word: string, positions: [number, number][] };
     blocked_by?: string;
-    trapped_by?: string;
+    trapped_by?: string | undefined | null;
     traps?: { x: number, y: number }[];
     player?: string;
     for?: string;
