@@ -39,7 +39,7 @@ function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, tra
 
     return (
         <button
-            className={`${styles.cell} ${className}`}
+            className={`${styles.cell} ${className} ${cantCellMove ? styles.effect : ""}`}
             onClick={letter ? undefined : cantCellMove ? undefined : onClick ? () => onClick(x, y) : undefined}
             type="button"
             translate="no"

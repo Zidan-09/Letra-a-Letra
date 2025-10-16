@@ -203,7 +203,7 @@ export const Movements = {
 
     detectTraps(board: Board, player_id: string): GameResponses | MoveEmit {
         const trappedCells: { x: number, y: number }[] = [];
-        let trappedBy: string | null = null;
+        let trappedBy: string | undefined | null = undefined;
 
         board.grid.forEach(row => 
             row.forEach(cell => {
@@ -215,9 +215,7 @@ export const Movements = {
                     }
                 }
             })
-        )
-
-        if (!trappedBy) return GameResponses.GameError;
+        );
 
         return {
             status: GameResponses.DetectedTraps,

@@ -20,6 +20,16 @@
     border: 2px solid black;
 }
 
+.effect {
+    background: linear-gradient(45deg, rgb(111, 111, 111), rgb(157, 157, 157));
+}
+
+.effect:hover {
+    cursor: not-allowed;
+    transform: scale(1);
+    border: 0;
+}
+
 .opponent {
     border: 3px solid rgb(240, 125, 34);
 }
