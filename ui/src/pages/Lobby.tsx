@@ -12,6 +12,8 @@ import iconSettings from "../assets/buttons/icon-settings.svg";
 import iconChat from "../assets/buttons/icon-chat.svg";
 import styles from "../styles/Lobby.module.css";
 import SettingsPopup from "../components/Create/SettingsPopup";
+import ActionPopup from "../components/Lobby/ActionPopup";
+import Countdown from "../components/Lobby/CountDown";
 
 export default function Lobby() {
     const [room, setRoom] = useState<Game | null>(null);
@@ -27,6 +29,14 @@ export default function Lobby() {
     const [theme, setTheme] = useState<string>("random");
     const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>(["REVEAL"]);
     const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
+
+
+    const [isKicked, setKicked] = useState(false);
+    const [isBanned, setBanned] = useState(false);
+
+    const [isCounting, setCounting] = useState(false);
+const [startData, setStartData] = useState<StartData | null>(null);
+
 
     useEffect(() => {
         const game = localStorage.getItem("game");
@@ -60,13 +70,11 @@ export default function Lobby() {
         }
 
         socket.on("game_started", (startData: StartData) => {
-            const { words, room } = startData;
+    // Guarda os dados e inicia o contador
+    setStartData(startData);
+    setCounting(true);
+});
 
-            localStorage.setItem("words", JSON.stringify(words));
-            localStorage.setItem("game", JSON.stringify(room));
-
-            navigate(`/game/${room.room_id}`);
-        });
         
         socket.on("player_joined", (updatedRoom: Game) => {
             setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
@@ -90,21 +98,23 @@ export default function Lobby() {
             setRoom({ ...room, players: [...room.players], spectators: [...room.spectators] });
 
             if (player === socket.id) {
-                alert("Você foi kickado da sala");
-
-                navigate("/room");
-            };
-        });
+                setKicked(true);
+    setTimeout(() => {
+      navigate("/room");
+    }, 4000);
+  }
+});
         
         socket.on("banned", ({room, player}) => {
             setRoom({ ...room, players: [...room.players], spectators: [...room.spectators] });
 
             if (player === socket.id) {
-                alert("Você foi kickado da sala");
-                
-                navigate("/room");
-            };
-        });
+    setBanned(true);
+    setTimeout(() => {
+      navigate("/room");
+    }, 4000);
+  }
+});
 
         return () => {
             socket.off("player_joined");
@@ -281,6 +291,22 @@ export default function Lobby() {
                 onNewMessage={handleNewMessage}
                 />
             )}
+            {isKicked && <ActionPopup type="kick" onClose={() => setKicked(false)} />}
+{isBanned && <ActionPopup type="ban" onClose={() => setBanned(false)} />}
+{isCounting && (
+  <Countdown
+    start={3}
+    onFinish={() => {
+      if (startData) {
+        const { words, room } = startData;
+        localStorage.setItem("words", JSON.stringify(words));
+        localStorage.setItem("game", JSON.stringify(room));
+        navigate(`/game/${room.room_id}`);
+      }
+    }}
+  />
+)}
+
         </div>
     )
 }

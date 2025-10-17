@@ -3,7 +3,7 @@
     aspect-ratio: 1 / 1;
     border: 2px solid gray;
     background: linear-gradient(45deg, #F0F0F0, white);
-    box-shadow: 0 2px 0 rgb(191, 191, 191);
+    box-shadow: 0 2px 0 rgb(0, 0, 0);
     border-radius: 0.3rem;
     font-size: 2rem;
     text-transform: uppercase;

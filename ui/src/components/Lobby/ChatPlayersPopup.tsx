@@ -20,8 +20,9 @@ export default function ChatPlayersPopup({ players, banneds, isOpen, selected, s
     if (!isOpen || !players || !banneds) return null;
     // if (players.filter(Boolean).length === 1 && banneds.length === 0) return;
     
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const socket = useSocket();
-const otherPlayers = players.filter(p => p && p.player_id !== socket.id);
+    const otherPlayers = players.filter(p => p && p.player_id !== socket.id);
     const hasBannedPlayers = banneds.length > 0;
     const isEmpty = otherPlayers.length === 0 && !hasBannedPlayers;
 
@@ -30,7 +31,6 @@ const otherPlayers = players.filter(p => p && p.player_id !== socket.id);
         <div
         className={styles.panel}
         onClick={(e) => e.stopPropagation()}
-        
         >
             <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Fechar">
                 &times;
