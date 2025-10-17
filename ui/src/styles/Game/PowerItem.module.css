@@ -75,6 +75,25 @@
     cursor: pointer;
 }
 
+.discard {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    width: 3rem;
+    height: 3rem;
+    background-color: rgb(240, 44, 38);
+    border: 5px solid rgb(195, 60, 60);
+    box-shadow: -4px 2px 0 rgb(128, 53, 49);
+    left: -110px;
+}
+
+.trash {
+    width: 20px;
+    aspect-ratio: 1 / 1;
+}
+
 .common {
     border: 5px solid rgb(251, 251, 250);
 }

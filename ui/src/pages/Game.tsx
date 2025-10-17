@@ -423,6 +423,33 @@ export default function Game() {
             turnStartRef.current = Date.now();
         });
 
+        socket.on("discard_power", (updatedRoom: Game) => {
+            let p1Data: Player;
+
+            setP1(prev => {
+                if (!prev) return prev;
+
+                const copy = { ...prev };
+                const player = updatedRoom.players.find(p => p.player_id === copy.player_id);
+                
+                if (!player) return prev;
+                p1Data = player;
+
+                return player;
+            });
+
+            setP2(prev => {
+                if (!prev) return prev;
+
+                const copy = { ...prev };
+                const player = updatedRoom.players.find(p => p.player_id === copy.player_id);
+
+                if (!player) return prev;
+
+                return player;
+            });
+        });
+
         socket.on("game_over", ({winner, room}) => {
             if (room) localStorage.setItem("game", JSON.stringify(room));
 
@@ -433,6 +460,7 @@ export default function Game() {
             socket.off("movement");
             socket.off("player_left");
             socket.off("pass_turn");
+            socket.off("discard_power");
             socket.off("game_over");
             spyTimers.current.forEach(timer => clearTimeout(timer));
             spyTimers.current.clear();
@@ -461,6 +489,25 @@ export default function Game() {
 
         setMove("REVEAL");
         setMoveIdx(undefined);
+    };
+
+    const handleDiscard = async () => {
+        try {
+            const res = await fetch(`${settings.server}/game/${room?.room_id}/discard`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    player_id: socket.id,
+                    power: move,
+                    powerIdx: moveIdx
+                })
+            }).then(res => res.json()).then(data => data);
+
+            if (!res.success) console.warn(res);
+
+        } catch (err) {
+            console.error(err);
+        };
     };
 
     const handleChat = () => {
@@ -510,6 +557,7 @@ export default function Game() {
                     selectMove={setMove}
                     selectMoveIdx={setMoveIdx}
                     applyEffect={handleMovement}
+                    discardPower={handleDiscard}
                     />
                 ) : (
                     <button
