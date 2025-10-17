@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../services/socketProvider";
+import { useState } from "react";
 import ChatPopup from "../Lobby/ChatPopup";
+import ConfirmExitPopup from "./ConfirmExitPopup";
 import settings from "../../settings.json";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import iconChat from "../../assets/buttons/icon-chat.svg";
@@ -20,17 +22,25 @@ export default function ExtraButtons({ room_id, nickname, isOpen, setPopup, onCl
     const socket = useSocket();
     const navigate = useNavigate();
 
+    const [confirmExit, setConfirmExit] = useState(false);
+    
     const handleBack = async () => {
-        const result = await fetch(`${settings.server}/room/${room_id}/players/${socket.id}`, {
-            method: "DELETE"
-        }).then(res => res.json()).then(data => data);
+    setConfirmExit(true);
+  };
 
-        if (!result.success) return;
+  const confirmLeave = async () => {
+    setConfirmExit(false);
+    const result = await fetch(`${settings.server}/room/${room_id}/players/${socket.id}`, {
+      method: "DELETE"
+    }).then(res => res.json());
 
-        navigate("/");
-    }
+    if (result.success) navigate("/");
+  };
+
+  const cancelLeave = () => setConfirmExit(false);
 
     return (
+        <>
         <div className={styles.extraButtons}>
             <button
             type="button"
@@ -72,5 +82,11 @@ export default function ExtraButtons({ room_id, nickname, isOpen, setPopup, onCl
             onNewMessage={onNewMessage}
             />
         </div>
-    )
+    <ConfirmExitPopup
+        isOpen={confirmExit}
+        onConfirm={confirmLeave}
+        onCancel={cancelLeave}
+      />
+    </>
+  );
 }

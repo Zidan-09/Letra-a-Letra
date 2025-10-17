@@ -1,112 +1,175 @@
 .panel {
     position: absolute;
-    right: 15%;
+    right: 5rem;
+    top: 5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    height: max-content;
-    background: rgba(255, 255, 255, 0.2);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
+    gap: 0.5rem;
+    width: 20rem;
+    max-height: 70vh;
+    background: rgba(80, 80, 80, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 1.5rem;
     border: 3px solid white;
     padding: 1rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.playerList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow-y: auto;
+}
+
+.playerList::-webkit-scrollbar {
+    width: 8px;
+}
+.playerList::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+.playerList::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+.playerList::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.6);
+}
+.sectionTitle {
+    font-size: 1.2rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+    border-left: 4px solid rgb(240, 125, 34);
+}
+
+.divider {
+    width: 100%;
+    border: none;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0.5rem 0;
+}
+
+.player, .selected, .banned {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease-in-out;
 }
 
 .player {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    gap: 0.5rem;
     background-color: rgb(27, 157, 222);
-    border: 5px solid rgb(64, 176, 232);
-    box-shadow: 0 6px 0 rgb(57, 68, 148);
-    border-radius: 1rem;
-    padding: 0.5rem;
-}
-
-.selected {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    gap: 0.5rem;
-    background-color: rgb(240, 125, 34);
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 0 6px 0 rgb(148, 97, 57);
-    border-radius: 1rem;
-    padding: 0.5rem;
-}
-
-.banned {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    gap: 0.5rem;
-    background-color: rgb(240, 44, 38);
-    border: 5px solid rgb(195, 60, 60);
-    box-shadow: 0 6px 0 rgb(128, 53, 49);
-    border-radius: 1rem;
-    padding: 0.5rem;
-}
-
-.selected:hover {
-    cursor: pointer;
+    border: 3px solid rgb(64, 176, 232);
+    box-shadow: 0 4px 0 rgb(57, 68, 148);
 }
 
 .player:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 0 rgb(57, 68, 148);
+    cursor: pointer;
+}
+
+.selected {
+    background-color: rgb(240, 125, 34);
+    border: 3px solid rgb(255, 143, 55);
+    box-shadow: 0 4px 0 rgb(148, 97, 57);
     transform: scale(1.05);
     cursor: pointer;
 }
 
-.nickname {
-    font-size: 2rem;
-    cursor: pointer;
+.banned {
+    background-color: rgb(150, 150, 150);
+    border: 3px solid rgb(180, 180, 180);
+    box-shadow: 0 4px 0 rgb(80, 80, 80);
+    opacity: 0.8;
+}
+
+.nickname, .bannedNickname {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
 }
 
 .bannedNickname {
-    font-size: 2rem;
+    text-decoration: line-through;
 }
 
-.nickname:hover {
-    cursor: pointer;
-}
 .buttons {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 0.5rem;
 }
 
 .kick, .ban, .unban {
-    width: min-content;
-    height: min-content;
-    background-color: rgb(240, 44, 38);
-    border: 4px solid rgb(195, 60, 60);
-    box-shadow: 0 5px 0 rgb(128, 53, 49);
-    border-radius: 0.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.4rem; 
+    border-radius: 0.8rem;
+    transition: transform 0.1s ease;
 }
 
 .kick:hover, .ban:hover, .unban:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     cursor: pointer;
 }
 
+.kick {
+    background-color: rgb(17, 110, 156);
+    border: 3px solid rgb(64, 176, 232);
+    box-shadow: 0 4px 0 rgb(57, 68, 148);
+}
+
+.ban {
+    background-color: rgb(240, 44, 38);
+    border: 3px solid rgb(195, 60, 60);
+    box-shadow: 0 4px 0 rgb(128, 53, 49);
+}
+
 .unban {
-    background-color: rgb(240, 125, 34);
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 0 6px 0 rgb(148, 97, 57);  
+    background-color: rgb(22, 163, 74);
+    border: 3px solid rgb(34, 197, 94);
+    box-shadow: 0 4px 0 rgb(21, 128, 61);
 }
 
 .icon {
-    width: 20px;
-    aspect-ratio: 1 / 1;
-    filter: invert();
+    width: 28px;
+    height: 28px;
+    filter: invert(1);
+}
+
+.closeButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+    background-color: rgb(240, 44, 38);
+    transform: scale(1.1);
+}
+.emptyMessage {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    text-align: center;
+    padding: 2rem 0;
 }
