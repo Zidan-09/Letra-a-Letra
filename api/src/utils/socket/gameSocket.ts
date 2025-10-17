@@ -137,5 +137,20 @@ export const GameSocket = {
         players.filter(Boolean).forEach(p => {
             p.reset();
         })
+    },
+
+    discardPower(room_id: string) {
+        const io = getSocketInstance();
+
+        const room = RoomService.getRoom(room_id);
+        if (room === ServerResponses.NotFound) return;
+        
+        const all = [ ...room.players, ...room.spectators ];
+
+        all.filter(Boolean).forEach(p =>
+            io.to(p.player_id).emit("discard_power", {
+                room: room
+            })
+        );
     }
-}
+};
