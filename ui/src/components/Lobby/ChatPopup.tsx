@@ -5,6 +5,7 @@ import iconBack from "../../assets/buttons/icon-back.svg";
 import iconSend from "../../assets/buttons/icon-send.svg";
 import styles from "../../styles/ChatPopup.module.css";
 import ChatPlayersPopup from "./ChatPlayersPopup";
+import iconPlayer from "../../assets/buttons/person-svgrepo-com.svg";
 
 interface ChatPopupProps {
     room_id: string | undefined;
@@ -87,7 +88,9 @@ export default function ChatPopup({ room_id, nickname, local, created_by, player
                         type="button"
                         className={styles.chatPlayers}
                         onClick={() => setChatPlayersOpen(!isChatPlayersOpen)}
-                        >J</button>
+                        >
+                            <img src={iconPlayer} alt="Enter" className={styles.icon} />
+                        </button>
                     ) : (
                         <div className={styles.space}></div>
                     )}    
@@ -144,6 +147,7 @@ export default function ChatPopup({ room_id, nickname, local, created_by, player
             select={selectPlayer}
             removePlayer={remove}
             unban={unban}
+            onClose={() => setChatPlayersOpen(false)}
             />
         </div>
     )
