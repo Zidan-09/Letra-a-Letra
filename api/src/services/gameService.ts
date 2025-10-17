@@ -98,6 +98,26 @@ export const GameService = {
         game.incrementTurn();
     },
 
+    discardPower(room_id: string, player_id: string, powerIdx: number) {
+        const room = RoomService.getRoom(room_id);
+
+        if (
+            room === ServerResponses.NotFound
+        ) return ServerResponses.NotFound;
+
+        const player = room.players.find(p => p.player_id === player_id);
+
+        if (
+            !player
+        ) return ServerResponses.NotFound;
+
+        player.powers.splice(powerIdx, 1);
+
+        GameSocket.discardPower(room_id);
+
+        return room;
+    },
+
     moveGame(
         room_id: string, 
         player_id: string, 

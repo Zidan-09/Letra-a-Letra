@@ -3,6 +3,7 @@ enum GameResponses {
     AlmostRevealed = "almost_revealed",
     GameError = "game_error",
     WithoutPower = "without_power",
+    PowerDiscarded = "power_discarded",
     NotEnoughPlayers = "not_enough_players",
     GameStarted = "game_started",
     InvalidTurnAction = "invalid_turn_action",

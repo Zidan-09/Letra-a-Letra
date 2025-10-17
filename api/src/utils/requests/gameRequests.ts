@@ -20,4 +20,10 @@ interface Movement {
     y: number;
 }
 
-export { StartGame, PassTurn, Movement }
+interface DiscardPower {
+    player_id: string;
+    power: MovementsEnum;
+    powerIdx: number;
+}
+
+export { StartGame, PassTurn, Movement, DiscardPower }

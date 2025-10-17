@@ -30,23 +30,27 @@ export class Player {
 
     addScore() {
         this.score++;
-    }
+    };
 
     addPass() {
         this.passed++;
-    }
+    };
 
     resetPass() {
         this.passed = 0
-    }
+    };
+
+    discardPower(powerIdx: number) {
+        this.powers.splice(powerIdx, 1);
+    };
 
     applyEffect(effect: EffectKey, duration: number) {
         this[effect] = { active: true, remaining: duration }
-    }
+    };
     
     removeEffect(effect:EffectKey) {
         this[effect] = { active: false, remaining: null }
-    }
+    };
 
     decrementEffect() {
         (["freeze", "blind", "immunity"] as EffectKey[]).forEach((effect) => {
@@ -56,7 +60,7 @@ export class Player {
                 if (this[effect].remaining <= 0) this.removeEffect(effect);
             }
         });
-    }
+    };
 
     reset() {
         this.score = 0;
@@ -66,5 +70,5 @@ export class Player {
         (["freeze", "blind", "immunity"] as EffectKey[]).forEach((effect) => {
             this.removeEffect(effect);
         })
-    }
-}
+    };
+};

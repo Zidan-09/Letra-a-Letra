@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
 import { HandleResponse } from '../utils/server/handleResponse';
 import { GameService } from '../services/gameService';
-import { Movement, PassTurn, StartGame } from '../utils/requests/gameRequests';
+import { DiscardPower, Movement, PassTurn, StartGame } from '../utils/requests/gameRequests';
 import { GameResponses } from '../utils/responses/gameResponses';
 import { ServerResponses } from '../utils/responses/serverResponses';
 import { GameSocket } from '../utils/socket/gameSocket';
 import { HandleSocket } from '../utils/server/handleSocket';
-import { RoomParams } from '../utils/requests/roomRequests';
+import { ActionParams, RoomParams } from '../utils/requests/roomRequests';
 import { MovementsEnum } from '../utils/game/movementsEnum';
 
 export const gameController = {
@@ -109,5 +109,24 @@ export const gameController = {
             console.error(err);
             HandleResponse.errorResponse(res);
         }
-    } 
+    },
+
+    discardPower(req: Request<RoomParams, {}, DiscardPower>, res: Response) {
+        const { room_id } = req.params;
+        const { player_id, powerIdx } = req.body;
+
+        try {
+            const result = GameService.discardPower(room_id, player_id, powerIdx);
+
+            if (
+                result === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            return HandleResponse.serverResponse(res, 200, true, GameResponses.PowerDiscarded, result);
+
+        } catch (err) {
+            console.error(err);
+            HandleResponse.errorResponse(res);
+        }
+    }
 }

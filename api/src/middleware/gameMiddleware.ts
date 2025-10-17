@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { HandleResponse } from "../utils/server/handleResponse";
-import { Movement, PassTurn, StartGame } from "../utils/requests/gameRequests";
+import { DiscardPower, Movement, PassTurn, StartGame } from "../utils/requests/gameRequests";
 import { GameResponses } from "../utils/responses/gameResponses";
 import { RoomService } from "../services/roomService";
 import { ServerResponses } from "../utils/responses/serverResponses";
@@ -104,7 +104,7 @@ export const GameMiddleware = {
 
             if (
                 powerIndex !== undefined && 0 > powerIndex || 
-                powerIndex !== undefined && powerIndex > 5 ||
+                powerIndex !== undefined && powerIndex >= 5 ||
                 powerIndex !== undefined && player.powers[powerIndex]?.power !== movement
             ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
 
@@ -188,6 +188,40 @@ export const GameMiddleware = {
             player.freeze.active &&
             player.powers.includes({ power: MovementsEnum.UNFREEZE, rarity: PowerRarity.RARE, type: "effect" })
         ) return HandleResponse.serverResponse(res, 400, false, GameResponses.InvalidMovement);
+
+        next();
+    },
+
+    discardPower(req: Request<RoomParams, {}, DiscardPower>, res: Response, next: NextFunction) {
+        const { room_id } = req.params;
+        const { player_id, power, powerIdx } = req.body;
+
+        if (
+            !room_id ||
+            !player_id ||
+            !power ||
+            powerIdx === undefined
+        ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
+
+        const room = RoomService.getRoom(room_id);
+
+        if (
+            room === ServerResponses.NotFound
+        ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+        const player = room.players.find(p => p.player_id === player_id);
+
+        if (
+            !player
+        ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+        if (
+            powerIdx !== undefined && 0 > powerIdx || 
+            powerIdx !== undefined && powerIdx >= 5 ||
+            player.powers[powerIdx]?.power !== power
+        ) return HandleResponse.serverResponse(res, 400, false, GameResponses.GameError);
+
+        if (powerIdx < 0 || powerIdx >= player.powers.length) return ;
 
         next();
     }
