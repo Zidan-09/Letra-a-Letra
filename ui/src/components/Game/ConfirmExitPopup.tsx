@@ -12,10 +12,10 @@ export default function ConfirmExitPopup({ isOpen, onConfirm, onCancel }: Confir
   return (
     <div className={styles.overlay}>
       <div className={styles.popup}>
-        <h3>Tem certeza que deseja sair?</h3>
+        <h2>Tem certeza que deseja sair?</h2>
         <div className={styles.buttons}>
-          <button onClick={onConfirm} className={styles.yes}>Sim</button>
-          <button onClick={onCancel} className={styles.no}>Não</button>
+          <button onClick={onConfirm} className={`${styles.button} ${styles.back}`}>Sair</button>
+          <button onClick={onCancel} className={`${styles.button} ${styles.continue}`}>Continuar</button>
         </div>
       </div>
     </div>

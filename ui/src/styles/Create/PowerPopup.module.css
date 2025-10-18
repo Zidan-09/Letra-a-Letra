@@ -17,8 +17,8 @@
 .popup {
     display: flex;
     flex-direction: column;
-    width: min(90%, 500px);
-    max-height: 80vh;
+    width: min(100%, 500px);
+    max-height: 70vh;
   background: rgba(255, 255, 255, 0.6);
     border: 0.3rem solid white;
     border-radius: 3rem;

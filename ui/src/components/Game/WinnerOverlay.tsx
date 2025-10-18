@@ -15,7 +15,7 @@ interface WinnerOverlayProps {
 const WinnerOverlay: React.FC<WinnerOverlayProps> = ({
     room_id,
     winner,
-    duration = 15000,
+    duration = 150000,
     isOpen,
 }) => {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ const WinnerOverlay: React.FC<WinnerOverlayProps> = ({
             </p>
             <button
               type="button"
-              className={styles.button}
+              className={`${styles.button} ${styles.lobby}`}
               onClick={handleLobby}
             >
               Voltar ao Lobby
@@ -56,7 +56,7 @@ const WinnerOverlay: React.FC<WinnerOverlayProps> = ({
           </>
         ) : (
           <>
-            <h1 className={styles.title}>🏆 {winner.nickname} venceu!</h1>
+            <h1 className={styles.title}>{winner.nickname}<br />Venceu!🏆</h1>
             {winner.avatar && avatars[winner.avatar] ? (
               <img
                 src={avatars[winner.avatar]}
