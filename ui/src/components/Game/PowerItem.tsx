@@ -1,5 +1,6 @@
 import type { MovementsEnum } from "../../utils/room_utils";
 import { powers, border } from "../../utils/powers";
+import trash from "../../assets/buttons/icon-trash.svg";
 import styles from "../../styles/Game/PowerItem.module.css";
 
 interface PowerItemProps {
@@ -10,9 +11,10 @@ interface PowerItemProps {
     selectMove: (movement: MovementsEnum) => void;
     selectIdx: (idx: number | undefined) => void;
     applyEffect: () => void;
+    discardPower: () => void;
 }
 
-export default function PowerItem({ idx, movement, type, selected, selectMove, selectIdx, applyEffect }: PowerItemProps) {
+export default function PowerItem({ idx, movement, type, selected, selectMove, selectIdx, applyEffect, discardPower }: PowerItemProps) {
     const handleSelectMove = () => {
         const isSelected = !selected;
 
@@ -24,6 +26,19 @@ export default function PowerItem({ idx, movement, type, selected, selectMove, s
 
     return (
         <div className={`${styles.power} ${styles[borderColor]} ${selected ? styles.selected : ""}`} onClick={handleSelectMove}>
+            {selected && (
+                <div
+                className={styles.discard}
+                onClick={discardPower}
+                >
+                    <img
+                    src={trash}
+                    alt="Trash"
+                    className={styles.trash}
+                    />
+                </div>
+            )}
+
             <img 
             src={powers[movement]} 
             alt="icon" 

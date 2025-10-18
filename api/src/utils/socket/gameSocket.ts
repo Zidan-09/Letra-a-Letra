@@ -148,9 +148,7 @@ export const GameSocket = {
         const all = [ ...room.players, ...room.spectators ];
 
         all.filter(Boolean).forEach(p =>
-            io.to(p.player_id).emit("discard_power", {
-                room: room
-            })
+            io.to(p.player_id).emit("discard_power", room)
         );
     }
 };
