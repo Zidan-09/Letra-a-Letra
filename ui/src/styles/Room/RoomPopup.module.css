@@ -15,9 +15,8 @@
 
 .popup {
     display: flex;
-    width: min(90%, 500px);
+    width: min(60%, 400px);
     height: auto;
-    min-height: vh;
     max-height: 80vh;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.3);
@@ -28,14 +27,14 @@
     justify-content: center;
     align-items: center;
     padding: 1.5rem;
-    gap: 5rem;
+    gap:3rem;
 }
 
 .titlecontainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 90%;
     height: 5rem;
     background-color: rgb(240, 125, 34);
     border: 5px solid rgb(255, 143, 55);
@@ -44,7 +43,7 @@
 }
 
 .title {
-    font-size: clamp(1.5rem, 5em, 2.8rem);
+    font-size: clamp(1rem, 2.5em, 2.8rem);
     margin-bottom: 0;
     color: white;
     -webkit-text-stroke: 0.5px black;
@@ -73,7 +72,7 @@ p:hover, .title:hover {
 }
 
 .input {
-    width: 100%;
+    width: 90%;
     max-width: 100%;
     background-color: white;
     padding: 0.6rem 1rem;
@@ -101,8 +100,8 @@ p:hover, .title:hover {
 }
 
 .button {
-    min-width: 120px;
-    min-height: 70px;
+    min-width: 100px;
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
