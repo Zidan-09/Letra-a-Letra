@@ -68,19 +68,18 @@
 .input {
     width: 90%;
     background-color: white;
-    padding: 0.6rem 1rem;
+    padding: 0.9rem 1rem;
     border-radius: 2rem;
     border: 2px solid #ccc;
     outline: none;
     font-size: 1rem;
     text-align: center;
     box-sizing: border-box;
-    font-size: clamp(1rem, 1.5vw, 1.3rem);
     margin-top: 0;
 }
 
 .input:focus {
-    border: 3px solid rgba(0, 0, 0, 0.4);
+    border: 3px solid rgb(255, 143, 55);
     opacity: 1;
     color: black;
 }
@@ -96,7 +95,7 @@
 
 .range {
   width: 80%;
-  accent-color: rgb(27, 157, 222);
+  accent-color: rgb(64, 176, 232);
   cursor: pointer;
 }
 

@@ -18,9 +18,7 @@ interface ChatPlayersPopupProps {
 
 export default function ChatPlayersPopup({ players, banneds, isOpen, selected, select, unban, removePlayer, onClose}: ChatPlayersPopupProps) {
     if (!isOpen || !players || !banneds) return null;
-    // if (players.filter(Boolean).length === 1 && banneds.length === 0) return;
     
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const socket = useSocket();
     const otherPlayers = players.filter(p => p && p.player_id !== socket.id);
     const hasBannedPlayers = banneds.length > 0;
@@ -36,9 +34,7 @@ export default function ChatPlayersPopup({ players, banneds, isOpen, selected, s
                 &times;
             </button>
 
-            {/*aqui*/}
             <h3 className={styles.sectionTitle}>Jogadores na Sala</h3>
-            {/*aqui*/}
             <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Fechar">
                 &times;
             </button>
@@ -57,10 +53,10 @@ export default function ChatPlayersPopup({ players, banneds, isOpen, selected, s
                             
                             {selected === player.player_id && (
                                 <div className={styles.buttons}>
-                                    <button type="button" className={styles.kick} onClick={() => removePlayer(false)}>
+                                    <button type="button" className={styles.kick} onClick={() => removePlayer(false)} title="Remover da Sala">
                                         <img src={kickIcon} alt="Kick" className={styles.icon} />
                                     </button>
-                                    <button type="button" className={styles.ban} onClick={() => removePlayer(true)}>
+                                    <button type="button" className={styles.ban} onClick={() => removePlayer(true)} title="Banir da Sala">
                                         <img src={banIcon} alt="Ban" className={styles.icon} />
                                     </button>
                                 </div>

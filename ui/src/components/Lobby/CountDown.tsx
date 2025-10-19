@@ -25,7 +25,7 @@ export default function Countdown({ start = 3, onFinish }: CountdownProps) {
   return (
     <div className={styles.overlay}>
       <div className={styles.number}>{count}</div>
-      <p className={styles.text}>Partida começando...</p>
+      <p className={styles.label}>Partida começando...</p>
     </div>
   );
 }

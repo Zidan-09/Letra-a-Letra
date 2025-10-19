@@ -17,8 +17,7 @@
     display: flex;
     width: min(90%, 500px);
     height: auto;
-    min-height: vh;
-    max-height: 80vh;
+    min-height: 80vh;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);

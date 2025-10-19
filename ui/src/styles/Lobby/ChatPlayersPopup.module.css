@@ -20,7 +20,6 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    overflow-y: auto;
 }
 
 .playerList::-webkit-scrollbar {
@@ -38,11 +37,11 @@
     background: rgba(255, 255, 255, 0.6);
 }
 .sectionTitle {
-    font-size: 1.2rem;
+    font-size: 2rem;
     color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     margin: 0.5rem 0;
     padding-left: 0.5rem;
+    -webkit-text-stroke: 0.5px black;
     border-left: 4px solid rgb(240, 125, 34);
 }
 
@@ -62,6 +61,8 @@
     border-radius: 1rem;
     padding: 0.5rem 1rem;
     transition: all 0.2s ease-in-out;
+    overflow: hidden;
+    
 }
 
 .player {
@@ -71,8 +72,7 @@
 }
 
 .player:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 6px 0 rgb(57, 68, 148);
+    transform: scale(1.01);
     cursor: pointer;
 }
 
@@ -80,7 +80,6 @@
     background-color: rgb(240, 125, 34);
     border: 3px solid rgb(255, 143, 55);
     box-shadow: 0 4px 0 rgb(148, 97, 57);
-    transform: scale(1.05);
     cursor: pointer;
 }
 
@@ -112,13 +111,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.4rem; 
+    padding: 0.3rem; 
     border-radius: 0.8rem;
     transition: transform 0.1s ease;
 }
 
 .kick:hover, .ban:hover, .unban:hover {
-    transform: scale(1.1);
     cursor: pointer;
 }
 
@@ -165,7 +163,6 @@
 
 .closeButton:hover {
     background-color: rgb(240, 44, 38);
-    transform: scale(1.1);
 }
 .emptyMessage {
     color: rgba(255, 255, 255, 0.7);

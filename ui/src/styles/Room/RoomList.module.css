@@ -14,6 +14,7 @@
   margin: 1.5rem auto;
   overflow-y: auto;
   padding: 1rem;
+  gap: 0.5rem;
 }
 
 .roomList::-webkit-scrollbar {
