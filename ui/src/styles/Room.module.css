@@ -144,14 +144,21 @@ transition: transform 0.1s ease
     border: 5px solid rgb(22, 133, 186);
 }
 
-.code, .spectator {
-    justify-content: center;
+.spectator {
+    background-color: rgb(240, 125, 34);
+    border: 5px solid rgb(255, 143, 55);
+    box-shadow: 0 6px 0 rgb(148, 97, 57);
+    
+}
+
+.code {
     background-color: rgb(240, 125, 34);
     border: 5px solid rgb(255, 143, 55);
     box-shadow: 0 6px 0 rgb(148, 97, 57);
     width: 50%;
     max-width: 400px;
     margin: 1rem auto 0 auto;
+    justify-content: center;
 }
 
 .code:hover, .spectator:hover {

@@ -13,6 +13,7 @@ import EffectOverlay from "../components/Game/EffectOverlay";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.svg";
+import iconSwitch from "../assets/buttons/eye-svgrepo-com.svg";
 import styles from "../styles/Game.module.css";
 
 export default function Game() {
@@ -560,13 +561,8 @@ export default function Game() {
                     discardPower={handleDiscard}
                     />
                 ) : (
-                    <button
-                    type="button"
-                    className={styles.switchView}
-                    onClick={handleFlipView}
-                    >
-                        Trocar
-                    </button>
+                    <div />
+                    
                 )}
 
                 <Board
@@ -599,6 +595,16 @@ export default function Game() {
             
             <EffectOverlay freeze={p1.freeze.active} blind={p1.blind.active} immunity={p1.immunity.active} />
             <WinnerOverlay room_id={room?.room_id} winner={winner} isOpen={winner ? true : false} />
+            {p1.player_id !== socket.id && (
+            <button
+                    type="button"
+                    className={styles.switchView}
+                    onClick={handleFlipView}
+                    >
+                        <img src={iconSwitch} alt="Trocar" className={styles.icon} />
+                        Trocar
+                    </button>
+            )}  
         </div>
     )
 }

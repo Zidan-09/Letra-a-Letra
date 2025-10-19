@@ -18,12 +18,6 @@
   animation: pop 1s ease-in-out;
 }
 
-.text {
-  margin-top: 1rem;
-  font-size: 1.5rem;
-  opacity: 0.8;
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
