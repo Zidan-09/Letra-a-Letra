@@ -1,60 +1,73 @@
 .slotsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width:6rem;
-    height: 95%;
-    background: rgba(255, 255, 255, 0.2);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    border: 3px solid white;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    padding: 0.3rem;
-    margin: auto;
-    gap: 0.5rem;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  height: 95%;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 3px solid white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  padding: 0.2rem;
+  margin: auto;
+  gap: 0.5rem;
 }
 
 .empty,
 .power {
-    flex: 1 1 0;
-    width: 5rem;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: inset 0 3px 6px rgba(255,255,255,0.25), 0 3px 6px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex: 1 1 0;
+  width: 5rem;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.25),
+    0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .empty {
-    border: 5px solid rgba(255,255,255,0.5);
-    background: rgba(255, 255, 255, 0.2);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
+  border: 5px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .power {
-    background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.1));
-    cursor: pointer;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.1)
+  );
+  cursor: pointer;
 }
 
 .power:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3), inset 0 3px 6px rgba(255,255,255,0.3);
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3),
+    inset 0 3px 6px rgba(255, 255, 255, 0.3);
 }
 
 .icon {
-    width: 80%;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    border-radius: 0.7rem;
-    border: 1px solid black;
+  width: 80%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: 0.7rem;
+  border: 1px solid black;
 }
 
-.common { border: 5px solid rgb(251, 251, 250); }
-.rare { border: 5px solid rgb(76, 82, 197); }
-.epic { border: 5px solid rgb(81, 22, 131); }
-.legendary { border: 5px solid rgb(173, 99, 40); }
+.common {
+  border: 5px solid rgb(251, 251, 250);
+}
+.rare {
+  border: 5px solid rgb(76, 82, 197);
+}
+.epic {
+  border: 5px solid rgb(81, 22, 131);
+}
+.legendary {
+  border: 5px solid rgb(173, 99, 40);
+}
