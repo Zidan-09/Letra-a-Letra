@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styles from "../../styles/Room/RoomErrorPopup.module.css";
 
 interface RoomNotFoundPopupProps {
@@ -7,6 +8,16 @@ interface RoomNotFoundPopupProps {
 }
 
 export default function RoomErrorPopup({ isOpen, error, onClose }: RoomNotFoundPopupProps) {
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onClose();
+        };
+
+        if (isOpen) window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen]);
+
     if (!isOpen) return null;
 
     const message = error === "not_found" ?

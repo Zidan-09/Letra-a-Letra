@@ -31,6 +31,16 @@ export default function ChatPopup({ room_id, nickname, local, created_by, player
     const socket = useSocket();
 
     useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") handleClose();
+        };
+
+        if (isOpen) window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen]);
+
+    useEffect(() => {
         if (!socket) return;
 
         const handleMessage = (message: Message) => {

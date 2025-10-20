@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 import type { GameModes, MovementsEnum } from "../../utils/room_utils";
 import { Themes, ThemeTranslations } from "../../utils/themes.ts";
-import { useState, useEffect } from "react";
 import PowerPopup from "./PowerPopup.tsx";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import styles from "../../styles/Create/SettingsPopup.module.css";
@@ -31,7 +31,16 @@ export default function SettingsPopup({
     const [localPowers, setLocalPowers] = useState<MovementsEnum[]>(allowedPowers);
     const [powerPopupOpen, setPowerPopupOpen] = useState(false);
 
-    // Atualiza o estado local sempre que o popup abrir
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") onClose();
+        };
+
+        if (isOpen) window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen]);
+
     useEffect(() => {
         if (isOpen) {
             setLocalTheme(theme);
@@ -43,7 +52,6 @@ export default function SettingsPopup({
     if (!isOpen) return null;
 
     const handleBack = () => {
-        // Propaga as mudanças antes de fechar
         setTheme(localTheme);
         setGamemode(localGamemode);
         setAllowedPowers(localPowers);
