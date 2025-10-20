@@ -39,8 +39,7 @@ export default function Lobby() {
   ]);
   const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
 
-  const [isKicked, setKicked] = useState(false);
-  const [isBanned, setBanned] = useState(false);
+  const [removedType, setRemovedType] = useState<"ban" | "kick" | undefined>(undefined);
 
   const [isCounting, setCounting] = useState(false);
   const [startData, setStartData] = useState<StartData | null>(null);
@@ -65,7 +64,6 @@ export default function Lobby() {
       setCreator(creatorData.player_id);
     }
 
-    // Se for o criador e tiver settings salvos, aplicar
     if (storedSettings) {
       const parsed: RoomSettings = JSON.parse(storedSettings);
       setTheme(parsed.theme);
@@ -75,7 +73,6 @@ export default function Lobby() {
 
     if (!socket) return;
 
-    // --- LISTENERS ---
     socket.on("game_started", (startData: StartData) => {
       setStartData(startData);
       setCounting(true);
@@ -122,12 +119,8 @@ export default function Lobby() {
         spectators: [...room.spectators],
       });
 
-      if (player === socket.id) {
-        setKicked(true);
-        setTimeout(() => {
-          navigate("/room");
-        }, 4000);
-      }
+      if (player === socket.id) setRemovedType("kick");
+
     });
 
     socket.on("banned", ({ room, player }) => {
@@ -137,12 +130,8 @@ export default function Lobby() {
         spectators: [...room.spectators],
       });
 
-      if (player === socket.id) {
-        setBanned(true);
-        setTimeout(() => {
-          navigate("/room");
-        }, 4000);
-      }
+      if (player === socket.id) setRemovedType("ban");
+      
     });
 
     return () => {
@@ -369,8 +358,9 @@ export default function Lobby() {
           onNewMessage={handleNewMessage}
         />
       )}
-      {isKicked && <ActionPopup type="kick" onClose={() => setKicked(false)} />}
-      {isBanned && <ActionPopup type="ban" onClose={() => setBanned(false)} />}
+
+      {removedType && <ActionPopup type={removedType} onClose={() => setRemovedType(undefined)} />}
+
       {isCounting && (
         <Countdown
           start={3}

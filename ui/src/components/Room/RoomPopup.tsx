@@ -17,7 +17,15 @@ interface PopupProps {
 }
 
 export default function RoomPopup({ room_id, setRoomId, roomError, onRoomError, setOnRoomError, enterRoom, isOpen, onClose}: PopupProps) {
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") handleBack();
+        };
 
+        if (isOpen) window.addEventListener("keydown", handleKeyDown);
+
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [isOpen]);
     useEffect(() => {
         if (!isOpen) {
             setRoomId("");

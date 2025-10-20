@@ -166,7 +166,7 @@
 }
 .emptyMessage {
     color: rgba(255, 255, 255, 0.7);
-    font-size: 1rem;
+    font-size: 1.5rem;
     text-align: center;
     padding: 2rem 0;
 }
