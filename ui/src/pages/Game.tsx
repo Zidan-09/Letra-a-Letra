@@ -94,15 +94,15 @@ export default function Game() {
     useEffect(() => {
         if (!room || !p1 || !timer) return;
 
-        if (turn % 2 !== p1.turn) return;
+        if ((turn % 2 === p1.turn) || (turn === 0 && turn % 2 === p1.turn)) {
+            const timeout = setTimeout(() => {
+                PassTurn.passTurnTimer(p1, room.room_id);
+            }, (timer * 1000));
 
-        const timeout = setTimeout(() => {
-            PassTurn.passTurnTimer(p1, room.room_id);
-        }, (timer * 1000));
+            return () => clearTimeout(timeout);
+        };
 
-        return () => clearTimeout(timeout);
-
-    }, [turn]);
+    }, [turn, p1, room]);
 
     useEffect(() => {
         if (!room || !p1) return;
