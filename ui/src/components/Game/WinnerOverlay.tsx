@@ -15,7 +15,7 @@ interface WinnerOverlayProps {
 const WinnerOverlay: React.FC<WinnerOverlayProps> = ({
     room_id,
     winner,
-    duration = 150000,
+    duration = 10000,
     isOpen,
 }) => {
     const navigate = useNavigate();
