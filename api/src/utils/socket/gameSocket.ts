@@ -113,6 +113,12 @@ export const GameSocket = {
         );
     },
 
+    afkPlayer(player_id: string) {
+        const io = getSocketInstance();
+
+        io.to(player_id).emit("afk", player_id);
+    },
+
     gameOver(room_id: string) {
         const io = getSocketInstance();
 
