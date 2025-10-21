@@ -145,6 +145,14 @@ export default function Lobby() {
     };
   }, [socket, creator, navigate]);
 
+  const checkRoomExists = async () => {
+    if (!room?.room_id) return false;
+    const valid = await fetch(`${settings.server}/room/${room.room_id}`)
+        .then(res => res.json())
+        .then(data => data);
+    return !!valid;
+  };
+
   const handleChat = () => {
     setChatOpen(true);
     setUnreadMessages(0);
@@ -161,6 +169,9 @@ export default function Lobby() {
   };
 
   const handleBack = async () => {
+    const valid = await checkRoomExists();
+    if (!valid) return navigate("/");
+
     async function leaveRoom() {
       const result = await fetch(
         `${settings.server}/room/${room?.room_id}/players/${socket.id}`,
@@ -180,7 +191,7 @@ export default function Lobby() {
 
     if (!result.success) return null;
 
-    return navigate("/");
+    return navigate("/room");
   };
 
   const handlePlay = async () => {
@@ -190,8 +201,11 @@ export default function Lobby() {
       !theme ||
       !gamemode ||
       !allowedPowers
-    )
-      return null;
+    ) return null;
+
+    const valid = await checkRoomExists();
+    if (!valid) return navigate("/");
+
     const result = await fetch(
       `${settings.server}/game/${room.room_id}/start`,
       {
@@ -213,6 +227,9 @@ export default function Lobby() {
   const handleRemovePlayer = async (ban: boolean) => {
     if (!selectedPlayer || !room) return;
 
+    const valid = await checkRoomExists();
+    if (!valid) return navigate("/");
+
     try {
       await fetch(
         `${settings.server}/room/${room.room_id}/players/${selectedPlayer}/remove`,
@@ -231,6 +248,9 @@ export default function Lobby() {
 
   const handleUnbanPlayer = async (player_id: string) => {
     if (!room) return;
+
+    const valid = await checkRoomExists();
+    if (!valid) return navigate("/");
 
     try {
       const result = await fetch(
