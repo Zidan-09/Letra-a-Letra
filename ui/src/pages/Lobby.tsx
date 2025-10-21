@@ -51,7 +51,7 @@ export default function Lobby() {
     if (!game) {
       navigate("/");
       return;
-    }
+    };
 
     const gameData: Game = JSON.parse(game);
     setRoom(gameData);
