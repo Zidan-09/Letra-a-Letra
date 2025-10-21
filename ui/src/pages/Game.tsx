@@ -147,7 +147,6 @@ export default function Game() {
         setHidedWords([]);
     }, [p1?.blind.active]);
 
-
     useEffect(() => {
         if (!socket) return;
 
@@ -425,8 +424,6 @@ export default function Game() {
         });
 
         socket.on("discard_power", (updatedRoom: Game) => {
-            let p1Data: Player;
-
             setP1(prev => {
                 if (!prev) return prev;
 
@@ -434,7 +431,6 @@ export default function Game() {
                 const player = updatedRoom.players.find(p => p.player_id === copy.player_id);
                 
                 if (!player) return prev;
-                p1Data = player;
 
                 return player;
             });
@@ -451,6 +447,11 @@ export default function Game() {
             });
         });
 
+        socket.on("afk", (player_id) => {
+            alert("Você foi desconectado por inatividade");
+            if (socket.id === player_id) navigate("/room");
+        });
+
         socket.on("game_over", ({winner, room}) => {
             if (room) localStorage.setItem("game", JSON.stringify(room));
 
@@ -462,6 +463,7 @@ export default function Game() {
             socket.off("player_left");
             socket.off("pass_turn");
             socket.off("discard_power");
+            socket.off("afk");
             socket.off("game_over");
             spyTimers.current.forEach(timer => clearTimeout(timer));
             spyTimers.current.clear();

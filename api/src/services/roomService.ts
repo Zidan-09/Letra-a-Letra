@@ -129,10 +129,11 @@ class RoomServices {
             if (newLeader) {
                 room.created_by = newLeader.player_id;
                 room.creator = newLeader.nickname;
-            }
-        }
+            };
+        };
 
         createLog(room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);
+        PlayerService.savePlayer(player);
 
         const all = [...room.players, ...room.spectators];
         if (!all.some(Boolean)) {
@@ -158,8 +159,16 @@ class RoomServices {
         const playerIndex = room.players.findIndex(p => p?.player_id === player_id);
         if (playerIndex === -1) return ServerResponses.NotFound;
 
+        const player = room.players[playerIndex];
+        if (player) {
+            player.passed = 0;
+            PlayerService.savePlayer(player);
+        };
+
         room.players[playerIndex] = undefined as any;
+
         GameSocket.gameOver(room_id);
+        GameSocket.afkPlayer(player_id);
 
         return ServerResponses.Ended;
     };
@@ -244,6 +253,8 @@ class RoomServices {
             room.bannedPlayerIds.push(player_id);
             room.bannedPlayers.push(player);
         };
+
+        PlayerService.savePlayer(player);
 
         createLog(room_id, `${player.nickname} ${banned ? LogEnum.PlayerBanned : LogEnum.PlayerKicked}`)
 

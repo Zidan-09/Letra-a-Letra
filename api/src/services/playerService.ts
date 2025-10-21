@@ -27,13 +27,17 @@ class PlayerServices {
         })
 
         return players;
-    }
+    };
+
+    savePlayer(player: Player) {
+        this.players.set(player.player_id, player);
+    };
 
     removePlayer(player_id: string): boolean {
         const result = this.players.delete(player_id);
 
         return result;
-    }
+    };
 }
 
 export const PlayerService = new PlayerServices();
