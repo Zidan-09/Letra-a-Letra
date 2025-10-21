@@ -29,6 +29,7 @@ export default function Lobby() {
   const [isSettingsOpen, setSettingsOpen] = useState(false);
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [selectedPlayer, setSelectedPlayer] = useState<string>();
+  const [waiting, setWaiting] = useState<boolean>(false);
 
   const socket = useSocket();
   const navigate = useNavigate();
@@ -74,11 +75,13 @@ export default function Lobby() {
     if (!socket) return;
 
     socket.on("game_started", (startData: StartData) => {
+      setWaiting(false);
       setStartData(startData);
       setCounting(true);
     });
 
     socket.on("player_joined", (updatedRoom: Game) => {
+      setWaiting(false);
       setRoom({
         ...updatedRoom,
         players: [...updatedRoom.players],
@@ -87,6 +90,7 @@ export default function Lobby() {
     });
 
     socket.on("player_left", (updatedRoom: Game) => {
+      setWaiting(false);
       setRoom({
         ...updatedRoom,
         players: [...updatedRoom.players],
@@ -96,6 +100,7 @@ export default function Lobby() {
     });
 
     socket.on("role_changed", (updatedRoom: Game) => {
+      setWaiting(false);
       setRoom({
         ...updatedRoom,
         players: [...updatedRoom.players],
@@ -113,6 +118,7 @@ export default function Lobby() {
     });
 
     socket.on("kicked", ({ room, player }) => {
+      setWaiting(false);
       setRoom({
         ...room,
         players: [...room.players],
@@ -124,6 +130,7 @@ export default function Lobby() {
     });
 
     socket.on("banned", ({ room, player }) => {
+      setWaiting(false);
       setRoom({
         ...room,
         players: [...room.players],
@@ -150,7 +157,7 @@ export default function Lobby() {
     const valid = await fetch(`${settings.server}/room/${room.room_id}`)
         .then(res => res.json())
         .then(data => data);
-    return !!valid;
+    return valid.success;
   };
 
   const handleChat = () => {
@@ -169,6 +176,9 @@ export default function Lobby() {
   };
 
   const handleBack = async () => {
+    if (waiting) return null;
+    setWaiting(true);
+
     const valid = await checkRoomExists();
     if (!valid) return navigate("/");
 
@@ -185,7 +195,7 @@ export default function Lobby() {
       if (!result.success) console.warn(result);
 
       return result;
-    }
+    };
 
     const result = await leaveRoom();
 
@@ -203,10 +213,13 @@ export default function Lobby() {
       !allowedPowers
     ) return null;
 
+    if (waiting) return;
+    setWaiting(true);
+
     const valid = await checkRoomExists();
     if (!valid) return navigate("/");
 
-    const result = await fetch(
+    await fetch(
       `${settings.server}/game/${room.room_id}/start`,
       {
         method: "POST",
@@ -220,11 +233,12 @@ export default function Lobby() {
     )
       .then((res) => res.json())
       .then((data) => data);
-
-    if (!result.success) return null;
   };
 
   const handleRemovePlayer = async (ban: boolean) => {
+    if (waiting) return;
+    setWaiting(true);
+
     if (!selectedPlayer || !room) return;
 
     const valid = await checkRoomExists();
@@ -243,10 +257,13 @@ export default function Lobby() {
       );
     } catch (err) {
       console.error(err);
-    }
+    };
   };
 
   const handleUnbanPlayer = async (player_id: string) => {
+    if (waiting) return;
+    setWaiting(true);
+    
     if (!room) return;
 
     const valid = await checkRoomExists();
@@ -265,9 +282,10 @@ export default function Lobby() {
       if (!result.success) return;
 
       setRoom(result.data);
+
     } catch (err) {
       console.error(err);
-    }
+    };
   };
 
   return (
@@ -396,4 +414,4 @@ export default function Lobby() {
       )}
     </div>
   );
-}
+};
