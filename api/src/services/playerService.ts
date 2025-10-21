@@ -30,6 +30,7 @@ class PlayerServices {
     };
 
     savePlayer(player: Player) {
+        player.reset();
         this.players.set(player.player_id, player);
     };
 
