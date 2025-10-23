@@ -1,0 +1,32 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameResponses = void 0;
+var GameResponses;
+(function (GameResponses) {
+    GameResponses["Revealed"] = "revealed";
+    GameResponses["AlmostRevealed"] = "almost_revealed";
+    GameResponses["GameError"] = "game_error";
+    GameResponses["WithoutPower"] = "without_power";
+    GameResponses["PowerDiscarded"] = "power_discarded";
+    GameResponses["NotEnoughPlayers"] = "not_enough_players";
+    GameResponses["GameStarted"] = "game_started";
+    GameResponses["InvalidTurnAction"] = "invalid_turn_action";
+    GameResponses["Continue"] = "continue";
+    GameResponses["InvalidMovement"] = "invalid_movement";
+    GameResponses["InvalidTheme"] = "invalid_theme";
+    GameResponses["AlmostBlocked"] = "almost_blocked";
+    GameResponses["Blocked"] = "blocked";
+    GameResponses["Unblocked"] = "unblocked";
+    GameResponses["Trapped"] = "trapped";
+    GameResponses["TrapTrigged"] = "trap_trigged";
+    GameResponses["AlmostTrapped"] = "almost_trapped";
+    GameResponses["DetectedTraps"] = "detected_traps";
+    GameResponses["Spied"] = "spied";
+    GameResponses["Frozen"] = "frozen";
+    GameResponses["Unfrozen"] = "unfrozen";
+    GameResponses["PlayerFrozen"] = "player_frozen";
+    GameResponses["Blinded"] = "player_blind";
+    GameResponses["Lantern"] = "used_lantern";
+    GameResponses["Immunity"] = "player_immune";
+})(GameResponses || (exports.GameResponses = GameResponses = {}));
+//# sourceMappingURL=gameResponses.js.map

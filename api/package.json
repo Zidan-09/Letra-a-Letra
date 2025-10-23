@@ -1,7 +1,7 @@
 {
   "name": "letra-a-letra-api",
-  "version": "0.5.1",
-  "description": "A fast-paced multiplayer game blending word search and battleship, where players race to find letters while sabotaging their opponents.",
+  "version": "0.1.0a",
+  "description": "A fast-paced multiplayer game blending word search and battleship...",
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node src/server.ts",
@@ -41,6 +41,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/nanoid": "^2.1.0",
+    "@types/node": "^24.9.1",
     "@types/socket.io": "^3.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
