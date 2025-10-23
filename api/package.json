@@ -9,6 +9,26 @@
     "start": "node dist/server.js",
     "test": "ts-node src/tests/tests.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zidan-09/Letra-a-Letra.git"
+  },
+  "keywords": [
+    "word",
+    "word-search",
+    "battle",
+    "pvp",
+    "game",
+    "battle-game",
+    "pvp-game",
+    "word-search-game"
+  ],
+  "author": "Samuel da Penha Nascimento, Gabriel Lima Silva Oliveira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zidan-09/Letra-a-Letra/issues"
+  },
+  "homepage": "https://github.com/Zidan-09/Letra-a-Letra#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
