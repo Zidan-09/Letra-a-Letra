@@ -1,0 +1,61 @@
+{
+    "settings": {
+        "chancePerCell": 10,
+        "percentages": {
+            "common": 0.60,
+            "rare": 0.25,
+            "epic": 0.10,
+            "legendary": 0.05
+        }
+    },
+    "powers": {
+        "common": [
+            {
+                "name": "BLOCK",
+                "rarity": "COMMON"
+            },
+            {
+                "name": "UNBLOCK",
+                "rarity": "COMMON"
+            },
+            {
+                "name": "TRAP",
+                "rarity": "COMMON"
+            },
+            {
+                "name": "DETECT_TRAPS",
+                "rarity": "COMMON"
+            }
+        ],
+        "rare": [
+            {
+                "name": "FREEZE",
+                "rarity": "RARE"
+            },
+            {
+                "name": "UNFREEZE",
+                "rarity": "RARE"
+            },
+            {
+                "name": "SPY",
+                "rarity": "RARE"
+            }
+        ],
+        "epic": [
+            {
+                "name": "BLIND",
+                "rarity": "EPIC"
+            },
+            {
+                "name": "LANTERN",
+                "rarity": "EPIC"
+            }
+        ],
+        "legendary": [
+            {
+                "name": "IMMUNITY",
+                "rarity": "LEGENDARY"
+            }
+        ]
+    }
+}

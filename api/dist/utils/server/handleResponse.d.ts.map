@@ -1,0 +1,1 @@
+{"version":3,"file":"handleResponse.d.ts","sourceRoot":"","sources":["../../../src/utils/server/handleResponse.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAGnC,eAAO,MAAM,cAAc;wBACH,QAAQ,cAAc,MAAM,WAAW,OAAO,WAAW,MAAM,SAAS,GAAG;uBAQ5E,QAAQ;CAM9B,CAAA"}

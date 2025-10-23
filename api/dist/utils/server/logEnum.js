@@ -1,0 +1,34 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LogEnum = void 0;
+var LogEnum;
+(function (LogEnum) {
+    LogEnum["RoomCreated"] = "room created";
+    LogEnum["RoomClosed"] = "room closed";
+    LogEnum["PlayerJoined"] = "joined the game";
+    LogEnum["PlayerJoinedAsSpectator"] = "joined as spectator";
+    LogEnum["PlayerReconnected"] = "reconnected to the game";
+    LogEnum["PlayerTurnedToSpectator"] = "turned to spectator";
+    LogEnum["SpectatorTurnedToPlayer"] = "turned to player";
+    LogEnum["PlayerKicked"] = "was kicked";
+    LogEnum["PlayerBanned"] = "was banned";
+    LogEnum["PlayerUnbanned"] = "was unnbanned";
+    LogEnum["SwapSlot"] = "swaped slot";
+    LogEnum["PlayerLeft"] = "left the game";
+    LogEnum["GameStarted"] = "game started";
+    LogEnum["GameOver"] = "game over";
+    LogEnum["Error"] = "error";
+    LogEnum["InvalidMovement"] = "tried an invalid movement";
+    LogEnum["Freeze"] = "froze";
+    LogEnum["Unfreeze"] = "unfroze";
+    LogEnum["Trapped"] = "trapped cell at";
+    LogEnum["Detect"] = "detected traps";
+    LogEnum["Blocked"] = "blocked cell at";
+    LogEnum["Unblocked"] = "unblocked cell at";
+    LogEnum["ClickOn"] = "clicked on cell at";
+    LogEnum["Spied"] = "spied cell at";
+    LogEnum["Blinded"] = "blinded";
+    LogEnum["Lantern"] = "used lantern";
+    LogEnum["Immunity"] = "became immune";
+})(LogEnum || (exports.LogEnum = LogEnum = {}));
+//# sourceMappingURL=logEnum.js.map
