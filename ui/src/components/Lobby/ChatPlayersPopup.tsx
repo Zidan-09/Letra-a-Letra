@@ -9,15 +9,15 @@ interface ChatPlayersPopupProps {
     players?: Player[] | undefined;
     banneds?: Player[] | undefined;
     isOpen: boolean;
-    selected: string | undefined;
-    select: (player_id: string) => void;
-    unban: (player_id: string) => void;
-    removePlayer: (ban: boolean) => void;
+    selected?: string | undefined;
+    select?: (player_id: string) => void;
+    unban?: (player_id: string) => void;
+    removePlayer?: (ban: boolean) => void;
     onClose?: () => void;
 }
 
 export default function ChatPlayersPopup({ players, banneds, isOpen, selected, select, unban, removePlayer, onClose}: ChatPlayersPopupProps) {
-    if (!isOpen || !players || !banneds) return null;
+    if (!isOpen || !players || !banneds || !select || !removePlayer || !unban) return null;
     
     const socket = useSocket();
     const otherPlayers = players.filter(p => p && p.player_id !== socket.id);

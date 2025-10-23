@@ -11,13 +11,13 @@ interface ChatPopupProps {
     room_id: string | undefined;
     nickname: string | undefined;
     local: "lobby" | "game";
-    created_by: string | undefined;
+    created_by?: string | undefined;
     players?: Player[];
     banneds?: Player[];
-    selectedPlayer: string | undefined;
-    selectPlayer: (player: string) => void;
-    remove: (ban: boolean) => void;
-    unban: (player_id: string) => void;
+    selectedPlayer?: string | undefined;
+    selectPlayer?: (player: string) => void;
+    remove?: (ban: boolean) => void;
+    unban?: (player_id: string) => void;
     isOpen: boolean;
     onClose: () => void;
     onNewMessage: () => void;
