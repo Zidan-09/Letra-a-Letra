@@ -3,7 +3,7 @@ import styles from "../../styles/Room/RoomErrorPopup.module.css";
 
 interface RoomNotFoundPopupProps {
     isOpen: boolean;
-    error?: "not_found" | "full_room" | "banned";
+    error?: "not_found" | "full_room" | "timeout" | "banned" | "room_ban";
     onClose: () => void;
 }
 
@@ -22,7 +22,10 @@ export default function RoomErrorPopup({ isOpen, error, onClose }: RoomNotFoundP
 
     const message = error === "not_found" ?
     "A sala não foi encontrada" : error === "banned" ?
-    "Você foi banido desta sala" : "A sala está cheia";
+    "Você foi banido permanentemente" : error === "timeout" ?
+    "Você foi banido temporariamente" : error === "room_ban" ?
+    "Você foi banido desta sala" : error === "full_room" ?
+    "A sala está cheia" : "ERROR";
 
     return (
         <div className={styles.overlay} onClick={onClose}>

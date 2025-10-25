@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import RoomEnterError from "./RoomEnterError";
+import RoomErrorPopup from "./RoomErrorPopup";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import iconEnter from "../../assets/buttons/icon-enter.svg";
 import styles from "../../styles/Room/RoomPopup.module.css";
@@ -7,7 +7,7 @@ import styles from "../../styles/Room/RoomPopup.module.css";
 interface PopupProps {
     room_id: string | "";
     setRoomId: (id: string) => void;
-    roomError?: "not_found" | "full_room" | "banned";
+    roomError?: "not_found" | "full_room" | "timeout" | "banned" | "room_ban";
     onRoomError: boolean;
     setRoomError: (error: "not_found" | "full_room") => void;
     setOnRoomError: (hasError: boolean) => void;
@@ -81,7 +81,7 @@ export default function RoomPopup({ room_id, setRoomId, roomError, onRoomError, 
                     </button>
                 </div>
             </div>
-            <RoomEnterError isOpen={onRoomError} error={roomError} onClose={() => setOnRoomError(false)} />
+            <RoomErrorPopup isOpen={onRoomError} error={roomError} onClose={() => setOnRoomError(false)} />
         </div>
     )
 }

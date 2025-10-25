@@ -5,6 +5,8 @@ import { RoomResponses } from "../utils/responses/roomResponses";
 import { RoomService } from "../services/roomService";
 import { ServerResponses } from "../utils/responses/serverResponses";
 import { PlayerResponses } from "../utils/responses/playerResponses";
+import { PlayerService } from "../services/playerService";
+import { BanReason } from "../utils/player/banReasons";
 
 export const RoomMiddleware = {
     createRoom(req: Request<{}, {}, CreateRoom>, res: Response, next: NextFunction) {
@@ -19,6 +21,21 @@ export const RoomMiddleware = {
                 privateRoom === undefined || 
                 !player_id
             ) return HandleResponse.serverResponse(res, 400, false, ServerResponses.MissingData);
+
+            const player = PlayerService.getPlayer(player_id);
+
+            if (
+                player === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            if (
+                player.ban &&
+                player.timeOut
+            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer, BanReason.TIMEOUT);
+
+            if (
+                player.ban
+            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer, BanReason.PERMANENT);
 
             next();
             
@@ -57,7 +74,22 @@ export const RoomMiddleware = {
 
             if (
                 game.bannedPlayerIds.includes(player_id)
-            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer);
+            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer, BanReason.ROOM_BAN);
+
+            const player = PlayerService.getPlayer(player_id);
+
+            if (
+                player === ServerResponses.NotFound
+            ) return HandleResponse.serverResponse(res, 404, false, ServerResponses.NotFound);
+
+            if (
+                player.ban &&
+                player.timeOut
+            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer, BanReason.TIMEOUT);
+
+            if (
+                player.ban
+            ) return HandleResponse.serverResponse(res, 403, false, RoomResponses.BannedPlayer, BanReason.PERMANENT);
 
             next();
 

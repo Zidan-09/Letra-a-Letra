@@ -6,6 +6,8 @@ const roomResponses_1 = require("../utils/responses/roomResponses");
 const roomService_1 = require("../services/roomService");
 const serverResponses_1 = require("../utils/responses/serverResponses");
 const playerResponses_1 = require("../utils/responses/playerResponses");
+const playerService_1 = require("../services/playerService");
+const banReasons_1 = require("../utils/player/banReasons");
 exports.RoomMiddleware = {
     createRoom(req, res, next) {
         try {
@@ -17,6 +19,14 @@ exports.RoomMiddleware = {
                 privateRoom === undefined ||
                 !player_id)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, serverResponses_1.ServerResponses.MissingData);
+            const player = playerService_1.PlayerService.getPlayer(player_id);
+            if (player === serverResponses_1.ServerResponses.NotFound)
+                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NotFound);
+            if (player.ban &&
+                player.timeOut)
+                return handleResponse_1.HandleResponse.serverResponse(res, 403, false, roomResponses_1.RoomResponses.BannedPlayer, banReasons_1.BanReason.TIMEOUT);
+            if (player.ban)
+                return handleResponse_1.HandleResponse.serverResponse(res, 403, false, roomResponses_1.RoomResponses.BannedPlayer, banReasons_1.BanReason.PERMANENT);
             next();
         }
         catch (err) {
@@ -41,7 +51,15 @@ exports.RoomMiddleware = {
             if (!game.allowSpectators && spectator)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, roomResponses_1.RoomResponses.SpectatorsOff);
             if (game.bannedPlayerIds.includes(player_id))
-                return handleResponse_1.HandleResponse.serverResponse(res, 403, false, roomResponses_1.RoomResponses.BannedPlayer);
+                return handleResponse_1.HandleResponse.serverResponse(res, 403, false, roomResponses_1.RoomResponses.BannedPlayer, banReasons_1.BanReason.ROOM_BAN);
+            const player = playerService_1.PlayerService.getPlayer(player_id);
+            if (player === serverResponses_1.ServerResponses.NotFound)
+                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NotFound);
+            if (player.ban &&
+                player.timeOut)
+                return handleResponse_1.HandleResponse.serverResponse(res, 403, false, roomResponses_1.RoomResponses.BannedPlayer, banReasons_1.BanReason.TIMEOUT);
+            if (player.ban)
+                return handleResponse_1.HandleResponse.serverResponse(res, 403, false, roomResponses_1.RoomResponses.BannedPlayer, banReasons_1.BanReason.PERMANENT);
             next();
         }
         catch (err) {

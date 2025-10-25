@@ -10,6 +10,7 @@ exports.Ban = {
         }, 30 * 1000 * 60);
     },
     setBan(player) {
+        this.removePlayerTimeout(player);
         player.ban = true;
     },
     removePlayerTimeout(player) {

@@ -6,7 +6,7 @@ export const HandleResponse = {
         res.status(statusCode).json({
             success: success,
             message: message,
-            data: data ? data : null
+            ...(data !== undefined ? { data } : {})
         })
     },
 
