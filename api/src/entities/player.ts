@@ -4,9 +4,9 @@ import { PowerRarity } from "../utils/cell/powerRarity";
 interface PlayerEffect {
     active: boolean,
     remaining: number | null;
-}
+};
 
-type EffectKey = "freeze" | "blind" | "immunity"
+type EffectKey = "freeze" | "blind" | "immunity";
 
 export class Player {
     player_id: string;
@@ -16,6 +16,9 @@ export class Player {
     avatar: number;
     score: number = 0;
     passed: number = 0;
+    leaved: number = 0;
+    timeOut?: NodeJS.Timeout;
+    ban: boolean = false;
     powers: { power: MovementsEnum, rarity: PowerRarity, type: "manipulation" | "effect" }[] = [];
     freeze: PlayerEffect = { active: false, remaining: null };
     blind: PlayerEffect = { active: false, remaining: null };
@@ -26,7 +29,7 @@ export class Player {
         this.nickname = nickname;
         this.spectator = spectator;
         this.avatar = avatar;
-    }
+    };
 
     addScore() {
         this.score++;
@@ -69,6 +72,6 @@ export class Player {
         this.powers = [];
         (["freeze", "blind", "immunity"] as EffectKey[]).forEach((effect) => {
             this.removeEffect(effect);
-        })
+        });
     };
 };
