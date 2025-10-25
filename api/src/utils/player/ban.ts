@@ -11,6 +11,7 @@ export const Ban = {
   },
 
   setBan(player: Player) {
+    this.removePlayerTimeout(player);
     player.ban = true;
   },
 
