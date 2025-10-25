@@ -1,12 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Player = void 0;
+;
 class Player {
     constructor(player_id, nickname, spectator, avatar) {
         this.spectator = false;
         this.turn = 0;
         this.score = 0;
         this.passed = 0;
+        this.leaved = 0;
+        this.ban = false;
         this.powers = [];
         this.freeze = { active: false, remaining: null };
         this.blind = { active: false, remaining: null };
@@ -16,6 +19,7 @@ class Player {
         this.spectator = spectator;
         this.avatar = avatar;
     }
+    ;
     addScore() {
         this.score++;
     }
