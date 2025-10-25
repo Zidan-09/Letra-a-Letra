@@ -9,6 +9,7 @@ import { createLog } from "../utils/server/logger";
 import { Board } from "./board";
 import { Player } from "./player";
 import { CloseReasons } from "../utils/room/closeReasons";
+import { TimeOut } from "../utils/room/timeOut";
 
 export class Game {
     room_id: string;
@@ -41,6 +42,7 @@ export class Game {
         this.privateRoom = privateRoom;
         this.players[0] = player;
         this.createdAt = Date.now();
+        TimeOut.set(this);
     };
 
     toJSON() {
@@ -67,6 +69,7 @@ export class Game {
         this.board = new Board(theme, gamemode, allowedPowers);
         this.turn = 0;
         this.status = GameStatus.GameRunning;
+        TimeOut.remove(this);
     }
 
     public setStatus(status: GameStatus) {
@@ -92,6 +95,7 @@ export class Game {
             this.status = GameStatus.GameOver;
             createLog(this.room_id, LogEnum.GameOver);
             this.board = null;
+            TimeOut.set(this);
 
             if (spectatorsExist) {
                 return nullPlayer;
@@ -106,6 +110,7 @@ export class Game {
             this.status = GameStatus.GameOver;
             createLog(this.room_id, LogEnum.GameOver);
             this.board = null;
+            TimeOut.set(this);
             return winner!;
         }
 
@@ -115,6 +120,8 @@ export class Game {
             this.status = GameStatus.GameOver;
             createLog(this.room_id, LogEnum.GameOver);
             this.board = null;
+
+            TimeOut.set(this);
 
             return p1.score >= 3 ? p1 : p2;
         }

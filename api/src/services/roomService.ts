@@ -9,8 +9,8 @@ import { GameSocket } from "../utils/socket/gameSocket";
 import { RoomSocket } from "../utils/socket/roomSocket";
 import { PlayerService } from "./playerService";
 import { enumNicknames } from "../utils/room/enumNicknames";
-import { roomTimeOut } from "../utils/room/roomTImeOut";
 import { CloseReasons } from "../utils/room/closeReasons";
+import { Ban } from "../utils/player/ban";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -38,8 +38,6 @@ class RoomServices {
         
         createLog(room.room_id, LogEnum.RoomCreated);
         createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
-        
-        roomTimeOut(room);
 
         this.rooms.set(room.room_id, room);
         PlayerService.removePlayer(player_id);
@@ -116,6 +114,9 @@ class RoomServices {
         } else {
             const index = room.players.findIndex(p => p?.player_id === player_id);
             if (index !== -1) room.players[index] = undefined as any;
+
+            if (room.status === GameStatus.GameRunning) player.leaved++;
+            if (player.leaved >= 3) Ban.setPlayerTimeout(player);
         };
 
         enumNicknames([...room.players, ...room.spectators]);
