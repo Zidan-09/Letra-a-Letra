@@ -9,12 +9,12 @@ import iconBack from "../assets/buttons/icon-back.svg";
 import iconEnter from "../assets/buttons/icon-enter.svg";
 import iconRefresh from "../assets/buttons/icon-refresh.svg";
 import styles from "../styles/Room.module.css";
-import RoomErrorPopup from "../components/Room/RoomEnterError";
+import RoomErrorPopup from "../components/Room/RoomErrorPopup";
 
 export default function Room() {
     const [rooms, setRooms] = useState<Game[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<string>("");
-    const [roomError, setRoomError] = useState<"not_found" | "full_room" | "banned" | undefined>(undefined);
+    const [roomError, setRoomError] = useState<"not_found" | "full_room" | "timeout" | "banned" | "room_ban" | undefined>(undefined);
     const [onRoomError, setOnRoomError] = useState(false);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [room, setRoom] = useState<Game | null>(null);
@@ -57,7 +57,7 @@ export default function Room() {
             if (
                 result.message === "banned_player"
             ) {
-                setRoomError("banned");
+                setRoomError(result.data);
                 setOnRoomError(true);
                 return;
             }
