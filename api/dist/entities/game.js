@@ -8,6 +8,7 @@ const logEnum_1 = require("../utils/server/logEnum");
 const logger_1 = require("../utils/server/logger");
 const board_1 = require("./board");
 const closeReasons_1 = require("../utils/room/closeReasons");
+const timeOut_1 = require("../utils/room/timeOut");
 class Game {
     constructor(room_id, room_name, status, player, timer, allowSpectators, privateRoom) {
         this.players = Array(2).fill(undefined);
@@ -26,6 +27,7 @@ class Game {
         this.privateRoom = privateRoom;
         this.players[0] = player;
         this.createdAt = Date.now();
+        timeOut_1.TimeOut.set(this);
     }
     ;
     toJSON() {
@@ -52,6 +54,7 @@ class Game {
         this.board = new board_1.Board(theme, gamemode, allowedPowers);
         this.turn = 0;
         this.status = gameStatus_1.GameStatus.GameRunning;
+        timeOut_1.TimeOut.remove(this);
     }
     setStatus(status) {
         this.status = status;
@@ -70,6 +73,7 @@ class Game {
             this.status = gameStatus_1.GameStatus.GameOver;
             (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GameOver);
             this.board = null;
+            timeOut_1.TimeOut.set(this);
             if (spectatorsExist) {
                 return nullPlayer_1.nullPlayer;
             }
@@ -81,6 +85,7 @@ class Game {
             this.status = gameStatus_1.GameStatus.GameOver;
             (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GameOver);
             this.board = null;
+            timeOut_1.TimeOut.set(this);
             return winner;
         }
         if (p1 && p2) {
@@ -89,6 +94,7 @@ class Game {
             this.status = gameStatus_1.GameStatus.GameOver;
             (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GameOver);
             this.board = null;
+            timeOut_1.TimeOut.set(this);
             return p1.score >= 3 ? p1 : p2;
         }
         return false;

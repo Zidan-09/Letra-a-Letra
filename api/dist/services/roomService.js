@@ -12,7 +12,7 @@ const gameSocket_1 = require("../utils/socket/gameSocket");
 const roomSocket_1 = require("../utils/socket/roomSocket");
 const playerService_1 = require("./playerService");
 const enumNicknames_1 = require("../utils/room/enumNicknames");
-const roomTImeOut_1 = require("../utils/room/roomTImeOut");
+const ban_1 = require("../utils/player/ban");
 class RoomServices {
     constructor() {
         this.rooms = new Map();
@@ -24,7 +24,6 @@ class RoomServices {
         const room = new game_1.Game((0, nanoid_1.nanoid)(6), room_name, gameStatus_1.GameStatus.GameStarting, player, timer, allowSpectators, privateRoom);
         (0, logger_1.createLog)(room.room_id, logEnum_1.LogEnum.RoomCreated);
         (0, logger_1.createLog)(room.room_id, `${player.nickname} ${logEnum_1.LogEnum.PlayerJoined}`);
-        (0, roomTImeOut_1.roomTimeOut)(room);
         this.rooms.set(room.room_id, room);
         playerService_1.PlayerService.removePlayer(player_id);
         return room;
@@ -84,6 +83,10 @@ class RoomServices {
             const index = room.players.findIndex(p => p?.player_id === player_id);
             if (index !== -1)
                 room.players[index] = undefined;
+            if (room.status === gameStatus_1.GameStatus.GameRunning)
+                player.leaved++;
+            if (player.leaved >= 3)
+                ban_1.Ban.setPlayerTimeout(player);
         }
         ;
         (0, enumNicknames_1.enumNicknames)([...room.players, ...room.spectators]);

@@ -13,6 +13,9 @@ export declare class Player {
     avatar: number;
     score: number;
     passed: number;
+    leaved: number;
+    timeOut?: NodeJS.Timeout;
+    ban: boolean;
     powers: {
         power: MovementsEnum;
         rarity: PowerRarity;
