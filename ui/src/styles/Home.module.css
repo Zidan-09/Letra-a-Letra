@@ -8,6 +8,8 @@
     background-repeat: no-repeat;
     background-position: center;
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
     justify-content: center;
     align-items: center;
     font-family: 'Lilita One', cursive;
@@ -15,6 +17,10 @@
     user-select: none;
     -webkit-user-select: none;
     overflow-y: auto;
+}
+
+.container:last-child {
+    justify-content: end;
 }
 
 .card {
