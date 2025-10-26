@@ -1,0 +1,49 @@
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-height: 7vw;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.devs {
+  align-self: center;
+}
+
+.dev, .dev {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.dev p {
+  font-size: 2rem;
+  margin-left: 1rem;
+  width: 4ch;
+  -webkit-text-stroke: 1px black;
+}
+
+a img {
+  width: 30px;
+  filter: invert();
+}
+
+a:hover {
+  transform: scale(1.1);
+  filter: opacity(0.5);
+}
+
+.logo {
+  width: 8rem;
+  justify-self: center;
+  align-self: center;
+}
+
+.version {
+  font-size: 1.3rem;
+  justify-self: end;
+  align-self: flex-end;
+  margin: 0 0.5rem 0.2rem 0;
+}

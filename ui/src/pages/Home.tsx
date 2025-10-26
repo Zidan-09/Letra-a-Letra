@@ -5,6 +5,7 @@ import settings from "../settings.json";
 import { avatars } from "../utils/avatars";
 import type { Player } from "../utils/room_utils";
 import AvatarPopup from "../components/Home/AvatarPopup";
+import Footer from "../components/Footer";
 import logo from "../assets/logo.svg";
 import iconCreate from "../assets/buttons/icon-create.svg";
 import iconEnter from "../assets/buttons/icon-enter.svg";
@@ -108,6 +109,8 @@ export default function Home() {
             isOpen={isPopupOpen} 
             onClose={() => setPopupOpen(false)}
             />
+
+            <Footer />
         </div>
     );
 }
