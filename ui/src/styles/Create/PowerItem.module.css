@@ -2,54 +2,53 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
- aspect-ratio: 1 / 1;   
- background: rgba(255, 255, 255, 0.4);
+  aspect-ratio: 1 / 1;
+  background: rgba(255, 255, 255, 0.4);
   border: 3px solid rgb(255, 0, 0);
   border-radius: 1.5rem;
   cursor: pointer;
   transition: transform 0.2s, background 0.2s;
-  font-family: 'Lilita One', cursive;
-   position: relative; 
-    overflow: hidden;
+  font-family: "Lilita One", cursive;
+  position: relative;
+  overflow: hidden;
 }
 
 .item:hover {
   transform: scale(1.05);
-  
 }
 
 .enabled {
   border: 5px solid rgb(77, 255, 89);
 }
 
-
 .disabled {
-filter: grayscale(80%);
-    opacity: 0.8;}
+  filter: grayscale(80%);
+  opacity: 0.8;
+}
 
 .icon {
   position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 
 .powerName {
-   position: absolute;    
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0;
-    padding: 0.2rem 0.5rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border-radius: 0.5rem;
-    font-size: 1.1rem;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
-    text-align: center;
-    width: max-content;
-    max-width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0.2rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  width: max-content;
+  max-width: 90%;
 }
