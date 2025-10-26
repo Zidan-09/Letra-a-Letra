@@ -2,5 +2,15 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
+    width: 100%;
+}
+
+@media (max-width: 550px) {
+    .avatarList {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
 }

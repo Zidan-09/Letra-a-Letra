@@ -3,8 +3,10 @@
     border-radius: 1rem;
     border: 3px solid white;
     box-shadow: 0 3px 0 rgb(60, 60, 60);
-    flex: 1 1 100px;
     aspect-ratio: 1 / 1;
+    transition: transform 0.1s ease, border 0.1s ease;
+    object-fit: cover;
+    flex: 1 1 100px;
 }
 
 .avatar:hover {
@@ -14,10 +16,17 @@
 }
 
 .selected {
-    border: 3px solid #3DB845;
-    box-shadow: 0 3px 0 rgb(46, 138, 52);
+    border: 3px solid #3fff4c;
+    box-shadow: 0 3px 0 rgb(45, 213, 56);
 }
 
 .selected:hover {
-    border: 3px solid #3DB845;
+    border: 3px solid #3fff4c;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 550px) {
+    .avatar {
+    width: 90px;
+    }
 }

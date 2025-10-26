@@ -16,16 +16,23 @@
 .popup {
     display: flex;
     width: min(90%, 500px);
-    height: auto;
-    min-height: 80vh;
+    max-height: 90vh;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 0.3rem solid white;
     border-radius: 3rem;
-    justify-content: center;
     align-items: center;
-    padding: 1.5rem;
-    gap: 5rem;
+    padding: 1rem;
+    gap: 1.5rem;
+}
+
+@media (max-width: 550px) {
+    .popup {
+        border-radius: 2rem;
+        padding: 1.2rem 0.4rem 1rem;
+        gap: 1rem;
+    }
+
 }
