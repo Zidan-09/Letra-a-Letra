@@ -1,9 +1,8 @@
 .footer {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  max-height: 7vw;
   width: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 
@@ -11,7 +10,7 @@
   align-self: center;
 }
 
-.dev, .dev {
+.dev {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -19,14 +18,14 @@
 }
 
 .dev p {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-left: 1rem;
   width: 4ch;
   -webkit-text-stroke: 1px black;
 }
 
 a img {
-  width: 30px;
+  width: 20px;
   filter: invert();
 }
 
@@ -36,7 +35,7 @@ a:hover {
 }
 
 .logo {
-  width: 8rem;
+  width: 5rem;
   justify-self: center;
   align-self: center;
 }
@@ -46,4 +45,34 @@ a:hover {
   justify-self: end;
   align-self: flex-end;
   margin: 0 0.5rem 0.2rem 0;
+}
+
+@media (max-width: 550px) {
+  .footer {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .logo {
+  width: 8rem;
+  justify-self: center;
+  align-self: center;
+}
+
+  .devs {
+    grid-row: 2 / 3;
+    justify-self: center;
+  }
+
+  .version {
+    justify-self: center;
+    align-self: center;
+    margin-left: 1rem;
+  }
+
+  .dev {
+    gap: 0.5rem;
+  }
 }
