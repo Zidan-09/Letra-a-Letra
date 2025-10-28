@@ -43,7 +43,7 @@ export default function Room() {
             setOnRoomError(true);
             return;
         }
-
+        
         try {
             const result = await fetch(`${settings.server}/room/${selectedRoom}/players`, {
                 method: "POST",
@@ -61,16 +61,17 @@ export default function Room() {
                 setOnRoomError(true);
                 return;
             }
+            console.log(result);
 
-            localStorage.setItem("game", JSON.stringify(result.data));
-            return navigate(`/lobby/${selectedRoom}`);
+            localStorage.setItem("game", JSON.stringify(result.data.game));
+            localStorage.setItem("actual", JSON.stringify(result.data.actual));
+            return result.data.game.status as Game["status"] === "game_running" ?
+            navigate(`/game/${selectedRoom}`) : navigate(`/lobby/${selectedRoom}`);
             
         } catch (err) {
             console.error(err);
         }
-
-
-    }
+    };
 
     const handleInsertCode = () => {
         setRoomError(undefined);

@@ -51,6 +51,7 @@ export default function Game() {
 
     useEffect(() => {
         const game = localStorage.getItem("game");
+        const actual = localStorage.getItem("actual");
         const wordsData = localStorage.getItem("words");
 
         if (!socket || !socket.id) return;
@@ -80,6 +81,27 @@ export default function Game() {
             setP1(p1Data);
             setP2(p2Data);
             setLoading(false);
+
+            setCells(prev => {
+                const copy = { ...prev };
+                if (!actual) return copy;
+
+                const cells: { letter: string, x: number, y: number, by: string }[] = JSON.parse(actual);
+
+                cells.forEach(cell => {
+                    const key = `${cell.x}-${cell.y}` as CellKeys;
+                    
+                    copy[key] = {
+                        ...copy[key],
+                        letter: cell.letter,
+                        actor: cell.by,
+                        revealed: true
+                    };
+                });
+                
+                return copy;
+            });
+
             return;
         }
 
