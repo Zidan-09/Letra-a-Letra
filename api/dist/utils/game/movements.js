@@ -12,7 +12,7 @@ exports.Movements = {
         const cell = board.grid[x][y];
         if (!cell)
             return gameResponses_1.GameResponses.GameError;
-        if (cell.revealed)
+        if (cell.revealed.status)
             return gameResponses_1.GameResponses.AlmostRevealed;
         if (cell.blocked.status) {
             if (cell.blocked.blocked_by === player.player_id)
@@ -21,7 +21,7 @@ exports.Movements = {
             if (cell.clicks >= 3) {
                 cell.resetCell();
                 (0, logger_1.createLog)(room_id, `${player.nickname} ${logEnum_1.LogEnum.ClickOn} (${x}, ${y}) and unblocked cell`);
-                cell.revealed = true;
+                cell.revealed = { status: true, revealed_by: player.player_id };
                 const result = (0, checkCompletedWord_1.checkWordCompletion)(board, x, y);
                 if (result) {
                     (0, logger_1.createLog)(room_id, `${player.nickname} ${logEnum_1.LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
@@ -67,7 +67,7 @@ exports.Movements = {
             }
             ;
         }
-        cell.revealed = true;
+        cell.revealed = { status: true, revealed_by: player.player_id };
         const result = (0, checkCompletedWord_1.checkWordCompletion)(board, x, y);
         if (result) {
             (0, logger_1.createLog)(room_id, `${player.nickname} ${logEnum_1.LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);
@@ -116,7 +116,7 @@ exports.Movements = {
         if (!cell.blocked.status || cell.blocked.blocked_by === player.player_id)
             return gameResponses_1.GameResponses.InvalidMovement;
         cell.resetCell();
-        cell.revealed = true;
+        cell.revealed = { status: true, revealed_by: player.player_id };
         const result = (0, checkCompletedWord_1.checkWordCompletion)(board, x, y);
         if (result) {
             (0, logger_1.createLog)(room_id, `${player.nickname} ${logEnum_1.LogEnum.ClickOn} (${x}, ${y}) - reveal letter: '${cell.letter}' - completed word: ${result.completedWord}`);

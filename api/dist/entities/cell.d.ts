@@ -16,7 +16,10 @@ export declare class Cell {
         trapped_by: string | null;
     };
     clicks: number;
-    revealed: boolean;
+    revealed: {
+        status: boolean;
+        revealed_by: string | null;
+    };
     power: {
         hasPowerup: boolean;
         rarity?: PowerRarity;
