@@ -117,7 +117,7 @@ export const Movements = {
     blockCell(board: Board, x: number, y: number, player_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
-        if (cell.revealed) return GameResponses.AlmostRevealed;
+        if (cell.revealed.status) return GameResponses.AlmostRevealed;
 
         if (cell.blocked.status) return GameResponses.AlmostBlocked;
 
@@ -134,7 +134,7 @@ export const Movements = {
     unblockCell(board: Board, x: number, y: number, player: Player, room_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
-        if (cell.revealed) return GameResponses.AlmostRevealed;
+        if (cell.revealed.status) return GameResponses.AlmostRevealed;
 
         if (!cell.blocked.status || cell.blocked.blocked_by === player.player_id) return GameResponses.InvalidMovement;
 
@@ -175,7 +175,7 @@ export const Movements = {
     trapCell(board: Board, x: number, y: number, player: Player, room_id: string, powerIdx: number): GameResponses | MoveEmit {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
-        if (cell.revealed) return GameResponses.AlmostRevealed;
+        if (cell.revealed.status) return GameResponses.AlmostRevealed;
 
         if (cell.trapped.status && cell.trapped.trapped_by === player.player_id) return GameResponses.AlmostTrapped;
 
@@ -294,7 +294,7 @@ export const Movements = {
     spy(board: Board, x: number, y: number, player_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
-        if (cell.revealed) return GameResponses.AlmostRevealed;
+        if (cell.revealed.status) return GameResponses.AlmostRevealed;
 
         return {
             status: GameResponses.Spied,
