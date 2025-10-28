@@ -12,7 +12,7 @@ export const Movements = {
     clickCell(board: Board, x: number, y: number, player: Player, room_id: string): MoveEmit | GameResponses {
         const cell = board.grid[x]![y];
         if (!cell) return GameResponses.GameError;
-        if (cell.revealed) return GameResponses.AlmostRevealed;
+        if (cell.revealed.status) return GameResponses.AlmostRevealed;
 
         if (cell.blocked.status) {
             if (cell.blocked.blocked_by === player.player_id) return GameResponses.InvalidMovement;
@@ -24,7 +24,7 @@ export const Movements = {
 
                 createLog(room_id, `${player.nickname} ${LogEnum.ClickOn} (${x}, ${y}) and unblocked cell`);
 
-                cell.revealed = true;
+                cell.revealed = { status: true, revealed_by: player.player_id };
                 const result = checkWordCompletion(board, x, y);
 
                 if (result) {
@@ -81,7 +81,7 @@ export const Movements = {
             };
         }
 
-        cell.revealed = true;
+        cell.revealed = { status: true, revealed_by: player.player_id };
         const result = checkWordCompletion(board, x, y);
 
         
@@ -140,7 +140,7 @@ export const Movements = {
 
         cell.resetCell();
 
-        cell.revealed = true;
+        cell.revealed = { status: true, revealed_by: player.player_id };
         const result = checkWordCompletion(board, x, y);
 
         if (result) {

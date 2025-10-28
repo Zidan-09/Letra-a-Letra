@@ -11,6 +11,7 @@ import { PlayerService } from "./playerService";
 import { enumNicknames } from "../utils/room/enumNicknames";
 import { CloseReasons } from "../utils/room/closeReasons";
 import { Ban } from "../utils/player/ban";
+import { getRevealeds } from "../utils/board/getRevealeds";
 
 class RoomServices {
     private rooms: Map<string, Game> = new Map();
@@ -50,7 +51,7 @@ class RoomServices {
         room_id: string,
         player_id: string,
         spectator: boolean
-    ): Game | ServerResponses.NotFound {
+    ): { game: Game, actual: { letter: string, x: number, y: number, by: string }[] | undefined } | ServerResponses.NotFound {
         const room = this.rooms.get(room_id);
         if (!room) return ServerResponses.NotFound;
 
@@ -74,7 +75,10 @@ class RoomServices {
 
         RoomSocket.joinRoom([...room.players, ...room.spectators], room);
 
-        return room;
+        return {
+            game: room,
+            actual: getRevealeds(room.board) ?? []
+        };
     };
 
     public reconnectRoom(

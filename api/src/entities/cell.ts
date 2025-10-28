@@ -9,14 +9,15 @@ export class Cell {
     blocked: { status: boolean; blocked_by: string | null };
     trapped: { status: boolean, trapped_by: string | null };
     clicks: number = 0;
-    revealed: boolean = false;
+    revealed: { status: boolean, revealed_by: string | null };
     power: { hasPowerup: boolean, rarity?: PowerRarity, powerup?: MovementsEnum | null }
 
     constructor(letter: string, x: number, y: number, gamemode: GameModes, allowedPowers: MovementsEnum[]) {
         this.letter = letter;
         this.position = { x: x, y: y };
-        this.blocked = { status: false, blocked_by: null }
-        this.trapped = { status: false, trapped_by: null }
+        this.blocked = { status: false, blocked_by: null };
+        this.trapped = { status: false, trapped_by: null };
+        this.revealed = { status: false, revealed_by: null };
         this.power = this.powerup(gamemode, allowedPowers);
     }
 
