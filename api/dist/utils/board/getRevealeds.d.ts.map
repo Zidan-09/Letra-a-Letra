@@ -1,0 +1,1 @@
+{"version":3,"file":"getRevealeds.d.ts","sourceRoot":"","sources":["../../../src/utils/board/getRevealeds.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,sBAAsB,CAAC;AAE7C,wBAAgB,YAAY,CAAC,KAAK,EAAE,KAAK,GAAG,IAAI,GAAG;IAAE,MAAM,EAAE,MAAM,CAAC;IAAC,CAAC,EAAE,MAAM,CAAC;IAAC,CAAC,EAAE,MAAM,CAAC;IAAC,EAAE,EAAE,MAAM,CAAA;CAAE,EAAE,GAAG,SAAS,CAiBpH"}

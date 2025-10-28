@@ -13,6 +13,7 @@ const roomSocket_1 = require("../utils/socket/roomSocket");
 const playerService_1 = require("./playerService");
 const enumNicknames_1 = require("../utils/room/enumNicknames");
 const ban_1 = require("../utils/player/ban");
+const getRevealeds_1 = require("../utils/board/getRevealeds");
 class RoomServices {
     constructor() {
         this.rooms = new Map();
@@ -51,7 +52,10 @@ class RoomServices {
         if (sameNickname)
             (0, enumNicknames_1.enumNicknames)([...room.players, ...room.spectators]);
         roomSocket_1.RoomSocket.joinRoom([...room.players, ...room.spectators], room);
-        return room;
+        return {
+            game: room,
+            actual: (0, getRevealeds_1.getRevealeds)(room.board) ?? []
+        };
     }
     ;
     reconnectRoom(room_id, nickname, new_id) {

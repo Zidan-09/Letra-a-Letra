@@ -9,11 +9,11 @@ const cell_json_1 = __importDefault(require("../settings/cell.json"));
 class Cell {
     constructor(letter, x, y, gamemode, allowedPowers) {
         this.clicks = 0;
-        this.revealed = false;
         this.letter = letter;
         this.position = { x: x, y: y };
         this.blocked = { status: false, blocked_by: null };
         this.trapped = { status: false, trapped_by: null };
+        this.revealed = { status: false, revealed_by: null };
         this.power = this.powerup(gamemode, allowedPowers);
     }
     resetCell() {

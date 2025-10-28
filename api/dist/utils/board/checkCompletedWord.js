@@ -4,7 +4,7 @@ exports.checkWordCompletion = checkWordCompletion;
 function checkWordCompletion(board, row, column) {
     for (const [word, positions] of Object.entries(board.wordPositions)) {
         if (positions.some(([r, c]) => r === row && c === column)) {
-            const completed = positions.every(([r, c]) => board.grid[r][c].revealed);
+            const completed = positions.every(([r, c]) => board.grid[r][c].revealed.status);
             if (completed) {
                 board.findedWords.push(word);
                 return {
