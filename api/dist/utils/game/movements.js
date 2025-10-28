@@ -95,7 +95,7 @@ exports.Movements = {
         const cell = board.grid[x][y];
         if (!cell)
             return gameResponses_1.GameResponses.GameError;
-        if (cell.revealed)
+        if (cell.revealed.status)
             return gameResponses_1.GameResponses.AlmostRevealed;
         if (cell.blocked.status)
             return gameResponses_1.GameResponses.AlmostBlocked;
@@ -111,7 +111,7 @@ exports.Movements = {
         const cell = board.grid[x][y];
         if (!cell)
             return gameResponses_1.GameResponses.GameError;
-        if (cell.revealed)
+        if (cell.revealed.status)
             return gameResponses_1.GameResponses.AlmostRevealed;
         if (!cell.blocked.status || cell.blocked.blocked_by === player.player_id)
             return gameResponses_1.GameResponses.InvalidMovement;
@@ -144,7 +144,7 @@ exports.Movements = {
         const cell = board.grid[x][y];
         if (!cell)
             return gameResponses_1.GameResponses.GameError;
-        if (cell.revealed)
+        if (cell.revealed.status)
             return gameResponses_1.GameResponses.AlmostRevealed;
         if (cell.trapped.status && cell.trapped.trapped_by === player.player_id)
             return gameResponses_1.GameResponses.AlmostTrapped;
@@ -244,7 +244,7 @@ exports.Movements = {
         const cell = board.grid[x][y];
         if (!cell)
             return gameResponses_1.GameResponses.GameError;
-        if (cell.revealed)
+        if (cell.revealed.status)
             return gameResponses_1.GameResponses.AlmostRevealed;
         return {
             status: gameResponses_1.GameResponses.Spied,
