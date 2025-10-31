@@ -72,21 +72,23 @@
   outline: none;
   position: absolute;
   right: 4%;
-  width: 3rem;
-  height: 3rem;
+  padding: 0;
 }
 
 .refresh:hover {
   transform: scale(1.1);
 }
 
-.iconRefresh {
+.iconRefresh, .updating {
   width: 45px;
   height: 45px;
-  padding-left: 1.3rem;
   filter: drop-shadow(1px 1px 0 black) drop-shadow(1px 1px 0 black)
     drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black);
-  transition: transform 0.1s ease;
+  will-change: transform;
+}
+
+.updating {
+  animation: refreshAnimation 1s ease-in-out infinite;
 }
 
 .buttons {
@@ -170,38 +172,51 @@
   border: 5px solid rgb(253, 114, 0);
 }
 
+@keyframes refreshAnimation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  10% {
+    transform: scale(5deg);
+  }
+
+  100% {
+    transform: rotate(350deg);
+  }
+}
+
 @media (max-width: 550px) {
-    .card {
+  .card {
     padding: 1rem 0.3rem;
     gap: 0.8rem;
   }
 
   .titleRow {
-  padding: 0.5rem;
-}
+    padding: 0.5rem;
+  }
 
-.title {
-  font-size: 1.8rem;
-}
-    .buttons {
-  margin-left: 1rem;
-  gap: 0.5rem;
-        
-    }
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .buttons {
+    margin-left: 1rem;
+    gap: 0.5rem;     
+  }
 
   .button {
     font-size: 1.1rem;
     height: 3rem;
   }
 
-  .iconRefresh {
-  width: 28px;
-  height: 28px;
-  padding-left: 1.8rem;
-  filter: drop-shadow(0 0 0 black) drop-shadow(1px 1px 0 black)
-    drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black);
-  transition: transform 0.1s ease;
-}
+  .iconRefresh, .updating {
+    width: 28px;
+    height: 28px;
+    filter: drop-shadow(0 0 0 black) drop-shadow(1px 1px 0 black)
+      drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black);
+    transition: transform 0.1s ease;
+  }
 
   .icon {
     margin-left: 0;

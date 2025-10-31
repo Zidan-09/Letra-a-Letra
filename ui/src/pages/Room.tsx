@@ -18,6 +18,7 @@ export default function Room() {
     const [onRoomError, setOnRoomError] = useState(false);
     const [isPopupOpen, setPopupOpen] = useState(false);
     const [room, setRoom] = useState<Game | null>(null);
+    const [updating, setUpdating] = useState<boolean>(false);
     const navigate = useNavigate();
     const socket = useSocket();
 
@@ -89,10 +90,16 @@ export default function Room() {
     }
 
     const handleRefresh = async () => {
+        setUpdating(true);
         const response = await fetch(`${settings.server}/room`);
         const data: Game[] = await response.json().then(data => data.data);
         setRooms(data);
-    }
+
+        const timeOut = setTimeout(() => {
+            setUpdating(false);
+            clearTimeout(timeOut);
+        }, data.length * 500 > 1000 ? data.length * 500 : 900);
+    };
 
     useEffect(() => {
         async function fetchRooms() {
@@ -115,7 +122,7 @@ export default function Room() {
                   className={styles.refresh}
                   onClick={handleRefresh}
                   >
-                      <img src={iconRefresh} alt="refresh" className={styles.iconRefresh}/>
+                      <img src={iconRefresh} alt="refresh" className={updating ? styles.updating : styles.iconRefresh}/>
                   </button>
               </div>
 
