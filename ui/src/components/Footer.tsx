@@ -22,7 +22,7 @@ export default function Footer() {
 
       <img src={logo} alt="Logo" className={styles.logo} />
 
-      <p className={styles.version}>v0.1.1-alpha</p>
+      <p className={styles.version}>v0.1.3.1-alpha</p>
     </div>
   )
 };
