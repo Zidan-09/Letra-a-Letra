@@ -174,9 +174,9 @@
 
 @media (max-width: 768px) {
   .card {
-    padding: 0.5rem;
     margin: 0;
   }
+
   .logo {
     max-width: 70%;
   }
@@ -198,9 +198,9 @@
 
 @media (max-width: 550px) {
   .container{
-    padding-top: 5rem;
     gap: 2rem;
-    }
+  }
+
   .avatar {
     margin-left: 1rem;
   }
@@ -222,9 +222,11 @@
     margin-left: 0.6rem;
     width: 1.8rem;
   }
+  
   .help {
     font-size: clamp(17px, 3vw, 17px);
   }
+
   .label {
     font-size: 1.5rem;
   }
