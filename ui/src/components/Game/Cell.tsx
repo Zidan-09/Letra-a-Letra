@@ -7,67 +7,93 @@ import styles from "../../styles/Game/Cell.module.css";
 import BlindOverlay from "./Powers/BlindOverlay";
 
 interface CellProps {
-    p1: Player;
-    player_id?: string;
-    finded?: string;
-    letter?: string;
-    blocked?: { blocked_by?: string; remaining?: number };
-    trapped_by?: string;
-    trapTrigged: boolean;
-    detected: boolean;
-    spied: boolean;
-    hided: CellUpdate[];
-    x: number;
-    y: number;
-    selectedMovement: MovementsEnum;
-    movementId?: number;
-    onClick?: (x: number, y: number) => void;
+  p1: Player;
+  player_id?: string;
+  finded?: string;
+  letter?: string;
+  blocked?: { blocked_by?: string; remaining?: number };
+  trapped_by?: string;
+  trapTrigged: boolean;
+  detected: boolean;
+  spied: boolean;
+  hided: CellUpdate[];
+  x: number;
+  y: number;
+  selectedMovement: MovementsEnum;
+  movementId?: number;
+  onClick?: (x: number, y: number) => void;
 }
 
-function CellComponent({ p1, player_id, finded, letter, blocked, trapped_by, trapTrigged, detected, spied, hided, selectedMovement, x, y, onClick }: CellProps) {
-    const socket = useSocket();
+function CellComponent({
+  p1,
+  player_id,
+  finded,
+  letter,
+  blocked,
+  trapped_by,
+  trapTrigged,
+  detected,
+  spied,
+  hided,
+  selectedMovement,
+  x,
+  y,
+  onClick,
+}: CellProps) {
+  const socket = useSocket();
 
-    const cantCellMove = ["BLIND", "FREEZE", "LANTERN", "UNFREEZE", "IMMUNITY", "DETECT_TRAPS"].includes(selectedMovement);
+  const cantCellMove = [
+    "BLIND",
+    "FREEZE",
+    "LANTERN",
+    "UNFREEZE",
+    "IMMUNITY",
+    "DETECT_TRAPS",
+  ].includes(selectedMovement);
 
-    let className = "";
+  let className = "";
 
-    if (finded) {
+  if (finded) {
     className = finded === socket.id ? styles.findedMe : styles.findedOppo;
-    } else if (player_id) {
+  } else if (player_id) {
     className = player_id === socket.id ? styles.me : styles.opponent;
-    }
+  }
 
-    return (
-        <button
-            className={`${styles.cell} ${className} ${cantCellMove ? styles.effect : ""}`}
-            onClick={letter ? undefined : cantCellMove ? undefined : onClick ? () => onClick(x, y) : undefined}
-            type="button"
-            translate="no"
-        >
-            {spied || letter ? letter : ""}
+  return (
+    <button
+      className={`${styles.cell} ${className} ${
+        cantCellMove ? styles.effect : ""
+      }`}
+      onClick={
+        letter
+          ? undefined
+          : cantCellMove
+          ? undefined
+          : onClick
+          ? () => onClick(x, y)
+          : undefined
+      }
+      type="button"
+      translate="no"
+    >
+      {spied || letter ? letter : ""}
 
-            <BlockOverlay
-            p1={p1}
-            blocked_by={blocked?.blocked_by}
-            remaining={blocked?.remaining}
-            />
+      <BlockOverlay
+        p1={p1}
+        blocked_by={blocked?.blocked_by}
+        remaining={blocked?.remaining}
+      />
 
-            <TrapOverlay
-            p1={p1}
-            trapped_by={trapped_by}
-            detected={detected}
-            trapTrigged={trapTrigged}
-            />
+      <TrapOverlay
+        p1={p1}
+        trapped_by={trapped_by}
+        detected={detected}
+        trapTrigged={trapTrigged}
+      />
 
-            <BlindOverlay
-            p1={p1}
-            x={x}
-            y={y}
-            cells={hided}
-            />
-
-        </button>
-    );
+      <BlindOverlay p1={p1} x={x} y={y} cells={hided} />
+    </button>
+  );
 }
 
 export default React.memo(CellComponent, (prev, next) => {

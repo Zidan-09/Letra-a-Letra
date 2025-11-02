@@ -1,45 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .item {
-    width: 95%;
-    height: min-content;
-    min-height: 90px;
-    display: flex;
-    border-radius: 1.3rem;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
-    color: white;
-    font-family: 'Lilita One', cursive;
-    -webkit-text-stroke: 1.5px black;
-    outline: none;
+  width: 95%;
+  height: min-content;
+  min-height: 90px;
+  display: flex;
+  border-radius: 1.3rem;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  color: white;
+  font-family: "Lilita One", cursive;
+  -webkit-text-stroke: 1.5px black;
+  outline: none;
 }
 
 .container1 {
-    display: flex;
-    flex-direction: row;
-    margin: 0.5rem;
-    margin-bottom: 0;
+  display: flex;
+  flex-direction: row;
+  margin: 0.5rem;
+  margin-bottom: 0;
 }
 
 .room_name {
-    width: 100%;
-    max-width: 15.24ch;
-    overflow: hidden;
-    font-size: 2.5rem;
-    text-align: start;
-    white-space: nowrap;
-    text-transform: uppercase;
+  width: 100%;
+  max-width: 15.24ch;
+  overflow: hidden;
+  font-size: 2.5rem;
+  text-align: start;
+  white-space: nowrap;
+  text-transform: uppercase;
 }
 
 .room_name:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .blue {
-    background-color: rgb(27, 157, 222);
-    border: 5px solid rgb(64, 176, 232);
-    box-shadow: 0 6px 0 rgb(57, 68, 148);
+  background-color: rgb(27, 157, 222);
+  border: 5px solid rgb(64, 176, 232);
+  box-shadow: 0 6px 0 rgb(57, 68, 148);
 }
 
 .blue:hover {
@@ -47,25 +47,25 @@
 }
 
 .orange {
-    background-color: rgb(240, 125, 34);
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 0 6px 0 rgb(148, 97, 57);
+  background-color: rgb(240, 125, 34);
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 0 6px 0 rgb(148, 97, 57);
 }
 
 .orange .color_1 {
-    border: 5px solid rgb(255, 143, 55);
+  border: 5px solid rgb(255, 143, 55);
 }
 
 .orange .color_2 {
-    border: 5px solid rgb(255, 143, 55);
+  border: 5px solid rgb(255, 143, 55);
 }
 
 .blue .color_1 {
-    border: 5px solid rgb(64, 176, 232);
+  border: 5px solid rgb(64, 176, 232);
 }
 
 .blue .color_2 {
-    border: 5px solid rgb(64, 176, 232);
+  border: 5px solid rgb(64, 176, 232);
 }
 
 .orange:hover {
@@ -73,76 +73,77 @@
 }
 
 .players {
-    display: flex;
-    border-radius: 1rem;
-    height: min-content;
-    justify-content: center;
-    align-items: center;
-    max-width: 4rem;
-    min-width: 4rem;
-    font-size: 2rem;
-    align-self: flex-end;
+  display: flex;
+  border-radius: 1rem;
+  height: min-content;
+  justify-content: center;
+  align-items: center;
+  max-width: 4rem;
+  min-width: 4rem;
+  font-size: 2rem;
+  align-self: flex-end;
 }
 
 .players:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .color_1 {
-    background-color: #15F81D;
+  background-color: #15f81d;
 }
 
 .color_2 {
-    background-color: #E12B30;
+  background-color: #e12b30;
 }
 
 .players p {
-    color: white;
+  color: white;
 }
 
 .players p:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .item:hover {
-    transform: translateY(-0.2rem);
-    cursor: pointer;
+  transform: translateY(-0.2rem);
+  cursor: pointer;
 }
 
-.selected, .selected:hover {
-    background-color: rgb(21, 248, 29);
-    border: 5px solid #3DB845;
-    box-shadow: 0 6px 0 rgb(46, 138, 52);
+.selected,
+.selected:hover {
+  background-color: rgb(21, 248, 29);
+  border: 5px solid #3db845;
+  box-shadow: 0 6px 0 rgb(46, 138, 52);
 }
 
 .selected .players {
-    background-color: rgb(21, 248, 29);
-    border: 5px solid #3DB845;
+  background-color: rgb(21, 248, 29);
+  border: 5px solid #3db845;
 }
 
 .container2 {
-    display: flex;
-    flex-direction: row;
-    margin: 1rem;
-    justify-content: space-between;
-    align-items: start;
-    margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+  justify-content: space-between;
+  align-items: start;
+  margin-top: 0;
 }
 
 .createdBy {
-    overflow: hidden;
-    font-size: 1.5rem;
-    white-space: nowrap;
+  overflow: hidden;
+  font-size: 1.5rem;
+  white-space: nowrap;
 }
 
 @media (max-width: 550px) {
-    .item {
-         min-height: 70px;
-    } 
-    .room_name {
-        font-size: 2rem;
-    }
-    .createdBy {
-        margin-top: -0.5rem;
-    }
+  .item {
+    min-height: 70px;
+  }
+  .room_name {
+    font-size: 2rem;
+  }
+  .createdBy {
+    margin-top: -0.5rem;
+  }
 }

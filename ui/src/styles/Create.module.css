@@ -333,46 +333,44 @@
     width: 1.8rem;
   }
 
-.switchs {
-    width: 90%; 
+  .switchs {
+    width: 90%;
     justify-content: center;
     gap: 0.9rem;
-}
+  }
 
-.switchContainer {
+  .switchContainer {
     gap: 0.7rem;
-}
+  }
 
-.switch {
-    width: 80px; 
-    height: 40px; 
-    border-radius: 15px; 
-}
+  .switch {
+    width: 80px;
+    height: 40px;
+    border-radius: 15px;
+  }
 
-.switchBall {
+  .switchBall {
     flex-basis: 30px;
     height: 30px;
-    border-radius: 12px; 
-}
+    border-radius: 12px;
+  }
 
-.textOn,
-.textOff {
+  .textOn,
+  .textOff {
     font-size: 1.3rem;
-}
+  }
 
-.textOn {
+  .textOn {
     margin-left: 0.5rem;
-}
+  }
 
-.textOff {
+  .textOff {
     margin-right: 0.5rem;
-}
+  }
 
-.settings {
+  .settings {
     width: 80px;
     height: 50px;
     border-radius: 15px;
-}
-
-
+  }
 }

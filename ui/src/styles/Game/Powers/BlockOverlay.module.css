@@ -1,51 +1,55 @@
 .overlay {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .p1 {
-    background-color: rgb(27, 157, 222);
+  background-color: rgb(27, 157, 222);
 }
 
 .p2 {
-    background-color: rgb(240, 125, 34);
+  background-color: rgb(240, 125, 34);
 }
 
 .progress {
-    width: 90%;
-    height: min-content;
-    display: flex;
-    flex-direction: row;
+  width: 90%;
+  height: min-content;
+  display: flex;
+  flex-direction: row;
 }
 
 .p1Stage {
-    width: 33.3%;
-    height: 20px;
-    background-color: rgb(27, 157, 222);
-    border: 1px solid rgb(92, 92, 92);
+  width: 33.3%;
+  height: 20px;
+  background-color: rgb(27, 157, 222);
+  border: 1px solid rgb(92, 92, 92);
 }
 
-.p1Stage:first-child, .p2Stage:first-child, .emptyStage:first-child {
-    border-radius: 0.4rem 0 0 0.4rem;
+.p1Stage:first-child,
+.p2Stage:first-child,
+.emptyStage:first-child {
+  border-radius: 0.4rem 0 0 0.4rem;
 }
 
-.p1Stage:last-child, .p2Stage:last-child, .emptyStage:last-child {
-    border-radius: 0 0.4rem 0.4rem 0;
+.p1Stage:last-child,
+.p2Stage:last-child,
+.emptyStage:last-child {
+  border-radius: 0 0.4rem 0.4rem 0;
 }
 
 .p2Stage {
-    width: 33.3%;
-    height: 20px;
-    background-color: rgb(240, 125, 34);
-    border: 1px solid rgb(92, 92, 92);
+  width: 33.3%;
+  height: 20px;
+  background-color: rgb(240, 125, 34);
+  border: 1px solid rgb(92, 92, 92);
 }
 
 .emptyStage {
-    width: 33.3%;
-    height: 20px;
-    background-color: gray;
-    border: 1px solid rgb(92, 92, 92);
+  width: 33.3%;
+  height: 20px;
+  background-color: gray;
+  border: 1px solid rgb(92, 92, 92);
 }

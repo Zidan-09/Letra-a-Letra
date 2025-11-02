@@ -1,4 +1,9 @@
-import type { CellKeys, CellUpdate, MovementsEnum, Player } from "../../utils/room_utils";
+import type {
+  CellKeys,
+  CellUpdate,
+  MovementsEnum,
+  Player,
+} from "../../utils/room_utils";
 import Cell from "./Cell";
 import styles from "../../styles/Game/Board.module.css";
 
@@ -12,8 +17,16 @@ interface BoardProps {
   onCellClick?: (x: number, y: number) => void;
 }
 
-export default function Board({ p1,turn, cellsData, hideds, move, moveIdx, onCellClick }: BoardProps) {
-  const isMine = turn % 2 === p1.turn; 
+export default function Board({
+  p1,
+  turn,
+  cellsData,
+  hideds,
+  move,
+  moveIdx,
+  onCellClick,
+}: BoardProps) {
+  const isMine = turn % 2 === p1.turn;
 
   return (
     <div className={`${styles.board} ${isMine ? styles.p1 : styles.p2}`}>

@@ -1,34 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .wordsContainer {
-    display: flex;
-    flex-direction: column;
-    width: min-content;
-    height: auto;
-    background: rgba(255, 255, 255, 0.2);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    border: 3px solid white;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    padding: 0.5rem;
-    box-shadow: 6px 6px 10px black;
-    gap: 0.5rem;
-    margin: 3rem;
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+  height: auto;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 3px solid white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  box-shadow: 6px 6px 10px black;
+  gap: 0.5rem;
+  margin: 3rem;
 }
 
 .word {
-    font-family: 'Lilita One', cursive;
-    font-size: 3rem;
-    color: white;
-    -webkit-text-stroke: 2px black;
-    text-align: center;
-    text-transform: uppercase;
+  font-family: "Lilita One", cursive;
+  font-size: 3rem;
+  color: white;
+  -webkit-text-stroke: 2px black;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .me {
-    color: #00b4ff;
+  color: #00b4ff;
 }
 .opponent {
-    color: #f07d22;
+  color: #f07d22;
 }

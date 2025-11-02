@@ -1,40 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .popup {
-    display: flex;
-    width: min(90%, 300px);
-    height: auto;
-    min-height: 1vh;
-    max-height: 80vh;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 0.3rem solid white;
-    border-radius: 2rem;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    gap: 5rem;
+  display: flex;
+  width: min(90%, 300px);
+  height: auto;
+  min-height: 1vh;
+  max-height: 80vh;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 0.3rem solid white;
+  border-radius: 2rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 5rem;
 }
 
 h2 {
-    color: white;
-    -webkit-text-stroke: 0.5px black;
-    font-size: 2.70rem;
-    margin: 0;
-    text-align: center;
+  color: white;
+  -webkit-text-stroke: 0.5px black;
+  font-size: 2.7rem;
+  margin: 0;
+  text-align: center;
 }

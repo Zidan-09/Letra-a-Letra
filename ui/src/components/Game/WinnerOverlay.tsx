@@ -6,19 +6,19 @@ import { avatars } from "../../utils/avatars";
 import styles from "../../styles/Game/WinnerOverlay.module.css";
 
 interface WinnerOverlayProps {
-    room_id?: string;
-    winner?: Player | NullPlayer;
-    duration?: number;
-    isOpen: boolean;
+  room_id?: string;
+  winner?: Player | NullPlayer;
+  duration?: number;
+  isOpen: boolean;
 }
 
 const WinnerOverlay: React.FC<WinnerOverlayProps> = ({
-    room_id,
-    winner,
-    duration = 10000,
-    isOpen,
+  room_id,
+  winner,
+  duration = 10000,
+  isOpen,
 }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (room_id && winner && isOpen) {
@@ -56,7 +56,11 @@ const WinnerOverlay: React.FC<WinnerOverlayProps> = ({
           </>
         ) : (
           <>
-            <h1 className={styles.title}>{winner.nickname}<br />Venceu!🏆</h1>
+            <h1 className={styles.title}>
+              {winner.nickname}
+              <br />
+              Venceu!🏆
+            </h1>
             {winner.avatar && avatars[winner.avatar] ? (
               <img
                 src={avatars[winner.avatar]}

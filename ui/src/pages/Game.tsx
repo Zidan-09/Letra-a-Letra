@@ -2,7 +2,16 @@ import { useEffect, useState, useRef } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import settings from "../settings.json";
-import type { Game, Player, MovementsEnum, GameData, CompletedWord, CellKeys, CellUpdate, NullPlayer } from "../utils/room_utils";
+import type {
+  Game,
+  Player,
+  MovementsEnum,
+  GameData,
+  CompletedWord,
+  CellKeys,
+  CellUpdate,
+  NullPlayer,
+} from "../utils/room_utils";
 import { PassTurn } from "../utils/passTurn";
 import PlayerCard from "../components/Game/PlayerCard";
 import Slots from "../components/Game/Slots";
@@ -17,619 +26,661 @@ import iconSwitch from "../assets/buttons/eye-svgrepo-com.svg";
 import styles from "../styles/Game.module.css";
 
 export default function Game() {
-    const [room, setRoom] = useState<Game>();
-    const [p1, setP1] = useState<Player>();
-    const [p2, setP2] = useState<Player>();
-    const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
-    const [turn, setTurn] = useState<number>(0);
-    const [timer, setTimer] = useState<number>();
-    const [viewFlipped, setViewFlipped] = useState<boolean>(false);
-    const turnStartRef = useRef<number>(Date.now());
+  const [room, setRoom] = useState<Game>();
+  const [p1, setP1] = useState<Player>();
+  const [p2, setP2] = useState<Player>();
+  const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
+  const [turn, setTurn] = useState<number>(0);
+  const [timer, setTimer] = useState<number>();
+  const [viewFlipped, setViewFlipped] = useState<boolean>(false);
+  const turnStartRef = useRef<number>(Date.now());
 
-    const [hidedLetters, setHidedLetters] = useState<CellUpdate[]>([]);
-    const [hidedWords, setHidedWords] = useState<{ finded_by: string, finded: string, positions: [number, number][] }[]>([]);
+  const [hidedLetters, setHidedLetters] = useState<CellUpdate[]>([]);
+  const [hidedWords, setHidedWords] = useState<
+    { finded_by: string; finded: string; positions: [number, number][] }[]
+  >([]);
 
-    const [words, setWords] = useState<string[]>();
-    const [findeds, setFindeds] = useState<CompletedWord[]>([]);
+  const [words, setWords] = useState<string[]>();
+  const [findeds, setFindeds] = useState<CompletedWord[]>([]);
 
-    const [move, setMove] = useState<MovementsEnum>("REVEAL");
-    const [moveIdx, setMoveIdx] = useState<number | undefined>(undefined);
+  const [move, setMove] = useState<MovementsEnum>("REVEAL");
+  const [moveIdx, setMoveIdx] = useState<number | undefined>(undefined);
 
-    const [winner, setWinner] = useState<Player | NullPlayer | undefined>(undefined);
+  const [winner, setWinner] = useState<Player | NullPlayer | undefined>(
+    undefined
+  );
 
-    const [isChatOpen, setChatOpen] = useState<boolean>(false);
+  const [isChatOpen, setChatOpen] = useState<boolean>(false);
 
-    const [unreadMessages, setUnreadMessages] = useState<number>(0);
+  const [unreadMessages, setUnreadMessages] = useState<number>(0);
 
-    const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    const spyTimers = useRef<Map<string, number>>(new Map());
+  const spyTimers = useRef<Map<string, number>>(new Map());
 
-    const socket = useSocket();
+  const socket = useSocket();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const game = localStorage.getItem("game");
-        const actual = localStorage.getItem("actual");
-        const wordsData = localStorage.getItem("words");
+  useEffect(() => {
+    const game = localStorage.getItem("game");
+    const actual = localStorage.getItem("actual");
+    const wordsData = localStorage.getItem("words");
 
-        if (!socket || !socket.id) return;
+    if (!socket || !socket.id) return;
 
-        if (!game || !wordsData) {
-            navigate("/");
-            return;
-        }
+    if (!game || !wordsData) {
+      navigate("/");
+      return;
+    }
 
-        const data: Game = JSON.parse(game);
-        const wordsParsed: string[] = JSON.parse(wordsData);
+    const data: Game = JSON.parse(game);
+    const wordsParsed: string[] = JSON.parse(wordsData);
 
-        const me = [...data.players, ...data.spectators].filter(Boolean).find(p => p.player_id === socket.id);
-        const p1Data = data.players[0];
-        const p2Data = data.players[1];
+    const me = [...data.players, ...data.spectators]
+      .filter(Boolean)
+      .find((p) => p.player_id === socket.id);
+    const p1Data = data.players[0];
+    const p2Data = data.players[1];
 
-        if (!me || !p1Data || !p2Data || !wordsParsed) {
-            navigate("/");
-            return;
-        }
+    if (!me || !p1Data || !p2Data || !wordsParsed) {
+      navigate("/");
+      return;
+    }
 
-        setRoom(data);
-        setWords(wordsParsed);
-        setTimer(data.timer);
+    setRoom(data);
+    setWords(wordsParsed);
+    setTimer(data.timer);
 
-        if (me.spectator) {
-            setP1(p1Data);
-            setP2(p2Data);
-            setLoading(false);
+    if (me.spectator) {
+      setP1(p1Data);
+      setP2(p2Data);
+      setLoading(false);
 
-            setCells(prev => {
-                const copy = { ...prev };
-                if (!actual) return copy;
+      setCells((prev) => {
+        const copy = { ...prev };
+        if (!actual) return copy;
 
-                const cells: { letter: string, x: number, y: number, by: string }[] = JSON.parse(actual);
+        const cells: { letter: string; x: number; y: number; by: string }[] =
+          JSON.parse(actual);
 
-                cells.forEach(cell => {
-                    const key = `${cell.x}-${cell.y}` as CellKeys;
-                    
-                    copy[key] = {
-                        ...copy[key],
-                        letter: cell.letter,
-                        actor: cell.by,
-                        revealed: true
-                    };
-                });
-                
-                return copy;
-            });
+        cells.forEach((cell) => {
+          const key = `${cell.x}-${cell.y}` as CellKeys;
 
-            return;
-        }
-
-        setP1(me);
-        const opponent = data.players.find(p => p.player_id !== me.player_id);
-        setP2(opponent); 
-        
-        setLoading(false);
-
-    }, [navigate, socket]);
-
-    useEffect(() => {
-        if (!room || !p1 || !timer) return;
-
-        if ((turn % 2 === p1.turn) || (turn === 0 && turn % 2 === p1.turn)) {
-            const timeout = setTimeout(() => {
-                PassTurn.passTurnTimer(p1, room.room_id);
-            }, (timer * 1000));
-
-            return () => clearTimeout(timeout);
-        };
-
-    }, [turn, p1, room]);
-
-    useEffect(() => {
-        if (!room || !p1) return;
-
-        if (turn % 2 !== p1.turn) return;
-
-        PassTurn.passTurnEffect(p1, room.room_id);
-
-    }, [turn]);
-
-    useEffect(() => {
-        if (!room || !p1) return;
-        if (p1.blind.active) return;
-        if (hidedLetters.length === 0 && hidedWords.length === 0) return;
-
-        setCells(prev => {
-            const copy = { ...prev };
-
-            hidedLetters.forEach(data => {
-                const key = `${data.x}-${data.y}` as CellKeys;
-                copy[key] = {
-                    ...copy[key],
-                    letter: data.letter,
-                    actor: data.actor
-                };
-            });
-
-            hidedWords.forEach(p => {
-                p.positions.forEach(pos => {
-                    const key = `${pos[0]}-${pos[1]}` as CellKeys;
-                    copy[key] = {
-                        ...copy[key],
-                        finded_by: p.finded_by
-                    };
-                });
-            });
-
-            return copy;
+          copy[key] = {
+            ...copy[key],
+            letter: cell.letter,
+            actor: cell.by,
+            revealed: true,
+          };
         });
 
-        setHidedLetters([]);
-        setHidedWords([]);
-    }, [p1?.blind.active]);
+        return copy;
+      });
 
-    useEffect(() => {
-        if (!socket) return;
+      return;
+    }
 
-        socket.on("movement", ({player_id, movement, data, players, turn}: GameData) => {
-            setTurn(turn);
-            turnStartRef.current = Date.now();
+    setP1(me);
+    const opponent = data.players.find((p) => p.player_id !== me.player_id);
+    setP2(opponent);
 
-            let p1Data: Player;
+    setLoading(false);
+  }, [navigate, socket]);
 
-            setP1(prev => {
-                if (!prev) return prev;
+  useEffect(() => {
+    if (!room || !p1 || !timer) return;
 
-                const copy = { ...prev };
-                const player = players.find(p => p.player_id === copy.player_id);
-                
-                if (!player) return prev;
-                p1Data = player;
+    if (turn % 2 === p1.turn || (turn === 0 && turn % 2 === p1.turn)) {
+      const timeout = setTimeout(() => {
+        PassTurn.passTurnTimer(p1, room.room_id);
+      }, timer * 1000);
 
-                return player;
-            });
+      return () => clearTimeout(timeout);
+    }
+  }, [turn, p1, room]);
 
-            setP2(prev => {
-                if (!prev) return prev;
+  useEffect(() => {
+    if (!room || !p1) return;
 
-                const copy = { ...prev };
-                const player = players.find(p => p.player_id === copy.player_id);
+    if (turn % 2 !== p1.turn) return;
 
-                if (!player) return prev;
+    PassTurn.passTurnEffect(p1, room.room_id);
+  }, [turn]);
 
-                return player;
-            });
+  useEffect(() => {
+    if (!room || !p1) return;
+    if (p1.blind.active) return;
+    if (hidedLetters.length === 0 && hidedWords.length === 0) return;
 
-            setCells(prev => {
-                const copy = { ...prev };
-                const key = data.cell ? `${data.cell.x}-${data.cell.y}` as CellKeys : null;
+    setCells((prev) => {
+      const copy = { ...prev };
 
-                if (key) {
-                    const oldTimer = spyTimers.current.get(key);
-                    if (oldTimer) {
-                        clearTimeout(oldTimer);
-                        spyTimers.current.delete(key);
-                    }
+      hidedLetters.forEach((data) => {
+        const key = `${data.x}-${data.y}` as CellKeys;
+        copy[key] = {
+          ...copy[key],
+          letter: data.letter,
+          actor: data.actor,
+        };
+      });
+
+      hidedWords.forEach((p) => {
+        p.positions.forEach((pos) => {
+          const key = `${pos[0]}-${pos[1]}` as CellKeys;
+          copy[key] = {
+            ...copy[key],
+            finded_by: p.finded_by,
+          };
+        });
+      });
+
+      return copy;
+    });
+
+    setHidedLetters([]);
+    setHidedWords([]);
+  }, [p1?.blind.active]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(
+      "movement",
+      ({ player_id, movement, data, players, turn }: GameData) => {
+        setTurn(turn);
+        turnStartRef.current = Date.now();
+
+        let p1Data: Player;
+
+        setP1((prev) => {
+          if (!prev) return prev;
+
+          const copy = { ...prev };
+          const player = players.find((p) => p.player_id === copy.player_id);
+
+          if (!player) return prev;
+          p1Data = player;
+
+          return player;
+        });
+
+        setP2((prev) => {
+          if (!prev) return prev;
+
+          const copy = { ...prev };
+          const player = players.find((p) => p.player_id === copy.player_id);
+
+          if (!player) return prev;
+
+          return player;
+        });
+
+        setCells((prev) => {
+          const copy = { ...prev };
+          const key = data.cell
+            ? (`${data.cell.x}-${data.cell.y}` as CellKeys)
+            : null;
+
+          if (key) {
+            const oldTimer = spyTimers.current.get(key);
+            if (oldTimer) {
+              clearTimeout(oldTimer);
+              spyTimers.current.delete(key);
+            }
+          }
+
+          switch (movement) {
+            case "BLOCK":
+              if (data.cell) {
+                const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                copy[key] = {
+                  ...copy[key],
+                  blocked: {
+                    blocked_by: data.blocked_by,
+                    remaining: data.remaining,
+                  },
+                };
+              }
+
+              break;
+            case "UNBLOCK":
+              if (data.cell) {
+                const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+                copy[key] = {
+                  ...copy[key],
+                  blocked: { blocked_by: undefined, remaining: undefined },
+                  letter: data.letter,
+                  actor: player_id,
+                };
+              }
+
+              if (data.completedWord) {
+                const find = {
+                  finded_by: player_id,
+                  finded: data.completedWord.word,
+                  positions: data.completedWord.positions,
+                };
+
+                setFindeds((prev) => [...prev, find]);
+
+                data.completedWord.positions.forEach((p) => {
+                  const key = `${p[0]}-${p[1]}` as CellKeys;
+                  copy[key] = {
+                    ...copy[key],
+                    finded_by: player_id,
+                  };
+                });
+              }
+
+              break;
+
+            case "TRAP":
+              if (data.cell) {
+                const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+
+                if (data.status === "trap_trigged") {
+                  copy[key] = {
+                    ...copy[key],
+                    trapTrigged: true,
+                    trapped_by: data.trapped_by,
+                  };
+
+                  setTimeout(() => {
+                    setCells((prev) => {
+                      const resetCopy = { ...prev };
+                      const cellToReset = resetCopy[key];
+                      if (cellToReset) {
+                        resetCopy[key] = {
+                          ...cellToReset,
+                          trapped_by: undefined,
+                          trapTrigged: false,
+                          detected: false,
+                          actor: undefined,
+                        };
+                      }
+                      return resetCopy;
+                    });
+                  }, 1500);
+                  break;
                 }
 
-                switch (movement) {
-                    case "BLOCK":
-                        if (data.cell) {
-                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
-                            copy[key] = {
-                                ...copy[key],
-                                blocked: { blocked_by: data.blocked_by, remaining: data.remaining }
-                            }
-                        }
-
-                        break;
-                    case "UNBLOCK":
-                        if (data.cell) {
-                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
-                            copy[key] = {
-                                ...copy[key],
-                                blocked: { blocked_by: undefined, remaining: undefined},
-                                letter: data.letter,
-                                actor: player_id
-                            };
-                        }
-
-                        if (data.completedWord) {
-                            const find = {
-                                finded_by: player_id,
-                                finded: data.completedWord.word,
-                                positions: data.completedWord.positions
-                            }
-
-                            setFindeds(prev => [...prev, find]);
-
-                            data.completedWord.positions.forEach(p => {
-                                const key = `${p[0]}-${p[1]}` as CellKeys;
-                                copy[key] = {
-                                    ...copy[key],
-                                    finded_by: player_id
-                                }
-                            })
-                        }
-                        
-                        break;
-
-                    case "TRAP":
-                        if (data.cell) {
-                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
-
-                            if (data.status === "trap_trigged") {
-                                copy[key] = {
-                                    ...copy[key],
-                                    trapTrigged: true,
-                                    trapped_by: data.trapped_by
-                                }
-
-                                setTimeout(() => {
-                                    setCells(prev => {
-                                        const resetCopy = { ...prev };
-                                        const cellToReset = resetCopy[key];
-                                        if (cellToReset) {
-                                            resetCopy[key] = {
-                                                ...cellToReset,
-                                                trapped_by: undefined,
-                                                trapTrigged: false,
-                                                detected: false,
-                                                actor: undefined
-                                            };
-                                        }
-                                        return resetCopy;
-                                    });
-                                }, 1500);
-                                break;
-                            }
-
-                            copy[key] = {
-                                ...copy[key],
-                                trapped_by: data.trapped_by,
-                                actor: player_id
-                            };
-                        }
-                        break;
-
-                    case "DETECT_TRAPS":
-                        if (data.traps) {
-                            data.traps.forEach(trap => {
-                                const key = `${trap.x}-${trap.y}` as CellKeys;
-                                copy[key] = {
-                                    ...copy[key],
-                                    detected: true,
-                                    trapped_by: data.trapped_by
-                                };
-                            });
-                        }
-                        break;
-
-                    case "SPY":
-                        if (!key) break;
-
-                        copy[key] = {
-                            ...copy[key],
-                            letter: data.letter,
-                            spied: true
-                        };
-
-                        const timer = window.setTimeout(() => {
-                            setCells(prev => {
-                                const updated = { ...prev };
-                                if (updated[key]?.spied) {
-                                    updated[key] = {
-                                        ...updated[key],
-                                        letter: undefined,
-                                        spied: false
-                                    };
-                                }
-                                return updated;
-                            });
-                            spyTimers.current.delete(key);
-                        }, 10000);
-
-                        spyTimers.current.set(key, timer);
-                        break;
-
-                    case "REVEAL":
-                        if (data.cell) {
-                            const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
-
-                            if (p1Data && p1Data.blind.active) {
-                                const newHideLetter: CellUpdate = {
-                                    ...copy[key],
-                                    x: data.cell.x,
-                                    y: data.cell.y,
-                                    letter: data.letter,
-                                    actor: player_id
-                                };
-
-                                const newFind: CompletedWord | undefined = data.completedWord ? {
-                                    finded_by: player_id,
-                                    finded: data.completedWord.word,
-                                    positions: data.completedWord.positions
-                                } : undefined;
-
-                                setHidedLetters(prev => [...prev, newHideLetter]);
-
-                                if (newFind) {
-                                    setHidedWords(prev => [...prev, newFind]);
-                                    setFindeds(prev => [...prev, newFind]);
-                                };
-
-                                copy[key] = {
-                                    ...copy[key],
-                                    revealed: true
-                                }
-
-                                break;
-                            };
-                            
-                            if (data.status === "trap_trigged") {
-                                copy[key] = {
-                                    ...copy[key],
-                                    trapTrigged: true,
-                                    trapped_by: data.trapped_by
-                                }
-
-                                setTimeout(() => {
-                                    setCells(prev => {
-                                        const resetCopy = { ...prev };
-                                        const cellToReset = resetCopy[key];
-                                        if (cellToReset) {
-                                            resetCopy[key] = {
-                                                ...cellToReset,
-                                                trapped_by: undefined,
-                                                trapTrigged: false,
-                                                detected: false,
-                                                actor: undefined
-                                            };
-                                        }
-                                        return resetCopy;
-                                    });
-                                }, 1500);
-                                break;
-                            }
-
-                            if (data.status === "blocked") {
-                                copy[key] = {
-                                    ...copy[key],
-                                    blocked: { blocked_by: copy[key].blocked?.blocked_by, remaining: data.remaining }
-                                }
-
-                                break;
-                            }
-
-                            copy[key] = {
-                                ...copy[key],
-                                letter: data.letter,
-                                revealed: true,
-                                trapped_by: undefined,
-                                blocked: { blocked_by: undefined, remaining: undefined },
-                                actor: player_id
-                            };
-                        }
-
-                        if (data.completedWord) {
-                            const find: CompletedWord | undefined = data.completedWord ? {
-                                finded_by: player_id,
-                                finded: data.completedWord.word,
-                                positions: data.completedWord.positions
-                            } : undefined;
-
-                            if (find) setFindeds(prev => [...prev, find]);
-
-                            data.completedWord.positions.forEach(p => {
-                                const key = `${p[0]}-${p[1]}` as CellKeys;
-                                copy[key] = {
-                                    ...copy[key],
-                                    finded_by: player_id
-                                };
-                            });
-                        };
-
-                        break;
+                copy[key] = {
+                  ...copy[key],
+                  trapped_by: data.trapped_by,
+                  actor: player_id,
                 };
+              }
+              break;
 
-                return copy;
-            });
+            case "DETECT_TRAPS":
+              if (data.traps) {
+                data.traps.forEach((trap) => {
+                  const key = `${trap.x}-${trap.y}` as CellKeys;
+                  copy[key] = {
+                    ...copy[key],
+                    detected: true,
+                    trapped_by: data.trapped_by,
+                  };
+                });
+              }
+              break;
+
+            case "SPY":
+              if (!key) break;
+
+              copy[key] = {
+                ...copy[key],
+                letter: data.letter,
+                spied: true,
+              };
+
+              const timer = window.setTimeout(() => {
+                setCells((prev) => {
+                  const updated = { ...prev };
+                  if (updated[key]?.spied) {
+                    updated[key] = {
+                      ...updated[key],
+                      letter: undefined,
+                      spied: false,
+                    };
+                  }
+                  return updated;
+                });
+                spyTimers.current.delete(key);
+              }, 10000);
+
+              spyTimers.current.set(key, timer);
+              break;
+
+            case "REVEAL":
+              if (data.cell) {
+                const key = `${data.cell.x}-${data.cell.y}` as CellKeys;
+
+                if (p1Data && p1Data.blind.active) {
+                  const newHideLetter: CellUpdate = {
+                    ...copy[key],
+                    x: data.cell.x,
+                    y: data.cell.y,
+                    letter: data.letter,
+                    actor: player_id,
+                  };
+
+                  const newFind: CompletedWord | undefined = data.completedWord
+                    ? {
+                        finded_by: player_id,
+                        finded: data.completedWord.word,
+                        positions: data.completedWord.positions,
+                      }
+                    : undefined;
+
+                  setHidedLetters((prev) => [...prev, newHideLetter]);
+
+                  if (newFind) {
+                    setHidedWords((prev) => [...prev, newFind]);
+                    setFindeds((prev) => [...prev, newFind]);
+                  }
+
+                  copy[key] = {
+                    ...copy[key],
+                    revealed: true,
+                  };
+
+                  break;
+                }
+
+                if (data.status === "trap_trigged") {
+                  copy[key] = {
+                    ...copy[key],
+                    trapTrigged: true,
+                    trapped_by: data.trapped_by,
+                  };
+
+                  setTimeout(() => {
+                    setCells((prev) => {
+                      const resetCopy = { ...prev };
+                      const cellToReset = resetCopy[key];
+                      if (cellToReset) {
+                        resetCopy[key] = {
+                          ...cellToReset,
+                          trapped_by: undefined,
+                          trapTrigged: false,
+                          detected: false,
+                          actor: undefined,
+                        };
+                      }
+                      return resetCopy;
+                    });
+                  }, 1500);
+                  break;
+                }
+
+                if (data.status === "blocked") {
+                  copy[key] = {
+                    ...copy[key],
+                    blocked: {
+                      blocked_by: copy[key].blocked?.blocked_by,
+                      remaining: data.remaining,
+                    },
+                  };
+
+                  break;
+                }
+
+                copy[key] = {
+                  ...copy[key],
+                  letter: data.letter,
+                  revealed: true,
+                  trapped_by: undefined,
+                  blocked: { blocked_by: undefined, remaining: undefined },
+                  actor: player_id,
+                };
+              }
+
+              if (data.completedWord) {
+                const find: CompletedWord | undefined = data.completedWord
+                  ? {
+                      finded_by: player_id,
+                      finded: data.completedWord.word,
+                      positions: data.completedWord.positions,
+                    }
+                  : undefined;
+
+                if (find) setFindeds((prev) => [...prev, find]);
+
+                data.completedWord.positions.forEach((p) => {
+                  const key = `${p[0]}-${p[1]}` as CellKeys;
+                  copy[key] = {
+                    ...copy[key],
+                    finded_by: player_id,
+                  };
+                });
+              }
+
+              break;
+          }
+
+          return copy;
         });
+      }
+    );
 
-        socket.on("player_left", (updatedRoom: Game) => {
-            setRoom({ ...updatedRoom, players: [...updatedRoom.players], spectators: [...updatedRoom.spectators] });
-        });
+    socket.on("player_left", (updatedRoom: Game) => {
+      setRoom({
+        ...updatedRoom,
+        players: [...updatedRoom.players],
+        spectators: [...updatedRoom.spectators],
+      });
+    });
 
-        socket.on("pass_turn", ({turn}) => {
-            setTurn(turn);
-            turnStartRef.current = Date.now();
-        });
+    socket.on("pass_turn", ({ turn }) => {
+      setTurn(turn);
+      turnStartRef.current = Date.now();
+    });
 
-        socket.on("discard_power", (updatedRoom: Game) => {
-            setP1(prev => {
-                if (!prev) return prev;
+    socket.on("discard_power", (updatedRoom: Game) => {
+      setP1((prev) => {
+        if (!prev) return prev;
 
-                const copy = { ...prev };
-                const player = updatedRoom.players.find(p => p.player_id === copy.player_id);
-                
-                if (!player) return prev;
+        const copy = { ...prev };
+        const player = updatedRoom.players.find(
+          (p) => p.player_id === copy.player_id
+        );
 
-                return player;
-            });
+        if (!player) return prev;
 
-            setP2(prev => {
-                if (!prev) return prev;
+        return player;
+      });
 
-                const copy = { ...prev };
-                const player = updatedRoom.players.find(p => p.player_id === copy.player_id);
+      setP2((prev) => {
+        if (!prev) return prev;
 
-                if (!player) return prev;
+        const copy = { ...prev };
+        const player = updatedRoom.players.find(
+          (p) => p.player_id === copy.player_id
+        );
 
-                return player;
-            });
-        });
+        if (!player) return prev;
 
-        socket.on("afk", (player_id) => {
-            alert("Você foi desconectado por inatividade");
-            if (socket.id === player_id) navigate("/room");
-        });
+        return player;
+      });
+    });
 
-        socket.on("game_over", ({winner, room}) => {
-            if (room) localStorage.setItem("game", JSON.stringify(room));
+    socket.on("afk", (player_id) => {
+      alert("Você foi desconectado por inatividade");
+      if (socket.id === player_id) navigate("/room");
+    });
 
-            setWinner(winner);
-        });
+    socket.on("game_over", ({ winner, room }) => {
+      if (room) localStorage.setItem("game", JSON.stringify(room));
 
-        return () => {
-            socket.off("movement");
-            socket.off("player_left");
-            socket.off("pass_turn");
-            socket.off("discard_power");
-            socket.off("afk");
-            socket.off("game_over");
-            spyTimers.current.forEach(timer => clearTimeout(timer));
-            spyTimers.current.clear();
+      setWinner(winner);
+    });
+
+    return () => {
+      socket.off("movement");
+      socket.off("player_left");
+      socket.off("pass_turn");
+      socket.off("discard_power");
+      socket.off("afk");
+      socket.off("game_over");
+      spyTimers.current.forEach((timer) => clearTimeout(timer));
+      spyTimers.current.clear();
+    };
+  }, [socket, setP1, setP2, setCells, setFindeds]);
+
+  const handleMovement = async (x?: number, y?: number) => {
+    try {
+      const res = await fetch(`${settings.server}/game/${room?.room_id}/move`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          player_id: socket.id,
+          movement: move,
+          powerIndex: moveIdx,
+          x: x,
+          y: y,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => data);
+
+      if (!res.success) console.warn(res);
+    } catch (err) {
+      console.error(err);
+    }
+
+    setMove("REVEAL");
+    setMoveIdx(undefined);
+  };
+
+  const handleDiscard = async () => {
+    try {
+      const res = await fetch(
+        `${settings.server}/game/${room?.room_id}/discard`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            player_id: socket.id,
+            power: move,
+            powerIdx: moveIdx,
+          }),
         }
-    }, [socket, setP1, setP2, setCells, setFindeds]);
+      )
+        .then((res) => res.json())
+        .then((data) => data);
 
-    const handleMovement = async (x?: number, y?: number) => {
-        try {
-            const res = await fetch(`${settings.server}/game/${room?.room_id}/move`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    player_id: socket.id,
-                    movement: move,
-                    powerIndex: moveIdx,
-                    x: x,
-                    y: y
-                })
-            }).then(res => res.json()).then(data => data);
+      if (!res.success) console.warn(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-            if (!res.success) console.warn(res);
+  const handleChat = () => {
+    setChatOpen(true);
+    setUnreadMessages(0);
+  };
 
-        } catch (err) {
-            console.error(err);
-        }
+  const handleNewMessage = () => {
+    if (!isChatOpen) setUnreadMessages((prev) => prev + 1);
+  };
 
-        setMove("REVEAL");
-        setMoveIdx(undefined);
-    };
+  const handleFlipView = () => {
+    if (p1?.player_id === socket.id) return;
 
-    const handleDiscard = async () => {
-        try {
-            const res = await fetch(`${settings.server}/game/${room?.room_id}/discard`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    player_id: socket.id,
-                    power: move,
-                    powerIdx: moveIdx
-                })
-            }).then(res => res.json()).then(data => data);
+    setViewFlipped((prev) => !prev);
+  };
 
-            if (!res.success) console.warn(res);
+  if (loading || !p1 || !p2 || !words) return <Loading />;
 
-        } catch (err) {
-            console.error(err);
-        };
-    };
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <PlayerCard
+          id={0}
+          player={viewFlipped ? p2 : p1}
+          timer={timer}
+          turn={turn}
+          turnStart={turnStartRef.current}
+        />
 
-    const handleChat = () => {
-        setChatOpen(true);
-        setUnreadMessages(0);
-    };
+        <img src={logo} alt="Logo" className={styles.logo} />
 
-    const handleNewMessage = () => {
-        if (!isChatOpen) setUnreadMessages(prev => prev + 1);
-    };
+        <PlayerCard
+          id={1}
+          player={viewFlipped ? p1 : p2}
+          timer={timer}
+          turn={turn}
+          turnStart={turnStartRef.current}
+        />
+      </div>
 
-    const handleFlipView = () => {
-        if (p1?.player_id === socket.id) return;
+      <div className={styles.game}>
+        {p1.player_id === socket.id ? (
+          <Slots
+            playerPowers={p1.powers}
+            selected={moveIdx}
+            selectMove={setMove}
+            selectMoveIdx={setMoveIdx}
+            applyEffect={handleMovement}
+            discardPower={handleDiscard}
+          />
+        ) : (
+          <div />
+        )}
 
-        setViewFlipped(prev => !prev);
-    };
+        <Board
+          p1={p1}
+          turn={turn}
+          cellsData={cells}
+          hideds={hidedLetters}
+          move={move}
+          moveIdx={moveIdx}
+          onCellClick={p1.player_id === socket.id ? handleMovement : undefined}
+        />
 
-    if (loading || !p1 || !p2 || !words) return <Loading />
+        <Words words={words} findeds={findeds} />
+      </div>
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.header}>
-                <PlayerCard
-                id={0}
-                player={viewFlipped ? p2 : p1}
-                timer={timer}
-                turn={turn}
-                turnStart={turnStartRef.current}
-                />
+      {room && (
+        <ExtraButtons
+          room_id={room.room_id}
+          nickname={
+            [...room.players, ...room.spectators]
+              .filter(Boolean)
+              .find((p) => p.player_id === socket.id)?.nickname
+          }
+          setPopup={handleChat}
+          isOpen={isChatOpen}
+          onClose={() => {
+            setChatOpen(false);
+          }}
+          onNewMessage={handleNewMessage}
+          unreadMessages={unreadMessages}
+        />
+      )}
 
-                <img src={logo} alt="Logo" className={styles.logo} />
-
-                <PlayerCard
-                id={1}
-                player={viewFlipped ? p1 : p2}
-                timer={timer}
-                turn={turn}
-                turnStart={turnStartRef.current}
-                />
-            </div>
-
-            <div className={styles.game}>
-                {p1.player_id === socket.id ? (
-                    <Slots
-                    playerPowers={p1.powers}
-                    selected={moveIdx}
-                    selectMove={setMove}
-                    selectMoveIdx={setMoveIdx}
-                    applyEffect={handleMovement}
-                    discardPower={handleDiscard}
-                    />
-                ) : (
-                    <div />
-                    
-                )}
-
-                <Board
-                p1={p1}
-                turn={turn}
-                cellsData={cells}
-                hideds={hidedLetters}
-                move={move}
-                moveIdx={moveIdx}
-                onCellClick={p1.player_id === socket.id ? handleMovement : undefined}
-                />
-
-                <Words
-                words={words}
-                findeds={findeds}
-                />
-            </div>
-            
-            {room && (
-                <ExtraButtons
-                room_id={room.room_id}
-                nickname={[...room.players, ...room.spectators].filter(Boolean).find(p => p.player_id === socket.id)?.nickname}
-                setPopup={handleChat}
-                isOpen={isChatOpen}
-                onClose={() => {setChatOpen(false)}}
-                onNewMessage={handleNewMessage}
-                unreadMessages={unreadMessages}
-                />
-            )}
-            
-            <EffectOverlay freeze={p1.freeze.active} blind={p1.blind.active} immunity={p1.immunity.active} />
-            <WinnerOverlay room_id={room?.room_id} winner={winner} isOpen={winner ? true : false} />
-            {p1.player_id !== socket.id && (
-            <button
-                    type="button"
-                    className={styles.switchView}
-                    onClick={handleFlipView}
-                    >
-                        <img src={iconSwitch} alt="Trocar" className={styles.icon} />
-                        Trocar
-                    </button>
-            )}  
-        </div>
-    )
+      <EffectOverlay
+        freeze={p1.freeze.active}
+        blind={p1.blind.active}
+        immunity={p1.immunity.active}
+      />
+      <WinnerOverlay
+        room_id={room?.room_id}
+        winner={winner}
+        isOpen={winner ? true : false}
+      />
+      {p1.player_id !== socket.id && (
+        <button
+          type="button"
+          className={styles.switchView}
+          onClick={handleFlipView}
+        >
+          <img src={iconSwitch} alt="Trocar" className={styles.icon} />
+          Trocar
+        </button>
+      )}
+    </div>
+  );
 }

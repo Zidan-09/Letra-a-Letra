@@ -1,172 +1,178 @@
 .panel {
-    position: absolute;
-    right: 5rem;
-    top: 5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 20rem;
-    max-height: 70vh;
-    background: rgba(80, 80, 80, 0.4);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 1.5rem;
-    border: 3px solid white;
-    padding: 1rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  position: absolute;
+  right: 5rem;
+  top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 20rem;
+  max-height: 70vh;
+  background: rgba(80, 80, 80, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 1.5rem;
+  border: 3px solid white;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .playerList {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .playerList::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 .playerList::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
 .playerList::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.4);
-    border-radius: 10px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
 }
 .playerList::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.6);
 }
 .sectionTitle {
-    font-size: 2rem;
-    color: white;
-    margin: 0.5rem 0;
-    padding-left: 0.5rem;
-    -webkit-text-stroke: 0.5px black;
-    border-left: 4px solid rgb(240, 125, 34);
+  font-size: 2rem;
+  color: white;
+  margin: 0.5rem 0;
+  padding-left: 0.5rem;
+  -webkit-text-stroke: 0.5px black;
+  border-left: 4px solid rgb(240, 125, 34);
 }
 
 .divider {
-    width: 100%;
-    border: none;
-    height: 2px;
-    background-color: rgba(255, 255, 255, 0.3);
-    margin: 0.5rem 0;
+  width: 100%;
+  border: none;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 0.5rem 0;
 }
 
-.player, .selected, .banned {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    transition: all 0.2s ease-in-out;
-    overflow: hidden;
-    
+.player,
+.selected,
+.banned {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease-in-out;
+  overflow: hidden;
 }
 
 .player {
-    background-color: rgb(27, 157, 222);
-    border: 3px solid rgb(64, 176, 232);
-    box-shadow: 0 4px 0 rgb(57, 68, 148);
+  background-color: rgb(27, 157, 222);
+  border: 3px solid rgb(64, 176, 232);
+  box-shadow: 0 4px 0 rgb(57, 68, 148);
 }
 
 .player:hover {
-    transform: scale(1.01);
-    cursor: pointer;
+  transform: scale(1.01);
+  cursor: pointer;
 }
 
 .selected {
-    background-color: rgb(240, 125, 34);
-    border: 3px solid rgb(255, 143, 55);
-    box-shadow: 0 4px 0 rgb(148, 97, 57);
-    cursor: pointer;
+  background-color: rgb(240, 125, 34);
+  border: 3px solid rgb(255, 143, 55);
+  box-shadow: 0 4px 0 rgb(148, 97, 57);
+  cursor: pointer;
 }
 
 .banned {
-    background-color: rgb(150, 150, 150);
-    border: 3px solid rgb(180, 180, 180);
-    box-shadow: 0 4px 0 rgb(80, 80, 80);
-    opacity: 0.8;
+  background-color: rgb(150, 150, 150);
+  border: 3px solid rgb(180, 180, 180);
+  box-shadow: 0 4px 0 rgb(80, 80, 80);
+  opacity: 0.8;
 }
 
-.nickname, .bannedNickname {
-    font-size: 1.5rem;
-    color: white;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+.nickname,
+.bannedNickname {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .bannedNickname {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
 }
 
-.kick, .ban, .unban {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.3rem; 
-    border-radius: 0.8rem;
-    transition: transform 0.1s ease;
+.kick,
+.ban,
+.unban {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+  border-radius: 0.8rem;
+  transition: transform 0.1s ease;
 }
 
-.kick:hover, .ban:hover, .unban:hover {
-    cursor: pointer;
+.kick:hover,
+.ban:hover,
+.unban:hover {
+  cursor: pointer;
 }
 
 .kick {
-    background-color: rgb(17, 110, 156);
-    border: 3px solid rgb(64, 176, 232);
-    box-shadow: 0 4px 0 rgb(57, 68, 148);
+  background-color: rgb(17, 110, 156);
+  border: 3px solid rgb(64, 176, 232);
+  box-shadow: 0 4px 0 rgb(57, 68, 148);
 }
 
 .ban {
-    background-color: rgb(240, 44, 38);
-    border: 3px solid rgb(195, 60, 60);
-    box-shadow: 0 4px 0 rgb(128, 53, 49);
+  background-color: rgb(240, 44, 38);
+  border: 3px solid rgb(195, 60, 60);
+  box-shadow: 0 4px 0 rgb(128, 53, 49);
 }
 
 .unban {
-    background-color: rgb(22, 163, 74);
-    border: 3px solid rgb(34, 197, 94);
-    box-shadow: 0 4px 0 rgb(21, 128, 61);
+  background-color: rgb(22, 163, 74);
+  border: 3px solid rgb(34, 197, 94);
+  box-shadow: 0 4px 0 rgb(21, 128, 61);
 }
 
 .icon {
-    width: 28px;
-    height: 28px;
-    filter: invert(1);
+  width: 28px;
+  height: 28px;
+  filter: invert(1);
 }
 
 .closeButton {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 2rem;
-    height: 2rem;
-    background-color: rgba(0, 0, 0, 0.3);
-    color: white;
-    border: 2px solid white;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    line-height: 1.8rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: 2px solid white;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1.8rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .closeButton:hover {
-    background-color: rgb(240, 44, 38);
+  background-color: rgb(240, 44, 38);
 }
 .emptyMessage {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.5rem;
-    text-align: center;
-    padding: 2rem 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 2rem 0;
 }

@@ -60,10 +60,10 @@ a:hover {
   }
 
   .logo {
-  width: 8rem;
-  justify-self: center;
-  align-self: center;
-}
+    width: 8rem;
+    justify-self: center;
+    align-self: center;
+  }
 
   .devs {
     grid-row: 2 / 3;

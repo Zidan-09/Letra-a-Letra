@@ -13,104 +13,118 @@ import iconHelp from "../assets/buttons/icon-help.svg";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-    const [nickname, setNickname] = useState("");
-    const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
-    const [isPopupOpen, setPopupOpen] = useState(false)
-    const navigate = useNavigate();
-    const socket = useSocket();
+  const [nickname, setNickname] = useState("");
+  const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const navigate = useNavigate();
+  const socket = useSocket();
 
-    const handleCreateRoom = async () => {
-        if (nickname.trim()) {
-            const result = await createPlayer();
+  const handleCreateRoom = async () => {
+    if (nickname.trim()) {
+      const result = await createPlayer();
 
-            if (
-                result.player_id === socket.id
-            ) return navigate("/create");
-        }
-    };
-  
-    const handleEnterRoom = async () => {
-        if (nickname.trim()) {
-            const result = await createPlayer();
-
-            if (
-                result.player_id === socket.id
-            ) return navigate("/room");
-        }
-    };
-
-    const handleHelp = () => {
-        alert("Instruções de como jogar serão exibidas aqui.");
-    };
-
-    const handleAvatarPopupOpen = () => {
-        setPopupOpen(true);
+      if (result.player_id === socket.id) return navigate("/create");
     }
+  };
 
-    const handleSelectAvatar = (avatar: number) => {
-        setSelectedAvatar(avatar);
-        setPopupOpen(false);
+  const handleEnterRoom = async () => {
+    if (nickname.trim()) {
+      const result = await createPlayer();
+
+      if (result.player_id === socket.id) return navigate("/room");
     }
+  };
 
-    const createPlayer = async (): Promise<Player> => {
-        const result = await fetch(`${settings.server}/player`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                player_id: socket.id,
-                nickname: nickname,
-                avatar: selectedAvatar
-            })
-        }).then(res => res.json()).then(data => data);
+  const handleHelp = () => {
+    alert("Instruções de como jogar serão exibidas aqui.");
+  };
 
-        return result.data;
-    }
+  const handleAvatarPopupOpen = () => {
+    setPopupOpen(true);
+  };
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.card}>
-                <img src={logo} alt="Logo Letra a Letra" className={styles.logo} />
+  const handleSelectAvatar = (avatar: number) => {
+    setSelectedAvatar(avatar);
+    setPopupOpen(false);
+  };
 
-                <p className={styles.label}>Selecione um avatar e nickname</p>
+  const createPlayer = async (): Promise<Player> => {
+    const result = await fetch(`${settings.server}/player`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        player_id: socket.id,
+        nickname: nickname,
+        avatar: selectedAvatar,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => data);
 
-                <div className={styles.inputs}>
-                    <img src={avatars[selectedAvatar]} alt="Avatar" className={styles.avatar} onClick={handleAvatarPopupOpen} />
-    
-                        <div className={styles.inputWrapper}>
-                            <input
-                            type="text"
-                            placeholder="Digite seu Nickname..."
-                            value={nickname}
-                            onChange={(e) => setNickname(e.target.value)}
-                            className={styles.input}
-                            />
-                        </div>
-                </div>
+    return result.data;
+  };
 
-                <div className={styles.buttons}>
-                    <button className={`${styles.button} ${styles.create}`} onClick={handleCreateRoom} type="button">
-                        <img src={iconCreate} alt="Create" className={styles.icon} />
-                        Criar Sala
-                    </button>
-                    <button className={`${styles.button} ${styles.enter}`} onClick={handleEnterRoom} type="button">
-                        <img src={iconEnter} alt="Enter" className={styles.icon} />
-                        Juntar-se
-                    </button>
-                </div>
+  return (
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <img src={logo} alt="Logo Letra a Letra" className={styles.logo} />
 
-                <button className={`${styles.button} ${styles.help}`} onClick={handleHelp}>
-                    <img src={iconHelp} alt="Help" className={styles.icon} />
-                    Como Jogar
-                </button>
-            </div>
-            <AvatarPopup 
-            selectedAvatar={selectedAvatar} 
-            onSelectAvatar={handleSelectAvatar} 
-            isOpen={isPopupOpen} 
-            onClose={() => setPopupOpen(false)}
+        <p className={styles.label}>Selecione um avatar e nickname</p>
+
+        <div className={styles.inputs}>
+          <img
+            src={avatars[selectedAvatar]}
+            alt="Avatar"
+            className={styles.avatar}
+            onClick={handleAvatarPopupOpen}
+          />
+
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              placeholder="Digite seu Nickname..."
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              className={styles.input}
             />
-
-            <Footer />
+          </div>
         </div>
-    );
+
+        <div className={styles.buttons}>
+          <button
+            className={`${styles.button} ${styles.create}`}
+            onClick={handleCreateRoom}
+            type="button"
+          >
+            <img src={iconCreate} alt="Create" className={styles.icon} />
+            Criar Sala
+          </button>
+          <button
+            className={`${styles.button} ${styles.enter}`}
+            onClick={handleEnterRoom}
+            type="button"
+          >
+            <img src={iconEnter} alt="Enter" className={styles.icon} />
+            Juntar-se
+          </button>
+        </div>
+
+        <button
+          className={`${styles.button} ${styles.help}`}
+          onClick={handleHelp}
+        >
+          <img src={iconHelp} alt="Help" className={styles.icon} />
+          Como Jogar
+        </button>
+      </div>
+      <AvatarPopup
+        selectedAvatar={selectedAvatar}
+        onSelectAvatar={handleSelectAvatar}
+        isOpen={isPopupOpen}
+        onClose={() => setPopupOpen(false)}
+      />
+
+      <Footer />
+    </div>
+  );
 }

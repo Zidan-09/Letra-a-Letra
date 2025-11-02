@@ -1,105 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .card {
-    width: 280px;
-    height: 90px;
-    display: flex;
-    align-items: center;
-    border-radius: 1rem;
-    box-shadow: 0 6px 0 rgba(0,0,0,0.3);
-    overflow: hidden;
-    margin: 0 1rem 0 1rem;
-    justify-content: space-between;
+  width: 280px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  border-radius: 1rem;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin: 0 1rem 0 1rem;
+  justify-content: space-between;
 }
 
 .p1 {
-    background: linear-gradient(45deg, rgb(27, 157, 222), rgb(31, 116, 158));
-    border: 5px solid rgb(64, 176, 232);
-    box-shadow: -5px 6px 0 rgb(57, 68, 148);
-    text-align: start;
-    flex-direction: row;
+  background: linear-gradient(45deg, rgb(27, 157, 222), rgb(31, 116, 158));
+  border: 5px solid rgb(64, 176, 232);
+  box-shadow: -5px 6px 0 rgb(57, 68, 148);
+  text-align: start;
+  flex-direction: row;
 }
 
 .p2 {
-    background: linear-gradient(45deg, rgb(240, 125, 34), rgb(203, 104, 23));
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 5px 6px 0 rgb(148, 97, 57);
-    flex-direction: row-reverse;
-    text-align: end;
+  background: linear-gradient(45deg, rgb(240, 125, 34), rgb(203, 104, 23));
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 5px 6px 0 rgb(148, 97, 57);
+  flex-direction: row-reverse;
+  text-align: end;
 }
 
 .avatarContainer {
-    width: 80px;
-    aspect-ratio: 1 / 1;
-    border-radius: 0.65rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 5px;
-    background: conic-gradient(
-        white calc(var(--progress, 0) * 360deg),
-        var(--border-color, #4caf50) 0deg
-    );
+  width: 80px;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.65rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 5px;
+  background: conic-gradient(
+    white calc(var(--progress, 0) * 360deg),
+    var(--border-color, #4caf50) 0deg
+  );
 }
 
 .avatarP1 {
-    width: 70px;
-    aspect-ratio: 1 / 1;
-    border-radius: 0.5rem;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border: 2px solid rgb(57, 68, 148);
+  width: 70px;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgb(57, 68, 148);
 }
 
 .avatarP2 {
-    width: 70px;
-    aspect-ratio: 1 / 1;
-    border-radius: 0.5rem;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border: 2px solid rgb(148, 97, 57);
+  width: 70px;
+  aspect-ratio: 1 / 1;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgb(148, 97, 57);
 }
 
 .infoContainer {
-    width: 100%;
-    margin: 0 10px 0 10px;
+  width: 100%;
+  margin: 0 10px 0 10px;
 }
 
 .nickname {
-    font-family: 'Lilita One', cursive;
-    -webkit-text-stroke: 0.4px black;
+  font-family: "Lilita One", cursive;
+  -webkit-text-stroke: 0.4px black;
 }
 
 .nickname:hover {
-    cursor: default;
+  cursor: default;
 }
 
-.powersContainerP1, .powersContainerP2 {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
+.powersContainerP1,
+.powersContainerP2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
 }
 
 .powersContainerP2 {
-    flex-direction: row-reverse;
-    transform: translateX(12.5%);
+  flex-direction: row-reverse;
+  transform: translateX(12.5%);
 }
 
-.p1Powers, .p2Powers, .p1Empty, .p2Empty {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid black;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    background-color: white;
+.p1Powers,
+.p2Powers,
+.p1Empty,
+.p2Empty {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid black;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: white;
 }
-    
+
 .p1Powers {
-    background-color: rgb(76, 82, 197);
+  background-color: rgb(76, 82, 197);
 }
 
 .p2Powers {
-    background-color: rgb(173, 99, 40);
+  background-color: rgb(173, 99, 40);
 }

@@ -1,57 +1,58 @@
 .playerList {
-    width: 80%;
-    height: 5rem;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    border: 7px solid white;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
+  width: 80%;
+  height: 5rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 7px solid white;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
 }
 
 .empty {
-    width: 45%;
-    height: 100%;
-    display: flex;
-    border-radius: 1.3rem;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    color: white;
-    font-family: 'Lilita One', cursive;
-    gap: 1rem;
-    -webkit-text-stroke: 1.5px black;
-    outline: none;
-    background: rgba(255, 255, 255, 0.5);
-    border: 3px solid white;
+  width: 45%;
+  height: 100%;
+  display: flex;
+  border-radius: 1.3rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-family: "Lilita One", cursive;
+  gap: 1rem;
+  -webkit-text-stroke: 1.5px black;
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  border: 3px solid white;
 }
 
-.empty:hover, .empty:focus {
-    border: 3px solid rgb(100, 100, 100);
-    cursor: pointer;
-    transform: translateY(-2px);
+.empty:hover,
+.empty:focus {
+  border: 3px solid rgb(100, 100, 100);
+  cursor: pointer;
+  transform: translateY(-2px);
 }
 
 .avatar {
-    margin-left: 0.5rem;
-    width: 60px;
-    height: 60px;
-    border-radius: 1.2rem;
-    border: 3px solid white;
-    background: rgb(255, 143, 55);
+  margin-left: 0.5rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 1.2rem;
+  border: 3px solid white;
+  background: rgb(255, 143, 55);
 }
 
 .nickname {
-    margin-right: 0.5rem;
-    font-size: 2rem;
+  margin-right: 0.5rem;
+  font-size: 2rem;
 }
 
 .nickname:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
