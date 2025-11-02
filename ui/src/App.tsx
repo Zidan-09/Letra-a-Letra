@@ -10,36 +10,35 @@ import Game from "./pages/Game";
 import Loading from "./components/Loading";
 
 function App() {
-    const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        async function preload() {
-            try {
-                await Preloads.preloadAll();
-            } catch (err) {
-                
-            } finally {
-                setLoading(false);
-            }
-        }
-        preload();
-    }, []);
+  useEffect(() => {
+    async function preload() {
+      try {
+        await Preloads.preloadAll();
+      } catch (err) {
+      } finally {
+        setLoading(false);
+      }
+    }
+    preload();
+  }, []);
 
-    if (loading) return <Loading />
-  
-    return (
-        <Router>
-            <SocketProvider>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/create" element={<Create />} />
-                    <Route path="/room" element={<Room />} />
-                    <Route path="/lobby/:room_id" element={<Lobby />} />
-                    <Route path="/game/:room_id" element={<Game />} />
-                </Routes>
-            </SocketProvider>
-        </Router>
-    );
+  if (loading) return <Loading />;
+
+  return (
+    <Router>
+      <SocketProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/create" element={<Create />} />
+          <Route path="/room" element={<Room />} />
+          <Route path="/lobby/:room_id" element={<Lobby />} />
+          <Route path="/game/:room_id" element={<Game />} />
+        </Routes>
+      </SocketProvider>
+    </Router>
+  );
 }
 
 export default App;

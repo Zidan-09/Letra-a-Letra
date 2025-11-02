@@ -8,12 +8,13 @@
   height: 100vh;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2000;
   font-family: "Lilita One", cursive;
-} 
+}
 
 .popup {
   background: rgba(255, 255, 255, 0.3);
@@ -29,24 +30,23 @@
   animation: popupFade 0.25s ease-out;
 }
 
-
-  .titlecontainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 95%;
-    padding: 0.5rem;
-    border-radius: 3rem;
-    position:relative;
-    background-color: rgb(240, 125, 34);
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 0 6px 0 rgb(148, 97, 57);
+.titlecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  padding: 0.5rem;
+  border-radius: 3rem;
+  position: relative;
+  background-color: rgb(240, 125, 34);
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 0 6px 0 rgb(148, 97, 57);
 }
 
 .title {
   font-size: clamp(1.5rem, 5rem, 2.4rem);
-    color: white;
-    -webkit-text-stroke: 0.5px black;
+  color: white;
+  -webkit-text-stroke: 0.5px black;
 }
 
 .settingSection {
@@ -79,74 +79,67 @@
   color: white;
   -webkit-text-stroke: 0.5px black;
   margin: 0;
-
 }
 
 .buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .button {
-    flex: 1 1 45%;
-    min-width: 100px;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border: none;
-    border-radius: 2rem;
-    padding: 0 1rem;
-    font-size: 1.7rem;
-    font-weight: bold;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-    outline: none;
+  flex: 1 1 45%;
+  min-width: 100px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 2rem;
+  padding: 0 1rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
 }
 
-.button:hover, .button:focus {
-    transform: translateY(-2px);
+.button:hover,
+.button:focus {
+  transform: translateY(-2px);
 }
-
 
 .icon {
-     width: 60px;
-    height: 60px;
-    filter:
-        drop-shadow(0.5px 0.5px 0 black)
-        drop-shadow(-0.5px -0.5px 0 black)
-        drop-shadow(1px 0px 0 black)
-        drop-shadow(-0.5px 2px 0 black);
-        ;
-transition: transform 0.1s ease}
-
-.icon:hover{
-transform: scale(1.1);
-
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0.5px 0.5px 0 black) drop-shadow(-0.5px -0.5px 0 black)
+    drop-shadow(1px 0px 0 black) drop-shadow(-0.5px 2px 0 black);
+  transition: transform 0.1s ease;
 }
 
+.icon:hover {
+  transform: scale(1.1);
+}
 
 .back {
-   background: transparent;
-    border: 0.5px black;
-    cursor: pointer;
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 80%;
+  background: transparent;
+  border: 0.5px black;
+  cursor: pointer;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80%;
 }
-
 
 .gamemode {
   margin-top: 1rem;
@@ -154,13 +147,13 @@ transform: scale(1.1);
 }
 
 .confirm {
-    background-color: rgb(21, 248, 29);
-    border: 5px solid rgb(77, 255, 89);
-    box-shadow: 0 6px 0 rgb(46, 138, 52);
+  background-color: rgb(21, 248, 29);
+  border: 5px solid rgb(77, 255, 89);
+  box-shadow: 0 6px 0 rgb(46, 138, 52);
 }
 
 .confirm:hover {
-    border: 5px solid rgb(30, 180, 40);
+  border: 5px solid rgb(30, 180, 40);
 }
 
 .gamemodeCrazy {
@@ -174,37 +167,35 @@ transform: scale(1.1);
   border: 5px solid rgb(113, 59, 146);
 }
 
-.gamemodeNormal {  
+.gamemodeNormal {
   background-color: rgb(21, 248, 29);
-    border: 5px solid rgb(77, 255, 89);
-    box-shadow: 0 6px 0 rgb(46, 138, 52);
-  
+  border: 5px solid rgb(77, 255, 89);
+  box-shadow: 0 6px 0 rgb(46, 138, 52);
+
   padding: 0 1rem;
 }
 
 .gamemodeNormal:hover {
-    border: 5px solid rgb(0, 230, 17);
+  border: 5px solid rgb(0, 230, 17);
 }
 
 .selectTheme {
-    flex: 1 1 45%;
-    min-width: 100px;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 3rem;
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    outline: none;
-    background-color: rgb(240, 125, 34);
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 0 6px 0 rgb(148, 97, 57);
-    border-radius: 2rem;
-
-    
+  flex: 1 1 45%;
+  min-width: 100px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3rem;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  outline: none;
+  background-color: rgb(240, 125, 34);
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 0 6px 0 rgb(148, 97, 57);
+  border-radius: 2rem;
 }
 
 .controlButtonT:hover {
@@ -213,27 +204,27 @@ transform: scale(1.1);
 
 .controlButtonP {
   flex: 1 1 45%;
-    min-width: 100px;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border-radius: 2rem;
-    background-color: rgb(27, 157, 222);
-    border: 5px solid rgb(64, 176, 232);
-    box-shadow: 0 6px 0 rgb(57, 68, 148);
-    padding: 0 1rem;
-    font-size: 1.7rem;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.2s ease;
-    outline: none;
+  min-width: 100px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 2rem;
+  background-color: rgb(27, 157, 222);
+  border: 5px solid rgb(64, 176, 232);
+  box-shadow: 0 6px 0 rgb(57, 68, 148);
+  padding: 0 1rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  outline: none;
 }
 
 .controlButtonP:hover {
-border: 5px solid rgb(22, 133, 186);
+  border: 5px solid rgb(22, 133, 186);
   transform: translateY(-2px);
 }
 
@@ -242,13 +233,13 @@ border: 5px solid rgb(22, 133, 186);
   flex-direction: column;
   width: 100%;
   gap: 1.5rem;
-  
+
   border-radius: 10px;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   padding: 1rem 0;
-  padding-bottom: 2rem; 
-  overflow-y: auto; 
+  padding-bottom: 2rem;
+  overflow-y: auto;
 }
 
 .sideBySide {

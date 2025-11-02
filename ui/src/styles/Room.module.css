@@ -79,7 +79,8 @@
   transform: scale(1.1);
 }
 
-.iconRefresh, .updating {
+.iconRefresh,
+.updating {
   width: 45px;
   height: 45px;
   filter: drop-shadow(1px 1px 0 black) drop-shadow(1px 1px 0 black)
@@ -94,7 +95,7 @@
 .buttons {
   display: flex;
   justify-content: space-between;
-   gap: 2rem;
+  gap: 2rem;
   flex-wrap: nowrap;
   width: 90%;
   margin-left: 1.5rem;
@@ -113,7 +114,7 @@
   font-weight: bold;
   color: white;
   cursor: pointer;
-    white-space: nowrap;
+  white-space: nowrap;
 
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
@@ -202,7 +203,7 @@
 
   .buttons {
     margin-left: 1rem;
-    gap: 0.5rem;     
+    gap: 0.5rem;
   }
 
   .button {
@@ -210,7 +211,8 @@
     height: 3rem;
   }
 
-  .iconRefresh, .updating {
+  .iconRefresh,
+  .updating {
     width: 28px;
     height: 28px;
     filter: drop-shadow(0 0 0 black) drop-shadow(1px 1px 0 black)
@@ -222,5 +224,4 @@
     margin-left: 0;
     width: 1.5rem;
   }
-
 }

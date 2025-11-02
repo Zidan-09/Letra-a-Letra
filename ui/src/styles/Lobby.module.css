@@ -1,74 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .container {
-    width: 100%;
-    height: 100vh;
-    background-image: url("../assets/background.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Lilita One', cursive;
-    box-sizing: border-box;
-    user-select: none;
-    -webkit-user-select: none;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../assets/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lilita One", cursive;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 1rem;
-    border: 3px solid white;
-    padding: 1rem;
-    width: 90%;
-    max-width: 500px;
-    min-width: 300px;
-    text-align: center;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 3px solid white;
+  padding: 1rem;
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  justify-content: center;
 }
 
 .label {
-    font-size: 2rem;
-    margin-bottom: 0;
-    color: white;
-    -webkit-text-stroke: 1.5px #464646;
-    margin-top: 0;
+  font-size: 2rem;
+  margin-bottom: 0;
+  color: white;
+  -webkit-text-stroke: 1.5px #464646;
+  margin-top: 0;
 }
 
 .top {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: auto;
 }
 
-.settings, .chat {
-    display: flex;
-    flex: 0 0 auto;
-    justify-content: center;
-    align-items: center;
-    width: 4rem;
-    height: 4rem;
-    padding: 0;
-    border-radius: 0.75rem;
-    background-color: rgb(21, 248, 29);
-    border: 0.2rem solid rgb(77, 255, 89);
-    box-shadow: 0 0.2rem 0 rgb(46, 138, 52);
-    cursor: pointer;
-        transition: transform 0.3s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-    transform: translateY(0.3rem);
-    outline: none;
-    position: relative;
+.settings,
+.chat {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  border-radius: 0.75rem;
+  background-color: rgb(21, 248, 29);
+  border: 0.2rem solid rgb(77, 255, 89);
+  box-shadow: 0 0.2rem 0 rgb(46, 138, 52);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(0.3rem);
+  outline: none;
+  position: relative;
 }
 
-.settings:hover, .chat:hover {
+.settings:hover,
+.chat:hover {
   transform: scale(1.05);
 }
 
@@ -78,126 +80,134 @@
 }
 
 .codecontainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: min-content;
-    padding: 0 3rem;
-    height: 5rem;
-    background-color: rgb(27, 157, 222);
-    border: 5px solid rgb(64, 176, 232);
-    box-shadow: 0 6px 0 rgb(57, 68, 148);
-    border-radius: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min-content;
+  padding: 0 3rem;
+  height: 5rem;
+  background-color: rgb(27, 157, 222);
+  border: 5px solid rgb(64, 176, 232);
+  box-shadow: 0 6px 0 rgb(57, 68, 148);
+  border-radius: 3rem;
 }
 
 .code {
-    font-size: clamp(1.5rem, 5em, 2.8rem);
-    color: white;
-    white-space: nowrap;
-    -webkit-text-stroke: 0.5px black;
+  font-size: clamp(1.5rem, 5em, 2.8rem);
+  color: white;
+  white-space: nowrap;
+  -webkit-text-stroke: 0.5px black;
 }
 
 .space {
-    width: 4rem;
+  width: 4rem;
 }
 
-.players, .spectators {
-    height: 100%;
-    margin-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.players,
+.spectators {
+  height: 100%;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .buttons {
-    display: flex;
-    justify-content: space-around;
-    gap: 2rem;
-    flex-wrap: nowrap;
-    margin-top: 2rem;
-    width: 100%;
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .button {
-    flex: 1 1 45%;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    gap: 0.5rem;
-    border: none;
-    border-radius: 2rem;
-    padding: 0 0.5rem;
-    font-weight: bold;
+  flex: 1 1 45%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 2rem;
+  padding: 0 0.5rem;
+  font-weight: bold;
   font-size: clamp(20px, 6vw, 25px);
-    white-space: nowrap;
-    text-align: start;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-    outline: none;
+  white-space: nowrap;
+  text-align: start;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
 }
 
-.button:hover, .button:focus {
-    transform: translateY(-2px);
+.button:hover,
+.button:focus {
+  transform: translateY(-2px);
 }
 
 .icon {
-    margin-left: 2.4rem;
-    width: 2.5rem;
+  margin-left: 2.4rem;
+  width: 2.5rem;
 }
 
 .play {
-    background-color: rgb(240, 125, 34);
-    border: 5px solid rgb(255, 143, 55);
-    box-shadow: 0 6px 0 rgb(148, 97, 57);
+  background-color: rgb(240, 125, 34);
+  border: 5px solid rgb(255, 143, 55);
+  box-shadow: 0 6px 0 rgb(148, 97, 57);
 }
 
 .play:hover {
-    border: 5px solid rgb(253, 114, 0);
+  border: 5px solid rgb(253, 114, 0);
 }
 
 .disabled {
-    background-color: rgb(130, 130, 130);
-    border: 5px solid rgb(91, 91, 91);
-    box-shadow: 0 6px 0 rgb(44, 44, 44);
+  background-color: rgb(130, 130, 130);
+  border: 5px solid rgb(91, 91, 91);
+  box-shadow: 0 6px 0 rgb(44, 44, 44);
 }
 
 .disabled:hover {
-    transform: scale(1);
-    cursor: not-allowed;
+  transform: scale(1);
+  cursor: not-allowed;
 }
 
 .back {
-    flex-grow: 0;
-    width: 180px;
-    background-color: rgb(240, 44, 38);
-    border: 5px solid rgb(195, 60, 60);
-    box-shadow: 0 6px 0 rgb(128, 53, 49);
+  flex-grow: 0;
+  width: 180px;
+  background-color: rgb(240, 44, 38);
+  border: 5px solid rgb(195, 60, 60);
+  box-shadow: 0 6px 0 rgb(128, 53, 49);
 }
 
 .back:hover {
-    border: 5px solid rgb(170, 47, 47);
+  border: 5px solid rgb(170, 47, 47);
 }
 
 .notificationDot {
-    position: absolute;
-    top: -6px;
-    right: -7px;
-    width: 20px;
-    height: 20px; 
-    background-color: #ff3b30;
-    border-radius: 50%;
-    border: 2px solid white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  position: absolute;
+  top: -6px;
+  right: -7px;
+  width: 20px;
+  height: 20px;
+  background-color: #ff3b30;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .notificationDot {
@@ -205,16 +215,16 @@
 }
 
 @media (max-width: 550px) {
-    .card {
-        padding: 2rem 0.4rem;
-        gap: 0.8rem;
-    }
-    .codecontainer {
-        width: min-content;
-        padding: 0 3rem;
-        height: 5rem;
-    }
-    .code {
-        font-size: clamp(1.2rem, 5em, 2.2rem);
-    }
+  .card {
+    padding: 2rem 0.4rem;
+    gap: 0.8rem;
+  }
+  .codecontainer {
+    width: min-content;
+    padding: 0 3rem;
+    height: 5rem;
+  }
+  .code {
+    font-size: clamp(1.2rem, 5em, 2.2rem);
+  }
 }

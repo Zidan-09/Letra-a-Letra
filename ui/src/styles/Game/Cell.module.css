@@ -1,62 +1,69 @@
 .cell {
-    width: 45px;
-    aspect-ratio: 1 / 1;
-    border: 2px solid gray;
-    background: linear-gradient(45deg, #F0F0F0, white);
-    box-shadow: 0 2px 0 rgb(0, 0, 0);
-    border-radius: 0.3rem;
-    font-size: 2rem;
-    text-transform: uppercase;
-    font-family: "Lilita One", cursive;
-    user-select: none;
-    -webkit-user-select: none;
-    overflow: hidden;
-    padding: 0;
+  width: 45px;
+  aspect-ratio: 1 / 1;
+  border: 2px solid gray;
+  background: linear-gradient(45deg, #f0f0f0, white);
+  box-shadow: 0 2px 0 rgb(0, 0, 0);
+  border-radius: 0.3rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-family: "Lilita One", cursive;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+  padding: 0;
 }
 
 .cell:hover {
-    cursor: pointer;
-    transform: scale(1.02);
-    border: 2px solid black;
+  cursor: pointer;
+  transform: scale(1.02);
+  border: 2px solid black;
 }
 
 .effect {
-    background: linear-gradient(45deg, rgb(111, 111, 111), rgb(157, 157, 157));
+  background: linear-gradient(45deg, rgb(111, 111, 111), rgb(157, 157, 157));
 }
 
 .effect:hover {
-    cursor: not-allowed;
-    transform: scale(1);
-    border: 0;
+  cursor: not-allowed;
+  transform: scale(1);
+  border: 0;
 }
 
 .opponent {
-    border: 3px solid rgb(240, 125, 34);
+  border: 3px solid rgb(240, 125, 34);
 }
 
 .findedMe {
-    color: white;
-    border: 3px solid rgb(27, 157, 222);
-    background: rgb(27, 157, 222);
-    box-shadow: 0 2px 0 rgb(57, 68, 148);
+  color: white;
+  border: 3px solid rgb(27, 157, 222);
+  background: rgb(27, 157, 222);
+  box-shadow: 0 2px 0 rgb(57, 68, 148);
 }
 
 .findedOppo {
-    color: white;
-    border: 3px solid rgb(240, 125, 34);
-    background: rgb(240, 125, 34);
-    box-shadow: 0 2px 0 rgb(148, 97, 57);
+  color: white;
+  border: 3px solid rgb(240, 125, 34);
+  background: rgb(240, 125, 34);
+  box-shadow: 0 2px 0 rgb(148, 97, 57);
 }
 
-.findedMe:hover, .findedOppo:hover, .me:hover, .opponent:hover {
-    cursor: default;
-    transform: scale(1);
+.findedMe:hover,
+.findedOppo:hover,
+.me:hover,
+.opponent:hover {
+  cursor: default;
+  transform: scale(1);
 }
 
-.findedMe:hover, .me:hover, .me {
-    border: 3px solid rgb(27, 157, 222);
+.findedMe:hover,
+.me:hover,
+.me {
+  border: 3px solid rgb(27, 157, 222);
 }
 
-.findedOppo:hover, .opponent:hover, .opponent {
-    border: 3px solid rgb(240, 125, 34);
+.findedOppo:hover,
+.opponent:hover,
+.opponent {
+  border: 3px solid rgb(240, 125, 34);
 }

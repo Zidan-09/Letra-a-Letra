@@ -40,7 +40,9 @@ export default function Lobby() {
   ]);
   const [gamemode, setGamemode] = useState<GameModes>("NORMAL");
 
-  const [removedType, setRemovedType] = useState<"ban" | "kick" | undefined>(undefined);
+  const [removedType, setRemovedType] = useState<"ban" | "kick" | undefined>(
+    undefined
+  );
 
   const [isCounting, setCounting] = useState(false);
   const [startData, setStartData] = useState<StartData | null>(null);
@@ -52,7 +54,7 @@ export default function Lobby() {
     if (!game) {
       navigate("/");
       return;
-    };
+    }
 
     const gameData: Game = JSON.parse(game);
     setRoom(gameData);
@@ -126,7 +128,6 @@ export default function Lobby() {
       });
 
       if (player === socket.id) setRemovedType("kick");
-
     });
 
     socket.on("banned", ({ room, player }) => {
@@ -138,7 +139,6 @@ export default function Lobby() {
       });
 
       if (player === socket.id) setRemovedType("ban");
-      
     });
 
     return () => {
@@ -155,8 +155,8 @@ export default function Lobby() {
   const checkRoomExists = async () => {
     if (!room?.room_id) return false;
     const valid = await fetch(`${settings.server}/room/${room.room_id}`)
-        .then(res => res.json())
-        .then(data => data);
+      .then((res) => res.json())
+      .then((data) => data);
     return valid.success;
   };
 
@@ -195,7 +195,7 @@ export default function Lobby() {
       if (!result.success) console.warn(result);
 
       return result;
-    };
+    }
 
     const result = await leaveRoom();
 
@@ -211,7 +211,8 @@ export default function Lobby() {
       !theme ||
       !gamemode ||
       !allowedPowers
-    ) return null;
+    )
+      return null;
 
     if (waiting) return;
     setWaiting(true);
@@ -219,18 +220,15 @@ export default function Lobby() {
     const valid = await checkRoomExists();
     if (!valid) return navigate("/");
 
-    await fetch(
-      `${settings.server}/game/${room.room_id}/start`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          theme: theme,
-          gamemode: gamemode,
-          allowedPowers: allowedPowers,
-        }),
-      }
-    )
+    await fetch(`${settings.server}/game/${room.room_id}/start`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        theme: theme,
+        gamemode: gamemode,
+        allowedPowers: allowedPowers,
+      }),
+    })
       .then((res) => res.json())
       .then((data) => data);
   };
@@ -257,13 +255,13 @@ export default function Lobby() {
       );
     } catch (err) {
       console.error(err);
-    };
+    }
   };
 
   const handleUnbanPlayer = async (player_id: string) => {
     if (waiting) return;
     setWaiting(true);
-    
+
     if (!room) return;
 
     const valid = await checkRoomExists();
@@ -282,10 +280,9 @@ export default function Lobby() {
       if (!result.success) return;
 
       setRoom(result.data);
-
     } catch (err) {
       console.error(err);
-    };
+    }
   };
 
   return (
@@ -397,7 +394,12 @@ export default function Lobby() {
         />
       )}
 
-      {removedType && <ActionPopup type={removedType} onClose={() => setRemovedType(undefined)} />}
+      {removedType && (
+        <ActionPopup
+          type={removedType}
+          onClose={() => setRemovedType(undefined)}
+        />
+      )}
 
       {isCounting && (
         <Countdown
@@ -414,4 +416,4 @@ export default function Lobby() {
       )}
     </div>
   );
-};
+}

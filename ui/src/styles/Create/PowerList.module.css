@@ -28,7 +28,7 @@
   border-radius: 1.5rem;
   padding: 0.8rem 1rem;
   font-size: 1.2rem;
-  font-family: 'Lilita One', cursive;
+  font-family: "Lilita One", cursive;
   cursor: pointer;
   transition: transform 0.2s, background 0.2s;
 }
@@ -47,5 +47,5 @@
 .powerIcon {
   width: 1.5rem;
   height: 1.5rem;
-  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
 }

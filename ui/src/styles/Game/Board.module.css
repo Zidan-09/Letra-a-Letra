@@ -1,24 +1,24 @@
 .board {
-    aspect-ratio: 1 / 1;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    gap: 0.3rem;
-    flex-direction: column;
-    background-color: rgb(255, 255, 255);
-    border-radius: 1rem;
-    border: 5px solid rgb(0, 0, 0);
+  aspect-ratio: 1 / 1;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  border-radius: 1rem;
+  border: 5px solid rgb(0, 0, 0);
 }
 
 .p1 {
-    background: linear-gradient(45deg, rgb(27, 157, 222), rgb(31, 116, 158));
+  background: linear-gradient(45deg, rgb(27, 157, 222), rgb(31, 116, 158));
 }
-    
+
 .p2 {
-    background: linear-gradient(45deg, rgb(240, 125, 34), rgb(203, 104, 23));
+  background: linear-gradient(45deg, rgb(240, 125, 34), rgb(203, 104, 23));
 }
 
 .row {
-    display: flex;
-    gap: 0.3rem;
+  display: flex;
+  gap: 0.3rem;
 }

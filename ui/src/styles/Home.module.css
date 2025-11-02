@@ -197,7 +197,7 @@
 }
 
 @media (max-width: 550px) {
-  .container{
+  .container {
     gap: 2rem;
   }
 
@@ -209,8 +209,7 @@
     flex-direction: row;
     gap: 1rem;
     margin: 0 1rem;
-        margin-left: 0;
-
+    margin-left: 0;
   }
   .button {
     font-size: clamp(15px, 6vw, 17px);
@@ -222,7 +221,7 @@
     margin-left: 0.6rem;
     width: 1.8rem;
   }
-  
+
   .help {
     font-size: clamp(17px, 3vw, 17px);
   }

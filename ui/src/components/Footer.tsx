@@ -9,14 +9,26 @@ export default function Footer() {
       <div className={styles.devs}>
         <div className={styles.dev}>
           <p>Zidan</p>
-          <a href="https://github.com/Zidan-09"> <img src={github} alt="github" /></a>
-          <a href="https://www.linkedin.com/in/samuel-nascimento-fullstack/"> <img src={linkedin} alt="linkedin" /></a>
+          <a href="https://github.com/Zidan-09">
+            {" "}
+            <img src={github} alt="github" />
+          </a>
+          <a href="https://www.linkedin.com/in/samuel-nascimento-fullstack/">
+            {" "}
+            <img src={linkedin} alt="linkedin" />
+          </a>
         </div>
 
         <div className={styles.dev}>
           <p>Biel</p>
-          <a href="https://github.com/Gabriel-afk-9"> <img src={github} alt="github" /></a>
-          <a href="https://www.linkedin.com/in/gabriel-lima-62a376326"> <img src={linkedin} alt="linkedin" /></a>
+          <a href="https://github.com/Gabriel-afk-9">
+            {" "}
+            <img src={github} alt="github" />
+          </a>
+          <a href="https://www.linkedin.com/in/gabriel-lima-62a376326">
+            {" "}
+            <img src={linkedin} alt="linkedin" />
+          </a>
         </div>
       </div>
 
@@ -24,5 +36,5 @@ export default function Footer() {
 
       <p className={styles.version}>v0.1.3.1-alpha</p>
     </div>
-  )
-};
+  );
+}

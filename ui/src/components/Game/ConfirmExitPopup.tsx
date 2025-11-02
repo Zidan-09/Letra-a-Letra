@@ -6,7 +6,11 @@ interface ConfirmExitPopupProps {
   onCancel: () => void;
 }
 
-export default function ConfirmExitPopup({ isOpen, onConfirm, onCancel }: ConfirmExitPopupProps) {
+export default function ConfirmExitPopup({
+  isOpen,
+  onConfirm,
+  onCancel,
+}: ConfirmExitPopupProps) {
   if (!isOpen) return null;
 
   return (
@@ -14,8 +18,18 @@ export default function ConfirmExitPopup({ isOpen, onConfirm, onCancel }: Confir
       <div className={styles.popup}>
         <h2>Tem certeza que deseja sair?</h2>
         <div className={styles.buttons}>
-          <button onClick={onConfirm} className={`${styles.button} ${styles.back}`}>Sair</button>
-          <button onClick={onCancel} className={`${styles.button} ${styles.continue}`}>Continuar</button>
+          <button
+            onClick={onConfirm}
+            className={`${styles.button} ${styles.back}`}
+          >
+            Sair
+          </button>
+          <button
+            onClick={onCancel}
+            className={`${styles.button} ${styles.continue}`}
+          >
+            Continuar
+          </button>
         </div>
       </div>
     </div>
