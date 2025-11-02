@@ -1,4 +1,4 @@
 export enum GameModes {
-    NORMAL = "NORMAL",
-    CRAZY = "CRAZY",
+  NORMAL = "NORMAL",
+  CRAZY = "CRAZY",
 }

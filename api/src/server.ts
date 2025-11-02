@@ -7,13 +7,13 @@ const PORT: number = Number(process.env.PORT) || 3333;
 const VERSION = settings.version || "v1";
 
 function startServer() {
-    const httpServer = createServer(app);
-    
-    initSocket(httpServer);
+  const httpServer = createServer(app);
 
-    httpServer.listen(PORT, () => {
-        console.log(`Server Running, version: ${VERSION}, on port: ${PORT}`);
-    })
+  initSocket(httpServer);
+
+  httpServer.listen(PORT, () => {
+    console.log(`Server Running, version: ${VERSION}, on port: ${PORT}`);
+  });
 }
 
 startServer();

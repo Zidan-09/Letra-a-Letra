@@ -1,42 +1,42 @@
 {
-    "tech": {
-        "tech_1": ["backend", "frontend", "database", "software", "hardware"],
-        "tech_2": ["python", "typescript", "flutter", "nodejs", "java"]
-    },
-    "fruits": {
-        "fruit_1": ["banana", "laranja", "abacaxi", "cereja", "ameixa"],
-        "fruit_2": ["manga", "amora", "acerola", "pera", "caqui"]
-    },
-    "cities": {
-        "city_1": ["lisboa", "paris", "roma", "tokyo", "londres"],
-        "city_2": ["berlim", "miami", "toronto", "oslo", "madrid"]
-    },
-    "animals": {
-        "animal_1": ["gato", "cachorro", "coelho", "macaco", "panda"],
-        "animal_2": ["tigre", "urso", "raposa", "cobra", "foca"]
-    },
-    "colors": {
-        "color_1": ["vermelho", "azul", "amarelo", "roxo", "preto"],
-        "color_2": ["branco", "verde", "rosa", "cinza", "bege"]
-    },
-    "sports": {
-        "sport_1": ["futebol", "basquete", "tenis", "golfe", "boxe"],
-        "sport_2": ["volei", "rugby", "surfe", "skate", "judo"]
-    },
-    "foods": {
-        "food_1": ["pizza", "pasta", "sopa", "carne", "queijo"],
-        "food_2": ["arroz", "feijao", "pao", "bolo", "batata"]
-    },
-    "jobs": {
-        "job_1": ["medico", "professor", "advogado", "piloto", "ator"],
-        "job_2": ["engenheiro", "designer", "soldado", "chefe", "motorista"]
-    },
-    "nature": {
-        "nature_1": ["floresta", "oceano", "deserto", "rio", "montanha"],
-        "nature_2": ["lago", "ilha", "caverna", "vales", "gramado"]
-    },
-    "space": {
-        "space_1": ["terra", "venus", "marte", "saturno", "urano"],
-        "space_2": ["plutao", "jupiter", "netuno", "mercurio", "lua"]
-    }
+  "tech": {
+    "tech_1": ["backend", "frontend", "database", "software", "hardware"],
+    "tech_2": ["python", "typescript", "flutter", "nodejs", "java"]
+  },
+  "fruits": {
+    "fruit_1": ["banana", "laranja", "abacaxi", "cereja", "ameixa"],
+    "fruit_2": ["manga", "amora", "acerola", "pera", "caqui"]
+  },
+  "cities": {
+    "city_1": ["lisboa", "paris", "roma", "tokyo", "londres"],
+    "city_2": ["berlim", "miami", "toronto", "oslo", "madrid"]
+  },
+  "animals": {
+    "animal_1": ["gato", "cachorro", "coelho", "macaco", "panda"],
+    "animal_2": ["tigre", "urso", "raposa", "cobra", "foca"]
+  },
+  "colors": {
+    "color_1": ["vermelho", "azul", "amarelo", "roxo", "preto"],
+    "color_2": ["branco", "verde", "rosa", "cinza", "bege"]
+  },
+  "sports": {
+    "sport_1": ["futebol", "basquete", "tenis", "golfe", "boxe"],
+    "sport_2": ["volei", "rugby", "surfe", "skate", "judo"]
+  },
+  "foods": {
+    "food_1": ["pizza", "pasta", "sopa", "carne", "queijo"],
+    "food_2": ["arroz", "feijao", "pao", "bolo", "batata"]
+  },
+  "jobs": {
+    "job_1": ["medico", "professor", "advogado", "piloto", "ator"],
+    "job_2": ["engenheiro", "designer", "soldado", "chefe", "motorista"]
+  },
+  "nature": {
+    "nature_1": ["floresta", "oceano", "deserto", "rio", "montanha"],
+    "nature_2": ["lago", "ilha", "caverna", "vales", "gramado"]
+  },
+  "space": {
+    "space_1": ["terra", "venus", "marte", "saturno", "urano"],
+    "space_2": ["plutao", "jupiter", "netuno", "mercurio", "lua"]
+  }
 }

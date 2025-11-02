@@ -8,7 +8,7 @@ function canPlaceWord(word, row, column, dx, dy, grid) {
         if (x < 0 || y < 0 || x >= grid.length || y >= grid[0].length) {
             return false;
         }
-        if (grid[x][y].letter !== '' && grid[x][y].letter !== word[i]) {
+        if (grid[x][y].letter !== "" && grid[x][y].letter !== word[i]) {
             return false;
         }
     }

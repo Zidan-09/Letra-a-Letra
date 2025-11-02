@@ -12,32 +12,27 @@ class PlayerServices {
         this.players.set(player.player_id, player);
         return player;
     }
-    ;
     getPlayer(player_id) {
         const player = this.players.get(player_id);
         if (!player)
-            return serverResponses_1.ServerResponses.NotFound;
+            return serverResponses_1.ServerResponses.NOT_FOUND;
         return player;
     }
-    ;
     getAll() {
         let players = [];
-        this.players.forEach(player => {
+        this.players.forEach((player) => {
             players.push(player);
         });
         return players;
     }
-    ;
     savePlayer(player) {
         player.reset();
         this.players.set(player.player_id, player);
     }
-    ;
     removePlayer(player_id) {
         const result = this.players.delete(player_id);
         return result;
     }
-    ;
 }
 exports.PlayerService = new PlayerServices();
 //# sourceMappingURL=playerService.js.map

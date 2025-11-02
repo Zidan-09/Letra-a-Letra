@@ -1,1 +1,1 @@
-{"version":3,"file":"checkCompletedWord.d.ts","sourceRoot":"","sources":["../../../src/utils/board/checkCompletedWord.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,sBAAsB,CAAC;AAE7C,wBAAgB,mBAAmB,CAAC,KAAK,EAAE,KAAK,EAAE,GAAG,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM;;;EAiB5E"}
+{"version":3,"file":"checkCompletedWord.d.ts","sourceRoot":"","sources":["../../../src/utils/board/checkCompletedWord.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,sBAAsB,CAAC;AAE7C,wBAAgB,mBAAmB,CAAC,KAAK,EAAE,KAAK,EAAE,GAAG,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM;;;EAmB5E"}

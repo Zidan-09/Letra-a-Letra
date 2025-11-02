@@ -7,7 +7,7 @@ const message_1 = require("./utils/socket/message");
 let io;
 const initSocket = (server) => {
     io = new socket_io_1.Server(server, {
-        cors: { origin: "*" }
+        cors: { origin: "*" },
     });
     io.on("connection", (socket) => {
         socket.on("reconnect_player", ({ room_id, nickname }) => {

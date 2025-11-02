@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Player = void 0;
-;
 class Player {
     constructor(player_id, nickname, spectator, avatar) {
         this.spectator = false;
@@ -19,31 +18,24 @@ class Player {
         this.spectator = spectator;
         this.avatar = avatar;
     }
-    ;
     addScore() {
         this.score++;
     }
-    ;
     addPass() {
         this.passed++;
     }
-    ;
     resetPass() {
         this.passed = 0;
     }
-    ;
     discardPower(powerIdx) {
         this.powers.splice(powerIdx, 1);
     }
-    ;
     applyEffect(effect, duration) {
         this[effect] = { active: true, remaining: duration };
     }
-    ;
     removeEffect(effect) {
         this[effect] = { active: false, remaining: null };
     }
-    ;
     decrementEffect() {
         ["freeze", "blind", "immunity"].forEach((effect) => {
             if (this[effect].active && this[effect].remaining) {
@@ -53,7 +45,6 @@ class Player {
             }
         });
     }
-    ;
     reset() {
         this.score = 0;
         this.turn = 0;
@@ -63,8 +54,6 @@ class Player {
             this.removeEffect(effect);
         });
     }
-    ;
 }
 exports.Player = Player;
-;
 //# sourceMappingURL=player.js.map

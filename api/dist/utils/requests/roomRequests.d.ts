@@ -27,5 +27,5 @@ interface ChangeRole {
 interface RemovePlayer {
     banned: boolean;
 }
-export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole, RemovePlayer };
+export { CreateRoom, RoomParams, ActionParams, JoinRoom, LeaveRoom, ChangeRole, RemovePlayer, };
 //# sourceMappingURL=roomRequests.d.ts.map

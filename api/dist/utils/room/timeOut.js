@@ -10,7 +10,7 @@ exports.TimeOut = {
         this.remove(room);
         room.timeout = setTimeout(() => {
             const existingRoom = roomService_1.RoomService.getRoom(room.room_id);
-            if (existingRoom === serverResponses_1.ServerResponses.NotFound)
+            if (existingRoom === serverResponses_1.ServerResponses.NOT_FOUND)
                 return;
             if (existingRoom.status !== gameStatus_1.GameStatus.GameRunning)
                 roomService_1.RoomService.closeRoom(existingRoom.room_id, closeReasons_1.CloseReasons.TIMEOUT);
@@ -19,6 +19,6 @@ exports.TimeOut = {
     remove(room) {
         if (room.timeout)
             clearTimeout(room.timeout);
-    }
+    },
 };
 //# sourceMappingURL=timeOut.js.map

@@ -12,13 +12,10 @@ function getRevealeds(board) {
                     letter: j.letter,
                     x: j.position.x,
                     y: j.position.y,
-                    by: j.revealed.revealed_by
+                    by: j.revealed.revealed_by,
                 });
         }
-        ;
     }
-    ;
     return result;
 }
-;
 //# sourceMappingURL=getRevealeds.js.map

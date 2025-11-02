@@ -7,5 +7,4 @@ var BanReason;
     BanReason["ROOM_BAN"] = "room_ban";
     BanReason["PERMANENT"] = "permanent";
 })(BanReason || (exports.BanReason = BanReason = {}));
-;
 //# sourceMappingURL=banReasons.js.map

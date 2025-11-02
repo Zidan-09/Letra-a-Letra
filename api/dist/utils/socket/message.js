@@ -7,11 +7,13 @@ const socket_1 = require("../../socket");
 function sendMessage(room_id, from, message) {
     const io = (0, socket_1.getSocketInstance)();
     const room = roomService_1.RoomService.getRoom(room_id);
-    if (room === serverResponses_1.ServerResponses.NotFound)
+    if (room === serverResponses_1.ServerResponses.NOT_FOUND)
         return;
     const all = [...room.players, ...room.spectators];
     if (!all)
         return;
-    all.filter(Boolean).forEach(p => io.to(p.player_id).emit("message", { from: from, message: message }));
+    all
+        .filter(Boolean)
+        .forEach((p) => io.to(p.player_id).emit("message", { from: from, message: message }));
 }
 //# sourceMappingURL=message.js.map
