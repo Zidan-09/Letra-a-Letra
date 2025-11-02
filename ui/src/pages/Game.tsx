@@ -407,6 +407,7 @@ export default function Game() {
                                 letter: data.letter,
                                 revealed: true,
                                 trapped_by: undefined,
+                                blocked: { blocked_by: undefined, remaining: undefined },
                                 actor: player_id
                             };
                         }
