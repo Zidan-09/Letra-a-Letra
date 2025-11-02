@@ -30,7 +30,7 @@ class Cell {
         const roll = Math.random();
         const { rare, epic, legendary } = cell_json_1.default.settings.percentages;
         const getRandomAllowedPower = (powers) => {
-            const filtered = powers.filter(p => allowedPowers.includes(p.name));
+            const filtered = powers.filter((p) => allowedPowers.includes(p.name));
             if (filtered.length === 0)
                 return null;
             const index = Math.floor(Math.random() * filtered.length);
@@ -48,15 +48,16 @@ class Cell {
                 ...cell_json_1.default.powers.legendary,
                 ...cell_json_1.default.powers.epic,
                 ...cell_json_1.default.powers.rare,
-                ...cell_json_1.default.powers.common
+                ...cell_json_1.default.powers.common,
             ];
-            chosenPower = allPowers.find(p => allowedPowers.includes(p.name)) || null;
+            chosenPower =
+                allPowers.find((p) => allowedPowers.includes(p.name)) || null;
         }
         if (chosenPower) {
             return {
                 hasPowerup: true,
                 rarity: chosenPower.rarity,
-                powerup: chosenPower.name
+                powerup: chosenPower.name,
             };
         }
         return { hasPowerup: false, powerup: null };

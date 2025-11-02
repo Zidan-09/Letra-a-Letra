@@ -1,5 +1,5 @@
 import express, { Application } from "express";
-import cors from 'cors';
+import cors from "cors";
 import roomRouter from "./routes/roomRoutes";
 import gameRouter from "./routes/gameRoutes";
 import playerRouter from "./routes/playerRoutes";

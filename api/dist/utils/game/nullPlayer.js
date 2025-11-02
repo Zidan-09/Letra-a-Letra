@@ -5,6 +5,6 @@ exports.nullPlayer = {
     player_id: "null",
     nickname: "null",
     score: "null",
-    avatar: 1
+    avatar: 1,
 };
 //# sourceMappingURL=nullPlayer.js.map

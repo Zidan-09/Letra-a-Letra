@@ -7,14 +7,14 @@ exports.HandleResponse = {
         res.status(statusCode).json({
             success: success,
             message: message,
-            ...(data !== undefined ? { data } : {})
+            ...(data !== undefined ? { data } : {}),
         });
     },
     errorResponse(res) {
         res.status(500).json({
             success: false,
-            message: serverResponses_1.ServerResponses.ServerError,
+            message: serverResponses_1.ServerResponses.SERVER_ERROR,
         });
-    }
+    },
 };
 //# sourceMappingURL=handleResponse.js.map

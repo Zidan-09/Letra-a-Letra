@@ -29,7 +29,6 @@ class Game {
         this.createdAt = Date.now();
         timeOut_1.TimeOut.set(this);
     }
-    ;
     toJSON() {
         return {
             room_id: this.room_id,
@@ -49,7 +48,6 @@ class Game {
             privateRoom: this.privateRoom,
         };
     }
-    ;
     startGame(theme, gamemode, allowedPowers) {
         this.board = new board_1.Board(theme, gamemode, allowedPowers);
         this.turn = 0;
@@ -69,9 +67,9 @@ class Game {
             this.status === gameStatus_1.GameStatus.GameOver)
             return false;
         if (!p1 && !p2) {
-            const spectatorsExist = this.spectators.some(s => s);
+            const spectatorsExist = this.spectators.some((s) => s);
             this.status = gameStatus_1.GameStatus.GameOver;
-            (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GameOver);
+            (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GAME_OVER);
             this.board = null;
             timeOut_1.TimeOut.set(this);
             if (spectatorsExist) {
@@ -83,7 +81,7 @@ class Game {
         if ((p1 && !p2) || (!p1 && p2)) {
             const winner = p1 || p2;
             this.status = gameStatus_1.GameStatus.GameOver;
-            (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GameOver);
+            (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GAME_OVER);
             this.board = null;
             timeOut_1.TimeOut.set(this);
             return winner;
@@ -92,14 +90,13 @@ class Game {
             if (p1.score < 3 && p2.score < 3)
                 return false;
             this.status = gameStatus_1.GameStatus.GameOver;
-            (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GameOver);
+            (0, logger_1.createLog)(this.room_id, logEnum_1.LogEnum.GAME_OVER);
             this.board = null;
             timeOut_1.TimeOut.set(this);
             return p1.score >= 3 ? p1 : p2;
         }
         return false;
     }
-    ;
 }
 exports.Game = Game;
 //# sourceMappingURL=game.js.map

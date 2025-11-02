@@ -14,281 +14,320 @@ import { Ban } from "../utils/player/ban";
 import { getRevealeds } from "../utils/board/getRevealeds";
 
 class RoomServices {
-    private rooms: Map<string, Game> = new Map();
+  private rooms: Map<string, Game> = new Map();
 
-    public createRoom(
-        room_name: string,
-        timer: number,
-        allowSpectators: boolean, 
-        privateRoom: boolean, 
-        player_id: string
-    ): Game | ServerResponses.NotFound {
-        const player = PlayerService.getPlayer(player_id);
-        if (player === ServerResponses.NotFound) return ServerResponses.NotFound;
+  public createRoom(
+    room_name: string,
+    timer: number,
+    allowSpectators: boolean,
+    privateRoom: boolean,
+    player_id: string
+  ): Game | ServerResponses.NOT_FOUND {
+    const player = PlayerService.getPlayer(player_id);
+    if (player === ServerResponses.NOT_FOUND) return ServerResponses.NOT_FOUND;
 
-        const room: Game = new Game(
-            nanoid(6),
-            room_name,
-            GameStatus.GameStarting,
-            player,
-            timer,
-            allowSpectators,
-            privateRoom
-        );
+    const room: Game = new Game(
+      nanoid(6),
+      room_name,
+      GameStatus.GameStarting,
+      player,
+      timer,
+      allowSpectators,
+      privateRoom
+    );
 
-        
-        createLog(room.room_id, LogEnum.RoomCreated);
-        createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
+    createLog(room.room_id, LogEnum.ROOM_CREATED);
+    createLog(room.room_id, `${player.nickname} ${LogEnum.PLAYER_JOINED}`);
 
-        this.rooms.set(room.room_id, room);
-        PlayerService.removePlayer(player_id);
+    this.rooms.set(room.room_id, room);
+    PlayerService.removePlayer(player_id);
 
+    return room;
+  }
 
-        return room;
+  public joinRoom(
+    room_id: string,
+    player_id: string,
+    spectator: boolean
+  ):
+    | {
+        game: Game;
+        actual:
+          | { letter: string; x: number; y: number; by: string }[]
+          | undefined;
+      }
+    | ServerResponses.NOT_FOUND {
+    const room = this.rooms.get(room_id);
+    if (!room) return ServerResponses.NOT_FOUND;
+
+    const player = PlayerService.getPlayer(player_id);
+    if (player === ServerResponses.NOT_FOUND) return ServerResponses.NOT_FOUND;
+
+    if (spectator) {
+      const index = room.spectators.findIndex((s) => !s);
+      room.spectators[index] = player;
+      player.spectator = true;
+      createLog(
+        room.room_id,
+        `${player.nickname} ${LogEnum.PLAYER_JOINED_AS_SPECTATOR}`
+      );
+    } else {
+      const index = room.players.findIndex((p) => !p);
+      room.players[index] = player;
+      createLog(room.room_id, `${player.nickname} ${LogEnum.PLAYER_JOINED}`);
+    }
+
+    const sameNickname = [...room.players, ...room.spectators]
+      .filter(Boolean)
+      .find((p) => p.nickname === player.nickname);
+
+    if (sameNickname) enumNicknames([...room.players, ...room.spectators]);
+
+    RoomSocket.joinRoom([...room.players, ...room.spectators], room);
+
+    return {
+      game: room,
+      actual: getRevealeds(room.board) ?? [],
     };
+  }
+
+  public reconnectRoom(
+    room_id: string,
+    nickname: string,
+    new_id: string
+  ): ServerResponses.RECONNECTED | ServerResponses.NOT_FOUND {
+    const room = this.rooms.get(room_id);
+    if (!room) return ServerResponses.NOT_FOUND;
+
+    const disconnectedPlayer = room.players
+      .filter(Boolean)
+      .find((p) => p?.nickname === nickname);
+    if (!disconnectedPlayer) return ServerResponses.NOT_FOUND;
+
+    disconnectedPlayer.player_id = new_id;
+    createLog(room_id, `${nickname} ${LogEnum.PLAYER_RECONNECTED}`);
+
+    return ServerResponses.RECONNECTED;
+  }
+
+  public leaveRoom(
+    room_id: string,
+    player_id: string
+  ):
+    | RoomResponses.LEFT_ROOM
+    | RoomResponses.ROOM_CLOSED
+    | ServerResponses.NOT_FOUND {
+    const room = this.rooms.get(room_id);
+    if (!room) return ServerResponses.NOT_FOUND;
+
+    const player =
+      room.players.filter(Boolean).find((p) => p.player_id === player_id) ||
+      room.spectators.filter(Boolean).find((s) => s.player_id === player_id);
+
+    if (!player) return ServerResponses.NOT_FOUND;
+
+    if (player.spectator) {
+      const index = room.spectators.findIndex(
+        (p) => p?.player_id === player_id
+      );
+      if (index !== -1) room.spectators[index] = undefined as any;
+    } else {
+      const index = room.players.findIndex((p) => p?.player_id === player_id);
+      if (index !== -1) room.players[index] = undefined as any;
+
+      if (room.status === GameStatus.GameRunning) player.leaved++;
+      if (player.leaved >= 3) Ban.setPlayerTimeout(player);
+    }
+
+    enumNicknames([...room.players, ...room.spectators]);
+
+    if (room.created_by === player.player_id) {
+      const allRemaining = [...room.players, ...room.spectators].filter(
+        Boolean
+      );
+
+      const newLeader = allRemaining[0];
+
+      if (newLeader) {
+        room.created_by = newLeader.player_id;
+        room.creator = newLeader.nickname;
+      }
+    }
+
+    createLog(room_id, `${player.nickname} ${LogEnum.PLAYER_LEFT}`);
+    PlayerService.savePlayer(player);
+
+    const all = [...room.players, ...room.spectators];
+    if (!all.some(Boolean)) {
+      this.rooms.delete(room_id);
+      return RoomResponses.ROOM_CLOSED;
+    }
+
+    RoomSocket.leftRoom(all, room);
+
+    try {
+      GameSocket.gameOver(room_id);
+    } catch (err) {
+      console.warn(`gameOver failed for room ${room_id}:`, err);
+    }
+
+    return RoomResponses.LEFT_ROOM;
+  }
+
+  public afkPlayer(
+    room_id: string,
+    player_id: string
+  ): ServerResponses.ENDED | ServerResponses.NOT_FOUND {
+    const room = this.rooms.get(room_id);
+    if (!room) return ServerResponses.NOT_FOUND;
+
+    const playerIndex = room.players.findIndex(
+      (p) => p?.player_id === player_id
+    );
+    if (playerIndex === -1) return ServerResponses.NOT_FOUND;
+
+    const player = room.players[playerIndex];
+    if (player) {
+      player.passed = 0;
+      PlayerService.savePlayer(player);
+    }
 
-    public joinRoom(
-        room_id: string,
-        player_id: string,
-        spectator: boolean
-    ): { game: Game, actual: { letter: string, x: number, y: number, by: string }[] | undefined } | ServerResponses.NotFound {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
-
-        const player = PlayerService.getPlayer(player_id);
-        if (player === ServerResponses.NotFound) return ServerResponses.NotFound;
-
-        if (spectator) {
-            const index = room.spectators.findIndex(s => !s);
-            room.spectators[index] = player;
-            player.spectator = true;
-            createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoinedAsSpectator}`);
-        } else {
-            const index = room.players.findIndex(p => !p);
-            room.players[index] = player;
-            createLog(room.room_id, `${player.nickname} ${LogEnum.PlayerJoined}`);
-        }
-
-        const sameNickname = [...room.players, ...room.spectators].filter(Boolean).find(p => p.nickname === player.nickname);
-
-        if (sameNickname) enumNicknames([...room.players, ...room.spectators]);
-
-        RoomSocket.joinRoom([...room.players, ...room.spectators], room);
-
-        return {
-            game: room,
-            actual: getRevealeds(room.board) ?? []
-        };
-    };
-
-    public reconnectRoom(
-        room_id: string,
-        nickname: string,
-        new_id: string
-    ): ServerResponses.Reconnected | ServerResponses.NotFound {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
-
-        const disconnectedPlayer = room.players.filter(Boolean).find(p => p?.nickname === nickname);
-        if (!disconnectedPlayer) return ServerResponses.NotFound;
-
-        disconnectedPlayer.player_id = new_id;
-        createLog(room_id, `${nickname} ${LogEnum.PlayerReconnected}`);
-
-        return ServerResponses.Reconnected;
-    };
-
-    public leaveRoom(
-        room_id: string,
-        player_id: string
-    ): RoomResponses.LeftRoom | RoomResponses.RoomClosed | ServerResponses.NotFound {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
-
-        const player =
-            room.players.filter(Boolean).find(p => p.player_id === player_id) ||
-            room.spectators.filter(Boolean).find(s => s.player_id === player_id);
-
-        if (!player) return ServerResponses.NotFound;
-
-        if (player.spectator) {
-            const index = room.spectators.findIndex(p => p?.player_id === player_id);
-            if (index !== -1) room.spectators[index] = undefined as any;
-            
-        } else {
-            const index = room.players.findIndex(p => p?.player_id === player_id);
-            if (index !== -1) room.players[index] = undefined as any;
-
-            if (room.status === GameStatus.GameRunning) player.leaved++;
-            if (player.leaved >= 3) Ban.setPlayerTimeout(player);
-        };
-
-        enumNicknames([...room.players, ...room.spectators]);
-
-        if (room.created_by === player.player_id) {
-        
-            const allRemaining = [...room.players, ...room.spectators].filter(Boolean);
-            
-            const newLeader = allRemaining[0]; 
-
-            if (newLeader) {
-                room.created_by = newLeader.player_id;
-                room.creator = newLeader.nickname;
-            };
-        };
-
-        createLog(room_id, `${player.nickname} ${LogEnum.PlayerLeft}`);
-        PlayerService.savePlayer(player);
-
-        const all = [...room.players, ...room.spectators];
-        if (!all.some(Boolean)) {
-            this.rooms.delete(room_id);
-            return RoomResponses.RoomClosed;
-        }
+    room.players[playerIndex] = undefined as any;
 
-        RoomSocket.leftRoom(all, room);
+    GameSocket.gameOver(room_id);
+    GameSocket.afkPlayer(player_id);
 
-        try {
-            GameSocket.gameOver(room_id);
-        } catch (err) {
-            console.warn(`gameOver failed for room ${room_id}:`, err);
-        }
+    return ServerResponses.ENDED;
+  }
 
-        return RoomResponses.LeftRoom;
-    };
+  public changeRole(
+    room_id: string,
+    player_id: string,
+    role: "spectator" | "player",
+    index: number
+  ): Game | ServerResponses.NOT_FOUND | RoomResponses.FULL_ROOM {
+    const room = this.rooms.get(room_id);
+    if (!room) return ServerResponses.NOT_FOUND;
 
-    public afkPlayer(room_id: string, player_id: string): ServerResponses.Ended | ServerResponses.NotFound {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
+    const spectator = role === "spectator";
 
-        const playerIndex = room.players.findIndex(p => p?.player_id === player_id);
-        if (playerIndex === -1) return ServerResponses.NotFound;
+    const player =
+      room.players.filter(Boolean).find((p) => p.player_id === player_id) ||
+      room.spectators.filter(Boolean).find((s) => s.player_id === player_id);
 
-        const player = room.players[playerIndex];
-        if (player) {
-            player.passed = 0;
-            PlayerService.savePlayer(player);
-        };
+    if (!player) return ServerResponses.NOT_FOUND;
 
-        room.players[playerIndex] = undefined as any;
+    const currentArray = player.spectator ? room.spectators : room.players;
+    const otherArray = player.spectator ? room.players : room.spectators;
+    const playerIndex = currentArray.findIndex(
+      (p) => p?.player_id === player_id
+    );
 
-        GameSocket.gameOver(room_id);
-        GameSocket.afkPlayer(player_id);
+    if (player.spectator === spectator) {
+      if (currentArray[index]) return RoomResponses.FULL_ROOM;
+      currentArray[playerIndex] = undefined as any;
+      currentArray[index] = player;
 
-        return ServerResponses.Ended;
-    };
+      createLog(room.room_id, `${player.nickname} ${LogEnum.SWAP_SLOT}`);
+    } else {
+      if (otherArray[index]) return RoomResponses.FULL_ROOM;
+      currentArray[playerIndex] = undefined as any;
+      player.spectator = spectator;
+      otherArray[index] = player;
 
-    public changeRole(
-        room_id: string,
-        player_id: string,
-        role: "spectator" | "player",
-        index: number
-    ): Game | ServerResponses.NotFound | RoomResponses.FullRoom {
-        const room = this.rooms.get(room_id);
-        if (!room) return ServerResponses.NotFound;
+      createLog(
+        room.room_id,
+        `${player.nickname} ${
+          spectator
+            ? LogEnum.PLAYER_JOINED_AS_SPECTATOR
+            : LogEnum.SPECTATOR_TURNED_TO_PLAYER
+        }`
+      );
+    }
 
-        const spectator = role === "spectator";
+    RoomSocket.changeRole([...room.players, ...room.spectators], room);
 
-        const player = room.players.filter(Boolean).find(p => p.player_id === player_id) || 
-        room.spectators.filter(Boolean).find(s => s.player_id === player_id);
-        
-        if (!player) return ServerResponses.NotFound;
+    return room;
+  }
 
-        const currentArray = player.spectator ? room.spectators : room.players;
-        const otherArray = player.spectator ? room.players : room.spectators;
-        const playerIndex = currentArray.findIndex(p => p?.player_id === player_id);
+  public getRoom(id: string): Game | ServerResponses.NOT_FOUND {
+    return this.rooms.get(id) ?? ServerResponses.NOT_FOUND;
+  }
 
-        if (player.spectator === spectator) {
-            if (currentArray[index]) return RoomResponses.FullRoom;
-            currentArray[playerIndex] = undefined as any;
-            currentArray[index] = player;
+  public getPublicRooms(): Game[] {
+    return Array.from(this.rooms.values()).filter((room) => !room.privateRoom);
+  }
 
-            createLog(room.room_id, `${player.nickname} ${LogEnum.SwapSlot}`);
+  public closeRoom(room_id: string, reason: CloseReasons): boolean {
+    const room = this.rooms.get(room_id);
 
-        } else {
-            if (otherArray[index]) return RoomResponses.FullRoom;
-            currentArray[playerIndex] = undefined as any;
-            player.spectator = spectator;
-            otherArray[index] = player;
+    if (!room) return false;
 
-            createLog(room.room_id, `${player.nickname} ${spectator ? LogEnum.PlayerTurnedToSpectator : LogEnum.SpectatorTurnedToPlayer}`);
-        }
+    clearTimeout(room.timeout);
 
-        RoomSocket.changeRole([...room.players, ...room.spectators], room);
+    RoomSocket.roomClosed([...room.players, ...room.spectators], reason);
+    createLog(room_id, `${LogEnum.ROOM_CLOSED} because ${reason}`);
 
-        return room;
-    };
+    return this.rooms.delete(room_id);
+  }
 
-    public getRoom(id: string): Game | ServerResponses.NotFound {
-        return this.rooms.get(id) ?? ServerResponses.NotFound;
-    };
+  public removePlayer(room_id: string, player_id: string, banned: boolean) {
+    const room = this.rooms.get(room_id);
 
-    public getPublicRooms(): Game[] {
-        return Array.from(this.rooms.values()).filter(room => !room.privateRoom);
-    };
+    if (!room) return ServerResponses.NOT_FOUND;
 
-    public closeRoom(room_id: string, reason: CloseReasons): boolean {
-        const room = this.rooms.get(room_id);
+    const all = [...room.players, ...room.spectators];
 
-        if (!room) return false;
+    const player = all.filter(Boolean).find((p) => p.player_id === player_id);
 
-        clearTimeout(room.timeout);
+    if (!player) return ServerResponses.NOT_FOUND;
 
-        RoomSocket.roomClosed([...room.players, ...room.spectators], reason);
-        createLog(room_id, `${LogEnum.RoomClosed} because ${reason}`);
+    const idx = all.filter(Boolean).findIndex((p) => p === player);
+    room.players[idx] = undefined as any;
 
-        return this.rooms.delete(room_id);
-    };
+    if (banned) {
+      room.bannedPlayerIds.push(player_id);
+      room.bannedPlayers.push(player);
+    }
 
-    public removePlayer(room_id: string, player_id: string, banned: boolean) {
-        const room = this.rooms.get(room_id);
+    PlayerService.savePlayer(player);
 
-        if (!room) return ServerResponses.NotFound;
+    createLog(
+      room_id,
+      `${player.nickname} ${
+        banned ? LogEnum.PLAYER_BANNED : LogEnum.PLAYER_KICKED
+      }`
+    );
 
-        const all = [...room.players, ...room.spectators];
+    RoomSocket.removePlayer(all, room, banned, player_id);
 
-        const player = all.filter(Boolean).find(p => p.player_id === player_id);
+    return room;
+  }
 
-        if (!player) return ServerResponses.NotFound;
+  public unbanPlayer(room_id: string, player_id: string) {
+    const room = this.rooms.get(room_id);
 
-        const idx = all.filter(Boolean).findIndex(p => p === player);
-        room.players[idx] = undefined as any;
+    if (!room) return ServerResponses.NOT_FOUND;
 
-        if (banned) {
-            room.bannedPlayerIds.push(player_id);
-            room.bannedPlayers.push(player);
-        };
+    if (!room.bannedPlayerIds.includes(player_id))
+      return RoomResponses.BANNED_PLAYER_NOT_FOUND;
 
-        PlayerService.savePlayer(player);
+    const idx = room.bannedPlayerIds.findIndex((id) => id === player_id);
+    const pid = room.bannedPlayers.findIndex((p) => p.player_id === player_id);
 
-        createLog(room_id, `${player.nickname} ${banned ? LogEnum.PlayerBanned : LogEnum.PlayerKicked}`)
+    if (idx === undefined || pid === undefined)
+      return RoomResponses.BANNED_PLAYER_NOT_FOUND;
 
-        RoomSocket.removePlayer(all, room, banned, player_id);
+    room.bannedPlayerIds.splice(idx, 1);
+    room.bannedPlayers.splice(pid, 1);
 
-        return room;
-    };
+    createLog(
+      room_id,
+      `player with id: ${player_id} ${LogEnum.PLAYER_UNBANNED}`
+    );
 
-    public unbanPlayer(room_id: string, player_id: string) {
-        const room = this.rooms.get(room_id);
-
-        if (!room) return ServerResponses.NotFound;
-
-        if (
-            !room.bannedPlayerIds.includes(player_id)
-        ) return RoomResponses.BannedPlayerNotFound;
-
-        const idx = room.bannedPlayerIds.findIndex(id => id === player_id);
-        const pid = room.bannedPlayers.findIndex(p => p.player_id === player_id);
-        
-        if (idx === undefined || pid === undefined) return RoomResponses.BannedPlayerNotFound;
-
-        room.bannedPlayerIds.splice(idx, 1);
-        room.bannedPlayers.splice(pid, 1);
-
-        createLog(room_id, `player with id: ${player_id} ${LogEnum.PlayerUnbanned}`);
-
-        return room;
-    };
-};
+    return room;
+  }
+}
 
 export const RoomService = new RoomServices();

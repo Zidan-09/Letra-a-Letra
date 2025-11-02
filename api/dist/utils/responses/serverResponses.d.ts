@@ -1,9 +1,8 @@
-declare enum ServerResponses {
-    ServerError = "server_error",
-    NotFound = "not_found",
-    Reconnected = "reconnected",
-    MissingData = "missing_data",
-    Ended = "ended"
+export declare enum ServerResponses {
+    SERVER_ERROR = "server_error",
+    NOT_FOUND = "not_found",
+    RECONNECTED = "reconnected",
+    MISSING_DATA = "missing_data",
+    ENDED = "ended"
 }
-export { ServerResponses };
 //# sourceMappingURL=serverResponses.d.ts.map

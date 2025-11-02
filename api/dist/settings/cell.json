@@ -2,9 +2,9 @@
     "settings": {
         "chancePerCell": 30,
         "percentages": {
-            "common": 0.60,
+            "common": 0.6,
             "rare": 0.25,
-            "epic": 0.10,
+            "epic": 0.1,
             "legendary": 0.05
         }
     },

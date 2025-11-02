@@ -1,1 +1,1 @@
-{"version":3,"file":"serverResponses.d.ts","sourceRoot":"","sources":["../../../src/utils/responses/serverResponses.ts"],"names":[],"mappings":"AAAA,aAAK,eAAe;IAChB,WAAW,iBAAiB;IAC5B,QAAQ,cAAc;IACtB,WAAW,gBAAgB;IAC3B,WAAW,iBAAiB;IAC5B,KAAK,UAAU;CAClB;AAED,OAAO,EAAE,eAAe,EAAE,CAAA"}
+{"version":3,"file":"serverResponses.d.ts","sourceRoot":"","sources":["../../../src/utils/responses/serverResponses.ts"],"names":[],"mappings":"AAAA,oBAAY,eAAe;IACzB,YAAY,iBAAiB;IAC7B,SAAS,cAAc;IACvB,WAAW,gBAAgB;IAC3B,YAAY,iBAAiB;IAC7B,KAAK,UAAU;CAChB"}

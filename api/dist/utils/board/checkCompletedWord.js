@@ -9,7 +9,7 @@ function checkWordCompletion(board, row, column) {
                 board.findedWords.push(word);
                 return {
                     completedWord: word,
-                    positions: positions
+                    positions: positions,
                 };
             }
         }

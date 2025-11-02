@@ -1,1 +1,1 @@
-{"version":3,"file":"playerRoutes.d.ts","sourceRoot":"","sources":["../../src/routes/playerRoutes.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAIjC,QAAA,MAAM,YAAY,EAAE,MAAiB,CAAC;AAOtC,eAAe,YAAY,CAAC"}
+{"version":3,"file":"playerRoutes.d.ts","sourceRoot":"","sources":["../../src/routes/playerRoutes.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAIjC,QAAA,MAAM,YAAY,EAAE,MAAiB,CAAC;AAmBtC,eAAe,YAAY,CAAC"}

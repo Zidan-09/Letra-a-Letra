@@ -14,8 +14,8 @@ exports.gameController = {
         const { theme, gamemode, allowedPowers } = req.body;
         try {
             const result = gameService_1.GameService.startGame(room_id, theme, gamemode, allowedPowers);
-            if (result === gameResponses_1.GameResponses.NotEnoughPlayers ||
-                result === serverResponses_1.ServerResponses.NotFound)
+            if (result === gameResponses_1.GameResponses.NOT_ENOUGH_PLAYERS ||
+                result === serverResponses_1.ServerResponses.NOT_FOUND)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, result);
             gameSocket_1.GameSocket.gameStarted(room_id);
             return handleResponse_1.HandleResponse.serverResponse(res, 200, true, result);
@@ -46,10 +46,10 @@ exports.gameController = {
         const { player_id } = req.body;
         try {
             const result = gameService_1.GameService.passTurn(room_id, player_id);
-            if (result === serverResponses_1.ServerResponses.NotFound)
-                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NotFound);
-            if (result === gameResponses_1.GameResponses.GameError)
-                return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GameError);
+            if (result === serverResponses_1.ServerResponses.NOT_FOUND)
+                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NOT_FOUND);
+            if (result === gameResponses_1.GameResponses.GAME_ERROR)
+                return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
             handleResponse_1.HandleResponse.serverResponse(res, 200, true, result);
         }
         catch (err) {
@@ -62,15 +62,17 @@ exports.gameController = {
         const { player_id } = req.body;
         try {
             const result = gameService_1.GameService.moveGame(room_id, player_id, movementsEnum_1.MovementsEnum.FREEZE, 0);
-            if (result === serverResponses_1.ServerResponses.NotFound)
-                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NotFound);
-            if (result === gameResponses_1.GameResponses.GameError)
-                return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GameError);
-            if (result === gameResponses_1.GameResponses.PlayerFrozen) {
-                (0, handleSocket_1.HandleSocket)(room_id, player_id, movementsEnum_1.MovementsEnum.FREEZE, { status: gameResponses_1.GameResponses.Frozen });
-                return handleResponse_1.HandleResponse.serverResponse(res, 200, true, gameResponses_1.GameResponses.Frozen);
+            if (result === serverResponses_1.ServerResponses.NOT_FOUND)
+                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NOT_FOUND);
+            if (result === gameResponses_1.GameResponses.GAME_ERROR)
+                return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
+            if (result === gameResponses_1.GameResponses.PLAYER_FROZEN) {
+                (0, handleSocket_1.HandleSocket)(room_id, player_id, movementsEnum_1.MovementsEnum.FREEZE, {
+                    status: gameResponses_1.GameResponses.FROZEN,
+                });
+                return handleResponse_1.HandleResponse.serverResponse(res, 200, true, gameResponses_1.GameResponses.FROZEN);
             }
-            handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GameError, "FATAL");
+            handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
         }
         catch (err) {
             console.error(err);
@@ -82,14 +84,14 @@ exports.gameController = {
         const { player_id, powerIdx } = req.body;
         try {
             const result = gameService_1.GameService.discardPower(room_id, player_id, powerIdx);
-            if (result === serverResponses_1.ServerResponses.NotFound)
-                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NotFound);
-            return handleResponse_1.HandleResponse.serverResponse(res, 200, true, gameResponses_1.GameResponses.PowerDiscarded, result);
+            if (result === serverResponses_1.ServerResponses.NOT_FOUND)
+                return handleResponse_1.HandleResponse.serverResponse(res, 404, false, serverResponses_1.ServerResponses.NOT_FOUND);
+            return handleResponse_1.HandleResponse.serverResponse(res, 200, true, gameResponses_1.GameResponses.POWER_DISCARDED, result);
         }
         catch (err) {
             console.error(err);
             handleResponse_1.HandleResponse.errorResponse(res);
         }
-    }
+    },
 };
 //# sourceMappingURL=gameController.js.map

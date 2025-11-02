@@ -3,17 +3,19 @@ import { ServerResponses } from "../responses/serverResponses";
 import { getSocketInstance } from "../../socket";
 
 export function sendMessage(room_id: string, from: string, message: string) {
-    const io = getSocketInstance();
+  const io = getSocketInstance();
 
-    const room = RoomService.getRoom(room_id);
+  const room = RoomService.getRoom(room_id);
 
-    if (room === ServerResponses.NotFound) return;
+  if (room === ServerResponses.NOT_FOUND) return;
 
-    const all = [...room.players, ...room.spectators];
+  const all = [...room.players, ...room.spectators];
 
-    if (!all) return;
+  if (!all) return;
 
-    all.filter(Boolean).forEach(p => 
-        io.to(p.player_id).emit("message", { from: from, message: message })
+  all
+    .filter(Boolean)
+    .forEach((p) =>
+      io.to(p.player_id).emit("message", { from: from, message: message })
     );
 }

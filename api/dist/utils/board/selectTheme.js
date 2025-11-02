@@ -15,7 +15,9 @@ function selectTheme(theme) {
                 return randomArray;
         }
     }
-    const allItems = Object.values(themes_json_1.default).map(Object.values).flat();
+    const allItems = Object.values(themes_json_1.default)
+        .map(Object.values)
+        .flat();
     if (allItems.length > 0) {
         const randomArray = allItems[Math.floor(Math.random() * allItems.length)];
         return randomArray;
