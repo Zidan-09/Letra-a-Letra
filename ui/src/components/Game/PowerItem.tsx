@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { MovementsEnum } from "../../utils/room_utils";
 import { powers, border } from "../../utils/powers";
 import trash from "../../assets/buttons/icon-trash.svg";
@@ -24,11 +25,51 @@ export default function PowerItem({
   applyEffect,
   discardPower,
 }: PowerItemProps) {
+  const [touchStartY, setTouchStartY] = useState<number | null>(null);
+
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth <= 768;
+
   const handleSelectMove = () => {
     const isSelected = !selected;
-
     selectIdx(isSelected ? idx : undefined);
     selectMove(isSelected ? movement : "REVEAL");
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || !selected) return;
+    setTouchStartY(e.touches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || !selected || touchStartY === null) return;
+
+    const currentY = e.touches[0].clientY;
+    const deltaY = currentY - touchStartY;
+
+    const maxDrag = 60;
+    const limitedDeltaY = Math.max(-maxDrag, Math.min(maxDrag, deltaY));
+
+    e.currentTarget.style.transform = `translateY(${limitedDeltaY}px) scale(1.05)`;
+    e.currentTarget.style.transition = "none";
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || touchStartY === null) return;
+
+    const endY = e.changedTouches[0].clientY;
+    const deltaY = endY - touchStartY;
+
+    e.currentTarget.style.transform = "";
+    e.currentTarget.style.transition = "transform 0.2s ease";
+
+    if (deltaY < -50) {
+      applyEffect();
+    } else if (deltaY > 50) {
+      discardPower();
+    }
+
+    setTouchStartY(null);
   };
 
   const borderColor = border(movement);
@@ -39,6 +80,9 @@ export default function PowerItem({
         selected ? styles.selected : ""
       }`}
       onClick={handleSelectMove}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {selected && (
         <div className={styles.discard} onClick={discardPower}>

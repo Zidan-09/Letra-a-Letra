@@ -85,6 +85,8 @@ export default function PlayerCard({
           )}
         </div>
       </div>
+
+      <h2 className={styles.nicknameCell}>{player.nickname}</h2>
     </div>
   );
 }

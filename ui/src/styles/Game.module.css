@@ -69,3 +69,15 @@
   width: 2.5rem;
   filter: grayscale(100%) brightness(0) invert(100%);
 }
+
+@media (max-width: 768px) {
+  .logo {
+    display: none;
+  }
+
+  .game {
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
