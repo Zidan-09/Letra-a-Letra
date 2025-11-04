@@ -17,83 +17,85 @@ import icon11 from "../assets/buttons/icon-settings.svg";
 import icon12 from "../assets/buttons/icon-unban.svg";
 
 const icons: Record<number, string> = {
-    1: icon1,
-    2: icon2,
-    3: icon3,
-    4: icon4,
-    5: icon5,
-    6: icon6,
-    7: icon7,
-    8: icon8,
-    9: icon9,
-    10: icon10,
-    11: icon11,
-    12: icon12,
-}
+  1: icon1,
+  2: icon2,
+  3: icon3,
+  4: icon4,
+  5: icon5,
+  6: icon6,
+  7: icon7,
+  8: icon8,
+  9: icon9,
+  10: icon10,
+  11: icon11,
+  12: icon12,
+};
 
 export const Preloads = {
-    preloadBackground(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = bg;
-            img.onload = () => resolve();
-            img.onerror = reject;
-        });
-    },
+  preloadBackground(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = bg;
+      img.onload = () => resolve();
+      img.onerror = reject;
+    });
+  },
 
-    preloadLogo(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.src = logo;
-            img.onload = () => resolve();
-            img.onerror = reject;
-        });
-    },
+  preloadLogo(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = logo;
+      img.onload = () => resolve();
+      img.onerror = reject;
+    });
+  },
 
-    preloadIcons(): Promise<void[]> {
-        const promises = Object.values(icons).map(src =>
-            new Promise<void>((resolve, reject) => {
-                const img = new Image();
-                img.src = src;
-                img.onload = () => resolve();
-                img.onerror = reject;
-            })
-        );
-        return Promise.all(promises);
-    },
+  preloadIcons(): Promise<void[]> {
+    const promises = Object.values(icons).map(
+      (src) =>
+        new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => resolve();
+          img.onerror = reject;
+        })
+    );
+    return Promise.all(promises);
+  },
 
-    preloadAvatars(): Promise<void[]> {
-        const promises = Object.values(avatars).map(src =>
-            new Promise<void>((resolve, reject) => {
-                const img = new Image();
-                img.src = src;
-                img.onload = () => resolve();
-                img.onerror = reject;
-            })
-        );
-        return Promise.all(promises);
-    },
+  preloadAvatars(): Promise<void[]> {
+    const promises = Object.values(avatars).map(
+      (src) =>
+        new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.src = src;
+          img.onload = () => resolve();
+          img.onerror = reject;
+        })
+    );
+    return Promise.all(promises);
+  },
 
-    preloadPowers(): Promise<void[]> {
-        const promises = Object.values(PowerData).map(
-        power =>
-            new Promise<void>((resolve, reject) => {
-                const img = new Image();
-                img.src = power.icon;
-                img.onload = () => resolve();
-                img.onerror = reject;
-            })
-        );
-        return Promise.all(promises);
-    },
+  preloadPowers(): Promise<void[]> {
+    const promises = Object.values(PowerData).map(
+      (power) =>
+        new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.src = power.icon;
+          img.onload = () => resolve();
+          img.onerror = reject;
+        })
+    );
+    return Promise.all(promises);
+  },
 
-    preloadAll(): Promise<void> {
-        return Promise.all([
-            this.preloadBackground(),
-            this.preloadLogo(),
-            this.preloadIcons(),
-            this.preloadAvatars(),
-            this.preloadPowers(),
-        ]).then(() => undefined);
-    }
+  preloadAll(): Promise<void> {
+    return Promise.all([
+      this.preloadBackground(),
+      this.preloadLogo(),
+      this.preloadIcons(),
+      this.preloadAvatars(),
+      this.preloadPowers(),
+    ]).then(() => undefined);
+  },
 };

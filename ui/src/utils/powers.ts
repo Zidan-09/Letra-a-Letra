@@ -11,36 +11,37 @@ import lantern from "../assets/powers/icon-lantern.png";
 import immunity from "../assets/powers/icon-imunity.png";
 
 export function border(movement: MovementsEnum) {
-    const commons: MovementsEnum[] = ["BLOCK", "UNBLOCK", "TRAP", "DETECT_TRAPS"];
-    const rare: MovementsEnum[] = ["FREEZE", "UNFREEZE", "SPY"];
-    const epic: MovementsEnum[] = ["BLIND", "LANTERN"];
-    const legendary: MovementsEnum[] = ["IMMUNITY"];
+  const commons: MovementsEnum[] = ["BLOCK", "UNBLOCK", "TRAP", "DETECT_TRAPS"];
+  const rare: MovementsEnum[] = ["FREEZE", "UNFREEZE", "SPY"];
+  const epic: MovementsEnum[] = ["BLIND", "LANTERN"];
+  const legendary: MovementsEnum[] = ["IMMUNITY"];
 
-    if (commons.includes(movement)) return "common";
-    if (rare.includes(movement)) return "rare";
-    if (epic.includes(movement)) return "epic";
-    if (legendary.includes(movement)) return "legendary";
+  if (commons.includes(movement)) return "common";
+  if (rare.includes(movement)) return "rare";
+  if (epic.includes(movement)) return "epic";
+  if (legendary.includes(movement)) return "legendary";
 
-    return "common"
+  return "common";
 }
 
 export const powers: Record<MovementsEnum, string> = {
-    "BLOCK": block,
-    "UNBLOCK": unblock,
-    "FREEZE": freeze,
-    "UNFREEZE": unfreeze,
-    "TRAP": trap,
-    "DETECT_TRAPS": detect_traps,
-    "SPY": spy,
-    "BLIND": blind,
-    "LANTERN": lantern,
-    "IMMUNITY": immunity,
-    "REVEAL": "NONE"
-}
+  BLOCK: block,
+  UNBLOCK: unblock,
+  FREEZE: freeze,
+  UNFREEZE: unfreeze,
+  TRAP: trap,
+  DETECT_TRAPS: detect_traps,
+  SPY: spy,
+  BLIND: blind,
+  LANTERN: lantern,
+  IMMUNITY: immunity,
+  REVEAL: "NONE",
+};
 
-export const PowerData : Record<MovementsEnum, { label: string; icon: string }> = {
+export const PowerData: Record<MovementsEnum, { label: string; icon: string }> =
+  {
     BLOCK: { label: "Bloquear", icon: block },
-    UNBLOCK: { label: "Desbloquear", icon: unblock},
+    UNBLOCK: { label: "Desbloquear", icon: unblock },
     TRAP: { label: "Armadilha", icon: trap },
     DETECT_TRAPS: { label: "Detectar Armadilhas", icon: detect_traps },
     FREEZE: { label: "Congelar", icon: freeze },
@@ -50,4 +51,4 @@ export const PowerData : Record<MovementsEnum, { label: string; icon: string }> 
     LANTERN: { label: "Lanterna", icon: lantern },
     IMMUNITY: { label: "Imunidade", icon: immunity },
     REVEAL: { label: "Revelar", icon: "" },
-};
+  };
