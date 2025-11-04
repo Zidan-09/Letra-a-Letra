@@ -51,8 +51,14 @@ exports.GameMiddleware = {
             const board = game.board;
             if (game.status !== gameStatus_1.GameStatus.GameRunning)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
-            if (!board?.grid[x] || (board.grid[x] && !board.grid[x][y]))
-                return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
+            if (x && y) {
+                if (!board?.grid[x] || (board.grid[x] && !board.grid[x][y]))
+                    return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
+                if (movement === movementsEnum_1.MovementsEnum.UNBLOCK &&
+                    !board?.grid[x][y]?.blocked.status)
+                    return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.CELL_NOT_BLOCKED);
+            }
+            ;
             const player = players
                 .filter(Boolean)
                 .find((p) => p.player_id === player_id);
@@ -72,9 +78,6 @@ exports.GameMiddleware = {
                 player.powers[powerIndex]?.power &&
                 player.powers[powerIndex].power !== movement)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.WITHOUT_POWER);
-            if (movement === movementsEnum_1.MovementsEnum.UNBLOCK &&
-                !board?.grid[x][y]?.blocked.status)
-                return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.CELL_NOT_BLOCKED);
             next();
         }
         catch (err) {

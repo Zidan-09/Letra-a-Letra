@@ -1,6 +1,6 @@
 {
   "name": "letra-a-letra-api",
-  "version": "0.1.3-alpha",
+  "version": "1.0.0-alpha",
   "description": "A fast-paced multiplayer game blending word search and battleship...",
   "main": "dist/server.js",
   "scripts": {
