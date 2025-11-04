@@ -67,3 +67,10 @@
 .opponent {
   border: 3px solid rgb(240, 125, 34);
 }
+
+@media (max-width: 768px) {
+  .cell {
+    width: 2rem;
+    font-size: 1.4rem;
+  }
+}

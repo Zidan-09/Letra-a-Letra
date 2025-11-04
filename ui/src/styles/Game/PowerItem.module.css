@@ -129,3 +129,21 @@
 .legendary {
   border: 5px solid rgb(173, 99, 40);
 }
+
+@media (max-width: 768px) {
+  .power {
+    width: 2.7rem;
+  }
+
+  .icon {
+    width: 2.7rem;
+  }
+
+  .discard {
+    display: none;
+  }
+
+  .useButton {
+    display: none;
+  }
+}

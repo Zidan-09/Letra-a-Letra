@@ -87,3 +87,9 @@
 .notificationDot {
   animation: pulse 1s infinite ease-in-out;
 }
+
+@media (max-width: 768px) {
+  .extraButtons {
+    width: 95%;
+  }
+}

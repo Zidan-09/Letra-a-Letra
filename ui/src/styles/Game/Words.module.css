@@ -32,3 +32,20 @@
 .opponent {
   color: #f07d22;
 }
+
+@media (max-width: 768px) {
+  .wordsContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 1.2rem 0;
+    gap: 1rem;
+  }
+
+  .word {
+    font-size: 1.5rem;
+  }
+}

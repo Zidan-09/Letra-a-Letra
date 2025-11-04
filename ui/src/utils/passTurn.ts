@@ -5,13 +5,13 @@ export const PassTurn = {
     async passTurnTimer(p1: Player, room_id: string) {
         if (!p1 || !room_id) return;
 
-        await fetch(`${settings.server}/game/${room_id}/pass`, {
+        /* await fetch(`${settings.server}/game/${room_id}/pass`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 player_id: p1.player_id
             })
-        });
+        }); */
     },
 
     async passTurnEffect(p1: Player, room_id: string): Promise<void> {

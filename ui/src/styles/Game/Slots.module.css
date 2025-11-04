@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 6rem;
+  width: min-content;
   height: 95%;
   background: rgba(255, 255, 255, 0.2);
   -webkit-backdrop-filter: blur(10px);
@@ -20,6 +20,7 @@
 .power {
   flex: 1 1 0;
   width: 5rem;
+  aspect-ratio: 1 / 1;
   border-radius: 1rem;
   display: flex;
   justify-content: center;
@@ -70,4 +71,14 @@
 }
 .legendary {
   border: 5px solid rgb(173, 99, 40);
+}
+
+@media (max-width: 768px) {
+  .slotsContainer {
+    flex-direction: row;
+  }
+
+  .empty {
+    width: 2.7rem;
+  }
 }
