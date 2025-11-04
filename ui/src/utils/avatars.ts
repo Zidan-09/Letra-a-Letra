@@ -9,13 +9,13 @@ import avatar8 from "../assets/avatar/avatar-8.png";
 import avatar9 from "../assets/avatar/avatar-9.png";
 
 export const avatars: Record<number, string> = {
-    1: avatar1,
-    2: avatar2,
-    3: avatar3,
-    4: avatar4,
-    5: avatar5,
-    6: avatar6,
-    7: avatar7,
-    8: avatar8,
-    9: avatar9,
-}
+  1: avatar1,
+  2: avatar2,
+  3: avatar3,
+  4: avatar4,
+  5: avatar5,
+  6: avatar6,
+  7: avatar7,
+  8: avatar8,
+  9: avatar9,
+};

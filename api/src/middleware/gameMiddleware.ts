@@ -129,13 +129,26 @@ export const GameMiddleware = {
           GameResponses.GAME_ERROR
         );
 
-      if (!board?.grid[x] || (board.grid[x] && !board.grid[x][y]))
-        return HandleResponse.serverResponse(
-          res,
-          400,
-          false,
-          GameResponses.GAME_ERROR
-        );
+      if (x && y) {
+        if (!board?.grid[x] || (board.grid[x] && !board.grid[x][y]))
+          return HandleResponse.serverResponse(
+            res,
+            400,
+            false,
+            GameResponses.GAME_ERROR
+          );
+
+        if (
+          movement === MovementsEnum.UNBLOCK &&
+          !board?.grid[x][y]?.blocked.status
+        )
+          return HandleResponse.serverResponse(
+            res,
+            400,
+            false,
+            GameResponses.CELL_NOT_BLOCKED
+          );
+      };
 
       const player = players
         .filter(Boolean)
@@ -190,17 +203,6 @@ export const GameMiddleware = {
           400,
           false,
           GameResponses.WITHOUT_POWER
-        );
-
-      if (
-        movement === MovementsEnum.UNBLOCK &&
-        !board?.grid[x][y]?.blocked.status
-      )
-        return HandleResponse.serverResponse(
-          res,
-          400,
-          false,
-          GameResponses.CELL_NOT_BLOCKED
         );
 
       next();
