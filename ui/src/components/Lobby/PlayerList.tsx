@@ -46,8 +46,8 @@ export default function PlayerList({ room }: PlayerListProps) {
             key={index}
             onClick={() => handleTurnPlayer(index)}
           >
-            <div className={styles.avatar}></div>
-            <p className={styles.nickname}>Vazio</p>
+            <div className={styles.emptyAvatar}></div>
+            <p className={styles.emptyMessage}>Vazio</p>
           </div>
         );
       })}

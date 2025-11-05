@@ -6,11 +6,9 @@
   display: flex;
   border-radius: 1.3rem;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   color: white;
   font-family: "Lilita One", cursive;
-  gap: 0.5rem;
   -webkit-text-stroke: 1.5px black;
   outline: none;
   background: rgba(255, 255, 255, 0.2);
@@ -32,4 +30,5 @@
   font-size: clamp(12px, 5vw, 30px);
   white-space: nowrap;
   text-align: start;
+  overflow: hidden;
 }
