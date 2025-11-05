@@ -40,11 +40,11 @@
 }
 
 .top {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   justify-content: space-between;
   align-items: center;
-  width: 90%;
+  justify-items: center;
   margin: auto;
 }
 
@@ -123,12 +123,12 @@
 }
 
 .button {
-  flex: 1 1 45%;
-  height: 60px;
+  width: 10rem;
+  height: 4rem;
   display: flex;
   align-items: center;
+  justify-content: start;
   text-align: center;
-  gap: 0.5rem;
   border: none;
   border-radius: 2rem;
   padding: 0 0.5rem;
@@ -149,7 +149,6 @@
 }
 
 .icon {
-  margin-left: 2.4rem;
   width: 2.5rem;
 }
 
@@ -157,6 +156,7 @@
   background-color: rgb(240, 125, 34);
   border: 5px solid rgb(255, 143, 55);
   box-shadow: 0 6px 0 rgb(148, 97, 57);
+  font-size: 2rem;
 }
 
 .play:hover {
@@ -180,6 +180,7 @@
   background-color: rgb(240, 44, 38);
   border: 5px solid rgb(195, 60, 60);
   box-shadow: 0 6px 0 rgb(128, 53, 49);
+  font-size: 2.5rem;
 }
 
 .back:hover {
@@ -212,6 +213,13 @@
 
 .notificationDot {
   animation: pulse 1s infinite ease-in-out;
+}
+@media (max-width: 768px) {
+  .settings,
+  .chat {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
 
 @media (max-width: 550px) {

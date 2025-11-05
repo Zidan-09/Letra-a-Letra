@@ -21,11 +21,9 @@
   display: flex;
   border-radius: 1.3rem;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   color: white;
   font-family: "Lilita One", cursive;
-  gap: 1rem;
   -webkit-text-stroke: 1.5px black;
   outline: none;
   background: rgba(255, 255, 255, 0.5);
@@ -41,8 +39,17 @@
 
 .avatar {
   margin-left: 0.5rem;
-  width: 60px;
-  height: 60px;
+  width: 3rem;
+  aspect-ratio: 1 / 1;
+  border-radius: 1.2rem;
+  border: 3px solid white;
+  background: rgb(255, 143, 55);
+}
+
+.emptyAvatar {
+  margin: auto;
+  width: 3rem;
+  aspect-ratio: 1 / 1;
   border-radius: 1.2rem;
   border: 3px solid white;
   background: rgb(255, 143, 55);
@@ -51,6 +58,11 @@
 .nickname {
   margin-right: 0.5rem;
   font-size: 2rem;
+}
+
+.emptyMessage {
+  margin: auto;
+  font-size: 1rem;
 }
 
 .nickname:hover {

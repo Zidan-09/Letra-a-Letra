@@ -1,11 +1,10 @@
 .extraButtons {
-  position: fixed;
-  bottom: 10px;
   display: flex;
   justify-content: space-between;
-  align-items: end;
-  width: 99.5%;
+  width: 100%;
   height: min-content;
+  pointer-events: none;
+  margin: 0.7rem;
 }
 
 .button {
@@ -29,6 +28,7 @@
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   outline: none;
+  pointer-events: all;
 }
 
 .button:hover,
@@ -50,6 +50,7 @@
   background-color: rgb(27, 157, 222);
   border: 5px solid rgb(64, 176, 232);
   box-shadow: 0 6px 0 rgb(57, 68, 148);
+  pointer-events: all;
 }
 
 .chat:hover {

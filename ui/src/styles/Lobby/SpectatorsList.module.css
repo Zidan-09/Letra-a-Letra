@@ -1,6 +1,6 @@
 .spectatorList {
-  width: 80%;
-  height: 5rem;
+  width: min-content;
+  height: min-content;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -12,18 +12,18 @@
   justify-content: space-around;
   align-items: center;
   padding: 0.5rem;
+  gap: 0.5rem;
 }
 
 .empty {
-  width: 60px;
-  height: 60px;
+  width: 3rem;
+  aspect-ratio: 1 / 1;
   display: flex;
   border-radius: 1.2rem;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   font-family: "Lilita One", cursive;
-  gap: 1rem;
   -webkit-text-stroke: 1.5px black;
   outline: none;
   background: rgb(64, 176, 232);
