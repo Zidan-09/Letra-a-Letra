@@ -36,8 +36,8 @@ export default function ActionPopup({ type, onClose }: ActionPopupProps) {
   return (
     <div className={styles.overlay} onClick={handleBack}>
       <div className={`${styles.popup} ${isBan ? styles.ban : styles.kick}`}>
-        <h2>{title}</h2>
-        <p>{message}</p>
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.message}>{message}</p>
       </div>
     </div>
   );

@@ -37,34 +37,21 @@
   transform: translateY(-2px);
 }
 
-.avatar {
-  margin-left: 0.5rem;
-  width: 3rem;
-  aspect-ratio: 1 / 1;
-  border-radius: 1.2rem;
-  border: 3px solid white;
-  background: rgb(255, 143, 55);
-}
-
 .emptyAvatar {
-  margin: auto;
-  width: 3rem;
+  margin: 0.4rem;
+  width: 4rem;
   aspect-ratio: 1 / 1;
   border-radius: 1.2rem;
   border: 3px solid white;
-  background: rgb(255, 143, 55);
-}
-
-.nickname {
-  margin-right: 0.5rem;
-  font-size: 2rem;
+  background: linear-gradient(45deg, #f39c12, #fabb54);
 }
 
 .emptyMessage {
-  margin: auto;
-  font-size: 1rem;
+  font-size: 2rem;
 }
 
-.nickname:hover {
-  cursor: pointer;
+@media (max-width: 768px) {
+  .emptyMessage {
+    font-size: 1rem;
+  }
 }

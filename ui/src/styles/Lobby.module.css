@@ -215,6 +215,10 @@
   animation: pulse 1s infinite ease-in-out;
 }
 @media (max-width: 768px) {
+  .code {
+    -webkit-text-stroke: 1.5px black;
+  }
+
   .settings,
   .chat {
     width: 2.5rem;

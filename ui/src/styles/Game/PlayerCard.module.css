@@ -10,6 +10,7 @@
   overflow: hidden;
   margin: 0 1rem 0 1rem;
   justify-content: space-between;
+  padding: 0.3rem;
 }
 
 .p1 {
@@ -35,8 +36,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
-  margin-right: 10px;
   padding: 5px;
   background: conic-gradient(
     white calc(var(--progress, 0) * 360deg),
@@ -61,8 +60,8 @@
 }
 
 .infoContainer {
-  width: 100%;
-  margin: 0 10px 0 10px;
+  width: 90%;
+  margin: 0 1rem;
 }
 
 .nickname {
@@ -123,7 +122,7 @@
 
   .powersContainerP1,
   .powersContainerP2 {
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-between;
     align-items: center;
     width: 10%;
@@ -144,6 +143,14 @@
     border: 2px solid black;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     background-color: white;
+  }
+
+  .p1Powers {
+    background-color: rgb(76, 82, 197);
+  }
+
+  .p2Powers {
+    background-color: rgb(173, 99, 40);
   }
 
   .nickname {

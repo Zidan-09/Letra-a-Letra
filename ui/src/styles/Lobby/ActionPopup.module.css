@@ -9,31 +9,37 @@
 }
 
 .popup {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #222;
-  padding: 2rem;
+  padding: 0.7rem;
   border-radius: 16px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
   text-align: center;
-  max-width: 320px;
+  width: min-content;
+  height: min-content;
   animation: fadeIn 0.3s ease;
 }
 
-.popup h2 {
+.title {
   margin-bottom: 0.5rem;
-  font-size: 1.3rem;
+  font-size: 1.7rem;
+  white-space: nowrap;
+  -webkit-text-stroke: 1.5px black;
 }
 
-.popup p {
-  font-size: 1rem;
+.message {
+  font-size: 1.5rem;
   opacity: 0.85;
+  -webkit-text-stroke: 1.5px black;
 }
 
-.kick h2 {
+.kick .title {
   color: #f39c12;
 }
 
-.ban h2 {
+.ban .title {
   color: #e53935;
 }
 

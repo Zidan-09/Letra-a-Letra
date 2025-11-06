@@ -16,17 +16,19 @@ export default function ConfirmExitPopup({
   return (
     <div className={styles.overlay}>
       <div className={styles.popup}>
-        <h2>Tem certeza que deseja sair?</h2>
+        <h2 className={styles.warning}>Tem certeza que deseja sair?</h2>
         <div className={styles.buttons}>
           <button
-            onClick={onConfirm}
-            className={`${styles.button} ${styles.back}`}
+          type="button"
+          onClick={onConfirm}
+          className={`${styles.button} ${styles.back}`}
           >
             Sair
           </button>
           <button
-            onClick={onCancel}
-            className={`${styles.button} ${styles.continue}`}
+          type="button"
+          onClick={onCancel}
+          className={`${styles.button} ${styles.continue}`}
           >
             Continuar
           </button>

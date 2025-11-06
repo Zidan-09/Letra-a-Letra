@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .item {
   width: 45%;
   height: 100%;
@@ -17,18 +15,18 @@
 }
 
 .avatar {
-  margin-left: 0.5rem;
-  width: 60px;
-  height: 60px;
+  margin: 0.4rem;
+  width: 4rem;
+  aspect-ratio: 1 / 1;
   border-radius: 1.2rem;
   border: 3px solid white;
 }
 
 .nickname {
-  width: 10ch;
-  margin-right: 0.5rem;
-  font-size: clamp(12px, 5vw, 30px);
+  width: 5.7rem;
+  font-size: 2rem;
   white-space: nowrap;
   text-align: start;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
