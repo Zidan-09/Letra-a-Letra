@@ -68,8 +68,8 @@
 
 .player {
   background-color: rgb(27, 157, 222);
-  border: 3px solid rgb(64, 176, 232);
-  box-shadow: 0 4px 0 rgb(57, 68, 148);
+  border: 0.2rem solid rgb(64, 176, 232);
+  box-shadow: 0 0.3rem 0 rgb(57, 68, 148);
 }
 
 .player:hover {
@@ -79,16 +79,17 @@
 
 .selected {
   background-color: rgb(240, 125, 34);
-  border: 3px solid rgb(255, 143, 55);
-  box-shadow: 0 4px 0 rgb(148, 97, 57);
+  border: 0.2rem solid rgb(255, 143, 55);
+  box-shadow: 0 0.3rem 0 rgb(148, 97, 57);
   cursor: pointer;
 }
 
 .banned {
   background-color: rgb(150, 150, 150);
-  border: 3px solid rgb(180, 180, 180);
-  box-shadow: 0 4px 0 rgb(80, 80, 80);
+  border: 0.2rem solid rgb(180, 180, 180);
+  box-shadow: 0 0.3rem 0 rgb(80, 80, 80);
   opacity: 0.8;
+  padding: 0.5rem;
 }
 
 .nickname,
@@ -139,9 +140,9 @@
 }
 
 .unban {
-  background-color: rgb(22, 163, 74);
-  border: 3px solid rgb(34, 197, 94);
-  box-shadow: 0 4px 0 rgb(21, 128, 61);
+  background-color: rgb(21, 248, 29);
+  border: 3px solid rgb(77, 255, 89);
+  box-shadow: 0 4px 0 rgb(46, 138, 52);
 }
 
 .icon {

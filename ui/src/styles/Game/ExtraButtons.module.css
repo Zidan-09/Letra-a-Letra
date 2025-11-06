@@ -3,12 +3,10 @@
   justify-content: space-between;
   width: 100%;
   height: min-content;
-  pointer-events: none;
   margin: 0.7rem;
 }
 
 .button {
-  position: relative;
   height: 60px;
   max-width: 50%;
   min-width: 10%;

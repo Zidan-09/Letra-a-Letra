@@ -65,8 +65,12 @@ export default function PowerItem({
 
     if (deltaY < -50) {
       applyEffect();
+      selectIdx(undefined);
+      selectMove("REVEAL");
     } else if (deltaY > 50) {
       discardPower();
+      selectIdx(undefined);
+      selectMove("REVEAL");
     }
 
     setTouchStartY(null);

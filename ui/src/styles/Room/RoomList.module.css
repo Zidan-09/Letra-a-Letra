@@ -43,3 +43,9 @@
 .emptyMessage:hover {
   cursor: default;
 }
+
+@media (max-width: 768px) {
+  .emptyMessage {
+    -webkit-text-stroke: 1.5px black;
+  }
+}

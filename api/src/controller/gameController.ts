@@ -56,8 +56,21 @@ export const gameController = {
         y
       );
 
-      if (typeof result !== "object")
+      if (typeof result !== "object") {
+        if (
+          result === GameResponses.IMMUNITY &&
+          movement !== MovementsEnum.IMMUNITY
+        ) {
+          return HandleResponse.serverResponse(
+            res,
+            200,
+            true,
+            GameResponses.IMMUNITY,
+            movement
+          );
+        }
         return HandleResponse.serverResponse(res, 400, false, result);
+      }
 
       HandleSocket(room_id, player_id, movement, result);
       GameSocket.gameOver(room_id);
@@ -139,12 +152,7 @@ export const gameController = {
         );
       }
 
-      HandleResponse.serverResponse(
-        res,
-        400,
-        false,
-        GameResponses.GAME_ERROR
-      );
+      HandleResponse.serverResponse(res, 400, false, GameResponses.GAME_ERROR);
     } catch (err) {
       console.error(err);
       HandleResponse.errorResponse(res);

@@ -3,7 +3,7 @@
     "version": "1.0.0-alpha",
     "description": "A fast-paced multiplayer game blending word search and battleship, where players race to find letters while sabotaging their opponents.",
     "scripts": {
-        "prestart": "npm install && npm install --prefix api && npm install --prefix ui && node -e \"require('clear')()\"",
+        "installAll": "npm install && npm install --prefix api && npm install --prefix ui && node -e \"require('clear')()\"",
         "start": "concurrently -n SERVER,UI -c blue,green \"npm run dev --prefix api\" \"npm run dev --prefix ui\""
     },
     "devDependencies": {

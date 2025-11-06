@@ -1,4 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
+body {
+  overscroll-behavior: contain;
+  touch-action: none;
+}
 
 .container {
   width: auto;
@@ -36,6 +39,7 @@
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   justify-items: center;
+  margin: 0.5rem 0;
 }
 
 .switchView {
@@ -74,9 +78,10 @@
   }
 
   .game {
-    position: relative;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column-reverse;
-    flex: 1;
+    flex: 0.9;
   }
 }

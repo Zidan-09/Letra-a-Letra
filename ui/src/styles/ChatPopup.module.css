@@ -203,3 +203,9 @@
     brightness(108%) contrast(100%);
   aspect-ratio: 1 / 1;
 }
+
+@media (max-width: 768px) {
+  .message {
+    font-size: 0.1rem;
+  }
+}
