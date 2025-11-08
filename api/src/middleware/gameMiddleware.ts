@@ -121,7 +121,7 @@ export const GameMiddleware = {
 
       const board = game.board;
 
-      if (game.status !== GameStatus.GameRunning)
+      if (game.status !== GameStatus.GameRunning || !board)
         return HandleResponse.serverResponse(
           res,
           400,
@@ -129,8 +129,8 @@ export const GameMiddleware = {
           GameResponses.GAME_ERROR
         );
 
-      if (x && y) {
-        if (!board?.grid[x] || (board.grid[x] && !board.grid[x][y]))
+      if (x !== undefined && y !== undefined) {
+        if (!board.grid[x] || (board.grid[x] && !board.grid[x][y]))
           return HandleResponse.serverResponse(
             res,
             400,
@@ -140,7 +140,8 @@ export const GameMiddleware = {
 
         if (
           movement === MovementsEnum.UNBLOCK &&
-          !board?.grid[x][y]?.blocked.status
+          board.grid[x][y] &&
+          !board.grid[x][y].blocked.status
         )
           return HandleResponse.serverResponse(
             res,

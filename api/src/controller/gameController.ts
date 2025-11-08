@@ -61,6 +61,9 @@ export const gameController = {
           result === GameResponses.IMMUNITY &&
           movement !== MovementsEnum.IMMUNITY
         ) {
+          HandleSocket(room_id, player_id, movement, { status: GameResponses.IMMUNITY });
+          GameSocket.gameOver(room_id);
+
           return HandleResponse.serverResponse(
             res,
             200,
