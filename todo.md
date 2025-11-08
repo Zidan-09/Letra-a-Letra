@@ -1,7 +1,5 @@
 # To Do:
 
-- Bug do primeiro movimento ficar invisível as vezes
-- Bug do UNBLOCK
 - Fazer overlay de vitória mais bonito
 - Fazer overlay de efeitos
 - Fazer animação de uso de poderes
