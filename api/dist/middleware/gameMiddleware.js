@@ -49,13 +49,14 @@ exports.GameMiddleware = {
             if (!players?.length)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, serverResponses_1.ServerResponses.NOT_FOUND);
             const board = game.board;
-            if (game.status !== gameStatus_1.GameStatus.GameRunning)
+            if (game.status !== gameStatus_1.GameStatus.GameRunning || !board)
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
-            if (x && y) {
-                if (!board?.grid[x] || (board.grid[x] && !board.grid[x][y]))
+            if (x !== undefined && y !== undefined) {
+                if (!board.grid[x] || (board.grid[x] && !board.grid[x][y]))
                     return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.GAME_ERROR);
                 if (movement === movementsEnum_1.MovementsEnum.UNBLOCK &&
-                    !board?.grid[x][y]?.blocked.status)
+                    board.grid[x][y] &&
+                    !board.grid[x][y].blocked.status)
                     return handleResponse_1.HandleResponse.serverResponse(res, 400, false, gameResponses_1.GameResponses.CELL_NOT_BLOCKED);
             }
             ;

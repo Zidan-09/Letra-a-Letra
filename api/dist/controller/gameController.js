@@ -30,8 +30,15 @@ exports.gameController = {
         const { player_id, movement, powerIndex, x, y } = req.body;
         try {
             const result = gameService_1.GameService.moveGame(room_id, player_id, movement, powerIndex, x, y);
-            if (typeof result !== "object")
+            if (typeof result !== "object") {
+                if (result === gameResponses_1.GameResponses.IMMUNITY &&
+                    movement !== movementsEnum_1.MovementsEnum.IMMUNITY) {
+                    (0, handleSocket_1.HandleSocket)(room_id, player_id, movement, { status: gameResponses_1.GameResponses.IMMUNITY });
+                    gameSocket_1.GameSocket.gameOver(room_id);
+                    return handleResponse_1.HandleResponse.serverResponse(res, 200, true, gameResponses_1.GameResponses.IMMUNITY, movement);
+                }
                 return handleResponse_1.HandleResponse.serverResponse(res, 400, false, result);
+            }
             (0, handleSocket_1.HandleSocket)(room_id, player_id, movement, result);
             gameSocket_1.GameSocket.gameOver(room_id);
             return handleResponse_1.HandleResponse.serverResponse(res, 200, true, result.status);
