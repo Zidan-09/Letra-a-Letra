@@ -34,7 +34,7 @@ export default function Footer() {
 
       <img src={logo} alt="Logo" className={styles.logo} />
 
-      <p className={styles.version}>v1.0.0-alpha</p>
+      <p className={styles.version}>v1.0.1-alpha</p>
     </div>
   );
 }
