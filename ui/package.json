@@ -2,7 +2,7 @@
   "name": "letra-a-letra-ui",
   "description": "A fast-paced multiplayer game blending word search and battleship, where players race to find letters while sabotaging their opponents.",
   "private": true,
-  "version": "1.0.0-alpha",
+  "version": "1.0.1-alpha",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
