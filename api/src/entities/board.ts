@@ -21,7 +21,11 @@ export class Board {
     allowedPowers: MovementsEnum[]
   ) {
     this.words = selectTheme(theme);
-    this.grid = this.createBoard(this.words, gamemode, allowedPowers);
+    this.grid = this.createBoard(
+      this.words,
+      gamemode,
+      allowedPowers
+    );
   }
 
   createBoard(
@@ -36,25 +40,59 @@ export class Board {
       )
     );
 
-    const directions = [
-      [0, 1],
-      [0, -1],
-      [1, 0],
-      [-1, 0],
-      [1, 1],
-      [-1, -1],
-      [1, -1],
-      [-1, 1],
-    ];
+    const directions = {
+      [GameModes.EASY]: [
+        [0, 1],
+        [1, 0],
+      ],
+      [GameModes.NORMAL]: [
+        [0, 1],
+        [0, -1],
+        [1, 0],
+        [-1, 0],
+      ],
+      [GameModes.HARD]: [
+        [0, 1],
+        [1, 0],
+        [1, 1],
+        [-1, 0],
+        [0, -1],
+        [1, -1],
+      ],
+      [GameModes.INSANE]: [
+        [0, 1],
+        [1, 0],
+        [1, 1],
+        [-1, 0],
+        [0, -1],
+        [-1, -1],
+        [1, -1],
+        [-1, 1],
+      ],
+      [GameModes.CATACLISM]: [
+        [0, 1],
+        [1, 0],
+        [1, 1],
+        [-1, 0],
+        [0, -1],
+        [-1, -1],
+        [1, -1],
+        [-1, 1],
+      ]
+    };
 
     words.forEach((word) => {
       let placed = false;
+      let attemps = 0;
 
-      while (!placed) {
+      while (!placed && attemps < 500) {
+        attemps++;
+
         const row = Math.floor(Math.random() * (this.range + 1));
         const column = Math.floor(Math.random() * (this.range + 1));
-        const [dx, dy] =
-          directions[Math.floor(Math.random() * directions.length)]!;
+
+        const dirSet = directions[gamemode];
+        const [dx, dy] = dirSet[Math.floor(Math.random() * dirSet.length)]!;
 
         if (canPlaceWord(word, row, column, dx!, dy!, grid)) {
           placeWord(word, row, column, dx!, dy!, grid, this.wordPositions);
