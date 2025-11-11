@@ -49,14 +49,13 @@ export class Cell {
     rarity?: PowerRarity;
     powerup: MovementsEnum | null;
   } {
-    const chance =
-      gamemode === GameModes.NORMAL ? data.settings.chancePerCell : 100;
+    const chance = data.gamemodes[gamemode].chancePerCell;
 
     if (Math.random() >= chance / 100)
       return { hasPowerup: false, powerup: null };
 
     const roll = Math.random();
-    const { rare, epic, legendary } = data.settings.percentages;
+    const { rare, epic, legendary } = data.gamemodes[gamemode].percentages;
 
     const getRandomAllowedPower = (powers: typeof data.powers.common) => {
       const filtered = powers.filter((p) =>

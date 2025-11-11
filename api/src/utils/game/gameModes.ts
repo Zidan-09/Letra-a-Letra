@@ -1,4 +1,7 @@
 export enum GameModes {
+  EASY = "EASY",
   NORMAL = "NORMAL",
-  CRAZY = "CRAZY",
+  HARD = "HARD",
+  INSANE = "INSANE",
+  CATACLISM = "CATACLISM"
 }
