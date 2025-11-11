@@ -69,7 +69,6 @@ export default function Room() {
         setOnRoomError(true);
         return;
       }
-      console.log(result);
 
       localStorage.setItem("game", JSON.stringify(result.data.game));
       localStorage.setItem("actual", JSON.stringify(result.data.actual));
