@@ -9,6 +9,7 @@ const placeWord_1 = require("../utils/board/placeWord");
 const canPlaceWord_1 = require("../utils/board/canPlaceWord");
 const cell_1 = require("./cell");
 const board_json_1 = __importDefault(require("../settings/board.json"));
+const gameModes_1 = require("../utils/game/gameModes");
 class Board {
     constructor(theme, gamemode, allowedPowers) {
         this.range = board_json_1.default.range;
@@ -20,22 +21,55 @@ class Board {
     }
     createBoard(words, gamemode, allowedPowers) {
         const grid = Array.from({ length: this.range + 1 }, (_, x) => Array.from({ length: this.range + 1 }, (_, y) => new cell_1.Cell("", x, y, gamemode, allowedPowers)));
-        const directions = [
-            [0, 1],
-            [0, -1],
-            [1, 0],
-            [-1, 0],
-            [1, 1],
-            [-1, -1],
-            [1, -1],
-            [-1, 1],
-        ];
+        const directions = {
+            [gameModes_1.GameModes.EASY]: [
+                [0, 1],
+                [1, 0],
+            ],
+            [gameModes_1.GameModes.NORMAL]: [
+                [0, 1],
+                [0, -1],
+                [1, 0],
+                [-1, 0],
+            ],
+            [gameModes_1.GameModes.HARD]: [
+                [0, 1],
+                [1, 0],
+                [1, 1],
+                [-1, 0],
+                [0, -1],
+                [1, -1],
+            ],
+            [gameModes_1.GameModes.INSANE]: [
+                [0, 1],
+                [1, 0],
+                [1, 1],
+                [-1, 0],
+                [0, -1],
+                [-1, -1],
+                [1, -1],
+                [-1, 1],
+            ],
+            [gameModes_1.GameModes.CATACLISM]: [
+                [0, 1],
+                [1, 0],
+                [1, 1],
+                [-1, 0],
+                [0, -1],
+                [-1, -1],
+                [1, -1],
+                [-1, 1],
+            ]
+        };
         words.forEach((word) => {
             let placed = false;
-            while (!placed) {
+            let attemps = 0;
+            while (!placed && attemps < 500) {
+                attemps++;
                 const row = Math.floor(Math.random() * (this.range + 1));
                 const column = Math.floor(Math.random() * (this.range + 1));
-                const [dx, dy] = directions[Math.floor(Math.random() * directions.length)];
+                const dirSet = directions[gamemode];
+                const [dx, dy] = dirSet[Math.floor(Math.random() * dirSet.length)];
                 if ((0, canPlaceWord_1.canPlaceWord)(word, row, column, dx, dy, grid)) {
                     (0, placeWord_1.placeWord)(word, row, column, dx, dy, grid, this.wordPositions);
                     placed = true;

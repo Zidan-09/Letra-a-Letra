@@ -1,11 +1,49 @@
 {
-    "settings": {
-        "chancePerCell": 30,
-        "percentages": {
-            "common": 0.6,
-            "rare": 0.25,
-            "epic": 0.1,
-            "legendary": 0.05
+    "gamemodes": {
+        "EASY": {
+            "chancePerCell": 20,
+            "percentages": {
+                "common": 0.6,
+                "rare": 0.25,
+                "epic": 0.1,
+                "legendary": 0.05
+            }
+        },
+        "NORMAL": {
+            "chancePerCell": 25,
+            "percentages": {
+                "common": 0.55,
+                "rare": 0.25,
+                "epic": 0.13,
+                "legendary": 0.07
+            }
+        },
+        "HARD": {
+            "chancePerCell": 30,
+            "percentages": {
+                "common": 0.45,
+                "rare": 0.3,
+                "epic": 0.17,
+                "legendary": 0.08
+            }
+        },
+        "INSANE": {
+            "chancePerCell": 40,
+            "percentages": {
+                "common": 0.35,
+                "rare": 0.3,
+                "epic": 0.22,
+                "legendary": 0.13
+            }
+        },
+        "CATACLISM": {
+            "chancePerCell": 100,
+            "percentages": {
+                "common": 0.03,
+                "rare": 0.47,
+                "epic": 0.3,
+                "legendary": 0.2
+            }
         }
     },
     "powers": {

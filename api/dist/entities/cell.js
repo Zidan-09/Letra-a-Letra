@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cell = void 0;
-const gameModes_1 = require("../utils/game/gameModes");
 const cell_json_1 = __importDefault(require("../settings/cell.json"));
 class Cell {
     constructor(letter, x, y, gamemode, allowedPowers) {
@@ -24,11 +23,11 @@ class Cell {
         this.clicks = 0;
     }
     powerup(gamemode, allowedPowers) {
-        const chance = gamemode === gameModes_1.GameModes.NORMAL ? cell_json_1.default.settings.chancePerCell : 100;
+        const chance = cell_json_1.default.gamemodes[gamemode].chancePerCell;
         if (Math.random() >= chance / 100)
             return { hasPowerup: false, powerup: null };
         const roll = Math.random();
-        const { rare, epic, legendary } = cell_json_1.default.settings.percentages;
+        const { rare, epic, legendary } = cell_json_1.default.gamemodes[gamemode].percentages;
         const getRandomAllowedPower = (powers) => {
             const filtered = powers.filter((p) => allowedPowers.includes(p.name));
             if (filtered.length === 0)

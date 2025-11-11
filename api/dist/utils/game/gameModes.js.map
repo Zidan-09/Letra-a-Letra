@@ -1,1 +1,1 @@
-{"version":3,"file":"gameModes.js","sourceRoot":"","sources":["../../../src/utils/game/gameModes.ts"],"names":[],"mappings":";;;AAAA,IAAY,SAGX;AAHD,WAAY,SAAS;IACnB,8BAAiB,CAAA;IACjB,4BAAe,CAAA;AACjB,CAAC,EAHW,SAAS,yBAAT,SAAS,QAGpB"}
+{"version":3,"file":"gameModes.js","sourceRoot":"","sources":["../../../src/utils/game/gameModes.ts"],"names":[],"mappings":";;;AAAA,IAAY,SAMX;AAND,WAAY,SAAS;IACnB,0BAAa,CAAA;IACb,8BAAiB,CAAA;IACjB,0BAAa,CAAA;IACb,8BAAiB,CAAA;IACjB,oCAAuB,CAAA;AACzB,CAAC,EANW,SAAS,yBAAT,SAAS,QAMpB"}
