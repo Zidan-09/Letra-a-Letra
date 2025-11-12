@@ -143,7 +143,7 @@ type GameResponses =
   | "used_lantern"
   | "player_immune";
 
-export type GameModes = "NORMAL" | "CRAZY";
+export type GameModes = "NORMAL" | "EASY" | "HARD" | "INSANE" | "CATACLISM";
 
 type PowerRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
 
@@ -225,3 +225,17 @@ export const allPowersList = [
   "LANTERN",
   "IMMUNITY",
 ];
+
+export const powerNamesTranslations: Record<MovementsEnum, string> = {
+  REVEAL: "Revelar",
+  BLOCK: "Bloquear",
+  UNBLOCK: "Desbloquear",
+  TRAP: "Armadilha",
+  DETECT_TRAPS: "Detectar Armadilhas",
+  FREEZE: "Congelar",
+  UNFREEZE: "Descongelar",
+  SPY: "Espiar",
+  BLIND: "Cegar",
+  LANTERN: "Lanterna",
+  IMMUNITY: "Imunidade",
+}

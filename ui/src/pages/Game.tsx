@@ -2,15 +2,7 @@ import { useState, useRef } from "react";
 import { useSocket } from "../services/socketProvider";
 import { useNavigate } from "react-router-dom";
 import settings from "../settings.json";
-import type {
-  Game,
-  Player,
-  MovementsEnum,
-  CompletedWord,
-  CellKeys,
-  CellUpdate,
-  NullPlayer,
-} from "../utils/room_utils";
+import type {Game, Player, MovementsEnum, CompletedWord, CellKeys, CellUpdate, NullPlayer,} from "../utils/room_utils";
 import { useInitializeGame } from "../hooks/Game/useInitializeGame";
 import PlayerCard from "../components/Game/PlayerCard";
 import Slots from "../components/Game/Slots";

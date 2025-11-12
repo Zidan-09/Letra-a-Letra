@@ -219,18 +219,19 @@ export default function Lobby() {
 
     const valid = await checkRoomExists();
     if (!valid) return navigate("/");
-
-    await fetch(`${settings.server}/game/${room.room_id}/start`, {
+    
+    const teste = await fetch(`${settings.server}/game/${room.room_id}/start`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         theme: theme,
         gamemode: gamemode,
-        allowedPowers: allowedPowers,
+        allowedPowers: allowedPowers
       }),
     })
       .then((res) => res.json())
       .then((data) => data);
+    console.log(teste);
   };
 
   const handleRemovePlayer = async (ban: boolean) => {
