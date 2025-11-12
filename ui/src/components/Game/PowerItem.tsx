@@ -3,6 +3,7 @@ import type { MovementsEnum } from "../../utils/room_utils";
 import { powers, border } from "../../utils/powers";
 import trash from "../../assets/buttons/icon-trash.svg";
 import styles from "../../styles/Game/PowerItem.module.css";
+import { powerNamesTranslations } from "../../utils/room_utils";
 
 interface PowerItemProps {
   idx: number;
@@ -97,7 +98,7 @@ export default function PowerItem({
       <img src={powers[movement]} alt="icon" className={styles.icon} />
 
       <span className={`${styles.label} ${selected ? styles.visible : ""}`}>
-        {movement}
+        {powerNamesTranslations[movement]}
       </span>
 
       {selected && type === "effect" && (

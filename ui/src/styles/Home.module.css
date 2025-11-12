@@ -103,9 +103,8 @@
   display: flex;
   justify-content: space-between;
   gap: 1.5rem;
-  margin-top: 1.4rem;
   flex-wrap: nowrap;
-  margin: 1rem 2rem;
+  margin: 2rem 2rem 2.5rem;
 }
 
 .button {
@@ -159,6 +158,7 @@
 }
 
 .help {
+  display: none;
   background-color: rgb(21, 248, 29);
   border: 5px solid rgb(77, 255, 89);
   box-shadow: 0 6px 0 rgb(46, 138, 52);
@@ -172,31 +172,7 @@
   border: 5px solid rgb(0, 230, 17);
 }
 
-@media (max-width: 768px) {
-  .card {
-    margin: 0;
-  }
-
-  .logo {
-    max-width: 70%;
-  }
-  .buttons {
-    flex-direction: row;
-    gap: 0.5rem;
-    margin: 0 1rem;
-  }
-  .button {
-    width: 50%;
-    flex: none;
-  }
-  .help {
-    width: 50%;
-    max-width: none;
-    margin-bottom: 1rem;
-  }
-}
-
-@media (max-width: 550px) {
+@media (max-width: 575px) {
   .container {
     gap: 2rem;
   }
@@ -207,13 +183,16 @@
 
   .buttons {
     flex-direction: row;
-    gap: 1rem;
-    margin: 0 1rem;
-    margin-left: 0;
+    margin: 0;
+    gap: 0;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    justify-content: space-around;
+    
   }
   .button {
     font-size: clamp(15px, 6vw, 17px);
-    width: 50%;
+    width: 45%;
     flex: none;
   }
 
@@ -223,10 +202,18 @@
   }
 
   .help {
+    display: flex;
+     width: 50%;
+     max-width: none;
+     margin-bottom: 1rem;
     font-size: clamp(17px, 3vw, 17px);
   }
 
   .label {
     font-size: 1.5rem;
+  }
+
+  .inputs {
+    margin-right: 0.5rem;
   }
 }

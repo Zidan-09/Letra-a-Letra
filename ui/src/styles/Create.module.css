@@ -270,10 +270,15 @@
   background-color: rgb(240, 44, 38);
   border: 5px solid rgb(195, 60, 60);
   box-shadow: 0 6px 0 rgb(128, 53, 49);
+  gap: 0rem;
 }
 
 .back:hover {
   border: 5px solid rgb(170, 47, 47);
+}
+
+.back .icon {
+  width: 4rem;
 }
 
 @media (max-width: 550px) {
