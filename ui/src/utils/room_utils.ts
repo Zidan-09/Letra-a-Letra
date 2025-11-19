@@ -239,3 +239,16 @@ export const powerNamesTranslations: Record<MovementsEnum, string> = {
   LANTERN: "Lanterna",
   IMMUNITY: "Imunidade",
 }
+
+export const ALL_POWERS: MovementsEnum[] = [
+  "BLOCK",
+  "UNBLOCK",
+  "TRAP",
+  "DETECT_TRAPS",
+  "FREEZE",
+  "UNFREEZE",
+  "SPY",
+  "BLIND",
+  "LANTERN",
+  "IMMUNITY",
+];

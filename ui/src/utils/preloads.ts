@@ -8,7 +8,7 @@ import icon2 from "../assets/buttons/icon-ban.svg";
 import icon3 from "../assets/buttons/icon-chat.svg";
 import icon4 from "../assets/buttons/icon-create.svg";
 import icon5 from "../assets/buttons/icon-enter.svg";
-import icon6 from "../assets/buttons/icon-help.svg";
+import icon6 from "../assets/buttons/icon-menu.svg";
 import icon7 from "../assets/buttons/icon-kick.svg";
 import icon8 from "../assets/buttons/icon-play.svg";
 import icon9 from "../assets/buttons/icon-refresh.svg";

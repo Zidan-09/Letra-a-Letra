@@ -13,7 +13,7 @@ import EffectOverlay from "../components/Game/EffectOverlay";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.svg";
-import iconSwitch from "../assets/buttons/eye-svgrepo-com.svg";
+import iconSwitch from "../assets/buttons/icon-viewer.svg";
 import styles from "../styles/Game.module.css";
 import { PassTurnHook } from "../hooks/Game/useTurnSystem";
 import { useHiddenSystem } from "../hooks/Game/useHiddenSystem";

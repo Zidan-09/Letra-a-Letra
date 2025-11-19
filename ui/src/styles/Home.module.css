@@ -15,6 +15,8 @@
   user-select: none;
   -webkit-user-select: none;
   overflow-y: auto;
+  gap: 2rem;
+  position: relative;
 }
 
 .card {
@@ -29,14 +31,14 @@
   text-align: center;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   justify-content: center;
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
 }
 
 .logo {
   width: 100%;
   display: block;
   margin: 0 auto;
-  max-width: 350px;
+  max-width: 250px;
   height: auto;
 }
 
@@ -48,18 +50,15 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
+  margin-right: 0.5rem;
 }
 
 .label {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: white;
   -webkit-text-stroke: 1.5px #464646;
   margin-top: -1rem;
-}
-
-.label:hover {
-  cursor: default;
 }
 
 .avatar {
@@ -69,6 +68,7 @@
   border-radius: 1rem;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   box-shadow: 0 3px 0 rgb(60, 60, 60);
+  margin-left: 1rem;
 }
 
 .avatar:hover,
@@ -84,13 +84,13 @@
   background-color: white;
   padding: 0.6rem 1rem;
   border-radius: 2rem;
-  border: 2px solid #ccc;
+  border: 3px solid #ccc;
   outline: none;
-  font-size: 1rem;
   text-align: center;
   box-sizing: border-box;
   font-size: clamp(1rem, 1.5vw, 1.3rem);
   height: 3rem;
+  transition: border-color 0.2s ease;
 }
 
 .input:focus {
@@ -101,14 +101,15 @@
 
 .buttons {
   display: flex;
-  justify-content: space-between;
-  gap: 1.5rem;
+  justify-content: space-around;
+  gap: 0;
   flex-wrap: nowrap;
-  margin: 2rem 2rem 2.5rem;
+  margin: 1.5rem 0.5rem 1.5rem;
 }
 
 .button {
-  flex: 1 1 45%;
+  width: 45%;
+  flex: none;
   height: 60px;
   display: flex;
   align-items: center;
@@ -118,7 +119,7 @@
   border-radius: 2rem;
   padding: 0;
   font-weight: bold;
-  font-size: clamp(20px, 6vw, 25px);
+  font-size: clamp(15px, 6vw, 17px);
   white-space: nowrap;
   color: white;
   cursor: pointer;
@@ -133,8 +134,12 @@
 }
 
 .icon {
-  margin-left: 1.5rem;
-  width: 2rem;
+  margin-left: 0.3rem;
+  width: 1.8rem;
+}
+
+.iconMenuButton {
+  margin: 0;
 }
 
 .create {
@@ -157,63 +162,87 @@
   border: 5px solid rgb(22, 133, 186);
 }
 
-.help {
-  display: none;
-  background-color: rgb(21, 248, 29);
-  border: 5px solid rgb(77, 255, 89);
-  box-shadow: 0 6px 0 rgb(46, 138, 52);
-  width: 50%;
-  font-size: clamp(20px, 6vw, 25px);
-  max-width: 400px;
-  margin: 1rem auto;
+.menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  background: rgba(255, 255, 255, 0.25);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 3px solid white;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.2); 
 }
 
-.help:hover {
-  border: 5px solid rgb(0, 230, 17);
+.menu img {
+  filter: invert(1);
+  width: 100%;
+  height: auto;
 }
 
-@media (max-width: 575px) {
+.menu:hover {
+  transform: translateY(-2px);
+  border: 3px solid white; 
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.menu:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+@media (width >= 551px) {
+  
   .container {
-    gap: 2rem;
-  }
-
-  .avatar {
-    margin-left: 1rem;
-  }
-
-  .buttons {
-    flex-direction: row;
-    margin: 0;
     gap: 0;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    justify-content: space-around;
-    
-  }
-  .button {
-    font-size: clamp(15px, 6vw, 17px);
-    width: 45%;
-    flex: none;
   }
 
-  .icon {
-    margin-left: 0.6rem;
-    width: 1.8rem;
-  }
-
-  .help {
-    display: flex;
-     width: 50%;
-     max-width: none;
-     margin-bottom: 1rem;
-    font-size: clamp(17px, 3vw, 17px);
+  .card {
+    margin-bottom: 10vh;
   }
 
   .label {
-    font-size: 1.5rem;
+    font-size: 2rem;
+  }
+
+  .avatar {
+    margin-left: 0;
+  }
+  
+  .buttons {
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin: 2rem 2rem 2.5rem;
+  }
+
+  .button {
+    flex: 1 1 45%;
+    width: auto;
+    font-size: clamp(20px, 6vw, 25px);
+  }
+
+  .icon {
+    margin-left: 1.5rem;
+    width: 2rem;
   }
 
   .inputs {
-    margin-right: 0.5rem;
+    margin-right: 0;
   }
+  
+  .menu {
+    display: none;
+  }
+
+  .logo {
+  max-width: 350px;
+}
 }
