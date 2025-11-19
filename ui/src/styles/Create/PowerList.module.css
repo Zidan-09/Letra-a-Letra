@@ -13,9 +13,12 @@
 }
 .powerListContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 0.5rem;
   flex: 1;
+  padding: 5px;   
+  box-sizing: border-box; 
+  width: 100%;
 }
 
 .powerItem {
@@ -29,11 +32,14 @@
   font-size: 1.2rem;
   font-family: "Lilita One", cursive;
   cursor: pointer;
+  position: relative; 
+  z-index: 1;
   transition: transform 0.2s, background 0.2s;
 }
 
 .powerItem:hover {
   transform: scale(1.05);
+  z-index: 100;
   background: rgba(255, 255, 255, 0.6);
 }
 
