@@ -55,7 +55,7 @@
 }
 
 .label {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: white;
   -webkit-text-stroke: 1px #464646;
 }
@@ -93,7 +93,7 @@
 }
 
 .range {
-  width: 100%;
+  width: 70%;
   cursor: pointer;
 }
 
@@ -217,7 +217,7 @@
 .button {
   width: 45%;
   flex: none;
-  height: 60px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -297,7 +297,7 @@
   }
 
   .label {
-    font-size: 2rem;
+    font-size: 1.8rem;
     -webkit-text-stroke: 1.5px #464646;
   }
 
@@ -307,7 +307,7 @@
   }
 
   .rangeContainer {
-    width: 60%;
+    width: 80%;
   }
 
   .timer {
