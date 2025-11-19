@@ -177,7 +177,7 @@ export default function Create() {
             onClick={handleBack}
             type="button"
           >
-            <img src={iconBack} alt="Create" className={styles.icon} />
+            <img src={iconBack} alt="Create" className={styles.iconButtonBack} />
             Voltar
           </button>
 

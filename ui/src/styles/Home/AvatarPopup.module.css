@@ -1,37 +1,38 @@
 @import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+ position: fixed;
+ inset: 0; 
+ background: rgba(0, 0, 0, 0.4);
+ backdrop-filter: blur(5px);
+ -webkit-backdrop-filter: blur(5px);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ z-index: 1000;
 }
 
 .popup {
-  display: flex;
-  width: min(30%, 500px);
-  max-height: 100vh;
-  flex-direction: column;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 0.3rem solid white;
-  border-radius: 3rem;
-  align-items: center;
-  padding: 1rem;
-  gap: 1.5rem;
+ display: flex;
+ flex-direction: column;
+ align-items: center; 
+ width: min(90%, 300px); 
+ max-height: 90vh;
+ overflow-y: auto; 
+ background: rgba(255, 255, 255, 0.3);
+ backdrop-filter: blur(10px);
+ -webkit-backdrop-filter: blur(10px);
+ border: 0.3rem solid white; 
+ border-radius: 2rem;
+ padding: 1rem;
+ gap: 1rem;
 }
 
-@media (max-width: 550px) {
+@media (width >= 551px) {
   .popup {
-    border-radius: 2rem;
-    padding: 1.2rem 7rem 1rem;
-    gap: 1rem;
+    width: min(90%, 400px); 
+    border-radius: 3rem;
+    padding: 2rem;
+    gap: 1.5rem;
   }
 }

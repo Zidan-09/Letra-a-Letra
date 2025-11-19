@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import type { GameModes, MovementsEnum } from "../../utils/room_utils";
 import { Themes, ThemeTranslations } from "../../utils/themes.ts";
 import PowerList from "./PowerList.tsx";
+import { ALL_POWERS } from "../../utils/room_utils.ts";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import styles from "../../styles/Create/SettingsPopup.module.css";
 
@@ -16,22 +17,10 @@ interface SettingsPopupProps {
   onClose: () => void;
 }
 
-const ALL_POWERS: MovementsEnum[] = [
-  "BLOCK",
-  "UNBLOCK",
-  "TRAP",
-  "DETECT_TRAPS",
-  "FREEZE",
-  "UNFREEZE",
-  "SPY",
-  "BLIND",
-  "LANTERN",
-  "IMMUNITY",
-];
 
 const modeOrder: GameModes[] = [
-  "EASY",
   "NORMAL",
+  "EASY",
   "HARD",
   "INSANE",
   "CATACLISM",

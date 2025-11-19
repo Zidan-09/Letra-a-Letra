@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 import logo from "../assets/logo.svg";
 import iconCreate from "../assets/buttons/icon-create.svg";
 import iconEnter from "../assets/buttons/icon-enter.svg";
-import iconHelp from "../assets/buttons/icon-help.svg";
+import iconMenu from "../assets/buttons/icon-menu.svg";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
     }
   };
 
-  const handleHelp = () => {
+  const handleMenu = () => {
     alert("Instruções de como jogar serão exibidas aqui.");
   };
 
@@ -69,7 +69,7 @@ export default function Home() {
       <div className={styles.card}>
         <img src={logo} alt="Logo Letra a Letra" className={styles.logo} />
 
-        <p className={styles.label}>Selecione um avatar e nickname</p>
+        <p className={styles.label}>Selecione um Avatar e Nickname</p>
 
         <div className={styles.inputs}>
           <img
@@ -109,14 +109,13 @@ export default function Home() {
           </button>
         </div>
 
-        <button
-          className={`${styles.button} ${styles.help}`}
-          onClick={handleHelp}
-        >
-          <img src={iconHelp} alt="Help" className={styles.icon} />
-          Como Jogar
-        </button>
       </div>
+        <button
+          className={styles.menu}
+          onClick={handleMenu}
+        >
+          <img src={iconMenu} alt="Menu" className={styles.iconMenuButton} />
+        </button>
       <AvatarPopup
         selectedAvatar={selectedAvatar}
         onSelectAvatar={handleSelectAvatar}
