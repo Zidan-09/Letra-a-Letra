@@ -1,23 +1,18 @@
 .playerList {
-  width: 80%;
-  height: 5rem;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  border: 7px solid white;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  height: 4rem;
+  background: transparent;
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 1.2rem;
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
 }
 
 .empty {
-  width: 45%;
-  height: 100%;
+  width: 70%;
+  height: 70px;
   display: flex;
   border-radius: 1.3rem;
   flex-direction: row;
@@ -39,19 +34,28 @@
 
 .emptyAvatar {
   margin: 0.4rem;
-  width: 4rem;
+  width: 3rem;
   aspect-ratio: 1 / 1;
-  border-radius: 1.2rem;
+  border-radius: 1rem;
   border: 3px solid white;
   background: linear-gradient(45deg, #f39c12, #fabb54);
 }
 
 .emptyMessage {
-  font-size: 2rem;
+  font-size: 1rem;
 }
 
-@media (max-width: 768px) {
+@media (width >= 551px) {
   .emptyMessage {
-    font-size: 1rem;
+    font-size: 1.8rem;
+  }
+
+  .playerList {
+    width: 90%;
+    height: 4rem;
+  }
+
+  .emptyAvatar {
+    width: 3.5rem;
   }
 }

@@ -30,6 +30,7 @@ export default function Lobby() {
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [selectedPlayer, setSelectedPlayer] = useState<string>();
   const [waiting, setWaiting] = useState<boolean>(false);
+  const [closedReason, setClosedReason] = useState<string | null>(null);  
 
   const socket = useSocket();
   const navigate = useNavigate();
@@ -111,12 +112,8 @@ export default function Lobby() {
     });
 
     socket.on("room_closed", (reason: CloseReasons) => {
-      alert(
-        `Sala fechada por ${
-          reason == "time_out" ? "inatividade" : "falta de jogadores"
-        }`
-      );
-      navigate("/");
+      const message = reason == "time_out" ? "inatividade" : "falta de jogadores";
+      setClosedReason(message);
     });
 
     socket.on("kicked", ({ room, player }) => {
@@ -202,6 +199,11 @@ export default function Lobby() {
     if (!result.success) return null;
 
     return navigate("/room");
+  };
+
+  const handleCloseRoomConfirm = () => {
+    setClosedReason(null);
+    navigate("/");
   };
 
   const handlePlay = async () => {
@@ -317,12 +319,12 @@ export default function Lobby() {
         {room && (
           <>
             <section className={styles.players}>
-              <p>JOGADORES NA SALA</p>
+              <p className={styles.labelPlayer}>JOGADORES NA SALA</p>
               <PlayerList room={room} />
             </section>
 
             <section className={styles.spectators}>
-              <p>ESPECTADORES</p>
+              <p className={styles.labelSpectator}>ESPECTADORES</p>
               <SpectatorsList room={room} />
             </section>
 
@@ -332,7 +334,7 @@ export default function Lobby() {
                 className={`${styles.button} ${styles.back}`}
                 type="button"
               >
-                <img src={iconBack} alt="Back" className={styles.icon} />
+                <img src={iconBack} alt="Back" className={styles.iconButtonBack} />
                 Sair
               </button>
 
@@ -400,6 +402,26 @@ export default function Lobby() {
           type={removedType}
           onClose={() => setRemovedType(undefined)}
         />
+      )}
+
+      {closedReason && (
+        <div className={styles.closedOverlay}>
+          <div className={styles.closedPopup}>
+            <div className={styles.closedTitleContainer}>
+              <h2 className={styles.closedTitle}>SALA FECHADA</h2>
+            </div>
+            <p className={styles.closedMessage}>
+              A sala foi encerrada por:<br/>
+              <strong>{closedReason}</strong>
+            </p>
+            <button 
+              className={styles.okButton} 
+              onClick={handleCloseRoomConfirm}
+            >
+              OK
+            </button>
+          </div>
+        </div>
       )}
 
       {isCounting && (

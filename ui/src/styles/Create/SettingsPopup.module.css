@@ -246,8 +246,8 @@
   .popup {
     border-radius: 3rem;
     padding: 2rem 2rem 1rem 2rem;
-    width: min(90%, 450px);
-    max-height: 80vh;
+    width: min(90%, 420px);
+    max-height: 75vh;
     gap: 1.5rem;
   }
 

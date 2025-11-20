@@ -22,20 +22,23 @@
   -webkit-backdrop-filter: blur(10px);
   border-radius: 1rem;
   border: 3px solid white;
-  padding: 1rem;
+  padding: 1rem 0.5rem;
   width: 90%;
   max-width: 500px;
   min-width: 300px;
   text-align: center;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .label {
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 0;
   color: white;
-  -webkit-text-stroke: 1.5px #464646;
+  -webkit-text-stroke: 1px #464646;
   margin-top: 0;
 }
 
@@ -46,6 +49,7 @@
   align-items: center;
   justify-items: center;
   margin: auto;
+  width: 100%;
 }
 
 .settings,
@@ -54,17 +58,15 @@
   flex: 0 0 auto;
   justify-content: center;
   align-items: center;
-  width: 4rem;
-  height: 4rem;
+  width: 3.3rem;
+  height: 3.3rem;
   padding: 0;
-  border-radius: 0.75rem;
+  border-radius: 0.6rem;
   background-color: rgb(21, 248, 29);
   border: 0.2rem solid rgb(77, 255, 89);
-  box-shadow: 0 0.2rem 0 rgb(46, 138, 52);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-  transform: translateY(0.3rem);
   outline: none;
   position: relative;
 }
@@ -76,7 +78,11 @@
 
 .icons {
   color: white;
-  width: 80%;
+  width: 70%;
+}
+
+.iconButtonBack {
+  width: 3rem;
 }
 
 .codecontainer {
@@ -84,29 +90,29 @@
   justify-content: center;
   align-items: center;
   width: min-content;
-  padding: 0 3rem;
-  height: 5rem;
+  padding: 0 1.5rem;
+  height: 3rem;
   background-color: rgb(27, 157, 222);
   border: 5px solid rgb(64, 176, 232);
   box-shadow: 0 6px 0 rgb(57, 68, 148);
-  border-radius: 3rem;
+  border-radius: 2rem;
 }
 
 .code {
-  font-size: clamp(1.5rem, 5em, 2.8rem);
+  font-size: clamp(1.5rem, 6vw, 2.2rem);
   color: white;
   white-space: nowrap;
   -webkit-text-stroke: 0.5px black;
 }
 
 .space {
-  width: 4rem;
+  width: 2rem;
 }
 
 .players,
 .spectators {
   height: 100%;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -116,26 +122,26 @@
 .buttons {
   display: flex;
   justify-content: space-around;
-  gap: 2rem;
+  gap: 0;
   flex-wrap: nowrap;
-  margin-top: 2rem;
   width: 100%;
+  margin: 1rem 0 0.3rem;
 }
 
 .button {
-  width: 10rem;
-  height: 4rem;
+  width: 45%;
+  flex: none;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: start;
-  text-align: center;
+  gap: 0.5rem;
   border: none;
   border-radius: 2rem;
-  padding: 0 0.5rem;
+  padding: 0;
   font-weight: bold;
-  font-size: clamp(20px, 6vw, 25px);
+  font-size: clamp(15px, 6vw, 17px);
   white-space: nowrap;
-  text-align: start;
   color: white;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.2s ease;
@@ -149,16 +155,25 @@
 }
 
 .icon {
-  width: 2.5rem;
+  margin-left: 0.6rem;
+  width: 2.2rem;
+}
+
+.labelPlayer {
+  font-size: 1.6rem;
+  margin-bottom: 0.2rem;
+}
+
+.labelSpectator {
+  font-size: 1.6rem;
+  margin-bottom: 0.2rem;
 }
 
 .play {
   background-color: rgb(240, 125, 34);
   border: 5px solid rgb(255, 143, 55);
   box-shadow: 0 6px 0 rgb(148, 97, 57);
-  font-size: 2rem;
 }
-
 .play:hover {
   border: 5px solid rgb(253, 114, 0);
 }
@@ -168,35 +183,31 @@
   border: 5px solid rgb(91, 91, 91);
   box-shadow: 0 6px 0 rgb(44, 44, 44);
 }
-
 .disabled:hover {
   transform: scale(1);
   cursor: not-allowed;
 }
 
 .back {
-  flex-grow: 0;
-  width: 180px;
   background-color: rgb(240, 44, 38);
   border: 5px solid rgb(195, 60, 60);
   box-shadow: 0 6px 0 rgb(128, 53, 49);
-  font-size: 2.5rem;
 }
-
 .back:hover {
   border: 5px solid rgb(170, 47, 47);
 }
 
 .notificationDot {
   position: absolute;
-  top: -6px;
-  right: -7px;
-  width: 20px;
-  height: 20px;
+  top: -5px;
+  right: -5px;
+  width: 18px;
+  height: 18px;
   background-color: #ff3b30;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  animation: pulse 1s infinite ease-in-out;
 }
 
 @keyframes pulse {
@@ -211,32 +222,198 @@
   }
 }
 
-.notificationDot {
-  animation: pulse 1s infinite ease-in-out;
+.closedOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  user-select: none;
 }
-@media (max-width: 768px) {
-  .code {
-    -webkit-text-stroke: 1.5px black;
+
+.closedPopup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 4px solid white;
+  border-radius: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  padding: 2rem 1.5rem;
+  width: 80%;
+  max-width: 350px;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.closedTitleContainer {
+  background-color: rgb(240, 44, 38);
+  border: 5px solid rgb(195, 60, 60);
+  box-shadow: 0 6px 0 rgb(128, 53, 49);
+  border-radius: 2rem;
+  padding: 0.5rem 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.closedTitle {
+  font-size: 1.8rem;
+  color: white;
+  -webkit-text-stroke: 1px black;
+  margin: 0;
+}
+
+.closedMessage {
+  font-size: 1.4rem;
+  color: white;
+  text-align: center;
+  -webkit-text-stroke: 1px #464646;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.okButton {
+  width: 120px;
+  height: 55px;
+  border-radius: 1.5rem;
+  border: none;
+  font-family: "Lilita One", cursive;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s;
+
+  background-color: rgb(27, 157, 222);
+  border: 4px solid rgb(64, 176, 232);
+  box-shadow: 0 6px 0 rgb(57, 68, 148);
+}
+
+.okButton:hover {
+  transform: translateY(-2px);
+  border-color: rgb(22, 133, 186);
+}
+
+.okButton:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 rgb(57, 68, 148);
+}
+
+@media (width >= 551px) {
+  .card {
+    padding: 1rem;
+    width: min(90%, 450px);
+    max-height: 85vh;
+  }
+
+  .label {
+    font-size: 2rem;
+    -webkit-text-stroke: 1.5px #464646;
   }
 
   .settings,
   .chat {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.75rem;
+    transform: translateY(0.3rem);
   }
-}
 
-@media (max-width: 550px) {
-  .card {
-    padding: 2rem 0.4rem;
-    gap: 0.8rem;
+  .icons {
+    width: 80%;
   }
+
   .codecontainer {
-    width: min-content;
     padding: 0 3rem;
-    height: 5rem;
+    height: 4rem;
+    border-radius: 3rem;
   }
+  .iconButtonBack {
+    margin-left: 1.2rem;
+  }
+
   .code {
-    font-size: clamp(1.2rem, 5em, 2.2rem);
+    font-size: 2.8rem;
+    -webkit-text-stroke: 0.5px black;
+  }
+
+  .space {
+    width: 4rem;
+  }
+
+  .players,
+  .spectators {
+    margin-top: 1.5rem;
+  }
+
+  .buttons {
+    justify-content: space-between;
+    gap: 2rem;
+    width: 90%;
+    margin: 1rem auto;
+  }
+
+  .button {
+    flex: 1 1 45%;
+    width: auto;
+    height: 60px;
+    font-size: clamp(20px, 6vw, 25px);
+    border-radius: 2rem;
+  }
+
+  .icon {
+    margin-left: 1.5rem;
+    width: 2rem;
+  }
+
+  .notificationDot {
+    top: -6px;
+    right: -7px;
+    width: 20px;
+    height: 20px;
+  }
+  .buttons .button:only-child {
+    height: 60px;
+    flex: 0 0 50%;
+    width: auto;
+    margin: 0 auto;
+  }
+
+  .labelPlayer {
+    font-size: 1.8rem;
+  }
+
+  .labelSpectator {
+    font-size: 1.8rem;
+  }
+
+  .closedPopup {
+    padding: 2.5rem;
+    max-width: 450px;
+  }
+
+  .closedTitle {
+    font-size: 2.2rem;
+  }
+
+  .closedMessage {
+    font-size: 1.6rem;
   }
 }

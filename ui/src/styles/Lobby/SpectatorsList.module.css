@@ -1,25 +1,25 @@
 .spectatorList {
-  width: min-content;
+  width: 90%;
   height: min-content;
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 1rem;
-  border: 7px solid white;
+  border: 3px solid white;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   padding: 0.5rem;
-  gap: 1.5rem;
+  gap: 0.5rem;
 }
 
 .empty {
   width: 3.5rem;
   aspect-ratio: 1 / 1;
   display: flex;
-  border-radius: 1.5rem;
+  border-radius: 1.15rem;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -45,13 +45,13 @@
   border: 3px solid white;
 }
 
-@media (max-width: 768px) {
+@media (width >= 551px) {
   .spectatorList {
     gap: 0.5rem
   }
 
   .empty {
-    width: 2.7rem;
+    width: 3.5rem;
     border-radius: 1.15rem;
   }
 }

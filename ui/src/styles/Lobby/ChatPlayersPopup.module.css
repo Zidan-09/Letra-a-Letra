@@ -1,12 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
+
 .panel {
-  position: absolute;
-  right: 5rem;
-  top: 5rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 20rem;
-  max-height: 70vh;
+  width: 80%;
+  max-width: 400px;
+  max-height: 90vh;
   background: rgba(80, 80, 80, 0.4);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -14,16 +18,20 @@
   border: 3px solid white;
   padding: 1rem;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  overflow-y: auto;
 }
 
 .playerList {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  overflow-y: auto;
+  padding-right: 0.2rem;
 }
 
 .playerList::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 .playerList::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
@@ -36,8 +44,9 @@
 .playerList::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.6);
 }
+
 .sectionTitle {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: white;
   margin: 0.5rem 0;
   padding-left: 0.5rem;
@@ -61,9 +70,10 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.8rem;
   transition: all 0.2s ease-in-out;
   overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 .player {
@@ -98,6 +108,10 @@
   color: white;
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50%;
 }
 
 .bannedNickname {
@@ -108,6 +122,7 @@
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  flex-shrink: 0;
 }
 
 .kick,
@@ -116,7 +131,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.3rem;
+  padding: 0.4rem;
   border-radius: 0.8rem;
   transition: transform 0.1s ease;
 }
@@ -125,6 +140,7 @@
 .ban:hover,
 .unban:hover {
   cursor: pointer;
+  transform: translateY(-2px);
 }
 
 .kick {
@@ -146,8 +162,8 @@
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   filter: invert(1);
 }
 
@@ -155,25 +171,81 @@
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  width: 2rem;
-  height: 2rem;
+  width: 2.2rem;
+  height: 2.2rem;
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
   border: 2px solid white;
   border-radius: 50%;
   font-size: 1.5rem;
-  line-height: 1.8rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  z-index: 10;
 }
 
 .closeButton:hover {
   background-color: rgb(240, 44, 38);
 }
+
 .emptyMessage {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   text-align: center;
   padding: 2rem 0;
+}
+
+@media (width >= 551px) {
+  .panel {
+    position: absolute;
+    right: 5rem;
+    top: 5rem;
+    left: auto;
+    transform: none;
+    width: 20rem;
+    max-width: none;
+    max-height: 70vh;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .player,
+  .selected,
+  .banned {
+    padding: 0.5rem 1rem;
+  }
+
+  .nickname,
+  .bannedNickname {
+    font-size: 1.5rem;
+    max-width: 60%;
+  }
+
+  .kick,
+  .ban,
+  .unban {
+    padding: 0.3rem;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .playerList::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .closeButton {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .emptyMessage {
+    font-size: 1.5rem;
+  }
 }

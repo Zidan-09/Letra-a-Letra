@@ -1,8 +1,8 @@
 .avatar {
-  width: 3.5rem;
+  width: 2.9rem;
   aspect-ratio: 1 / 1;
   display: flex;
-  border-radius: 1rem;
+  border-radius: 1.15rem;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -14,9 +14,9 @@
   border: 3px solid white;
 }
 
-@media (max-width: 768px) {
+@media (width >= 551px) {
   .avatar {
-    width: 2.7rem;
-    border-radius: 1.15rem;
+    width: 3.5rem;
+        border-radius: 1.15rem;
   }
 }

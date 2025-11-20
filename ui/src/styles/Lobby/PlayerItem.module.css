@@ -1,6 +1,6 @@
 .item {
-  width: 45%;
-  height: 100%;
+  width: 70%;
+  height: 70px;
   display: flex;
   border-radius: 1.3rem;
   flex-direction: row;
@@ -16,17 +16,32 @@
 
 .avatar {
   margin: 0.4rem;
-  width: 4rem;
+  width: 3rem;
   aspect-ratio: 1 / 1;
-  border-radius: 1.2rem;
+  border-radius: 1rem;
   border: 3px solid white;
 }
 
 .nickname {
-  width: 5.7rem;
-  font-size: 2rem;
+  width: 5rem;
+  font-size: 1rem;
   white-space: nowrap;
   text-align: start;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media (width >= 551px) {
+  .item {
+    width: 70%;
+    height: 70px;
+  }
+
+  .nickname {
+    font-size: 1.8rem;
+  }
+
+  .avatar {
+    width: 3.5rem;
+  }
 }
