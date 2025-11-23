@@ -61,6 +61,7 @@
 }
 
 .labelName {
+  font-size: 1.5rem;
   margin-bottom: -0.5rem;
   margin-top: 0.5rem;
 }
@@ -78,7 +79,7 @@
 }
 
 .input:focus {
-  border: 3px solid rgb(255, 143, 55);
+  border: 2px solid rgb(255, 143, 55);
   opacity: 1;
   color: black;
 }
@@ -249,6 +250,10 @@
   width: 3rem;
 }
 
+.icon1 {
+  width: 2.5rem;
+}
+
 .create {
   background-color: rgb(27, 157, 222);
   border: 5px solid rgb(64, 176, 232);
@@ -299,6 +304,10 @@
   .label {
     font-size: 1.8rem;
     -webkit-text-stroke: 1.5px #464646;
+  }
+
+  .labelName {
+    font-size: 2rem;
   }
 
   .input {
@@ -367,6 +376,7 @@
 
   .button {
     width: auto;
+    height: 60px;
     flex: 1 1 45%;
     font-size: clamp(20px, 6vw, 25px);
   }
@@ -374,5 +384,9 @@
   .icon {
     margin-left: 1.5rem;
     width: 2rem;
+  }
+
+  .icon1 {
+    width: 3rem;
   }
 }

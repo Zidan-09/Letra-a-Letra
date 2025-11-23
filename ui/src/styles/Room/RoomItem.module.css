@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .item {
-  width: 95%;
+  width: 100%;
   height: min-content;
-  min-height: 90px;
+  min-height: 80px;
   display: flex;
-  border-radius: 1.3rem;
+  border-radius: 2rem;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
@@ -136,14 +136,7 @@
   white-space: nowrap;
 }
 
-@media (max-width: 550px) {
-  .item {
-    min-height: 70px;
-  }
-  .room_name {
-    font-size: 2rem;
-  }
-  .createdBy {
-    margin-top: -0.5rem;
-  }
-}
+@media (width >= 551px) {
+   .item {
+    width: 90%;
+}}
