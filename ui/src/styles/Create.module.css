@@ -84,31 +84,6 @@
   color: black;
 }
 
-.rangeContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  width: 85%;
-  justify-content: center;
-  align-items: center;
-}
-
-.range {
-  width: 70%;
-  cursor: pointer;
-}
-
-.range:focus,
-.range:hover {
-  outline: none;
-}
-
-.timer {
-  font-size: 1.2rem;
-  color: white;
-  -webkit-text-stroke: 1px black;
-}
-
 .settings {
   display: flex;
   align-items: center;

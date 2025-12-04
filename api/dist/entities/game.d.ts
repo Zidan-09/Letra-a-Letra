@@ -17,12 +17,11 @@ export declare class Game {
     bannedPlayers: Player[];
     created_by: string;
     creator: string;
-    timer: number;
     turn: number;
     board: Board | null;
     allowSpectators: boolean;
     privateRoom: boolean;
-    constructor(room_id: string, room_name: string, status: GameStatus, player: Player, timer: number, allowSpectators: boolean, privateRoom: boolean);
+    constructor(room_id: string, room_name: string, status: GameStatus, player: Player, allowSpectators: boolean, privateRoom: boolean);
     toJSON(): {
         room_id: string;
         room_name: string;
@@ -34,7 +33,6 @@ export declare class Game {
         bannedPlayers: Player[];
         created_by: string;
         creator: string;
-        timer: number;
         turn: number;
         board: Board | null;
         allowSpectators: boolean;

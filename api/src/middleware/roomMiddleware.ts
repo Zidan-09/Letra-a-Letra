@@ -23,12 +23,11 @@ export const RoomMiddleware = {
     next: NextFunction
   ) {
     try {
-      const { room_name, timer, allowSpectators, privateRoom, player_id } =
+      const { room_name, allowSpectators, privateRoom, player_id } =
         req.body;
 
       if (
         !room_name ||
-        !timer ||
         room_name.length > 10 ||
         allowSpectators === undefined ||
         privateRoom === undefined ||

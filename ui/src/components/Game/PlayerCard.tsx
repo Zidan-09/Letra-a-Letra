@@ -6,7 +6,6 @@ import styles from "../../styles/Game/PlayerCard.module.css";
 interface PlayerCardProps {
   id: 0 | 1;
   player: Player;
-  timer: number | undefined;
   turn: number;
   turnStart: number;
 }
@@ -14,14 +13,14 @@ interface PlayerCardProps {
 export default function PlayerCard({
   id,
   player,
-  timer,
   turn,
   turnStart,
 }: PlayerCardProps) {
   const [progress, setProgress] = useState<number>(0);
   const [borderColor, setBorderColor] = useState("#4caf50");
+  const timer = 30;
 
-  if (!player || !timer) return;
+  if (!player) return;
 
   const timerBorder = turn % 2 === player.turn;
 

@@ -31,7 +31,6 @@ export const GameSocket = {
         spectators: room.spectators,
         created_by: room.created_by,
         creator: room.creator,
-        timer: room.timer,
         turn: room.turn,
         allowSpectators: room.allowSpectators,
         privateRoom: room.privateRoom,

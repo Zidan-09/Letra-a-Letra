@@ -18,7 +18,6 @@ class RoomServices {
 
   public createRoom(
     room_name: string,
-    timer: number,
     allowSpectators: boolean,
     privateRoom: boolean,
     player_id: string
@@ -31,7 +30,6 @@ class RoomServices {
       room_name,
       GameStatus.GameStarting,
       player,
-      timer,
       allowSpectators,
       privateRoom
     );

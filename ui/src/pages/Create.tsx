@@ -12,7 +12,6 @@ import type { RoomSettings } from "../utils/room_utils";
 
 export default function Create() {
   const [roomName, setRoomName] = useState<string>("");
-  const [turnTime, setTurnTime] = useState<number>(15);
   const [theme, setTheme] = useState<string>("random");
   const [allowedPowers, setAllowedPowers] = useState<MovementsEnum[]>([
     "BLIND",
@@ -61,7 +60,6 @@ export default function Create() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         room_name: roomName,
-        timer: turnTime || 15,
         allowSpectators: spectators,
         privateRoom: privateRoom,
         player_id: socket.id,
@@ -99,26 +97,6 @@ export default function Create() {
           className={styles.input}
         />
 
-        <div className={styles.rangeContainer}>
-          <p className={styles.label}>Tempo do Turno</p>
-
-          <input
-            type="range"
-            name="turn"
-            id="turn"
-            min="15"
-            max="60"
-            step="1"
-            value={turnTime}
-            onChange={(e) => setTurnTime(Number(e.target.value))}
-            aria-label="turn"
-            className={styles.range}
-          />
-
-          <span className={styles.timer} translate="no">
-            {turnTime}s
-          </span>
-        </div>
 
         <div className={styles.switchs}>
           <div className={styles.switchContainer}>
