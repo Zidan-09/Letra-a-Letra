@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "letra-a-letra": "file:..",
+    "lucide-react": "^0.555.0",
     "react": "^19.1.1",
     "react-confetti": "^6.4.0",
     "react-dom": "^19.1.1",

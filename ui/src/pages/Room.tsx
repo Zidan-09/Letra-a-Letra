@@ -150,7 +150,7 @@ export default function Room() {
             className={`${styles.button} ${styles.back}`}
             onClick={handleBack}
           >
-            <img src={iconBack} alt="Back" className={styles.icon} />
+            <img src={iconBack} alt="Back" className={styles.iconBack} />
             Voltar
           </button>
           {selectedRoom && room && room.players.filter(Boolean).length >= 2 ? (

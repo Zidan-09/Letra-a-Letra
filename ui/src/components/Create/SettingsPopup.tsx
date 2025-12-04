@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import type { GameModes, MovementsEnum } from "../../utils/room_utils";
-import { Themes, ThemeTranslations } from "../../utils/themes.ts";
+import ThemeSelector from "./ThemeSelector.tsx";
 import PowerList from "./PowerList.tsx";
+import GamemodeSelector from "./GamemodeSelector";
 import { ALL_POWERS } from "../../utils/room_utils.ts";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import styles from "../../styles/Create/SettingsPopup.module.css";
@@ -16,15 +17,6 @@ interface SettingsPopupProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-
-const modeOrder: GameModes[] = [
-  "NORMAL",
-  "EASY",
-  "HARD",
-  "INSANE",
-  "CATACLISM",
-];
 
 export default function SettingsPopup({
   theme,
@@ -54,7 +46,7 @@ export default function SettingsPopup({
   useEffect(() => {
     if (isOpen) {
       setLocalTheme(theme);
-      setLocalGamemode(modeOrder.includes(gamemode) ? gamemode : "NORMAL");
+      setLocalGamemode(gamemode || "NORMAL");
       setLocalPowers(allowedPowers);
     }
   }, [isOpen, theme, gamemode, allowedPowers]);
@@ -74,28 +66,6 @@ export default function SettingsPopup({
     onClose();
   };
 
-  const gamemodeLabels: Record<GameModes, string> = {
-    NORMAL: "Normal",
-    EASY: "Fácil",
-    HARD: "Difícil",
-    INSANE: "Insano",
-    CATACLISM: "Cataclismo",
-  };
-
-  const gamemodeStyles: Record<GameModes, string> = {
-    NORMAL: styles.gamemodeNormal,
-    EASY: styles.gamemodeEasy,
-    HARD: styles.gamemodeHard,
-    INSANE: styles.gamemodeInsane,
-    CATACLISM: styles.gamemodeCataclism,
-  };
-
-  const handleModeCycle = () => {
-    const currentIndex = modeOrder.indexOf(localGamemode);
-    const nextIndex = (currentIndex + 1) % modeOrder.length;
-    setLocalGamemode(modeOrder[nextIndex]);
-  };
-
   return (
     <div className={styles.overlay} onClick={handleBack}>
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
@@ -110,28 +80,19 @@ export default function SettingsPopup({
           <div className={styles.sideBySide}>
             <div className={styles.settingSection}>
               <p className={styles.labelTheme}>Tema</p>
-              <select
-                title="Theme"
-                className={styles.selectTheme}
-                value={localTheme}
-                onChange={(e) => setLocalTheme(e.target.value)}
-              >
-                {Themes.map((t, index) => (
-                  <option key={index} value={t}>
-                    {ThemeTranslations[t]}
-                  </option>
-                ))}
-              </select>
+
+              <ThemeSelector 
+                currentTheme={localTheme} 
+                setTheme={setLocalTheme} 
+              />
             </div>
 
             <div className={styles.settingSection}>
               <p className={styles.labelTheme}>Modo</p>
-              <button
-                className={`${styles.button} ${gamemodeStyles[localGamemode]}`}
-                onClick={handleModeCycle}
-              >
-                {gamemodeLabels[localGamemode]}
-              </button>
+              <GamemodeSelector 
+                currentMode={localGamemode} 
+                onChange={setLocalGamemode} 
+              />
             </div>
           </div>
 
