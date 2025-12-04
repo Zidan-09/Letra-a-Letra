@@ -82,7 +82,7 @@ export default function PowerItem({
   };
 
   const handleMouseEnter = () => {
-    if (selected) setHover(true);
+    setHover(true);
   };
 
   const handleMouseLeave = () => {
@@ -129,7 +129,7 @@ export default function PowerItem({
         </div>
       )}
 
-      {selected && hover && createPortal(
+      {hover && createPortal(
         <PowerDescription power={movement} />,
         document.body
       )}
