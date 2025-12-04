@@ -11,9 +11,8 @@ const banReasons_1 = require("../utils/player/banReasons");
 exports.RoomMiddleware = {
     createRoom(req, res, next) {
         try {
-            const { room_name, timer, allowSpectators, privateRoom, player_id } = req.body;
+            const { room_name, allowSpectators, privateRoom, player_id } = req.body;
             if (!room_name ||
-                !timer ||
                 room_name.length > 10 ||
                 allowSpectators === undefined ||
                 privateRoom === undefined ||

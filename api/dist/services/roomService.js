@@ -18,11 +18,11 @@ class RoomServices {
     constructor() {
         this.rooms = new Map();
     }
-    createRoom(room_name, timer, allowSpectators, privateRoom, player_id) {
+    createRoom(room_name, allowSpectators, privateRoom, player_id) {
         const player = playerService_1.PlayerService.getPlayer(player_id);
         if (player === serverResponses_1.ServerResponses.NOT_FOUND)
             return serverResponses_1.ServerResponses.NOT_FOUND;
-        const room = new game_1.Game((0, nanoid_1.nanoid)(6), room_name, gameStatus_1.GameStatus.GameStarting, player, timer, allowSpectators, privateRoom);
+        const room = new game_1.Game((0, nanoid_1.nanoid)(6), room_name, gameStatus_1.GameStatus.GameStarting, player, allowSpectators, privateRoom);
         (0, logger_1.createLog)(room.room_id, logEnum_1.LogEnum.ROOM_CREATED);
         (0, logger_1.createLog)(room.room_id, `${player.nickname} ${logEnum_1.LogEnum.PLAYER_JOINED}`);
         this.rooms.set(room.room_id, room);

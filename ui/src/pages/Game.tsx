@@ -25,7 +25,6 @@ export default function Game() {
   const [p2, setP2] = useState<Player>();
   const [cells, setCells] = useState<Record<CellKeys, CellUpdate>>({});
   const [turn, setTurn] = useState<number>(0);
-  const [timer, setTimer] = useState<number>();
   const [viewFlipped, setViewFlipped] = useState<boolean>(false);
   const turnStartRef = useRef<number>(Date.now());
   const [hidedLetters, setHidedLetters] = useState<CellUpdate[]>([]);
@@ -52,14 +51,13 @@ export default function Game() {
     navigate,
     setRoom,
     setWords,
-    setTimer,
     setP1,
     setP2,
     setLoading,
     setCells
   );
 
-  PassTurnHook.useAutoPassTurn(room, p1, timer, turn);
+  PassTurnHook.useAutoPassTurn(room, p1, turn);
 
   PassTurnHook.useAutoEffectPassTurn(room, p1, turn);
 
@@ -160,7 +158,6 @@ export default function Game() {
         <PlayerCard
           id={0}
           player={viewFlipped ? p2 : p1}
-          timer={timer}
           turn={turn}
           turnStart={turnStartRef.current}
         />
@@ -170,7 +167,6 @@ export default function Game() {
         <PlayerCard
           id={1}
           player={viewFlipped ? p1 : p2}
-          timer={timer}
           turn={turn}
           turnStart={turnStartRef.current}
         />

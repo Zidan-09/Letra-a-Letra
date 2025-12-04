@@ -23,7 +23,6 @@ export class Game {
   bannedPlayers: Player[] = [];
   created_by: string;
   creator: string;
-  timer: number;
   turn: number;
   board: Board | null;
   allowSpectators: boolean;
@@ -34,7 +33,6 @@ export class Game {
     room_name: string,
     status: GameStatus,
     player: Player,
-    timer: number,
     allowSpectators: boolean,
     privateRoom: boolean
   ) {
@@ -43,7 +41,6 @@ export class Game {
     this.status = status;
     this.created_by = player.player_id;
     this.creator = player.nickname;
-    this.timer = timer;
     this.turn = 0;
     this.board = null;
     this.allowSpectators = allowSpectators;
@@ -65,7 +62,6 @@ export class Game {
       bannedPlayers: this.bannedPlayers,
       created_by: this.created_by,
       creator: this.creator,
-      timer: this.timer,
       turn: this.turn,
       board: this.board,
       allowSpectators: this.allowSpectators,

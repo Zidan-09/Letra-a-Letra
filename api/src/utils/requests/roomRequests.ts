@@ -1,6 +1,5 @@
 interface CreateRoom {
   room_name: string;
-  timer: number;
   allowSpectators: boolean;
   privateRoom: boolean;
   player_id: string;

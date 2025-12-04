@@ -6,11 +6,10 @@ export const PassTurnHook = {
   useAutoPassTurn(
     room: Game | undefined,
     p1: Player | undefined,
-    timer: number | undefined,
     turn: number
   ) {
     useEffect(() => {
-      if (!room || !p1 || !timer) return;
+      if (!room || !p1) return;
 
       const isMyTurn =
         turn % 2 === p1.turn || (turn === 0 && turn % 2 === p1.turn);
@@ -19,7 +18,7 @@ export const PassTurnHook = {
 
       const timeout = setTimeout(() => {
         PassTurn.passTurnTimer(p1, room.room_id);
-      }, timer * 1000);
+      }, 30 * 1000);
 
       return () => clearTimeout(timeout);
     }, [room, p1, turn]);

@@ -12,7 +12,6 @@ interface GameData {
   spectators: Player[];
   created_by: string;
   creator: string;
-  timer: number;
   turn: number;
   allowSpectators: boolean;
   privateRoom: boolean;

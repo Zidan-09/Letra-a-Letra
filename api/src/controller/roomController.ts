@@ -16,7 +16,6 @@ export const RoomController = {
   createRoom(req: Request<{}, {}, CreateRoom>, res: Response) {
     const {
       room_name,
-      timer,
       allowSpectators,
       privateRoom,
       player_id,
@@ -25,7 +24,6 @@ export const RoomController = {
     try {
       const room = RoomService.createRoom(
         room_name,
-        timer,
         allowSpectators,
         privateRoom,
         player_id

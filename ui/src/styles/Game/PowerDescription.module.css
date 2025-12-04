@@ -1,0 +1,14 @@
+.container {
+  width: min-content;
+  height: min-content;
+  background: rgb(27, 157, 222);
+}
+
+.description, .warning {
+  font-size: 1rem;
+  color: white;
+}
+
+.warning {
+  color: yellow;
+}

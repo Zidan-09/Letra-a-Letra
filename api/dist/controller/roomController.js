@@ -7,9 +7,9 @@ const roomResponses_1 = require("../utils/responses/roomResponses");
 const serverResponses_1 = require("../utils/responses/serverResponses");
 exports.RoomController = {
     createRoom(req, res) {
-        const { room_name, timer, allowSpectators, privateRoom, player_id, } = req.body;
+        const { room_name, allowSpectators, privateRoom, player_id, } = req.body;
         try {
-            const room = roomService_1.RoomService.createRoom(room_name, timer, allowSpectators, privateRoom, player_id);
+            const room = roomService_1.RoomService.createRoom(room_name, allowSpectators, privateRoom, player_id);
             if (room)
                 return handleResponse_1.HandleResponse.serverResponse(res, 201, true, roomResponses_1.RoomResponses.ROOM_CREATED, room);
             return handleResponse_1.HandleResponse.serverResponse(res, 400, false, roomResponses_1.RoomResponses.ROOM_CREATION_FAILED);

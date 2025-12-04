@@ -13,7 +13,6 @@ export function useInitializeGame(
   navigate: NavigateFunction,
   setRoom: Dispatch<SetStateAction<Game | undefined>>,
   setWords: Dispatch<SetStateAction<string[] | undefined>>,
-  setTimer: Dispatch<SetStateAction<number | undefined>>,
   setP1: Dispatch<SetStateAction<Player | undefined>>,
   setP2: Dispatch<SetStateAction<Player | undefined>>,
   setLoading: Dispatch<SetStateAction<boolean>>,
@@ -48,7 +47,6 @@ export function useInitializeGame(
 
     setRoom(data);
     setWords(wordsParsed);
-    setTimer(data.timer);
 
     if (me.spectator) {
       setP1(p1Data);

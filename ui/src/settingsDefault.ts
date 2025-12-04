@@ -1,0 +1,4 @@
+{
+  "server": "https://letra-a-letra.onrender.com/api/v1",
+  "socket": "https://letra-a-letra.onrender.com/"
+}

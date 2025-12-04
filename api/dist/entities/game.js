@@ -10,7 +10,7 @@ const board_1 = require("./board");
 const closeReasons_1 = require("../utils/room/closeReasons");
 const timeOut_1 = require("../utils/room/timeOut");
 class Game {
-    constructor(room_id, room_name, status, player, timer, allowSpectators, privateRoom) {
+    constructor(room_id, room_name, status, player, allowSpectators, privateRoom) {
         this.players = Array(2).fill(undefined);
         this.spectators = Array(5).fill(undefined);
         this.bannedPlayerIds = [];
@@ -20,7 +20,6 @@ class Game {
         this.status = status;
         this.created_by = player.player_id;
         this.creator = player.nickname;
-        this.timer = timer;
         this.turn = 0;
         this.board = null;
         this.allowSpectators = allowSpectators;
@@ -41,7 +40,6 @@ class Game {
             bannedPlayers: this.bannedPlayers,
             created_by: this.created_by,
             creator: this.creator,
-            timer: this.timer,
             turn: this.turn,
             board: this.board,
             allowSpectators: this.allowSpectators,
