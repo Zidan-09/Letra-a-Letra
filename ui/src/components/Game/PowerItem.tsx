@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import type { MovementsEnum } from "../../utils/room_utils";
 import { powers, border } from "../../utils/powers";
 import trash from "../../assets/buttons/icon-trash.svg";
-import styles from "../../styles/Game/PowerItem.module.css";
 import { powerNamesTranslations } from "../../utils/room_utils";
+import PowerDescription from "./PowerDescription";
+import styles from "../../styles/Game/PowerItem.module.css";
 
 interface PowerItemProps {
   idx: number;
@@ -27,6 +29,7 @@ export default function PowerItem({
   discardPower,
 }: PowerItemProps) {
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
+  const [hover, setHover] = useState(false);
 
   const isMobile =
     typeof window !== "undefined" && window.innerWidth <= 768;
@@ -35,6 +38,7 @@ export default function PowerItem({
     const isSelected = !selected;
     selectIdx(isSelected ? idx : undefined);
     selectMove(isSelected ? movement : "REVEAL");
+    setHover(true);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -77,6 +81,14 @@ export default function PowerItem({
     setTouchStartY(null);
   };
 
+  const handleMouseEnter = () => {
+    if (selected) setHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setHover(false);
+  };
+
   const borderColor = border(movement);
 
   return (
@@ -95,9 +107,19 @@ export default function PowerItem({
         </div>
       )}
 
-      <img src={powers[movement]} alt="icon" className={styles.icon} />
+      <img
+      src={powers[movement]}
+      alt="icon"
+      className={styles.icon}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      />
 
-      <span className={`${styles.label} ${selected ? styles.visible : ""}`}>
+      <span
+      className={`${styles.label} ${selected ? styles.visible : ""}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      >
         {powerNamesTranslations[movement]}
       </span>
 
@@ -105,6 +127,11 @@ export default function PowerItem({
         <div className={styles.useButton} onClick={() => applyEffect()}>
           <p>{">"}</p>
         </div>
+      )}
+
+      {selected && hover && createPortal(
+        <PowerDescription power={movement} />,
+        document.body
       )}
     </div>
   );
