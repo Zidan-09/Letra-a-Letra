@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 .empty {
@@ -21,6 +22,7 @@
   font-family: "Lilita One", cursive;
   -webkit-text-stroke: 1.5px black;
   outline: none;
+  transition: transform 0.1s ease, border 0.2s ease;
   background: rgba(255, 255, 255, 0.5);
   border: 3px solid white;
 }

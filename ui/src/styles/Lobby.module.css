@@ -405,8 +405,8 @@
   }
 
   .closedPopup {
-    padding: 2.5rem;
-    max-width: 450px;
+    padding: 2rem 0.5rem;
+    max-width: 350px;
   }
 
   .closedTitle {

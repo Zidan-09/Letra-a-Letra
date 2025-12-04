@@ -214,18 +214,23 @@
 
   .button {
     flex: 1 1 45%;
-    height: 60px;
+    height: 57px;
     font-size: clamp(20px, 6vw, 25px);
     padding: 0 0.5rem;
   }
 
   .icon {
-    margin-left: 1rem;
+    margin-left: 2rem;
     width: 2rem;
+  }
+
+  .iconBack {
+    width: 3rem;
+    margin-left: 1rem;
   }
 
   .code {
     width: 45%;
-    padding: 14px;
+    padding: 12px;
   }
 }

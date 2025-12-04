@@ -26,6 +26,7 @@
   font-family: "Lilita One", cursive;
   -webkit-text-stroke: 1.5px black;
   outline: none;
+  transition: transform 0.1s ease, border-color 0.1s ease;
   background: linear-gradient(45deg, rgb(64, 176, 232), rgb(127, 212, 255));
   border: 3px solid white;
 }
