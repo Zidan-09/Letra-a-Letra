@@ -1,14 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
+
 .container {
-  width: min-content;
+  position: absolute;
+  left: 1rem;
+  top: 50vh;
+  transform: translateY(-50%);
+  width: 12rem;
   height: min-content;
   background: rgb(27, 157, 222);
+  border: 0.2rem solid white;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  font-family: "Lilita One", cursive;
 }
 
 .description, .warning {
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: white;
 }
 
 .warning {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
   color: yellow;
 }

@@ -48,7 +48,7 @@ export const PowerDescriptions: { power: MovementsEnum, description: string, war
   },
   {
     power: "IMMUNITY",
-    description: "Concede imunidade por 5 turnos. Durante esse período, qualquer poder negativo usado pelo adversário (como FREEZE ou BLIND) não terá efeito.",
+    description: "Concede imunidade por 5 turnos. Durante esse período, qualquer poder negativo usado pelo adversário não terá efeito.",
     warning: null
   },
 ];
