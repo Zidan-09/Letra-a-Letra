@@ -57,7 +57,7 @@ export default function Game() {
     setCells
   );
 
-  /* PassTurnHook.useAutoPassTurn(room, p1, turn); */
+  PassTurnHook.useAutoPassTurn(room, p1, turn);
 
   PassTurnHook.useAutoEffectPassTurn(room, p1, turn);
 
