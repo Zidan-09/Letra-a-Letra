@@ -21,6 +21,7 @@ import styles from "../styles/Lobby.module.css";
 import SettingsPopup from "../components/Create/SettingsPopup";
 import ActionPopup from "../components/Lobby/ActionPopup";
 import Countdown from "../components/Lobby/CountDown";
+import ClosedPopup from "../components/Lobby/ClosedPopup";
 
 export default function Lobby() {
   const [room, setRoom] = useState<Game | null>(null);
@@ -30,7 +31,7 @@ export default function Lobby() {
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [selectedPlayer, setSelectedPlayer] = useState<string>();
   const [waiting, setWaiting] = useState<boolean>(false);
-  const [closedReason, setClosedReason] = useState<string | null>(null);  
+  const [closedReason, setClosedReason] = useState<string | null>(null);
 
   const socket = useSocket();
   const navigate = useNavigate();
@@ -404,25 +405,16 @@ export default function Lobby() {
         />
       )}
 
-      {closedReason && (
-        <div className={styles.closedOverlay}>
-          <div className={styles.closedPopup}>
-            <div className={styles.closedTitleContainer}>
-              <h2 className={styles.closedTitle}>SALA FECHADA</h2>
-            </div>
-            <p className={styles.closedMessage}>
-              A sala foi encerrada por:<br/>
-              <strong>{closedReason}</strong>
-            </p>
-            <button 
-              className={styles.okButton} 
-              onClick={handleCloseRoomConfirm}
-            >
-              OK
-            </button>
-          </div>
-        </div>
-      )}
+      <ClosedPopup 
+          isOpen={!!closedReason} 
+         onClose={handleCloseRoomConfirm}
+          title="SALA FECHADA"
+          >
+        <p>
+          A sala foi encerrada por:<br/>
+          <strong>{closedReason}</strong>
+        </p>
+      </ClosedPopup>
 
       {isCounting && (
         <Countdown

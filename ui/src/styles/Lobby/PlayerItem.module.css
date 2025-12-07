@@ -24,7 +24,7 @@
 
 .nickname {
   width: 5rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   white-space: nowrap;
   text-align: start;
   overflow: hidden;
@@ -38,7 +38,7 @@
   }
 
   .nickname {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 
   .avatar {
