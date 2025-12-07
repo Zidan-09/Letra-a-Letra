@@ -1,5 +1,5 @@
 .playerList {
-  width: 90%;
+  width: 95%;
   height: 4rem;
   background: transparent;
   display: flex;
@@ -44,7 +44,7 @@
 }
 
 .emptyMessage {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 @media (width >= 551px) {

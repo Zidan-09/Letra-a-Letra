@@ -14,6 +14,7 @@ import WinnerOverlay from "../components/Game/WinnerOverlay";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.svg";
 import iconSwitch from "../assets/buttons/icon-viewer.svg";
+import ClosedPopup from "../components/Lobby/ClosedPopup";
 import styles from "../styles/Game.module.css";
 import { PassTurnHook } from "../hooks/Game/useTurnSystem";
 import { useHiddenSystem } from "../hooks/Game/useHiddenSystem";
@@ -38,6 +39,7 @@ export default function Game() {
   const [winner, setWinner] = useState<Player | NullPlayer | undefined>(
     undefined
   );
+  const [showAfkModal, setShowAfkModal] = useState<boolean>(false);
   const [isChatOpen, setChatOpen] = useState<boolean>(false);
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -84,7 +86,8 @@ export default function Game() {
     setHidedWords,
     setRoom,
     navigate,
-    setWinner
+    setWinner,
+    setShowAfkModal
   );
 
   const handleMovement = async (x?: number, y?: number) => {
@@ -148,6 +151,11 @@ export default function Game() {
     if (p1?.player_id === socket.id) return;
 
     setViewFlipped((prev) => !prev);
+  };
+
+  const handleAfkConfirm = () => {
+    setShowAfkModal(false);
+    navigate("/room");
   };
 
   if (loading || !p1 || !p2 || !words) return <Loading />;
@@ -227,6 +235,14 @@ export default function Game() {
         winner={winner}
         isOpen={winner ? true : false}
       />
+      <ClosedPopup
+        isOpen={showAfkModal}
+        onClose={handleAfkConfirm}
+        title="SALA FECHADA"
+      >
+        <p>Você foi desconectado por inatividade.</p>
+      </ClosedPopup>
+      
       {p1.player_id !== socket.id && (
         <button
           type="button"

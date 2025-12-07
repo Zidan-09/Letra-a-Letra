@@ -34,7 +34,9 @@ export function useSocketHandlers(
   >,
   setRoom: Dispatch<SetStateAction<Game | undefined>>,
   navigate: NavigateFunction,
-  setWinner: Dispatch<SetStateAction<Player | NullPlayer | undefined>>
+  setWinner: Dispatch<SetStateAction<Player | NullPlayer | undefined>>,
+  // 👇 Recebendo a função para abrir o modal
+  setShowAfkModal: Dispatch<SetStateAction<boolean>>
 ) {
   useEffect(() => {
     if (!socket) return;
@@ -77,39 +79,33 @@ export function useSocketHandlers(
     socket.on("discard_power", (updatedRoom: Game) => {
       setP1((prev) => {
         if (!prev) return prev;
-
         const copy = { ...prev };
         const player = updatedRoom.players.find(
           (p) => p.player_id === copy.player_id
         );
-
         if (!player) return prev;
-
         return player;
       });
 
       setP2((prev) => {
         if (!prev) return prev;
-
         const copy = { ...prev };
         const player = updatedRoom.players.find(
           (p) => p.player_id === copy.player_id
         );
-
         if (!player) return prev;
-
         return player;
       });
     });
 
     socket.on("afk", (player_id) => {
-      alert("Você foi desconectado por inatividade");
-      if (socket.id === player_id) navigate("/room");
+      if (socket.id === player_id) {
+        setShowAfkModal(true);
+      }
     });
 
     socket.on("game_over", ({ winner, room }) => {
       if (room) localStorage.setItem("game", JSON.stringify(room));
-
       setWinner(winner);
     });
 
@@ -123,5 +119,5 @@ export function useSocketHandlers(
       spyTimers.current.forEach((timer) => clearTimeout(timer));
       spyTimers.current.clear();
     };
-  }, [socket, setP1, setP2, setCells, setFindeds]);
+  }, [socket, setP1, setP2, setCells, setFindeds, setShowAfkModal]);
 }

@@ -162,28 +162,3 @@
     font-size: 1rem;
   }
 }
-
-/* .card {
-    flex-direction: column;
-    align-items: center;
-    padding: 0.8rem;
-    text-align: center;
-  }
-
-  .infoContainer {
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .powersContainerP1,
-  .powersContainerP2 {
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  .nickname {
-    order: 2;
-    margin-top: 0.5rem;
-  } */
