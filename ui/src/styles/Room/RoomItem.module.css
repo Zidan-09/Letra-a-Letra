@@ -13,6 +13,7 @@
   font-family: "Lilita One", cursive;
   -webkit-text-stroke: 1.5px black;
   outline: none;
+  transition: transform 0.1s ease-in-out;
 }
 
 .container1 {
@@ -138,5 +139,5 @@
 
 @media (width >= 551px) {
    .item {
-    width: 90%;
+    width: 95%;
 }}
