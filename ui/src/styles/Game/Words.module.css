@@ -2,24 +2,26 @@
 
 .wordsContainer {
   display: flex;
-  flex-direction: column;
-  width: min-content;
-  height: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 0.5rem 0;
+  height: 20%;
+  gap: 0.5rem;
   background: rgba(255, 255, 255, 0.2);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: 1rem;
   border: 3px solid white;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-  padding: 0.5rem;
-  box-shadow: 6px 6px 10px black;
-  gap: 0.5rem;
-  margin: 3rem;
+  padding: 0.3rem;
 }
 
 .word {
   font-family: "Lilita One", cursive;
-  font-size: 3rem;
+  font-size: 1.4rem;
   color: white;
   -webkit-text-stroke: 2px black;
   text-align: center;
@@ -33,19 +35,17 @@
   color: #f07d22;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 551px) {
   .wordsContainer {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 80%;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 1.2rem 0;
-    gap: 1rem;
+    flex-direction: column;
+    width: min-content;
+    height: auto;
+    margin: 3rem;
+    gap: 0.5rem;
   }
 
   .word {
-    font-size: 1.5rem;
+    font-size: 3rem;
   }
 }

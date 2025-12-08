@@ -33,7 +33,7 @@
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 0.3rem solid white;
+  border: 0.2rem solid white;
   border-radius: 2rem;
   justify-content: space-between;
   align-items: center;

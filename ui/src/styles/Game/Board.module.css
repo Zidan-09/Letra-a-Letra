@@ -1,9 +1,9 @@
 .board {
   aspect-ratio: 1 / 1;
   padding: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   display: flex;
-  gap: 0.3rem;
+  gap: 0.1rem;
   flex-direction: column;
   background-color: rgb(255, 255, 255);
   border-radius: 1rem;
@@ -20,16 +20,16 @@
 
 .row {
   display: flex;
-  gap: 0.3rem;
+  gap: 0.1rem;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 551px) {
   .board {
-    gap: 0.1rem;
-    margin-bottom: 0.5rem;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
   }
 
   .row {
-    gap: 0.1rem;
+    gap: 0.3rem;
   }
 }

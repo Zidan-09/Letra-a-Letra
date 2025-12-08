@@ -1,36 +1,43 @@
 .extraButtons {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  width: 95%;
   height: min-content;
-  bottom: 0;
-  left: 0;}
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
 
-.button {
-  height: 60px;
-  max-width: 50%;
-  min-width: 10%;
+.button, 
+.switchView {
+  height: 50px;
+  flex: 1;
+  max-width: 150px;
+  min-width: min-content;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  border: none;
+  gap: 0.3rem;
   border-radius: 1rem;
-  padding: 0 1rem;
+  padding: 0 0.2rem;
+  font-family: "Lilita One", cursive;
   font-weight: bold;
-  font-size: clamp(15px, 3vw, 30px);
+  font-size: clamp(14px, 2.5vw, 24px);
   white-space: nowrap;
-  text-align: start;
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   outline: none;
   pointer-events: all;
+  margin-top: 0.5rem;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  border: none;
 }
 
 .button:hover,
-.button:focus {
+.button:focus,
+.switchView:hover {
   transform: translateY(-2px);
 }
 
@@ -39,7 +46,6 @@
   border: 5px solid rgb(195, 60, 60);
   box-shadow: 0 6px 0 rgb(128, 53, 49);
 }
-
 .back:hover {
   border: 5px solid rgb(170, 47, 47);
 }
@@ -48,47 +54,57 @@
   background-color: rgb(27, 157, 222);
   border: 5px solid rgb(64, 176, 232);
   box-shadow: 0 6px 0 rgb(57, 68, 148);
-  pointer-events: all;
+  position: relative;
 }
-
 .chat:hover {
   border: 5px solid rgb(22, 133, 186);
 }
 
+.switchView {
+  background-color: rgb(21, 248, 29);
+  border: 5px solid rgb(77, 255, 89);
+  box-shadow: 0 6px 0 rgb(46, 138, 52);
+}
+.switchView:hover {
+  border: 5px solid rgb(0, 230, 17);
+}
+
 .icon {
-  width: 2.5rem;
+  width: 1.5rem;
 }
 
 .notificationDot {
   position: absolute;
-  top: -10px;
-  right: 7.5rem;
-  width: 25px;
-  height: 25px;
-  background-color: #ff3b30;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
   border-radius: 50%;
   border: 2px solid white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.notificationDot {
   animation: pulse 1s infinite ease-in-out;
 }
 
-@media (max-width: 768px) {
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (min-width: 551px) {
   .extraButtons {
-    width: 95%;
+    width: 100%;
+    gap: 1rem;
+  }
+  
+  .button, .switchView {
+    font-size: 1.5rem;
+    height: 3.7rem;
+    gap: 0.5rem;
+  }
+
+  .icon {
+    width: 2rem;
   }
 }

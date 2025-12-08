@@ -68,7 +68,7 @@
   border: 3px solid rgb(240, 125, 34);
 }
 
-@media (width >= 551px) {
+@media (min-width: 551px) {
   .cell {
     width: 2rem;
     font-size: 1.4rem;
