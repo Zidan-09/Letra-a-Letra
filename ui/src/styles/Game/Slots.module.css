@@ -1,9 +1,9 @@
 .slotsContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: min-content;
+  width: 88%;
   height: min-content;
   background: rgba(255, 255, 255, 0.2);
   -webkit-backdrop-filter: blur(10px);
@@ -18,7 +18,7 @@
 .empty,
 .power {
   flex: 1 1 0;
-  width: 5rem;
+  width: 2.7rem;
   aspect-ratio: 1 / 1;
   border-radius: 1rem;
   display: flex;
@@ -72,12 +72,14 @@
   border: 5px solid rgb(173, 99, 40);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 551px) {
   .slotsContainer {
-    flex-direction: row;
+    flex-direction: column;
+    width: min-content;
   }
 
-  .empty {
-    width: 2.7rem;
+  .empty,
+  .power {
+    width: 5rem;
   }
 }

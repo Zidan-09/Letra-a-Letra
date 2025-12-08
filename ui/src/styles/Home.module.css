@@ -110,7 +110,7 @@
 .button {
   width: 45%;
   flex: none;
-  height: 60px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: start;

@@ -13,7 +13,6 @@ import EffectOverlay from "../components/Game/EffectOverlay";
 import WinnerOverlay from "../components/Game/WinnerOverlay";
 import Loading from "../components/Loading";
 import logo from "../assets/logo.svg";
-import iconSwitch from "../assets/buttons/icon-viewer.svg";
 import ClosedPopup from "../components/Lobby/ClosedPopup";
 import styles from "../styles/Game.module.css";
 import { PassTurnHook } from "../hooks/Game/useTurnSystem";
@@ -222,6 +221,8 @@ export default function Game() {
           }}
           onNewMessage={handleNewMessage}
           unreadMessages={unreadMessages}
+          showSwitch={p1.player_id !== socket.id}
+          onSwitch={handleFlipView}
         />
       )}
 
@@ -240,19 +241,8 @@ export default function Game() {
         onClose={handleAfkConfirm}
         title="SALA FECHADA"
       >
-        <p>Você foi desconectado por inatividade.</p>
-      </ClosedPopup>
-      
-      {p1.player_id !== socket.id && (
-        <button
-          type="button"
-          className={styles.switchView}
-          onClick={handleFlipView}
-        >
-          <img src={iconSwitch} alt="Trocar" className={styles.icon} />
-          Trocar
-        </button>
-      )}
+        <p>Você foi desconectado por Inatividade.</p>
+      </ClosedPopup>     
     </div>
   );
 }

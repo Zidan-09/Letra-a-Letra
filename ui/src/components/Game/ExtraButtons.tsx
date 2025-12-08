@@ -6,6 +6,7 @@ import ConfirmExitPopup from "./ConfirmExitPopup";
 import settings from "../../settings.json";
 import iconBack from "../../assets/buttons/icon-back.svg";
 import iconChat from "../../assets/buttons/icon-chat.svg";
+import iconSwitch from "../../assets/buttons/icon-viewer.svg"; 
 import styles from "../../styles/Game/ExtraButtons.module.css";
 
 interface ExtraButtonsProps {
@@ -16,6 +17,8 @@ interface ExtraButtonsProps {
   onClose: () => void;
   onNewMessage: () => void;
   unreadMessages: number;
+  showSwitch?: boolean;
+  onSwitch?: () => void;
 }
 
 export default function ExtraButtons({
@@ -26,6 +29,8 @@ export default function ExtraButtons({
   onClose,
   unreadMessages,
   onNewMessage,
+  showSwitch,
+  onSwitch,
 }: ExtraButtonsProps) {
   const socket = useSocket();
   const navigate = useNavigate();
@@ -62,6 +67,17 @@ export default function ExtraButtons({
           <img src={iconBack} alt="Icon" className={styles.icon} />
           Sair
         </button>
+
+        {showSwitch && (
+          <button
+            type="button"
+            className={styles.switchView}
+            onClick={onSwitch}
+          >
+            <img src={iconSwitch} alt="Trocar" className={styles.icon} />
+            Trocar
+          </button>
+        )}
 
         <button
           type="button"

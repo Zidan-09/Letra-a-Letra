@@ -30,9 +30,8 @@ export default function PowerItem({
 }: PowerItemProps) {
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [hover, setHover] = useState(false);
-
   const isMobile =
-    typeof window !== "undefined" && window.innerWidth <= 768;
+    typeof window !== "undefined" && window.innerWidth < 551;
 
   const handleSelectMove = () => {
     const isSelected = !selected;
@@ -69,9 +68,12 @@ export default function PowerItem({
     e.currentTarget.style.transition = "transform 0.2s ease";
 
     if (deltaY < -50) {
-      applyEffect();
-      selectIdx(undefined);
-      selectMove("REVEAL");
+      if (type === "effect") {
+        applyEffect();
+        selectIdx(undefined);
+        selectMove("REVEAL");
+      } else {
+      }
     } else if (deltaY > 50) {
       discardPower();
       selectIdx(undefined);
