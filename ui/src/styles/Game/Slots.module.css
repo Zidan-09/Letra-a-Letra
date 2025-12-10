@@ -72,7 +72,7 @@
   border: 5px solid rgb(173, 99, 40);
 }
 
-@media (min-width: 551px) {
+@media (width >= 551px) {
   .slotsContainer {
     flex-direction: column;
     width: min-content;
@@ -80,6 +80,6 @@
 
   .empty,
   .power {
-    width: 5rem;
+    width: 4rem;
   }
 }

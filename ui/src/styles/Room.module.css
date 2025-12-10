@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .container {
   width: 100%;
   min-height: 100vh;
@@ -85,8 +83,8 @@
 .updating {
   width: 30px;
   height: 30px;
-  filter: drop-shadow(1px 1px 0 black) drop-shadow(1px 1px 0 black)
-    drop-shadow(-1px 1px 0 black) drop-shadow(1px -1px 0 black);
+  filter: drop-shadow(1px 1px 0 black) drop-shadow(1px 0 0 black)
+    drop-shadow(-1px 1px 0 black) drop-shadow(0 -1px 0 black);
   will-change: transform;
 }
 
@@ -127,15 +125,15 @@
 }
 
 .icon {
-  margin-left: 1rem;
-  padding: 0;
+  padding: 0 1.4rem 0 0;
   width: 1.8rem;
 }
 
   .iconBack {
     width: 2.5rem;
-    margin-left: 0.5rem;
-  }
+    margin-left: -0.2rem;
+    margin-right: 1rem;
+    }
 
 .code {
   background-color: rgb(240, 125, 34);
@@ -225,13 +223,13 @@
   }
 
   .icon {
-    margin-left: 2rem;
+    margin-left: 1rem;
     width: 2rem;
   }
 
   .iconBack {
     width: 3rem;
-    margin-left: 1rem;
+    margin-left: 0rem;
   }
 
   .code {

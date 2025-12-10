@@ -11,7 +11,7 @@
 .popup {
   background: #1c1c1c;
   color: #fff;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 1rem;
   border-radius: 1rem;
   text-align: center;
   border: 3px solid white;
@@ -27,25 +27,23 @@
 
 .buttons {
   display: flex;
-  justify-content: space-between;
   gap: 1rem;
+  width: 100%;
 }
 
 .button {
-  position: relative;
+  flex: 1;
   height: 50px;
   display: flex;
-  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   border: none;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   padding: 0 1rem;
   font-weight: bold;
   font-size: clamp(15px, 3vw, 30px);
   white-space: nowrap;
-  text-align: start;
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;

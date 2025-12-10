@@ -1,4 +1,3 @@
-// src/animation/AnimationProvider.tsx
 import { useState } from "react";
 import { AnimationContext, type AnimationContextValue } from "./AnimationContext";
 import SpriteAnimator from "./SpriteAnimator";

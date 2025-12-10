@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .container {
   width: 100%;
   min-height: 100vh;
@@ -23,7 +21,7 @@
   backdrop-filter: blur(10px);
   border-radius: 1rem;
   border: 3px solid white;
-  padding: 1rem 0.5rem;
+  padding: 2rem 0.5rem;
   width: 90%;
   max-width: 500px;
   min-width: 300px;
@@ -32,7 +30,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1.5rem;
 }
 
 .titleContainer {
@@ -88,7 +86,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80px;
+  width: 65px;
   height: 50px;
   background-color: rgb(240, 125, 34);
   border: 5px solid rgb(255, 143, 55);
@@ -109,7 +107,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
-  gap: 0.9rem;
+  gap: 1.5rem;
 }
 
 .switchContainer {
@@ -122,7 +120,7 @@
 
 .switch {
   width: 80px;
-  height: 40px;
+  height: 42px;
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -135,8 +133,8 @@
 }
 
 .switchBall {
-  flex: 0 0 30px;
-  height: 30px;
+  flex: 0 0 33px;
+  height: 35px;
   border-radius: 12px;
   background-color: white;
   border: 4px solid transparent;
@@ -172,7 +170,7 @@
 
 .textOn,
 .textOff {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 .textOn {
   margin-left: 0.5rem;
@@ -197,7 +195,7 @@
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: 0.5rem;
+  gap: 0.3rem;
   border: none;
   border-radius: 2rem;
   padding: 0;
@@ -209,6 +207,7 @@
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   outline: none;
+  margin-bottom: -1rem;
 }
 
 .button:hover,
@@ -217,12 +216,14 @@
 }
 
 .icon {
-  margin-left: 0.6rem;
+  margin-left: 0.3rem;
+  margin-right: 0.7rem;
   width: 2rem;
 }
 
 .iconButtonBack {
-  width: 3rem;
+  width: 2.8rem;
+  margin-right: 0.7rem;
 }
 
 .icon1 {
@@ -261,7 +262,7 @@
 
   .card {
     padding: 1rem;
-    gap: 1rem;
+    gap: 2rem;
   }
 
   .titleContainer {
@@ -357,11 +358,17 @@
   }
 
   .icon {
-    margin-left: 1.5rem;
+    margin-left: 0.8rem;
     width: 2rem;
   }
 
   .icon1 {
     width: 3rem;
   }
+
+  .iconButtonBack {
+    margin-left: 0.5rem;
+  }
+
+  
 }

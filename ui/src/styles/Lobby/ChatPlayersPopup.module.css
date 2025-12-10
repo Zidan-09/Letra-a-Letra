@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
 
 .panel {
   position: fixed;
@@ -27,7 +26,10 @@
   flex-direction: column;
   gap: 0.5rem;
   overflow-y: auto;
-  padding-right: 0.2rem;
+  padding: 0.2rem;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: visible;
 }
 
 .playerList::-webkit-scrollbar {
@@ -72,8 +74,9 @@
   border-radius: 1rem;
   padding: 0.5rem 0.8rem;
   transition: all 0.2s ease-in-out;
-  overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .player {
@@ -83,7 +86,7 @@
 }
 
 .player:hover {
-  transform: scale(1.01);
+  transform: translateY(-2px);
   cursor: pointer;
 }
 

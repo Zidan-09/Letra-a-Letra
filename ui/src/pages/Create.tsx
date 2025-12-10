@@ -91,9 +91,10 @@ export default function Create() {
           type="text"
           name="name"
           id="name"
+          maxLength={10}
           placeholder="Insira o nome da sala..."
           value={roomName}
-          onChange={(e) => setRoomName(e.target.value)}
+          onChange={(e) => setRoomName(e.target.value.slice(0, 10))}
           className={styles.input}
         />
 

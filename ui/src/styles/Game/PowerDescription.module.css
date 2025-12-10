@@ -1,26 +1,57 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .container {
-  position: absolute;
-  left: 1rem;
-  top: 50vh;
-  transform: translateY(-50%);
-  width: 12rem;
+  position: fixed;
+  top: 50%;
+  left: 43%;
+  transform: translate(-50%, -10%);
+  width: 80%;
+  max-width: 300px;
   height: min-content;
-  background: rgb(27, 157, 222);
+  background: rgba(27, 157, 222, 0.95);
   border: 0.2rem solid white;
   border-radius: 1rem;
-  padding: 0.5rem;
+  padding: 1rem;
   font-family: "Lilita One", cursive;
+  z-index: 100;
+  text-align: center;
+  pointer-events: none;
 }
 
-.description, .warning {
-  font-size: 1.5rem;
+.description {
+  font-size: 1.3rem;
   color: white;
+  margin: 0;
+  text-shadow: 1px 1px 0 #000;
 }
 
 .warning {
   margin-top: 0.5rem;
-  font-size: 1.2rem;
-  color: yellow;
+  font-size: 1.1rem;
+  color: #ffeb3b;
+  text-shadow: 1px 1px 0 #000;
+  margin-bottom: 0;
+}
+
+@media (width >= 551px) {
+  .container {
+    position: fixed;
+    left: 1rem;
+    bottom: 10vh;
+    transform: translateY(-50%);
+    width: 12rem;
+    max-width: none;
+    height: min-content;    
+    background: rgb(27, 157, 222);
+    border: 0.2rem solid white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    padding: 0.5rem;
+  }
+
+  .description {
+    font-size: 1.5rem;
+  }
+
+  .warning {
+    font-size: 1.2rem;
+  }
 }
