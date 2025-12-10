@@ -1,8 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .power {
   position: relative;
-  width: 2.7rem;
+  width: 3.5rem;
   aspect-ratio: 1 / 1;
   border-radius: 1rem;
   background: linear-gradient(
@@ -31,7 +29,7 @@
 }
 
 .icon {
-  width: 2.7rem;
+  width: 3.5rem;
   aspect-ratio: 1 / 1;
   object-fit: contain;
   border-radius: 0.7rem;
@@ -87,13 +85,62 @@
   border: 5px solid rgb(173, 99, 40);
 }
 
-@media (min-width: 551px) {
+.infoButton {
+  position: absolute;
+  top: -8px; 
+  right: -8px;  
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border: 2px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0c4a6e;
+  font-family: sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 20;  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);  
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.infoButton:hover {
+  transform: scale(1.2) rotate(10deg);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #72c6ef 0%, #00d2ff 100%);
+}
+
+.infoButton:active {
+  transform: scale(0.95);
+}
+
+.infoOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9998;
+  cursor: default;
+}
+
+.infoContainer {
+  position: relative;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@media (width >= 551px) {
   .power {
-    width: 85px;
+    width: 70px;
   }
 
   .icon {
-    width: 80px;
+    width: 70px;
   }
 
   .useButton {
@@ -144,5 +191,23 @@
   .discard:hover {
     transform: scale(1.05) translateY(-50%);
     cursor: pointer;
+  }
+
+  .infoContainer {
+    position: fixed;        /* Fixa na tela (ignora rolagem) */
+    
+
+    /* Centralização Vertical */
+    top: 50%;               /* Coloca o topo do elemento no meio da tela */
+    transform: translateY(-100%); /* Puxa o elemento para cima metade da sua altura */
+    
+    /* Alinhamento à Esquerda */
+    left: 2rem;             /* Distância da borda esquerda (aprox. 32px) */
+    
+    /* Estilos extras */
+    z-index: 10000;         /* Garante que fique por cima de tudo */
+    width: max-content;     /* O tamanho se adapta ao conteúdo (ou defina px fixo) */
+    max-width: 300px;       /* Limite para não ficar muito largo */
+    pointer-events: none;   /* Permite clicar através da área transparente ao redor */
   }
 }

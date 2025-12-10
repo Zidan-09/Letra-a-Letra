@@ -18,6 +18,10 @@
   animation: pop 1s ease-in-out;
 }
 
+.label {
+  font-size: 2rem;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

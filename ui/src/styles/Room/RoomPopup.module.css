@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .overlay {
   position: fixed;
   top: 0;
@@ -120,18 +118,19 @@ p:hover,
   height: 50px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 0.5rem;
   border: none;
   border-radius: 2rem;
-  padding: 0 0.5rem;
-  font-size: clamp(16px, 5vw, 20px);
+  padding: 0;
+  font-size: clamp(15px, 6vw, 17px);
   font-weight: bold;
   color: white;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   outline: none;
+  white-space: nowrap;
 }
 
 .button:hover,
@@ -140,7 +139,13 @@ p:hover,
 }
 
 .icon {
-  width: 1.5rem;
+  width: 2rem;
+  margin-left: 0.6rem;
+  margin-right: 0.7rem;
+}
+
+.back .icon {
+  width: 2.5rem;
 }
 
 .back {
@@ -148,11 +153,6 @@ p:hover,
   border: 5px solid rgb(195, 60, 60);
   box-shadow: 0 6px 0 rgb(128, 53, 49);
   gap: 0;
-}
-
-.back .icon {
-  width: 2.5rem;
-  aspect-ratio: 1 / 1;
 }
 
 .back:hover {

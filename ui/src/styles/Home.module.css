@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .container {
   width: 100%;
   min-height: 100vh;
@@ -31,7 +29,7 @@
   text-align: center;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   justify-content: center;
-  margin-bottom: 5vh;
+  margin-bottom: 4vh;
 }
 
 .logo {
@@ -62,13 +60,13 @@
 }
 
 .avatar {
-  width: 80px;
+  width: 70px;
   aspect-ratio: 1 / 1;
   border: 3px solid white;
   border-radius: 1rem;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   box-shadow: 0 3px 0 rgb(60, 60, 60);
-  margin-left: 1rem;
+  margin-left: 2rem;
 }
 
 .avatar:hover,
@@ -110,7 +108,7 @@
 .button {
   width: 45%;
   flex: none;
-  height: 55px;
+  height: 53px;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -135,6 +133,7 @@
 
 .icon {
   margin-left: 0.3rem;
+  margin-right: 0.4rem;
   width: 1.8rem;
 }
 
@@ -169,7 +168,7 @@
   z-index: 10;
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   background: rgba(255, 255, 255, 0.25);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -179,7 +178,7 @@
   height: 50px;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.2); 
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
 }
 
 .menu img {
@@ -190,7 +189,7 @@
 
 .menu:hover {
   transform: translateY(-2px);
-  border: 3px solid white; 
+  border: 3px solid white;
   background: rgba(255, 255, 255, 0.3);
 }
 
@@ -200,7 +199,6 @@
 }
 
 @media (width >= 551px) {
-  
   .container {
     gap: 0;
   }
@@ -215,8 +213,9 @@
 
   .avatar {
     margin-left: 0;
+    width: 90px;
   }
-  
+
   .buttons {
     justify-content: space-between;
     gap: 1.5rem;
@@ -226,23 +225,20 @@
   .button {
     flex: 1 1 45%;
     width: auto;
+    height: 60px;
     font-size: clamp(20px, 6vw, 25px);
   }
 
   .icon {
-    margin-left: 1.5rem;
+    margin-left: 1rem;
     width: 2rem;
   }
 
-  .inputs {
-    margin-right: 0;
-  }
-  
   .menu {
     display: none;
   }
 
   .logo {
-  max-width: 350px;
-}
+    max-width: 350px;
+  }
 }

@@ -9,7 +9,11 @@ interface PowerDescriptionProps {
 export default function PowerDescription({
   power,
 }: PowerDescriptionProps) {
+  if (power === "REVEAL") return null;
+  
   const pDescription = PowerDescriptions.find((p) => p.power === power);
+  if (!pDescription) return null;
+  
   const pWarning = pDescription?.warning;
 
   return (

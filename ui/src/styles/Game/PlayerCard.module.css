@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .card {
   width: 46%;
   min-height: 4.5rem;
@@ -101,6 +99,7 @@
   right: 4.5rem;
   left: auto;
   justify-content: flex-end;
+  flex-direction: row-reverse;
 }
 
 .p1Powers,
@@ -121,19 +120,31 @@
 @media (width >= 551px) {
   .card {
     width: 18rem;
-    padding: 0.8rem;
+    padding: 0.3rem;
     margin: 0 1rem;
-    padding-bottom: 0.8rem; 
   }
 
   .avatarContainer {
     width: 4.5rem;
     height: 4.5rem;
-    padding: 4px;
+    padding: 2px;
+  }
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0 0.5rem;
+  }
+
+  .p2 .infoContainer {
+    align-items: flex-end; 
+    flex-direction: column;
   }
 
   .nickname {
     font-size: 1.5rem;
+    margin-bottom: 0.2rem;
   }
 
   .powersContainerP1,
@@ -141,7 +152,7 @@
     position: static; 
     bottom: auto;
     width: auto;
-    margin-left: 0.5rem;
+    margin: 0;
   }
   
   .powersContainerP1 {
@@ -151,8 +162,7 @@
     right: auto;
     left: auto;
     justify-content: flex-start;
-    margin-right: 0.5rem;
-    margin-left: 0;
+   
   }
 
   .p1Powers,

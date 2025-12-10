@@ -35,7 +35,6 @@ export function useSocketHandlers(
   setRoom: Dispatch<SetStateAction<Game | undefined>>,
   navigate: NavigateFunction,
   setWinner: Dispatch<SetStateAction<Player | NullPlayer | undefined>>,
-  // 👇 Recebendo a função para abrir o modal
   setShowAfkModal: Dispatch<SetStateAction<boolean>>
 ) {
   useEffect(() => {

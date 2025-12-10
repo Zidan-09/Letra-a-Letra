@@ -29,15 +29,13 @@ export default function PowerItem({
   discardPower,
 }: PowerItemProps) {
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
-  const [hover, setHover] = useState(false);
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 551;
+  const [showInfo, setShowInfo] = useState(false);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 551;
 
   const handleSelectMove = () => {
     const isSelected = !selected;
     selectIdx(isSelected ? idx : undefined);
     selectMove(isSelected ? movement : "REVEAL");
-    setHover(true);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -47,23 +45,18 @@ export default function PowerItem({
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!isMobile || !selected || touchStartY === null) return;
-
     const currentY = e.touches[0].clientY;
     const deltaY = currentY - touchStartY;
-
     const maxDrag = 60;
     const limitedDeltaY = Math.max(-maxDrag, Math.min(maxDrag, deltaY));
-
     e.currentTarget.style.transform = `translateY(${limitedDeltaY}px) scale(1.05)`;
     e.currentTarget.style.transition = "none";
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
     if (!isMobile || touchStartY === null) return;
-
     const endY = e.changedTouches[0].clientY;
     const deltaY = endY - touchStartY;
-
     e.currentTarget.style.transform = "";
     e.currentTarget.style.transition = "transform 0.2s ease";
 
@@ -72,23 +65,13 @@ export default function PowerItem({
         applyEffect();
         selectIdx(undefined);
         selectMove("REVEAL");
-      } else {
       }
     } else if (deltaY > 50) {
       discardPower();
       selectIdx(undefined);
       selectMove("REVEAL");
     }
-
     setTouchStartY(null);
-  };
-
-  const handleMouseEnter = () => {
-    setHover(true);
-  };
-
-  const handleMouseLeave = () => {
-    setHover(false);
   };
 
   const borderColor = border(movement);
@@ -103,38 +86,64 @@ export default function PowerItem({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      <div
+        className={styles.infoButton}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowInfo(true);
+        }}
+        title="Ver descrição"
+      >
+        i
+      </div>
+
       {selected && (
-        <div className={styles.discard} onClick={discardPower}>
+        <div
+          className={styles.discard}
+          onClick={(e) => {
+            e.stopPropagation();
+            discardPower();
+          }}
+        >
           <img src={trash} alt="Trash" className={styles.trash} />
         </div>
       )}
 
-      <img
-      src={powers[movement]}
-      alt="icon"
-      className={styles.icon}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      />
+      <img src={powers[movement]} alt="icon" className={styles.icon} />
 
-      <span
-      className={`${styles.label} ${selected ? styles.visible : ""}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      >
+      <span className={`${styles.label} ${selected ? styles.visible : ""}`}>
         {powerNamesTranslations[movement]}
       </span>
 
       {selected && type === "effect" && (
-        <div className={styles.useButton} onClick={() => applyEffect()}>
+        <div
+          className={styles.useButton}
+          onClick={(e) => {
+            e.stopPropagation();
+            applyEffect();
+          }}
+        >
           <p>{">"}</p>
         </div>
       )}
 
-      {hover && createPortal(
-        <PowerDescription power={movement} />,
-        document.body
-      )}
+      {showInfo &&
+        createPortal(
+          <>
+            <div
+              className={styles.infoOverlay}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowInfo(false);
+              }}
+            />
+
+            <div className={styles.infoContainer}>
+              <PowerDescription power={movement} />
+            </div>
+          </>,
+          document.body
+        )}
     </div>
   );
 }

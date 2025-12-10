@@ -9,7 +9,11 @@
   padding-bottom: 10px;
 }
 
-.button, 
+.spread {
+  justify-content: space-between;
+}
+
+.button,
 .switchView {
   height: 50px;
   flex: 1;
@@ -18,11 +22,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.3rem;
   border-radius: 1rem;
   padding: 0 0.2rem;
   font-family: "Lilita One", cursive;
-  font-weight: bold;
   font-size: clamp(14px, 2.5vw, 24px);
   white-space: nowrap;
   color: white;
@@ -69,6 +71,16 @@
   border: 5px solid rgb(0, 230, 17);
 }
 
+.back .icon {
+  width: 2.5rem;
+  margin-right: 1.7rem;
+  margin-left: -3rem;
+}
+
+.chat .icon {
+  margin-right: 1.5rem;
+  margin-left: -2rem;
+}
 .icon {
   width: 1.5rem;
 }
@@ -87,24 +99,58 @@
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-@media (min-width: 551px) {
+@media (width >= 551px) {
   .extraButtons {
-    width: 100%;
-    gap: 1rem;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 98%;
+    max-width: none;
+    justify-content: space-between;
+    gap: 0;
+    margin: 0;
+    padding-bottom: 0;
+    pointer-events: none;
   }
-  
-  .button, .switchView {
+  .spread {
+    justify-content: space-between;
+  }
+
+  .button,
+  .switchView {
+    pointer-events: all;
     font-size: 1.5rem;
     height: 3.7rem;
     gap: 0.5rem;
+    width: 200px;
+    flex: initial;
   }
 
   .icon {
     width: 2rem;
   }
+
+  .back .icon {
+  margin-right: 0.3rem;
+  margin-left: -2.5rem;
+
+}
+
+.chat .icon {
+  margin-right: 1rem;
+  margin-left: -2rem;
+}
 }

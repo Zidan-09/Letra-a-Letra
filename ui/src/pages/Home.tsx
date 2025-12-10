@@ -69,7 +69,7 @@ export default function Home() {
       <div className={styles.card}>
         <img src={logo} alt="Logo Letra a Letra" className={styles.logo} />
 
-        <p className={styles.label}>Selecione um Avatar e Nickname</p>
+        <p className={styles.label}>Selecione um Avatar < br/> e Nickname</p>
 
         <div className={styles.inputs}>
           <img
@@ -84,7 +84,8 @@ export default function Home() {
               type="text"
               placeholder="Digite seu Nickname..."
               value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              maxLength={10}
+              onChange={(e) => setNickname(e.target.value.slice(0, 10))}
               className={styles.input}
             />
           </div>
@@ -108,14 +109,10 @@ export default function Home() {
             Juntar-se
           </button>
         </div>
-
       </div>
-        <button
-          className={styles.menu}
-          onClick={handleMenu}
-        >
-          <img src={iconMenu} alt="Menu" className={styles.iconMenuButton} />
-        </button>
+      <button className={styles.menu} onClick={handleMenu}>
+        <img src={iconMenu} alt="Menu" className={styles.iconMenuButton} />
+      </button>
       <AvatarPopup
         selectedAvatar={selectedAvatar}
         onSelectAvatar={handleSelectAvatar}

@@ -21,6 +21,16 @@ export default function BlockOverlay({
       className={`${styles.overlay} ${
         blocked_by === p1.player_id ? styles.p1 : styles.p2
       }`}
+      onClick={(e) => {
+        if (isMine) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      }}
+      style={{
+        pointerEvents: isMine ? "auto" : "none",
+        cursor: isMine ? "default" : "pointer",
+      }}
     >
       <div className={styles.progress}>
         {Array.from({ length: 3 }).map((_, index) => (

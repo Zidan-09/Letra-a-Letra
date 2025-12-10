@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .container {
   width: 100%;
   height: 100vh;
@@ -83,7 +81,8 @@
 
 .iconButtonBack {
   width: 2.6rem;
-  margin-left: 0.7rem;
+  margin-left: 0.3rem;
+  margin-right: 0.7rem;
 }
 
 .codecontainer {
@@ -136,18 +135,18 @@
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: 0;
   border: none;
   border-radius: 2rem;
   padding: 0;
   font-weight: bold;
-  font-size: clamp(15px, 7vw, 50px);
+  font-size: clamp(15px, 6vw, 17px);
   white-space: nowrap;
   color: white;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.2s ease;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
   outline: none;
+  gap: 0.5rem;
 }
 
 .button:hover,
@@ -157,7 +156,8 @@
 
 .icon {
   margin-left: 0.6rem;
-  width: 2.2rem;
+  margin-right: 0.7rem;
+  width: 2rem;
 }
 
 .labelPlayer {
@@ -253,9 +253,10 @@
     height: 4rem;
     border-radius: 3rem;
   }
+
   .iconButtonBack {
     width: 3rem;
-    margin-left: 1.5rem;
+    margin-right: 1rem;
   }
 
   .code {
@@ -282,13 +283,12 @@
   .button {
     flex: 1 1 45%;
     width: auto;
-    height: 60px;
+    height: 55px;
     font-size: clamp(20px, 6vw, 25px);
     border-radius: 2rem;
   }
 
   .icon {
-    margin-left: 1.5rem;
     width: 2rem;
   }
 

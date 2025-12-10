@@ -21,6 +21,7 @@ interface ExtraButtonsProps {
   onSwitch?: () => void;
 }
 
+
 export default function ExtraButtons({
   room_id,
   nickname,
@@ -57,7 +58,9 @@ export default function ExtraButtons({
 
   return (
     <>
-      <div className={styles.extraButtons}>
+      <div 
+        className={`${styles.extraButtons} ${!showSwitch ? styles.spread : ""}`}
+      >
         <button
           type="button"
           className={`${styles.button} ${styles.back}`}
@@ -92,6 +95,7 @@ export default function ExtraButtons({
           Chat
         </button>
 
+      </div>
         <ChatPopup
           room_id={room_id}
           nickname={nickname}
@@ -100,7 +104,6 @@ export default function ExtraButtons({
           onClose={onClose}
           onNewMessage={onNewMessage}
         />
-      </div>
       <ConfirmExitPopup
         isOpen={confirmExit}
         onConfirm={confirmLeave}

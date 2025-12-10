@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
-
 .overlayLobby,
 .overlayGame {
   position: fixed;
@@ -41,9 +39,9 @@
   overflow: hidden;
   margin: 0.5rem;
   width: 95%;
-  max-width: 450px;
+  max-width: 350px;
   height: 60vh;
-  max-height: 600px;
+  max-height: 450px;
   animation: slideInFromBottom 0.3s ease-out forwards;
 }
 
@@ -62,13 +60,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 3.5rem;
-  height: 2.5rem;
-  border-radius: 1rem;
+  width: 4.5rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 1.5rem;
   margin-bottom: 0.3rem;
   transition: transform 0.3s ease, box-shadow 0.2s ease;
   cursor: pointer;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .button {
@@ -78,7 +78,6 @@
 }
 
 .chatPlayers {
-  font-size: 1.1rem;
   font-family: "Lilita One", cursive;
   color: white;
   background-color: rgb(240, 125, 34);
@@ -106,7 +105,10 @@
 }
 
 .space {
-  width: 3.5rem;
+  min-width: 3.5rem;
+  height: 3rem;
+  padding: 0 1.7rem;
+  box-sizing: border-box;
 }
 
 .messages {
@@ -165,6 +167,7 @@
   width: 100%;
   height: auto;
   gap: 0.5rem;
+  align-items: center;
   align-items: flex-end;
   margin-top: 0.5rem;
 }
@@ -193,9 +196,10 @@
 
 .send {
   width: 3rem;
-  height: 3rem;
+  height: 2.5rem;
   flex-shrink: 0;
-  border-radius: 50%;
+  margin-bottom: 0.3rem;
+  border-radius: 2rem;
   background-color: rgb(27, 157, 222);
   border: 3px solid rgb(64, 176, 232);
   box-shadow: 0 4px 0 rgb(57, 68, 148);
@@ -218,7 +222,7 @@
 
 .chatPlayers {
   height: 3rem;
-  padding: 0rem 1.7rem;
+  padding: 0 1.7rem;
 }
 
 .chatPlayers .icon {
@@ -240,6 +244,7 @@
     padding: 1rem;
     border-radius: 2rem;
     pointer-events: auto;
+    margin: 2rem 2rem;
   }
 
   .titleChat {
@@ -250,6 +255,7 @@
   .chatPlayers {
     width: 4.5rem;
     height: 2.8rem;
+    padding: 0;
     border-radius: 2rem;
     box-shadow: 0 6px 0 rgb(128, 53, 49);
   }
@@ -269,6 +275,7 @@
 
   .space {
     width: 4.5rem;
+    padding: 0;
   }
 
   .messages {
@@ -294,7 +301,7 @@
 
   .send {
     width: 4.5rem;
-    height: 2.5rem;
+    height: 2.8rem;
     border-radius: 2rem;
     box-shadow: 0 6px 0 rgb(57, 68, 148);
   }
